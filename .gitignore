@@ -1,6 +1,11 @@
 # compiled output
 dist
 node_modules
+build
+public/build
+cypress/screenshots
+cypress/videos
+tailwind.css
 
 # Logs
 logs

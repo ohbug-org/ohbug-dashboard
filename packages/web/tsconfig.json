@@ -8,10 +8,8 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"]
-    },
-    // Remix takes care of building everything in `remix build`.
-    "noEmit": true
+    }
   },
   "exclude": ["./cypress"],
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["remix.env.d.ts", "./**/*.ts", "./**/*.tsx"]
 }

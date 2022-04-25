@@ -23,10 +23,16 @@
     "build": "pnpm -r run build",
     "docker": "docker-compose up -d",
     "dev": "nr docker & pnpm -r run dev",
-    "setup": "pnpm -r run setup",
+    "dev:web": "nr docker & pnpm run dev --filter web",
+    "dev:server": "nr docker & pnpm run dev --filter server",
+    "setup": "prisma migrate dev && prisma db seed",
     "lint": "eslint . --fix",
     "prepublishOnly": "nr build",
     "test": "pnpm -r run test"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.11.1",
+    "bcryptjs": "^2.4.3"
   },
   "devDependencies": {
     "@antfu/ni": "^0.14.0",
@@ -37,13 +43,20 @@
     "@commitlint/cli": "^16.2.3",
     "@types/node": "^17.0.26",
     "commitizen": "^4.2.4",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
+    "dotenv": "^16.0.0",
     "eslint": "^8.14.0",
+    "esno": "^0.14.1",
     "husky": "^7.0.4",
     "lint-staged": "^12.4.0",
+    "prisma": "^3.11.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.6.3",
     "vite": "^2.9.5",
     "vitest": "^0.9.4"
+  },
+  "prisma": {
+    "seed": "esno prisma/seed.ts"
   }
 }
