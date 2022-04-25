@@ -1,0 +1,6 @@
+{
+  "extends": "@chenyueban/tsconfig",
+  "include": [
+    "packages/**/*"
+  ]
+}

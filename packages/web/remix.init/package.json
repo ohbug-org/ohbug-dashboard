@@ -1,0 +1,10 @@
+{
+  "name": "remix.init",
+  "private": true,
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "sort-package-json": "^1.55.0"
+  }
+}
