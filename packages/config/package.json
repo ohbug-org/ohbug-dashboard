@@ -1,0 +1,22 @@
+{
+  "name": "config",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "dev": "tsup src/index.ts --dts --format esm,cjs",
+    "build": "tsup src/index.ts --dts --format esm,cjs"
+  }
+}

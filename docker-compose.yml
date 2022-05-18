@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:alpine
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -11,3 +11,9 @@ services:
       - '5432:5432'
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - '6379:6379'

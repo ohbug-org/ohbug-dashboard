@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
-import { CatsModule } from './cats/cats.module'
+import { ApiModule } from '~/api/api.module'
+import { SharedModule } from '~/shared.module'
 
-@Module({ imports: [CatsModule] })
+@Module({ imports: [ApiModule, SharedModule] })
 export class AppModule {}

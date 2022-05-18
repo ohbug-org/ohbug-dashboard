@@ -8,7 +8,16 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"]
-    }
+    },
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "exclude": ["./cypress"],
   "include": ["remix.env.d.ts", "./**/*.ts", "./**/*.tsx"]
