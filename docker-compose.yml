@@ -17,3 +17,17 @@ services:
     restart: always
     ports:
       - '6379:6379'
+
+  clickhouse:
+    image: yandex/clickhouse-server
+    ports:
+      - '8123:8123'
+    volumes:
+      - ./clickhouse-data:/var/lib/clickhouse
+
+  clickhouse_client:
+    image: yandex/clickhouse-client
+    entrypoint:
+      - /bin/sleep
+    command:
+      - infinity

@@ -62,6 +62,7 @@ importers:
 
   packages/server:
     specifiers:
+      '@depyronick/clickhouse-client': ^1.0.13
       '@nestjs/bull': ^0.5.5
       '@nestjs/cli': ^8.2.5
       '@nestjs/common': ^8.4.4
@@ -70,7 +71,7 @@ importers:
       '@nestjs/mapped-types': ^1.0.1
       '@nestjs/platform-fastify': ^8.4.4
       '@nestjs/schematics': ^8.0.10
-      '@prisma/client': ^3.11.1
+      '@prisma/client': ^3.14.0
       '@types/bull': ^3.15.8
       '@types/express': ^4.17.13
       '@types/ramda': ^0.28.12
@@ -79,7 +80,7 @@ importers:
       class-validator: ^0.13.2
       config: workspace:*
       nest-winston: ^1.6.2
-      prisma: ^3.11.1
+      prisma: ^3.14.0
       ramda: ^0.28.0
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
@@ -90,6 +91,7 @@ importers:
       ts-node: ^10.7.0
       winston: ^3.7.2
     dependencies:
+      '@depyronick/clickhouse-client': 1.0.13
       '@nestjs/bull': 0.5.5_lajsisxgf54xmfqsrodwjcoq5i
       '@nestjs/common': 8.4.5_kgmvgmqc4iohdboj3f7yqhrie4
       '@nestjs/config': 2.0.0_oss7laidvsuq5nzygg3pjgpud4
@@ -1346,6 +1348,18 @@ packages:
       colorspace: 1.1.4
       enabled: 2.0.0
       kuler: 2.0.0
+    dev: false
+
+  /@depyronick/clickhouse-client/1.0.13:
+    resolution: {integrity: sha512-2OIlvyjPS2/B+uSSNFIICUV5itZIkUwG0llU+SCzAUBLiLUfxKnSiAjbmrJtBYbzJe2vEIbAzE2gjKgrGT3CDQ==}
+    dependencies:
+      axios: 0.26.1
+      reflect-metadata: 0.1.13
+      rimraf: 3.0.2
+      rxjs: 7.5.5
+      stream-json: 1.7.4
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /@esbuild-kit/cjs-loader/1.0.1:
@@ -3277,6 +3291,14 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: true
+
+  /axios/0.26.1:
+    resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
+    dependencies:
+      follow-redirects: 1.15.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
@@ -11410,11 +11432,21 @@ packages:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
     engines: {node: '>= 0.8'}
 
+  /stream-chain/2.2.5:
+    resolution: {integrity: sha512-1TJmBx6aSWqZ4tx7aTpBDXK0/e2hhcNSTV8+CbFJtDjbb+I1mZ8lHit0Grw9GRT+6JbIrrDd8esncgBi8aBXGA==}
+    dev: false
+
   /stream-combiner/0.0.4:
     resolution: {integrity: sha1-TV5DPBhSYd3mI8o/RMWGvPXErRQ=}
     dependencies:
       duplexer: 0.1.2
     dev: true
+
+  /stream-json/1.7.4:
+    resolution: {integrity: sha512-ja2dde1v7dOlx5/vmavn8kLrxvNfs7r2oNc5DYmNJzayDDdudyCSuTB1gFjH4XBVTIwxiMxL4i059HX+ZiouXg==}
+    dependencies:
+      stream-chain: 2.2.5
+    dev: false
 
   /stream-shift/1.0.1:
     resolution: {integrity: sha512-AiisoFqQ0vbGcZgQPY1cdP2I76glaVA/RauYR4G4thNFgkTqr90yXTo4LYX60Jl+sIlPNHHdGSwo01AvbKUSVQ==}
