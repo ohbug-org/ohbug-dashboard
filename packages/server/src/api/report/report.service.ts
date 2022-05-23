@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import type { OhbugEvent } from '@ohbug/types'
 import type { Queue } from 'bull'
 import { InjectQueue } from '@nestjs/bull'
-import { formatter } from './report.utils'
 import {
   getMd5FromAggregationData,
   switchErrorDetailAndGetAggregationDataAndMetaData,
@@ -55,19 +54,13 @@ export class ReportService {
    * @param event
    * @param ip
    */
-  transferEvent(event: OhbugEvent<any>, ip: string): OhbugEvent<any> {
-    const eventLike = formatter<OhbugEvent<any>>(event, [
-      'detail',
-      'actions',
-      'metaData',
-      'data',
-    ])
-
-    return Object.assign(eventLike, {
+  transferEvent(event: OhbugEvent<any>, ip: string, intro: string) {
+    return Object.assign(event, {
       user: {
-        ...(eventLike.user ?? {}),
+        ...(event.user ?? {}),
         ip,
       },
+      intro,
     })
   }
 
@@ -100,13 +93,13 @@ export class ReportService {
     try {
       if (typeof event === 'string') event = JSON.parse(event)
       const filteredEvent = this.filterEvent(event as OhbugEvent<any>)
-      const transferEvent = this.transferEvent(filteredEvent, ip)
       const aggregationEvent = this.aggregation(filteredEvent)
+      const eventLike = this.transferEvent(filteredEvent, ip, aggregationEvent.intro)
 
       await this.documentQueue.add(
         'event',
         {
-          event: transferEvent,
+          event: eventLike,
           ...aggregationEvent,
         },
         {

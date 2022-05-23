@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common'
-import { RedisModule } from '~/common'
+import { BullModuleConfig } from '~/common'
 
 @Global()
-@Module({ imports: [RedisModule] })
+@Module({ imports: [BullModuleConfig] })
 export class SharedModule {}

@@ -4,9 +4,9 @@ services:
     image: postgres:alpine
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_USER=ohbug
+      - POSTGRES_PASSWORD=ohbug
+      - POSTGRES_DB=ohbug
     ports:
       - '5432:5432'
     volumes:
@@ -17,17 +17,3 @@ services:
     restart: always
     ports:
       - '6379:6379'
-
-  clickhouse:
-    image: yandex/clickhouse-server
-    ports:
-      - '8123:8123'
-    volumes:
-      - ./clickhouse-data:/var/lib/clickhouse
-
-  clickhouse_client:
-    image: yandex/clickhouse-client
-    entrypoint:
-      - /bin/sleep
-    command:
-      - infinity
