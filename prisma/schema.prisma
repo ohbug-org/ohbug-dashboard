@@ -24,4 +24,17 @@ model Event {
   metaData     Json?
   intro        String
   createdAt    DateTime @default(now())
+  issue        Issue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  issueId      Int
+}
+
+model Issue {
+  id        Int      @id @default(autoincrement())
+  intro     String   @unique
+  apiKey    String
+  type      String
+  metaData  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  events    Event[]
 }

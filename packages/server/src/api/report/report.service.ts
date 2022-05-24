@@ -73,10 +73,10 @@ export class ReportService {
   aggregation(event: OhbugEvent<any>) {
     try {
       const { type, detail, apiKey } = event
-      const { agg, metadata }
+      const { agg, metaData }
         = switchErrorDetailAndGetAggregationDataAndMetaData(type, detail)
       const intro = getMd5FromAggregationData(apiKey, ...agg)
-      return { intro, metadata }
+      return { intro, metaData }
     }
     catch (error) {
       throw new ForbiddenException(4001001, error)

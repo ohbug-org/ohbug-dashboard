@@ -8,8 +8,9 @@ import type {
   WebsocketErrorDetail,
 } from '@ohbug/browser'
 import type { ReactErrorDetail } from '@ohbug/react'
-// @ts-expect-error ignore
 import type { VueErrorDetail } from '@ohbug/vue'
+import { Prisma } from '@prisma/client'
+import { OhbugEventLike } from '~/types'
 
 export type OhbugEventDetail = UncaughtErrorDetail &
 UnhandledrejectionErrorDetail &
@@ -28,9 +29,14 @@ export interface MetaData {
   filename?: string
   stack?: string
   others?: string
-  [key: string]: any
 }
 export interface AggregationDataAndMetaData {
   agg: any[]
-  metadata: MetaData
+  metaData: Prisma.InputJsonObject
+}
+
+export interface CreateOrUpdateIssueByIntroParams {
+  event: OhbugEventLike
+  intro: string
+  metaData: Prisma.InputJsonObject
 }

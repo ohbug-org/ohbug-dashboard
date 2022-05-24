@@ -1,11 +1,41 @@
 import { Process, Processor } from '@nestjs/bull'
 import type { Job } from 'bull'
+import { CreateOrUpdateIssueByIntroParams } from './report.interface'
 import { ForbiddenException, PrismaService } from '~/common'
-import type { OhbugEventLike } from '~/types'
 
 @Processor('document')
 export class ReportProcessor {
   constructor(private readonly prisma: PrismaService) {}
+
+  async CreateOrUpdateIssueByIntro({
+    event,
+    intro,
+    metaData,
+  }: CreateOrUpdateIssueByIntroParams) {
+    try {
+      const result = await this.prisma.event.create({
+        data: {
+          ...event,
+          issue: {
+            connectOrCreate: {
+              where: { intro },
+              create: {
+                intro,
+                apiKey: event.apiKey,
+                type: event.type,
+                metaData,
+              },
+            },
+          },
+        },
+      })
+
+      return result
+    }
+    catch (error) {
+      throw new ForbiddenException(400400, error)
+    }
+  }
 
   /**
    * 对 event 进行任务调度
@@ -18,23 +48,11 @@ export class ReportProcessor {
   @Process('event')
   async handleEvent(job: Job) {
     try {
-      const data = job.data as {
-        event: OhbugEventLike
-        intro: string
-        metadata: any
-      }
+      const data = job.data as CreateOrUpdateIssueByIntroParams
 
       if (data) {
-        const { event } = data
-        // insert event record
-        this.prisma.event.create({ data: event })
-
-        // // 1. 创建 issue/event (postgres)
-        // const issue = await this.issueService.CreateOrUpdateIssueByIntro({
-        //   event,
-        //   intro,
-        //   metadata,
-        // })
+        // 1. 创建 issue/event (postgres)
+        await this.CreateOrUpdateIssueByIntro(data)
 
         // // 2. 根据 apiKey 拿到对应的 notification 配置
         // const notification = await getNotificationByApiKey(issue.apiKey)
