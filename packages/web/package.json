@@ -16,6 +16,8 @@
   "devDependencies": {
     "@types/node": "^17.0.35",
     "@types/react": "18.0.9",
-    "@types/react-dom": "18.0.5"
+    "@types/react-dom": "18.0.5",
+    "babel-plugin-superjson-next": "^0.4.3",
+    "superjson": "^1.9.1"
   }
 }
