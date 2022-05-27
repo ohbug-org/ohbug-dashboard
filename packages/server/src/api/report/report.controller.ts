@@ -20,5 +20,6 @@ export class ReportController {
   @Post()
   async receiveEventFromPost(@Body() event: OhbugEvent<any> | string, @Ip() ip: string) {
     this.reportService.handleEvent(event, ip)
+    return 'ok'
   }
 }

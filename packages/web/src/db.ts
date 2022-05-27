@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import invariant from 'tiny-invariant'
 
 declare global {
   // eslint-disable-next-line vars-on-top,no-var
@@ -24,7 +23,7 @@ else {
 
 function getClient() {
   const { DATABASE_URL } = process.env
-  invariant(typeof DATABASE_URL === 'string', 'DATABASE_URL env var not set')
+  if (typeof DATABASE_URL !== 'string') throw new Error('DATABASE_URL env var not set')
 
   const databaseUrl = new URL(DATABASE_URL)
 
@@ -37,10 +36,8 @@ function getClient() {
 
   if (!isLocalHost) {
     databaseUrl.host = `${FLY_REGION}.${databaseUrl.host}`
-    if (!isReadReplicaRegion) {
-      // 5433 is the read-replica port
-      databaseUrl.port = '5433'
-    }
+    if (!isReadReplicaRegion)
+      databaseUrl.port = '5432'
   }
 
   console.warn(`🔌 setting up prisma client to ${databaseUrl.host}`)

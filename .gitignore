@@ -3,9 +3,6 @@ dist
 node_modules
 build
 public/build
-cypress/screenshots
-cypress/videos
-tailwind.css
 
 # Logs
 logs
@@ -43,3 +40,10 @@ coverage
 
 # docker
 postgres-data
+
+# vercel
+.vercel
+
+# next.js
+.next
+out

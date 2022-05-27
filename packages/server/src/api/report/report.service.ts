@@ -96,7 +96,7 @@ export class ReportService {
       const aggregationEvent = this.aggregation(filteredEvent)
       const eventLike = this.transferEvent(filteredEvent, ip, aggregationEvent.intro)
 
-      await this.documentQueue.add(
+      this.documentQueue.add(
         'event',
         {
           event: eventLike,

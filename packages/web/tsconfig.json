@@ -1,24 +1,22 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2019"],
-    "types": ["vitest/globals"],
-    "module": "CommonJS",
-    "target": "ES2019",
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": [
+        "./src/*"
+      ]
     },
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noEmit": true
+    "incremental": true,
+    "isolatedModules": true
   },
-  "exclude": ["./cypress"],
-  "include": ["remix.env.d.ts", "./**/*.ts", "./**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

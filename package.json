@@ -22,7 +22,7 @@
     "prepare": "husky install",
     "build": "pnpm -r run build",
     "docker": "docker-compose up -d",
-    "dev": "nr docker & pnpm -r run dev",
+    "dev": "nr docker & pnpm --parallel -r run dev",
     "dev:web": "nr docker & pnpm --parallel --filter web --filter web run dev",
     "dev:server": "nr docker & pnpm --parallel --filter server --filter config run dev",
     "setup": "prisma migrate dev && prisma db seed",
