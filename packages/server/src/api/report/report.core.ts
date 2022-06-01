@@ -24,19 +24,19 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
           detail.filename,
           detail.lineno,
           detail.colno,
-          // detail.stack,
+          detail.stack,
         ],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
           filename: detail.filename,
-          // others: detail.stack,
+          others: detail.stack,
         },
       }
     case EventTypes.UNHANDLEDREJECTION_ERROR:
       return {
         agg: [detail.message],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
         },
@@ -44,7 +44,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.UNKNOWN_ERROR:
       return {
         agg: [detail.message],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
         },
@@ -61,7 +61,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
           detail.nodeType,
           detail.selector,
         ],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
           others: detail.selector,
@@ -70,7 +70,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.AJAX_ERROR:
       return {
         agg: [detail.req?.url, detail.req?.method, detail.req?.data],
-        metaData: {
+        metadata: {
           type,
           message: detail.req?.url,
           others: detail.req?.method,
@@ -79,7 +79,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.FETCH_ERROR:
       return {
         agg: [detail.req?.url, detail.req?.method, detail.req?.data],
-        metaData: {
+        metadata: {
           type,
           message: detail.req?.url,
           others: detail.req?.method,
@@ -88,7 +88,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.WEBSOCKET_ERROR:
       return {
         agg: [detail.url],
-        metaData: {
+        metadata: {
           type,
           message: detail.url,
         },
@@ -99,9 +99,9 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
           detail.name,
           detail.message,
           detail.errorInfo,
-          // detail.stack
+          detail.stack,
         ],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
           others: detail.errorInfo,
@@ -112,13 +112,13 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
         agg: [
           detail.name,
           detail.message,
-          // detail.stack,
+          detail.stack,
           detail.errorInfo,
           detail.component,
           detail.file,
           detail.props,
         ],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
           filename: detail.file,
@@ -128,7 +128,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.MINIAPP_ERROR:
       return {
         agg: detail?.stack ? [detail.message, detail.stack] : [detail.message],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
           stack: detail?.stack,
@@ -137,7 +137,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.MINIAPP_UNHANDLEDREJECTION_ERROR:
       return {
         agg: detail?.stack ? [detail.message, detail.stack] : [detail.message],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
           stack: detail?.stack,
@@ -146,7 +146,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.MINIAPP_PAGENOTFOUND_ERROR:
       return {
         agg: [detail?.message, detail?.path, detail.query, detail.isEntryPage],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
           path: detail.path,
@@ -156,7 +156,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.MINIAPP_MEMORYWARNING_ERROR:
       return {
         agg: [detail?.message, detail?.level],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
           level: detail.level,
@@ -165,7 +165,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.FEEDBACK:
       return {
         agg: [detail.feedback, detail.selector, detail.outerHTML],
-        metaData: {
+        metadata: {
           type,
           message: detail.feedback,
           selector: detail.selector,
@@ -175,7 +175,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     default:
       return {
         agg: [detail.message],
-        metaData: {
+        metadata: {
           type,
           message: detail.message,
         },

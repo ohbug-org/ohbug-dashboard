@@ -32,12 +32,12 @@ export interface MetaData {
 }
 export interface AggregationDataAndMetaData {
   agg: any[]
-  metaData: Prisma.InputJsonObject
+  metadata: Prisma.InputJsonObject
 }
 
 export interface CreateDataParams {
   event: OhbugEventLike
   issueIntro: string
   userIntro: string
-  metaData: Prisma.InputJsonObject
+  metadata: Prisma.InputJsonObject
 }

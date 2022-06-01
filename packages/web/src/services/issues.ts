@@ -12,7 +12,7 @@ export function serviceGetIssues({ skip = 0, take = 100 }: getIssuesParams) {
 }
 
 interface getIssueParams {
-  id: number
+  id: string
 }
 export function serviceGetIssue({ id }: getIssueParams) {
   return prisma.issue.findUnique({ where: { id } })

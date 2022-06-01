@@ -13,7 +13,7 @@ CREATE TABLE "Event" (
     "device" JSONB NOT NULL,
     "user" JSONB,
     "actions" JSONB,
-    "metaData" JSONB,
+    "metadata" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "issueId" TEXT NOT NULL,
 
@@ -25,7 +25,7 @@ CREATE TABLE "Issue" (
     "id" TEXT NOT NULL,
     "apiKey" TEXT NOT NULL,
     "type" TEXT NOT NULL,
-    "metaData" JSONB NOT NULL,
+    "metadata" JSONB NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -39,7 +39,7 @@ CREATE TABLE "User" (
     "uuid" TEXT,
     "email" TEXT,
     "name" TEXT,
-    "metaData" JSONB,
+    "metadata" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

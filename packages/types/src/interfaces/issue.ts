@@ -2,17 +2,15 @@ export interface MetaData {
   type: string
   message: string
   filename?: string
+  stack?: string
   others?: string
 }
 
 export interface Issue {
-  id?: string | number
-  intro: string
+  id: string
   apiKey: string
   type: string
+  metadata: MetaData
   createdAt: Date
   updatedAt: Date
-  metadata: MetaData
-  eventsCount: number
-  usersCount: number
 }

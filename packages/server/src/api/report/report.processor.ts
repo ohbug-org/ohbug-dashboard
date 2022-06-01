@@ -12,7 +12,7 @@ export class ReportProcessor {
     event,
     issueIntro,
     userIntro,
-    metaData,
+    metadata,
   }: CreateDataParams) {
     try {
       return await this.prisma.event.create({
@@ -29,7 +29,7 @@ export class ReportProcessor {
           device: event.device as Prisma.InputJsonObject,
           user: event.user as Prisma.InputJsonObject,
           actions: event.actions as unknown as Prisma.InputJsonArray,
-          metaData: event.metaData as Prisma.InputJsonObject,
+          metadata: event.metadata as Prisma.InputJsonObject,
           issue: {
             connectOrCreate: {
               where: { id: issueIntro },
@@ -37,7 +37,7 @@ export class ReportProcessor {
                 id: issueIntro,
                 apiKey: event.apiKey,
                 type: event.type,
-                metaData,
+                metadata,
                 users: {
                   connectOrCreate: {
                     where: {

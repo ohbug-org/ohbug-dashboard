@@ -21,7 +21,7 @@ model Event {
   device       Json
   user         Json?
   actions      Json?
-  metaData     Json?
+  metadata     Json?
   createdAt    DateTime @default(now())
   issueId      String
   issue        Issue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
@@ -31,7 +31,7 @@ model Issue {
   id        String          @id
   apiKey    String
   type      String
-  metaData  Json
+  metadata  Json
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
   events    Event[]
@@ -44,7 +44,7 @@ model User {
   uuid      String?
   email     String?
   name      String?
-  metaData  Json?
+  metadata  Json?
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
   issues    UsersOnIssues[]
