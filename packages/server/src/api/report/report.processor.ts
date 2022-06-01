@@ -1,36 +1,70 @@
 import { Process, Processor } from '@nestjs/bull'
 import type { Job } from 'bull'
-import { CreateOrUpdateIssueByIntroParams } from './report.interface'
+import type { Prisma } from '@prisma/client'
+import type { CreateDataParams } from './report.interface'
 import { ForbiddenException, PrismaService } from '~/common'
 
 @Processor('document')
 export class ReportProcessor {
   constructor(private readonly prisma: PrismaService) {}
 
-  async CreateOrUpdateIssueByIntro({
+  async CreateData({
     event,
-    intro,
+    issueIntro,
+    userIntro,
     metaData,
-  }: CreateOrUpdateIssueByIntroParams) {
+  }: CreateDataParams) {
     try {
-      const result = await this.prisma.event.create({
+      return await this.prisma.event.create({
         data: {
-          ...event,
+          apiKey: event.apiKey,
+          appVersion: event.appVersion,
+          appType: event.appType,
+          releaseStage: event.releaseStage,
+          timestamp: event.timestamp,
+          category: event.category,
+          type: event.type,
+          sdk: event.sdk as unknown as Prisma.InputJsonObject,
+          detail: event.detail as Prisma.InputJsonValue,
+          device: event.device as Prisma.InputJsonObject,
+          user: event.user as Prisma.InputJsonObject,
+          actions: event.actions as unknown as Prisma.InputJsonArray,
+          metaData: event.metaData as Prisma.InputJsonObject,
           issue: {
             connectOrCreate: {
-              where: { intro },
+              where: { id: issueIntro },
               create: {
-                intro,
+                id: issueIntro,
                 apiKey: event.apiKey,
                 type: event.type,
                 metaData,
+                users: {
+                  connectOrCreate: {
+                    where: {
+                      issueId_userId: {
+                        issueId: issueIntro,
+                        userId: userIntro,
+                      },
+                    },
+                    create: {
+                      user: {
+                        connectOrCreate: {
+                          where: { id: userIntro },
+                          create: {
+                            ...event.user,
+                            id: userIntro,
+                            ipAddress: event.user.ipAddress!,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
               },
             },
           },
         },
       })
-
-      return result
     }
     catch (error) {
       throw new ForbiddenException(400400, error)
@@ -48,11 +82,11 @@ export class ReportProcessor {
   @Process('event')
   async handleEvent(job: Job) {
     try {
-      const data = job.data as CreateOrUpdateIssueByIntroParams
+      const data = job.data as CreateDataParams
 
       if (data) {
         // 1. 创建 issue/event (postgres)
-        await this.CreateOrUpdateIssueByIntro(data)
+        await this.CreateData(data)
 
         // // 2. 根据 apiKey 拿到对应的 notification 配置
         // const notification = await getNotificationByApiKey(issue.apiKey)

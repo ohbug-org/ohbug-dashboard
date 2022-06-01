@@ -22,19 +22,40 @@ model Event {
   user         Json?
   actions      Json?
   metaData     Json?
-  intro        String
   createdAt    DateTime @default(now())
+  issueId      String
   issue        Issue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
-  issueId      Int
 }
 
 model Issue {
-  id        Int      @id @default(autoincrement())
-  intro     String   @unique
+  id        String          @id
   apiKey    String
   type      String
   metaData  Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
   events    Event[]
+  users     UsersOnIssues[]
+}
+
+model User {
+  id        String          @id
+  ipAddress String
+  uuid      String?
+  email     String?
+  name      String?
+  metaData  Json?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  issues    UsersOnIssues[]
+}
+
+model UsersOnIssues {
+  issue      Issue    @relation(fields: [issueId], references: [id])
+  issueId    String
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  assignedAt DateTime @default(now())
+
+  @@id([issueId, userId])
 }

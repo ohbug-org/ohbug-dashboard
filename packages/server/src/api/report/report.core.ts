@@ -1,5 +1,4 @@
 import { EventTypes } from '@ohbug/core'
-
 import type {
   AggregationDataAndMetaData,
   OhbugEventDetail,

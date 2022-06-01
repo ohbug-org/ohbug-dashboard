@@ -1,0 +1,9 @@
+{
+  "name": "types",
+  "private": true,
+  "types": "./src/index.ts",
+  "files": [
+    "src"
+  ],
+  "sideEffects": false
+}

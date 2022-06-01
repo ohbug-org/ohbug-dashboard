@@ -10,7 +10,7 @@ import type {
 import type { ReactErrorDetail } from '@ohbug/react'
 import type { VueErrorDetail } from '@ohbug/vue'
 import { Prisma } from '@prisma/client'
-import { OhbugEventLike } from '~/types'
+import { OhbugEventLike } from 'types'
 
 export type OhbugEventDetail = UncaughtErrorDetail &
 UnhandledrejectionErrorDetail &
@@ -35,8 +35,9 @@ export interface AggregationDataAndMetaData {
   metaData: Prisma.InputJsonObject
 }
 
-export interface CreateOrUpdateIssueByIntroParams {
+export interface CreateDataParams {
   event: OhbugEventLike
-  intro: string
+  issueIntro: string
+  userIntro: string
   metaData: Prisma.InputJsonObject
 }

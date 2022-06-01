@@ -2,10 +2,12 @@ import { Injectable } from '@nestjs/common'
 import type { OhbugEvent } from '@ohbug/types'
 import type { Queue } from 'bull'
 import { InjectQueue } from '@nestjs/bull'
+import type { OhbugEventLike } from 'types'
 import {
   getMd5FromAggregationData,
   switchErrorDetailAndGetAggregationDataAndMetaData,
 } from './report.core'
+import type { CreateDataParams } from './report.interface'
 import { ForbiddenException } from '~/common'
 
 @Injectable()
@@ -47,20 +49,17 @@ export class ReportService {
   }
 
   /**
-   * 将可能会变的字段转为 string
-   * error: `detail` `actions` `metaData`
-   * performance: `data`
+   * 补充 event 中的信息
    *
    * @param event
-   * @param ip
+   * @param ipAddress
    */
-  transferEvent(event: OhbugEvent<any>, ip: string, intro: string) {
+  transferEvent(event: OhbugEvent<any>, ipAddress: string): OhbugEventLike {
     return Object.assign(event, {
       user: {
         ...(event.user ?? {}),
-        ip,
+        ipAddress,
       },
-      intro,
     })
   }
 
@@ -70,13 +69,14 @@ export class ReportService {
    *
    * @param event
    */
-  aggregation(event: OhbugEvent<any>) {
+  aggregation(event: OhbugEventLike) {
     try {
       const { type, detail, apiKey } = event
       const { agg, metaData }
         = switchErrorDetailAndGetAggregationDataAndMetaData(type, detail)
-      const intro = getMd5FromAggregationData(apiKey, ...agg)
-      return { intro, metaData }
+      const issueIntro = getMd5FromAggregationData(apiKey, ...agg)
+      const userIntro = getMd5FromAggregationData(apiKey, ...Object.values(event.user))
+      return { issueIntro, userIntro, metaData }
     }
     catch (error) {
       throw new ForbiddenException(4001001, error)
@@ -93,15 +93,16 @@ export class ReportService {
     try {
       if (typeof event === 'string') event = JSON.parse(event)
       const filteredEvent = this.filterEvent(event as OhbugEvent<any>)
-      const aggregationEvent = this.aggregation(filteredEvent)
-      const eventLike = this.transferEvent(filteredEvent, ip, aggregationEvent.intro)
+      const eventLike = this.transferEvent(filteredEvent, ip)
+      const aggregationEvent = this.aggregation(eventLike)
+      const createDataParams: CreateDataParams = {
+        event: eventLike,
+        ...aggregationEvent,
+      }
 
       this.documentQueue.add(
         'event',
-        {
-          event: eventLike,
-          ...aggregationEvent,
-        },
+        createDataParams,
         {
           delay: 3000,
           removeOnComplete: true,

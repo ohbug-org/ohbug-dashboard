@@ -1,5 +1,6 @@
 import { Issue } from '@prisma/client'
 import type { GetServerSideProps, NextPage } from 'next'
+import IssueList from '~/components/issueList'
 import { serviceGetIssues } from '~/services/issues'
 
 interface Props {
@@ -15,8 +16,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async() => {
   return { props: { data } }
 }
 
-const Issues: NextPage<Props> = () => {
-  return <div>issues</div>
+const Issues: NextPage<Props> = ({ data }) => {
+  return (
+    <div>
+      <IssueList data={data} />
+    </div>
+  )
 }
 
 export default Issues
