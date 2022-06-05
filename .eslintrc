@@ -1,6 +1,3 @@
 {
-  "extends": "@chenyueban",
-  "rules": {
-    "@typescript-eslint/consistent-type-imports": "off"
-  }
+  "extends": "@chenyueban"
 }

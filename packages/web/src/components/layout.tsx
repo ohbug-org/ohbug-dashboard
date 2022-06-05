@@ -1,5 +1,4 @@
-import { FC, ReactNode } from 'react'
-import ToggleTheme from './toggleTheme'
+import type { FC, ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
@@ -8,8 +7,8 @@ interface Props {
 const Layout: FC<Props> = ({ children }) => {
   return (
     <>
-      <header>
-        <ToggleTheme />
+      <header className="sticky top-0 bg-white bg-opacity-40 z-50 backdrop-blur">
+        header
       </header>
       <main>{children}</main>
     </>

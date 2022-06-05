@@ -13,4 +13,8 @@ export interface Issue {
   metadata: MetaData
   createdAt: Date
   updatedAt: Date
+  _count?: {
+    events: number
+    users: number
+  }
 }

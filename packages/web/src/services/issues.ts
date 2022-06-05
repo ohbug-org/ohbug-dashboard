@@ -8,6 +8,14 @@ export function serviceGetIssues({ skip = 0, take = 100 }: getIssuesParams) {
   return prisma.issue.findMany({
     skip,
     take,
+    include: {
+      _count: {
+        select: {
+          events: true,
+          users: true,
+        },
+      },
+    },
   })
 }
 

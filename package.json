@@ -38,6 +38,7 @@
     "@ohbug/types": "^2.0.3",
     "@ohbug/vue": "^2.0.3",
     "@prisma/client": "^3.11.1",
+    "dayjs": "^1.11.2",
     "dotenv": "^16.0.1",
     "source-map-trace": "^0.1.3"
   },
