@@ -1,17 +1,13 @@
 import type { FC } from 'react'
 import { useState } from 'react'
+import Link from 'next/link'
 import type { Issue } from 'types'
 import { ClockIcon } from '@heroicons/react/outline'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 import MiniChart from './miniChart'
 import type { serviceGetIssuesTrendsReturn } from '~/services/issues'
-
-function renderStringOrJson(value: any) {
-  return typeof value === 'string'
-    ? value
-    : JSON.stringify(value)
-}
+import { renderStringOrJson } from '~/libs/utils'
 
 interface Props {
   issues: Issue[]
@@ -62,19 +58,26 @@ const IssueList: FC<Props> = ({ issues }) => {
             >
               {/* main */}
               <div className="w-1/2">
-                <div className="max-w-md truncate">
-                  {/* title */}
-                  <span
-                    aria-label="issue metadata type"
-                    className="font-semibold mr-2"
-                  >
-                    {issue.type}
-                  </span>
-                  {/* second description */}
-                  <code aria-label="issue description">
-                    {renderStringOrJson(issue.metadata.filename ?? issue.metadata.others)}
-                  </code>
-                </div>
+                <Link
+                  href={{
+                    pathname: '/issues/[id]',
+                    query: { id: issue.id },
+                  }}
+                >
+                  <a className="max-w-md truncate">
+                    {/* title */}
+                    <span
+                      aria-label="issue metadata type"
+                      className="font-semibold mr-2"
+                    >
+                      {issue.type}
+                    </span>
+                    {/* second description */}
+                    <code aria-label="issue description">
+                      {renderStringOrJson(issue.metadata.filename ?? issue.metadata.others)}
+                    </code>
+                  </a>
+                </Link>
                 {/* message */}
                 <div
                   aria-label="issue metadata message"

@@ -66,5 +66,15 @@ interface serviceGetIssueParams {
   id: string
 }
 export function serviceGetIssue({ id }: serviceGetIssueParams) {
-  return prisma.issue.findUnique({ where: { id } })
+  return prisma.issue.findUnique({
+    where: { id },
+    include: {
+      _count: {
+        select: {
+          events: true,
+          users: true,
+        },
+      },
+    },
+  })
 }

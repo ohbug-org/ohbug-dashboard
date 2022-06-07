@@ -7,10 +7,10 @@ interface Props {
 const Layout: FC<Props> = ({ children }) => {
   return (
     <>
-      <header className="sticky top-0 bg-white bg-opacity-40 z-50 backdrop-blur">
+      <header className="fixed top-0 w-full h-12 bg-white bg-opacity-40 z-40 backdrop-blur">
         header
       </header>
-      <main>{children}</main>
+      <main className="pt-12 flex-1">{children}</main>
     </>
   )
 }
