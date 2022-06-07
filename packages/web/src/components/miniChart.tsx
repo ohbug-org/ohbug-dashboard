@@ -58,6 +58,7 @@ const MiniChart: FC<MiniChartProps> = memo(({ type, data, title }) => {
           },
         },
       ],
+      exporting: { enabled: false },
     }),
     [data, type],
   )

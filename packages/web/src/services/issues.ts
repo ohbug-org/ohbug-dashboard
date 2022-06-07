@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { prisma } from '~/db'
 
 interface serviceGetIssuesParams {
@@ -23,22 +24,42 @@ interface serviceGetIssuesTrendsParams {
   ids: string
   type: '24h' | '14d'
 }
-export type serviceGetIssuesTrendsReturn = {
+interface Trend {
   issueId: string
   time: string
   count: number
-}[]
-export function serviceGetIssuesTrends({ ids, type }: serviceGetIssuesTrendsParams) {
-  const format = type === '14d' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH24'
-  const list = `(${ids})`
+}
+export type serviceGetIssuesTrendsReturn = Record<string, Trend[]>
+export async function serviceGetIssuesTrends({ ids, type }: serviceGetIssuesTrendsParams) {
+  const format = type === '14d' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH'
+  const unit = type === '14d' ? 'day' : 'hour'
+  const interval = type === '14d' ? 14 : 24
+  const max = dayjs()
+  const min = max.subtract(interval, unit)
 
-  return prisma.$queryRawUnsafe<serviceGetIssuesTrendsReturn[]>(`
+  const list = `(${ids.split(',').map(v => `'${v}'`).join(',')})`
+  const trends = await prisma.$queryRawUnsafe<Trend[]>(`
     SELECT "issueId", to_char("Event"."createdAt", '${format}') AS time, count("Event".*)
     FROM "Event"
     WHERE "Event"."issueId" IN ${list}
+    AND "Event"."createdAt" BETWEEN '${min.format('YYYY-MM-DD HH:mm:ss')}' AND '${max.format('YYYY-MM-DD HH:mm:ss')}'
     GROUP BY time, "issueId"
     order by "issueId"
   `)
+
+  return ids.split(',').reduce<serviceGetIssuesTrendsReturn>((acc, issueId) => {
+    acc[issueId] = Array.from(new Array(interval + 1)).map((_, index) => {
+      const time = dayjs(min).add(index, unit).format(format)
+      const match = trends.find(v => (v.time === time) && (v.issueId === issueId))
+      if (match) return match
+      return {
+        issueId,
+        time,
+        count: 0,
+      }
+    })
+    return acc
+  }, {})
 }
 
 interface serviceGetIssueParams {
