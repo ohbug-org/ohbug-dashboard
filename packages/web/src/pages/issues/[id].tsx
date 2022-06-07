@@ -1,7 +1,9 @@
+import dayjs from 'dayjs'
 import type { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
 import type { Issue, OhbugEventLike } from 'types'
-import { renderStringOrJson } from '~/libs/utils'
+import StackInfo from '~/components/stackInfo'
+import { getMessageAndIconByActionType, renderStringOrJson } from '~/libs/utils'
 import { serviceGetEvent } from '~/services/events'
 import { serviceGetIssue } from '~/services/issues'
 
@@ -71,6 +73,96 @@ const Detail: NextPage<Props> = ({ issue, event }) => {
             <a target="_blank">{event.id}</a>
           </Link>
         </h4>
+      </div>
+
+      <div>
+        {/* all */}
+        {event.detail.message && (
+          <div className="!mb-4">
+            {renderStringOrJson(event.detail.message)}
+          </div>
+        )}
+        {/* unhandledrejectionError */}
+        {/* uncaughtError */}
+        {event.detail.stack && (
+          <div className="!mb-4">
+            <StackInfo
+              source={event?.source}
+              stack={event.detail.stack}
+            />
+          </div>
+        )}
+        {/* resourceError */}
+        {event?.detail.selector && (
+          <div className="!mb-4">
+            {renderStringOrJson(event.detail)}
+          </div>
+        )}
+        {/* ajaxError */}
+        {/* fetchError */}
+        {event?.type === 'ajaxError' && (
+          <div className="!mb-4">
+            {renderStringOrJson(event.detail)}
+          </div>
+        )}
+        {/* websocketError */}
+        {event?.type === 'websocketError' && (
+          <div className="!mb-4">
+            {renderStringOrJson(event.detail)}
+          </div>
+        )}
+      </div>
+
+      {/* actions */}
+      <div>
+        <ul className="steps steps-vertical max-h-96 overflow-y-auto">
+          {event?.actions?.map((action) => {
+            const { message, icon } = getMessageAndIconByActionType(action)
+            return (
+              <li
+                className="step step-neutral"
+                data-content={icon}
+                key={action.timestamp + action.data}
+              >
+                <div className="w-full flex justify-between items-center">
+                  <div className="font-bold w-24">
+                    {action.type}
+                  </div>
+                  <div className="flex-1 text-secondary text-left">{message}</div>
+                  <div
+                    className="tooltip"
+                    data-tip={dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}
+                  >
+                    <div className="w-20 text-secondary">
+                      {dayjs(event.timestamp).format('HH:mm:ss')}
+                    </div>
+                  </div>
+                </div>
+              </li>
+            )
+          })}
+          <li
+            className="step step-neutral step-error"
+            data-content="🐛"
+          >
+            <div className="w-full flex justify-between items-center">
+              <div className="font-bold w-24">
+                exception
+              </div>
+              <div className="flex-1 text-secondary text-left">
+                {renderStringOrJson(event.detail.message)}
+              </div>
+              <div
+                className="tooltip"
+                data-tip={dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}
+              >
+                <div className="w-20 text-secondary">
+                  {dayjs(event.timestamp).format('HH:mm:ss')}
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   )

@@ -131,6 +131,7 @@ importers:
       '@types/react-dom': 18.0.5
       autoprefixer: ^10.4.7
       babel-plugin-superjson-next: ^0.4.3
+      clsx: ^1.1.1
       daisyui: ^2.15.2
       highcharts: ^10.1.0
       highcharts-react-official: ^3.1.0
@@ -147,6 +148,7 @@ importers:
       zustand: 4.0.0-rc.1
     dependencies:
       '@heroicons/react': 1.0.6_react@18.1.0
+      clsx: 1.1.1
       daisyui: 2.15.2_ugi4xkrfysqkt4c4y6hkyfj344
       highcharts: 10.1.0
       highcharts-react-official: 3.1.0_ssqge53ewyv7nlqf3cr3jpevty
@@ -2316,6 +2318,11 @@ packages:
     resolution: {integrity: sha1-2jCcwmPfFZlMaIypAheco8fNfH4=}
     engines: {node: '>=0.8'}
     dev: true
+
+  /clsx/1.1.1:
+    resolution: {integrity: sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==}
+    engines: {node: '>=6'}
+    dev: false
 
   /cluster-key-slot/1.1.0:
     resolution: {integrity: sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==}
