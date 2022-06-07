@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Issue } from '@prisma/client'
+import type { Issue } from '@prisma/client'
 import { serviceGetIssues } from '~/services/issues'
 
 export default async function handler(
