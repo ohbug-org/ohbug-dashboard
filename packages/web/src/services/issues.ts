@@ -24,7 +24,7 @@ interface serviceGetIssuesTrendsParams {
   ids: string
   type: '24h' | '14d'
 }
-interface Trend {
+export interface Trend {
   issueId: string
   time: string
   count: number

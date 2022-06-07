@@ -7,16 +7,14 @@ import HighchartsReact from 'highcharts-react-official'
 import dayjs from 'dayjs'
 import { useMount } from 'react-use'
 import { theme } from '~/styles/chart.theme'
+import type { Trend } from '~/services/issues'
 
 if (typeof Highcharts === 'object')
   HighchartsExporting(Highcharts)
 
 interface MiniChartProps {
   type: '24h' | '14d'
-  data?: {
-    time: string
-    count: number
-  }[]
+  data?: Trend[]
   title?: string
 }
 

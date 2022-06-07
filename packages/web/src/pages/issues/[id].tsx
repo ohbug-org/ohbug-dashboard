@@ -4,23 +4,41 @@ import type { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import type { Issue, OhbugEventLike } from 'types'
+import MiniChart from '~/components/miniChart'
 import StackInfo from '~/components/stackInfo'
 import { getDeviceInfo, getMessageAndIconByActionType, renderStringOrJson } from '~/libs/utils'
 import { serviceGetEvent } from '~/services/events'
-import { serviceGetIssue } from '~/services/issues'
+import type { Trend } from '~/services/issues'
+import { serviceGetIssue, serviceGetIssuesTrends } from '~/services/issues'
 
 interface Props {
   issue: Issue
   event: OhbugEventLike
+  trends: {
+    '14d': Trend[]
+    '24h': Trend[]
+  }
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
-  const issue = await serviceGetIssue({ id: context.query.id as string }) as unknown as Issue
-  const event = await serviceGetEvent({ issueId: context.query.id as string }) as unknown as OhbugEventLike
-  return { props: { issue, event } }
+  const id = context.query.id as string
+  const issue = await serviceGetIssue({ id }) as unknown as Issue
+  const event = await serviceGetEvent({ issueId: id }) as unknown as OhbugEventLike
+  const trends14d = await serviceGetIssuesTrends({ ids: id, type: '14d' })
+  const trends24h = await serviceGetIssuesTrends({ ids: id, type: '24h' })
+  return {
+    props: {
+      issue,
+      event,
+      trends: {
+        '14d': trends14d[id],
+        '24h': trends24h[id],
+      },
+    },
+  }
 }
 
-const Detail: NextPage<Props> = ({ issue, event }) => {
+const Detail: NextPage<Props> = ({ issue, event, trends }) => {
   const deviceInfo = useMemo(() => getDeviceInfo(event), [event])
   const tagList = useMemo(() => {
     const result = []
@@ -320,6 +338,54 @@ const Detail: NextPage<Props> = ({ issue, event }) => {
             </div>
           </li>
         </ul>
+      </div>
+
+      <div>
+        <div className="!mb-4">
+          {trends['14d'] && (
+            <MiniChart
+              data={trends['14d']}
+              title="过去14天"
+              type="14d"
+            />
+          )}
+        </div>
+        <div className="!mb-4">
+          {trends['24h'] && (
+            <MiniChart
+              data={trends['24h']}
+              title="过去24小时"
+              type="24h"
+            />
+          )}
+        </div>
+
+        <div className="!mb-4">
+          <h5>首次发生</h5>
+          <div>
+            <div className="text-secondary">
+              {dayjs(issue?.createdAt).fromNow()}
+            </div>
+          </div>
+          <div>
+            <div className="text-secondary">
+              {dayjs(issue?.createdAt).format('YYYY-MM-DD HH:mm:ss A')}
+            </div>
+          </div>
+        </div>
+        <div className="!mb-4">
+          <h5>最近发生</h5>
+          <div>
+            <div className="text-secondary">
+              {dayjs(issue?.updatedAt).fromNow()}
+            </div>
+          </div>
+          <div>
+            <div className="text-secondary">
+              {dayjs(issue?.updatedAt).format('YYYY-MM-DD HH:mm:ss A')}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
