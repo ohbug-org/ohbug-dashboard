@@ -30,11 +30,11 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         icon: <IdentificationIcon className="w-4" />,
       })
     }
-    if (event?.user?.ip) {
+    if (event?.user?.ipAddress) {
       result.push({
         key: 'ip',
-        title: `IP: ${event?.user?.ip}`,
-        value: event?.user?.ip,
+        title: `IP: ${event?.user?.ipAddress}`,
+        value: event?.user?.ipAddress,
         icon: <FingerPrintIcon className="w-4" />,
       })
     }
