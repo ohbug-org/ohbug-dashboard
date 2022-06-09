@@ -1,3 +1,5 @@
+import type { OhbugEventLike } from './event'
+
 export interface MetaData {
   type: string
   message: string
@@ -17,4 +19,5 @@ export interface Issue {
     events: number
     users: number
   }
+  events?: OhbugEventLike[]
 }
