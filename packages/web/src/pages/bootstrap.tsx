@@ -1,4 +1,5 @@
 import type { Setting } from '@prisma/client'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import type { ReactElement } from 'react'
 import { useCallback } from 'react'
@@ -6,6 +7,7 @@ import { useForm } from 'react-hook-form'
 
 const Bootstrap = () => {
   const router = useRouter()
+  const session = useSession()
   const { register, handleSubmit } = useForm<Setting>()
   const onSubmit = useCallback((data: Setting) => {
     fetch(
@@ -18,10 +20,12 @@ const Bootstrap = () => {
     )
       .then(res => res.json())
       .then((setting) => {
-        if (setting)
-          router.replace('/auth/signin')
+        if (setting && !session.data)
+          router.replace('/api/auth/signin')
+        else
+          router.replace('/')
       })
-  }, [])
+  }, [session])
 
   return (
     <div className="hero min-h-screen">

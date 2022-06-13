@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Login from '~/components/loginButton'
 import { serviceGetSetting } from '~/services/bootstrap'
+import { serviceGetProjects } from '~/services/projects'
 
 interface Props {
   setting: Setting | null
@@ -15,6 +16,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async() => {
     return {
       redirect: {
         destination: '/bootstrap',
+        permanent: false,
+      },
+    }
+  }
+  const projects = await serviceGetProjects()
+  if (!projects || !projects.length) {
+    return {
+      redirect: {
+        destination: '/create-project',
         permanent: false,
       },
     }
