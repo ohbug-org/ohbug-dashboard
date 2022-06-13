@@ -16,9 +16,7 @@ export default async function handler(
       GithubProvider({
         clientId: setting?.githubClientId,
         clientSecret: setting?.githubClientSecret,
-        httpOptions: { timeout: 40000 },
       }),
     ],
-    pages: { signIn: '/auth/signin' },
   })
 }
