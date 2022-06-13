@@ -41,13 +41,13 @@ export class ReportProcessor {
                 users: {
                   connectOrCreate: {
                     where: {
-                      issueId_userId: {
+                      issueId_eventUserId: {
                         issueId: issueIntro,
-                        userId: userIntro,
+                        eventUserId: userIntro,
                       },
                     },
                     create: {
-                      user: {
+                      eventUser: {
                         connectOrCreate: {
                           where: { id: userIntro },
                           create: {

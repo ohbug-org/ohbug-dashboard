@@ -4,8 +4,8 @@ import type { Result } from 'source-map-trace/dist/interfaces'
 export interface OhbugEventLike extends Omit<OhbugEvent<any>, 'user'> {
   id?: string
   user: OhbugUser
-  createdAt: Date
-  issueId: string
+  createdAt?: Date
+  issueId?: string
 }
 
 export type { OhbugUser }

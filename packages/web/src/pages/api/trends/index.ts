@@ -4,7 +4,7 @@ import { serviceGetIssuesTrends } from '~/services/issues'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<serviceGetIssuesTrendsReturn[]>,
+  res: NextApiResponse<serviceGetIssuesTrendsReturn>,
 ) {
   const ids = req.query.ids as string
   const type = (req.query.type || '24h') as '24h' | '14d'

@@ -1,8 +1,28 @@
-import type { NextPage } from 'next'
+import type { Setting } from '@prisma/client'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import Login from '~/components/loginButton'
+import { serviceGetSetting } from '~/services/bootstrap'
 
-const Home: NextPage = () => {
+interface Props {
+  setting: Setting | null
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async() => {
+  const setting = await serviceGetSetting()
+  if (!setting) {
+    return {
+      redirect: {
+        destination: '/bootstrap',
+        permanent: false,
+      },
+    }
+  }
+  return { props: { setting } }
+}
+
+const Home: NextPage<Props> = () => {
   return (
     <div>
       <Head>
@@ -18,7 +38,9 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Link href="/issues"><a>go to issues</a></Link>
+        <div><Link href="/issues"><a>go to issues</a></Link></div>
+
+        <Login />
       </main>
     </div>
   )
