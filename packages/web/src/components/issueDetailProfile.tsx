@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import type { FC } from 'react'
 import { useMemo } from 'react'
 import type { OhbugEventLike } from 'types'
-import { AcademicCapIcon, ClockIcon, CubeIcon, DesktopComputerIcon, FingerPrintIcon, IdentificationIcon, LinkIcon, PresentationChartBarIcon, PuzzleIcon, TranslateIcon } from '@heroicons/react/outline'
+import { RiCake2Line, RiCake3Line, RiCakeLine, RiComputerLine, RiEarthLine, RiFingerprintLine, RiHeading, RiLinkedinLine, RiLinksLine, RiTimeLine } from 'react-icons/ri'
 import Link from 'next/link'
 import { getDeviceInfo } from '~/libs/utils'
 
@@ -19,7 +19,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'time',
         title: `发生时间: ${dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}`,
         value: dayjs(event.timestamp).fromNow(),
-        icon: <ClockIcon className="w-4" />,
+        icon: <RiTimeLine />,
       })
     }
     if (event?.user?.uuid) {
@@ -27,7 +27,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'uuid',
         title: `UUID: ${event?.user?.uuid}`,
         value: event?.user?.uuid,
-        icon: <IdentificationIcon className="w-4" />,
+        icon: <RiFingerprintLine />,
       })
     }
     if (event?.user?.ipAddress) {
@@ -35,7 +35,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'ip',
         title: `IP: ${event?.user?.ipAddress}`,
         value: event?.user?.ipAddress,
-        icon: <FingerPrintIcon className="w-4" />,
+        icon: <RiLinksLine />,
       })
     }
     if (event?.device?.title) {
@@ -43,7 +43,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'title',
         title: `标题: ${event.device.title}`,
         value: event.device.title,
-        icon: <PresentationChartBarIcon className="w-4" />,
+        icon: <RiHeading />,
       })
     }
     if (event?.device?.url) {
@@ -51,7 +51,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'url',
         title: `URL: ${event.device.url}`,
         value: event.device.url,
-        icon: <LinkIcon className="w-4" />,
+        icon: <RiLinkedinLine />,
       })
     }
     if (event?.device?.language) {
@@ -59,7 +59,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'language',
         title: `Language: ${event.device.language}`,
         value: event.device.language,
-        icon: <TranslateIcon className="w-4" />,
+        icon: <RiEarthLine />,
       })
     }
     if (event?.appVersion) {
@@ -67,7 +67,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'appVersion',
         title: `AppVersion: ${event.appVersion}`,
         value: event.appVersion,
-        icon: <AcademicCapIcon className="w-4" />,
+        icon: <RiCakeLine />,
       })
     }
     if (event?.appType) {
@@ -75,7 +75,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'appType',
         title: `AppType: ${event.appType}`,
         value: event.appType,
-        icon: <PuzzleIcon className="w-4" />,
+        icon: <RiCake2Line />,
       })
     }
     if (event?.releaseStage) {
@@ -83,7 +83,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'releaseStage',
         title: `ReleaseStage: ${event.releaseStage}`,
         value: event.releaseStage,
-        icon: <CubeIcon className="w-4" />,
+        icon: <RiCake3Line />,
       })
     }
     if (
@@ -95,7 +95,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'dpi',
         title: `分辨率: ${event?.device?.device?.screenWidth} × ${event?.device?.device?.screenHeight} @ ${event?.device?.device?.pixelRatio}x`,
         value: `${event?.device?.device?.screenWidth} × ${event?.device?.device?.screenHeight} @ ${event?.device?.device?.pixelRatio}x`,
-        icon: <DesktopComputerIcon className="w-4" />,
+        icon: <RiComputerLine />,
       })
     }
 

@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import { useState } from 'react'
 import Link from 'next/link'
 import type { Issue } from 'types'
-import { ClockIcon } from '@heroicons/react/outline'
+import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 import MiniChart from './miniChart'
@@ -96,7 +96,7 @@ const IssueList: FC<Props> = ({ issues }) => {
                   {/* appType */}
                   {/* time */}
                   <div className="flex items-center text-xs">
-                    <ClockIcon className="w-3 h-3"/>
+                    <RiTimeLine className="mr-2"/>
                     <span
                       className="tooltip"
                       data-tip={`最后出现时间 ${dayjs(issue.updatedAt).format()}`}
