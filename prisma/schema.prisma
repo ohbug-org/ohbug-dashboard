@@ -69,7 +69,7 @@ model Setting {
 
 model Project {
   id        Int      @id @default(autoincrement())
-  apiKey    String
+  apiKey    String   @unique
   name      String   @unique
   type      String
   createdAt DateTime @default(now())

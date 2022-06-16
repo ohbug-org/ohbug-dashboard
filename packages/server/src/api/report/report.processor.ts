@@ -71,40 +71,50 @@ export class ReportProcessor {
     }
   }
 
-  /**
-   * 对 event 进行任务调度
-   * 1. 创建 issue/event (postgres)
-   * 2. 根据 apiKey 拿到对应的 notification 配置
-   * 3. 判断当前状态十分符合 notification 配置的要求，符合则通知 notifier 开始任务
-   *
-   * @param job
-   */
+  async findProjectByApiKey(apiKey: string) {
+    try {
+      return this.prisma.project.findUnique({ where: { apiKey } })
+    }
+    catch (error) {
+      throw new ForbiddenException(400204, error)
+    }
+  }
+
   @Process('event')
   async handleEvent(job: Job) {
     try {
       const data = job.data as CreateDataParams
 
       if (data) {
-        // 1. 创建 issue/event (postgres)
-        await this.CreateData(data)
+        // 1. 查询有没有对应的 project
+        const apiKey = data.event.apiKey
+        const project = await this.findProjectByApiKey(apiKey)
 
-        // // 2. 根据 apiKey 拿到对应的 notification 配置
-        // const notification = await getNotificationByApiKey(issue.apiKey)
+        if (project) {
+          // 2. 创建 issue/event (postgres)
+          await this.CreateData(data)
 
-        // // 3. 判断当前状态十分符合 notification 配置的要求，符合则通知 notifier 开始任务
-        // const callback = async(result: {
-        //   rule: any
-        //   event: any
-        //   issue: any
-        // }) => {
-        //   lastValueFrom(this.notifierClient.send(TOPIC_MANAGER_NOTIFIER_DISPATCH_NOTICE, {
-        //     setting: notification.notificationSetting,
-        //     rule: result.rule,
-        //     event: result.event,
-        //     issue: result.issue,
-        //   }))
-        // }
-        // judgingStatus(event, issue, notification.notificationRules, callback)
+          // // 2. 根据 apiKey 拿到对应的 notification 配置
+          // const notification = await getNotificationByApiKey(issue.apiKey)
+
+          // // 3. 判断当前状态十分符合 notification 配置的要求，符合则通知 notifier 开始任务
+          // const callback = async(result: {
+          //   rule: any
+          //   event: any
+          //   issue: any
+          // }) => {
+          //   lastValueFrom(this.notifierClient.send(TOPIC_MANAGER_NOTIFIER_DISPATCH_NOTICE, {
+          //     setting: notification.notificationSetting,
+          //     rule: result.rule,
+          //     event: result.event,
+          //     issue: result.issue,
+          //   }))
+          // }
+          // judgingStatus(event, issue, notification.notificationRules, callback)
+        }
+        else {
+          throw new Error(`Project not found for apiKey: ${apiKey}`)
+        }
       }
     }
     catch (error) {
