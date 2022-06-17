@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core'
 import type { NestFastifyApplication } from '@nestjs/platform-fastify'
 import { FastifyAdapter } from '@nestjs/platform-fastify'
 import { WinstonModule } from 'nest-winston'
+import { contentParser } from 'fastify-multer'
 import { AppModule } from './app.module'
 import {
   AllExceptionsFilter,
@@ -17,6 +18,7 @@ async function bootstrap() {
     new FastifyAdapter(),
     { logger: WinstonModule.createLogger(LoggerConfig) },
   )
+  await app.register(contentParser)
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
   app.useGlobalInterceptors(new TransformInterceptor())
   app.useGlobalFilters(new ForbiddenExceptionFilter())

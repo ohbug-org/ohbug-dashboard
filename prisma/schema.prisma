@@ -8,6 +8,7 @@ generator client {
   previewFeatures = ["filterJson"]
 }
 
+// data
 model Event {
   id           String   @id @default(uuid())
   apiKey       String
@@ -29,12 +30,12 @@ model Event {
 }
 
 model Issue {
-  id        String          @id
+  id        String               @id
   apiKey    String
   type      String
   metadata  Json
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
   events    Event[]
   users     EventUsersOnIssues[]
 }
@@ -61,6 +62,7 @@ model EventUsersOnIssues {
   @@id([issueId, eventUserId])
 }
 
+// business
 model Setting {
   id                 Int    @id @default(autoincrement())
   githubClientId     String
@@ -68,14 +70,27 @@ model Setting {
 }
 
 model Project {
-  id        Int      @id @default(autoincrement())
-  apiKey    String   @unique
-  name      String   @unique
+  id        Int       @id @default(autoincrement())
+  apiKey    String    @unique
+  name      String    @unique
   type      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  releases  Release[]
 }
 
+model Release {
+  id         Int      @id @default(autoincrement())
+  appVersion String
+  appType    String?
+  sourceMaps Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId  Int
+}
+
+// accounts
 model Account {
   id                String  @id @default(cuid())
   userId            String
