@@ -11,40 +11,50 @@ const IssueDetailStack: FC<Props> = ({ event }) => {
   return (
     <div>
       {/* all */}
-      {event.detail.message && (
-        <div className="!mb-4">
-          {renderStringOrJson(event.detail.message)}
-        </div>
-      )}
+      {
+        event.detail.message && (
+          <div className="!mb-4">
+            {renderStringOrJson(event.detail.message)}
+          </div>
+        )
+      }
       {/* unhandledrejectionError */}
       {/* uncaughtError */}
-      {event.detail.stack && (
-        <div className="!mb-4">
-          <StackInfo
-            source={event?.source}
-            stack={event.detail.stack}
-          />
-        </div>
-      )}
+      {
+        event.detail.stack && (
+          <div className="!mb-4">
+            <StackInfo
+              source={event?.source}
+              stack={event.detail.stack}
+            />
+          </div>
+        )
+      }
       {/* resourceError */}
-      {event?.detail.selector && (
-        <div className="!mb-4">
-          {renderStringOrJson(event.detail)}
-        </div>
-      )}
+      {
+        event?.detail.selector && (
+          <div className="!mb-4">
+            {renderStringOrJson(event.detail)}
+          </div>
+        )
+      }
       {/* ajaxError */}
       {/* fetchError */}
-      {event?.type === 'ajaxError' && (
-        <div className="!mb-4">
-          {renderStringOrJson(event.detail)}
-        </div>
-      )}
+      {
+        event?.type === 'ajaxError' && (
+          <div className="!mb-4">
+            {renderStringOrJson(event.detail)}
+          </div>
+        )
+      }
       {/* websocketError */}
-      {event?.type === 'websocketError' && (
-        <div className="!mb-4">
-          {renderStringOrJson(event.detail)}
-        </div>
-      )}
+      {
+        event?.type === 'websocketError' && (
+          <div className="!mb-4">
+            {renderStringOrJson(event.detail)}
+          </div>
+        )
+      }
     </div>
   )
 }

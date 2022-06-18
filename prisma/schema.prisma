@@ -81,6 +81,7 @@ model Project {
 
 model Release {
   id         Int      @id @default(autoincrement())
+  apiKey     String
   appVersion String
   appType    String?
   sourceMaps Json?

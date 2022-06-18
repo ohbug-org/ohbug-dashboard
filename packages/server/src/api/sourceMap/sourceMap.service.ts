@@ -19,12 +19,14 @@ export class SourceMapService {
     return this.prisma.release.upsert({
       where: { id: release?.id ?? 0 },
       create: {
+        apiKey: body.apiKey,
         appVersion: body.appVersion,
         appType: body.appType,
         sourceMaps: sourceMaps as unknown as Prisma.InputJsonArray,
         project: { connect: { id: project.id } },
       },
       update: {
+        apiKey: body.apiKey,
         appType: body.appType,
         sourceMaps: sourceMaps as unknown as Prisma.InputJsonArray,
         project: { connect: { id: project.id } },

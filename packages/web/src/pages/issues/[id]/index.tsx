@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
   const issueId = context.query.id as string
   const eventId = context.query.eventId as string
   const issue = await serviceGetIssue({ id: issueId }) as unknown as Issue
-  const event = await serviceGetEvent({ id: eventId, issueId }) as unknown as OhbugEventLike
+  const event = (await serviceGetEvent({ id: eventId, issueId }))!
   const trends14d = await serviceGetIssuesTrends({ ids: issueId, type: '14d' })
   const trends24h = await serviceGetIssuesTrends({ ids: issueId, type: '24h' })
   return {
