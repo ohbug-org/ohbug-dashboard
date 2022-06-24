@@ -16,9 +16,9 @@ const IssueDetailActions: FC<Props> = ({ event }) => {
           const { message, icon } = getMessageAndIconByActionType(action)
           return (
             <Flex
-              alignItems="center"
+              align="center"
               gap="2"
-              justifyContent="space-between"
+              justify="space-between"
               key={action.timestamp + action.data}
             >
               <Center>
@@ -55,9 +55,9 @@ const IssueDetailActions: FC<Props> = ({ event }) => {
         })
       }
       <Flex
-        alignItems="center"
+        align="center"
         gap="2"
-        justifyContent="space-between"
+        justify="space-between"
       >
         <Center>
           <Box>🐛</Box>

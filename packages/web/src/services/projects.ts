@@ -6,5 +6,14 @@ export function serviceGetProjects() {
 }
 
 export async function serviceCreateProject(data: Project) {
-  return prisma.project.create({ data })
+  let isDefault = false
+  const projects = await serviceGetProjects()
+  if (!projects.length) isDefault = true
+
+  return prisma.project.create({
+    data: {
+      ...data,
+      default: isDefault,
+    },
+  })
 }

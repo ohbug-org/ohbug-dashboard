@@ -20,19 +20,21 @@ type AppPropsWithLayout = AppProps & {
 }
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>)
-
-  return getLayout((
+  return (
     <SessionProvider session={session}>
       <SWRConfig
         value={{ fetcher: (resource, init) => fetch(resource, init).then(res => res.json()) }}
       >
         <ChakraProvider theme={theme}>
-          <Component {...pageProps} />
+          {
+            Component.getLayout
+              ? Component.getLayout(<Component {...pageProps} />)
+              : <Layout><Component {...pageProps} /></Layout>
+          }
         </ChakraProvider>
       </SWRConfig>
     </SessionProvider>
-  ))
+  )
 }
 
 export default MyApp

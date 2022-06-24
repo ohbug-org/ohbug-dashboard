@@ -90,7 +90,7 @@ const IssueList: FC<Props> = ({ issues }) => {
                   <Flex
                     as="a"
                     cursor="pointer"
-                    justifyContent="space-between"
+                    justify="space-between"
                     noOfLines={1}
                     w="full"
                   >
@@ -129,7 +129,7 @@ const IssueList: FC<Props> = ({ issues }) => {
                   {/* appType */}
                   {/* time */}
                   <Flex
-                    alignItems="center"
+                    align="center"
                     fontSize="xs"
                   >
                     <Icon

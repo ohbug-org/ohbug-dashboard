@@ -74,6 +74,8 @@ model Project {
   apiKey    String    @unique
   name      String    @unique
   type      String
+  default   Boolean   @default(false)
+  image     String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   releases  Release[]

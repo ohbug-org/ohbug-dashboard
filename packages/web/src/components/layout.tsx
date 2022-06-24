@@ -1,5 +1,6 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
+import Nav from './nav'
 
 interface Props {
   children: ReactNode
@@ -7,12 +8,18 @@ interface Props {
 
 const Layout: FC<Props> = ({ children }) => {
   return (
-    <Box
+    <Flex
       as="main"
       h="inherit"
     >
-      {children}
-    </Box>
+      <Flex as="nav">
+        <Nav />
+      </Flex>
+      <Box>
+        <Box>{children}</Box>
+        <Box>footer</Box>
+      </Box>
+    </Flex>
   )
 }
 
