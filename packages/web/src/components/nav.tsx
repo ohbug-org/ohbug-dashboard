@@ -1,11 +1,17 @@
-import type { FC } from 'react'
-import { useCallback, useState } from 'react'
-import { Box, Flex, IconButton, Tooltip } from '@chakra-ui/react'
+import type { Dispatch, FC, SetStateAction } from 'react'
+import { useCallback } from 'react'
+import { Flex, IconButton, Tooltip } from '@chakra-ui/react'
 import { RiMenuFill } from 'react-icons/ri'
+import Link from 'next/link'
 import User from './user'
+import NavMenu from './navMenu'
 
-const Nav: FC = () => {
-  const [collapsed, setCollapsed] = useState(false)
+interface Props {
+  collapsed: boolean
+  setCollapsed: Dispatch<SetStateAction<boolean>>
+}
+
+const Nav: FC<Props> = ({ collapsed, setCollapsed }) => {
   const handleToggleCollapsed = useCallback(() => setCollapsed(prevState => !prevState), [])
 
   return (
@@ -16,27 +22,28 @@ const Nav: FC = () => {
       direction="column"
       justify="space-between"
       p="4"
-      transition="width 300ms ease"
-      w={collapsed ? '70px' : '220px'}
+      w="full"
     >
       <Flex direction="column">
         <Tooltip
           label="Home"
           placement="right"
         >
-          <IconButton
-            aria-label="logo"
-            icon={
-              (
-                <img
-                  alt="logo"
-                  src="/logo.svg"
-                />
-              )
-            }
-            size="lg"
-            variant="ghost"
-          />
+          <Link href="/">
+            <IconButton
+              aria-label="logo"
+              icon={
+                (
+                  <img
+                    alt="logo"
+                    src="/logo.svg"
+                  />
+                )
+              }
+              size="lg"
+              variant="ghost"
+            />
+          </Link>
         </Tooltip>
         <Tooltip
           label="Toggle Navigation"
@@ -52,7 +59,15 @@ const Nav: FC = () => {
         </Tooltip>
       </Flex>
 
-      <Box>center</Box>
+      <Flex
+        direction="column"
+        flex="1"
+        justify="start"
+        pt="8"
+        w="full"
+      >
+        <NavMenu collapsed={collapsed} />
+      </Flex>
 
       <User />
     </Flex>
