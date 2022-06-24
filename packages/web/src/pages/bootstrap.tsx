@@ -1,3 +1,4 @@
+import { Box, Button, Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from '@chakra-ui/react'
 import type { Setting } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -5,11 +6,13 @@ import type { ReactElement } from 'react'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 
+type OmitSetting = Omit<Setting, 'id'>
+
 const Bootstrap = () => {
   const router = useRouter()
   const session = useSession()
-  const { register, handleSubmit } = useForm<Setting>()
-  const onSubmit = useCallback((data: Setting) => {
+  const { handleSubmit, register, formState: { errors } } = useForm<OmitSetting>()
+  const onSubmit = useCallback((data: OmitSetting) => {
     fetch(
       '/api/setting',
       {
@@ -28,59 +31,61 @@ const Bootstrap = () => {
   }, [session])
 
   return (
-    <div className="hero min-h-screen">
-      <div className="hero-content">
-        <div className="card flex-shrink-0 w-96 shadow-2xl bg-base-100">
-          <div className="card-body">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Github OAuth Client ID</span>
-                </label>
-                <input
-                  className="input input-bordered"
-                  placeholder="Client ID"
-                  required
-                  type="text"
-                  {...register('githubClientId')}
-                />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Github OAuth Client Secret</span>
-                </label>
-                <input
-                  className="input input-bordered"
-                  placeholder="Client Secret"
-                  required
-                  type="text"
-                  {...register('githubClientSecret')}
-                />
-                <label className="label">
-                  <a
-                    className="label-text-alt link link-hover"
-                    href="https://docs.github.com/developers/apps/building-oauth-apps/creating-an-oauth-app"
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    Get Client ID/Secret?
-                  </a>
-                </label>
-              </div>
+    <Center h="full">
+      <Box
+        p="3"
+        shadow="md"
+        w="lg"
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl isInvalid={!!errors.githubClientId}>
+            <FormLabel htmlFor="githubClientId">Github OAuth Client ID</FormLabel>
+            <Input
+              id="githubClientId"
+              placeholder="Client ID"
+              required
+              type="text"
+              {...register('githubClientId', { required: 'This is required' })}
+            />
+            <FormErrorMessage>
+              {errors.githubClientId && errors.githubClientId.message}
+            </FormErrorMessage>
+          </FormControl>
 
-              <div className="form-control mt-6">
-                <button
-                  className="btn btn-primary"
-                  type="submit"
-                >
-                  Bootstrap
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+          <FormControl isInvalid={!!errors.githubClientSecret}>
+            <FormLabel htmlFor="githubClientSecret">Github OAuth Client Secret</FormLabel>
+            <Input
+              id="githubClientSecret"
+              placeholder="Client Secret"
+              required
+              type="text"
+              {...register('githubClientSecret', { required: 'This is required' })}
+            />
+            <FormHelperText>
+              <a
+                href="https://docs.github.com/developers/apps/building-oauth-apps/creating-an-oauth-app"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Get Client ID/Secret?
+              </a>
+            </FormHelperText>
+            <FormErrorMessage>
+              {errors.githubClientSecret && errors.githubClientSecret.message}
+            </FormErrorMessage>
+          </FormControl>
+
+          <Box mt="6">
+            <Button
+              type="submit"
+              w="full"
+            >
+              Bootstrap
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    </Center>
   )
 }
 

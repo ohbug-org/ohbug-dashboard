@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import { Button } from '@chakra-ui/react'
 
 const LoginButton: FC = () => {
   const { data: session } = useSession()
@@ -7,24 +8,22 @@ const LoginButton: FC = () => {
     return (
       <>
         Signed in as {session.user?.email} <br />
-        <button
-          className="btn"
+        <Button
           onClick={() => signOut()}
         >
           Sign out
-        </button>
+        </Button>
       </>
     )
   }
   return (
     <>
       Not signed in <br />
-      <button
-        className="btn"
+      <Button
         onClick={() => signIn()}
       >
         Sign in
-      </button>
+      </Button>
     </>
   )
 }

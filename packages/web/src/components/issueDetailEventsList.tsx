@@ -1,3 +1,4 @@
+import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import type { FC } from 'react'
@@ -10,54 +11,54 @@ interface Props {
 
 const issueDetailEventsList: FC<Props> = ({ events }) => {
   return (
-    <div className="overflow-x-auto w-full">
-      <table className="table table-compact w-full">
-        <thead>
-          <tr>
-            <th>description</th>
-            <th>appType</th>
-            <th>appVersion</th>
-            <th>category</th>
-            <th>releaseStage</th>
-            <th>user</th>
-            <th>sdk</th>
-            <th>device</th>
-            <th>metadata</th>
-          </tr>
-        </thead>
-        <tbody>
+    <TableContainer>
+      <Table className="table table-compact w-full">
+        <Thead>
+          <Tr>
+            <Th>description</Th>
+            <Th>appType</Th>
+            <Th>appVersion</Th>
+            <Th>category</Th>
+            <Th>releaseStage</Th>
+            <Th>user</Th>
+            <Th>sdk</Th>
+            <Th>device</Th>
+            <Th>metadata</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
           {
             events?.map(event => (
-              <tr key={event.id}>
+              <Tr key={event.id}>
                 {/* description */}
-                <td>
+                <Td>
                   <Link href={`/issues/${event.issueId}/?eventId=${event.id}`}>
                     <a>{dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}</a>
                   </Link>
                   <div>{event.type}: {renderStringOrJson(event.detail.message ?? event.detail)}</div>
-                </td>
+                </Td>
                 {/* appType */}
-                <td>{event.appType}</td>
+                <Td>{event.appType}</Td>
                 {/* appVersion */}
-                <td>{event.appVersion}</td>
+                <Td>{event.appVersion}</Td>
                 {/* category */}
-                <td>{event.category}</td>
+                <Td>{event.category}</Td>
                 {/* releaseStage */}
-                <td>{event.releaseStage}</td>
+                <Td>{event.releaseStage}</Td>
                 {/* user */}
-                <td>{renderStringOrJson(event.user)}</td>
+                <Td>{renderStringOrJson(event.user)}</Td>
                 {/* sdk */}
-                <td>{renderStringOrJson(event.sdk)}</td>
+                <Td>{renderStringOrJson(event.sdk)}</Td>
                 {/* device */}
-                <td>{renderStringOrJson(event.device)}</td>
+                <Td>{renderStringOrJson(event.device)}</Td>
                 {/* metadata */}
-                <td>{renderStringOrJson(event.metadata)}</td>
-              </tr>
+                <Td>{renderStringOrJson(event.metadata)}</Td>
+              </Tr>
             ))
           }
-        </tbody>
-      </table>
-    </div>
+        </Tbody>
+      </Table>
+    </TableContainer>
   )
 }
 

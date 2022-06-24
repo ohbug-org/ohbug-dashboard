@@ -1,3 +1,4 @@
+import { Box, Center, Stat, StatLabel, StatNumber } from '@chakra-ui/react'
 import type { FC } from 'react'
 import type { Issue } from 'types'
 import { renderStringOrJson } from '~/libs/utils'
@@ -8,44 +9,49 @@ interface Props {
 
 const IssueDetailTitle: FC<Props> = ({ issue }) => {
   return (
-    <div className="flex justify-between items-center">
-      <div className="flex-1">
-        <a className="max-w-md truncate">
-          <span
-            aria-label="issue metadata type"
-            className="font-semibold mr-2"
+    <Center>
+      <Box flex="1">
+        <Box
+          as="a"
+          maxW="md"
+          noOfLines={1}
+        >
+          <Box
+            as="span"
+            fontWeight="bold"
+            mr="2"
           >
             {issue.type}
-          </span>
-          <code aria-label="issue description">
+          </Box>
+          <code>
             {renderStringOrJson(issue.metadata.filename ?? issue.metadata.others)}
           </code>
-        </a>
-        <div
-          aria-label="issue metadata message"
-          className="text-gray-500 line-clamp-2"
+        </Box>
+        <Box
+          noOfLines={[1, 2]}
+          textColor="gray.400"
         >
           {
             issue.metadata.message && (
-              <code aria-label="issue metadata message">
+              <code>
                 {renderStringOrJson(issue.metadata.message)}
               </code>
             )
           }
-        </div>
-      </div>
+        </Box>
+      </Box>
 
-      <div className="stats">
-        <div className="stat">
-          <div className="stat-title">事件</div>
-          <div className="stat-value">{issue._count?.events}</div>
-        </div>
-        <div className="stat">
-          <div className="stat-title">用户</div>
-          <div className="stat-value">{issue._count?.users}</div>
-        </div>
-      </div>
-    </div>
+      <Box>
+        <Stat>
+          <StatLabel>事件</StatLabel>
+          <StatNumber>{issue._count?.events}</StatNumber>
+        </Stat>
+        <Stat>
+          <StatLabel>用户</StatLabel>
+          <StatNumber>{issue._count?.users}</StatNumber>
+        </Stat>
+      </Box>
+    </Center>
   )
 }
 

@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react'
 import type { GetServerSideProps, NextPage } from 'next'
 import type { Issue } from 'types'
 import Breadcrumb from '~/components/breadcrumb'
@@ -18,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
 
 const Detail: NextPage<Props> = ({ issue }) => {
   return (
-    <div>
+    <Box>
       <Breadcrumb />
 
       <IssueDetailTitle issue={issue} />
@@ -26,7 +27,7 @@ const Detail: NextPage<Props> = ({ issue }) => {
       <IssueDetailTabs />
 
       <IssueDetailEventsList events={issue.events} />
-    </div>
+    </Box>
   )
 }
 

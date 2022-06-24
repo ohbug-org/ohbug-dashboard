@@ -1,7 +1,7 @@
 import type { FC, ReactElement, ReactNode } from 'react'
 import { useMemo, useState } from 'react'
-import clsx from 'clsx'
 import type { Result } from 'source-map-trace'
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, FormControl, FormLabel, Switch, Text } from '@chakra-ui/react'
 
 interface Props {
   stack: string
@@ -13,14 +13,52 @@ const StackInfo: FC<Props> = ({ stack, source }) => {
 
   const title = useMemo(
     () => (
-      <div>
-        <code className="font-semibold mx-1">{source?.parsed?.source}</code>
-        <span className="m-0 mx-1 opacity-60">in</span>
-        <code className="font-semibold mx-1">{source?.parsed?.name}</code>
-        <span className="m-0 mx-1 opacity-60">at line</span>
-        <code className="font-semibold mx-1">{source?.parsed?.line}:</code>
-        <code className="font-semibold mx-1">{source?.parsed?.column}</code>
-      </div>
+      <Box>
+        <Text
+          as="code"
+          fontWeight="bold"
+          mx="1"
+        >
+          {source?.parsed?.source}
+        </Text>
+        <Text
+          display="inline-block"
+          m="0"
+          mx="1"
+          opacity="0.6"
+        >
+          in
+        </Text>
+        <Text
+          as="code"
+          fontWeight="bold"
+          mx="1"
+        >
+          {source?.parsed?.name}
+        </Text>
+        <Text
+          display="inline-block"
+          m="0"
+          mx="1"
+          opacity="0.6"
+        >
+          at line
+        </Text>
+        <Text
+          as="code"
+          fontWeight="bold"
+          mx="1"
+        >
+          {source?.parsed?.line}:
+        </Text>
+        <Text
+          as="code"
+          fontWeight="bold"
+          mx="1"
+        >
+          {source?.parsed?.column}
+        </Text>
+      </Box>
     ),
     [source],
   )
@@ -30,35 +68,47 @@ const StackInfo: FC<Props> = ({ stack, source }) => {
         return typeof stack === 'string' ? stack : JSON.stringify(stack)
       case 'code':
         return (
-          <div className="collapse collapse-arrow collapse-open bg-base-100 rounded-box">
-            <input
-              className="peer"
-              type="checkbox"
-            />
-            <div className="collapse-title">
-              {title}
-            </div>
-            <div className="collapse-content">
-              <ol
-                className="m-0 py-2 list-inside"
-                start={source?.code?.[0].number}
-              >
-                {
-                  source?.code?.map(({ code, number, highlight }): ReactElement => {
-                    const classes = clsx('pl-6 leading-6', { 'text-white bg-error': highlight })
-                    return (
-                      <li
-                        className={classes}
-                        key={number}
-                      >
-                        <span className="pl-6">{code}</span>
-                      </li>
-                    )
-                  })
-                }
-              </ol>
-            </div>
-          </div>
+          <Accordion allowToggle>
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box
+                    flex="1"
+                    textAlign="left"
+                  >
+                    {title}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <Box
+                  as="ol"
+                  listStylePosition="inside"
+                  listStyleType="decimal"
+                  m="0"
+                  py="2"
+                  start={source?.code?.[0].number}
+                >
+                  {
+                    source?.code?.map(({ code, number, highlight }): ReactElement => {
+                      return (
+                        <Box
+                          as="li"
+                          bg={highlight ? 'red.500' : 'inherit'}
+                          key={number}
+                          pl="6"
+                          textColor={highlight ? 'white' : 'inherit'}
+                        >
+                          <span>{code}</span>
+                        </Box>
+                      )
+                    })
+                  }
+                </Box>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
         )
       default:
         return null
@@ -66,21 +116,30 @@ const StackInfo: FC<Props> = ({ stack, source }) => {
   }, [source, stack, toggle, title])
 
   return (
-    <div>
-      <div className="form-control">
-        <label className="label cursor-pointer">
-          <span className="label-text">{toggle}</span>
-          <input
-            checked={toggle === 'code'}
-            className="toggle"
-            onChange={e => setToggle(e.target.checked ? 'code' : 'raw')}
-            type="checkbox"
-          />
-        </label>
-      </div>
+    <Box>
+      <FormControl>
+        <FormLabel
+          display="inline-block"
+          htmlFor="switchCodeAndRaw"
+        >
+          {toggle === 'code' ? 'Code' : 'Raw'}
+        </FormLabel>
+        <Switch
+          checked={toggle === 'code'}
+          id="switchCodeAndRaw"
+          onChange={e => setToggle(e.target.checked ? 'code' : 'raw')}
+          size="md"
+        />
+      </FormControl>
 
-      <pre className="mt-4 whitespace-pre-wrap break-words">{content}</pre>
-    </div>
+      <Box
+        as="pre"
+        mt="4"
+        wordBreak="break-word"
+      >
+        {content}
+      </Box>
+    </Box>
   )
 }
 

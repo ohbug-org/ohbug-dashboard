@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
 
 interface Props {
@@ -6,12 +7,12 @@ interface Props {
 
 const Layout: FC<Props> = ({ children }) => {
   return (
-    <>
-      <header className="fixed top-0 w-full h-12 bg-white bg-opacity-40 z-40 backdrop-blur">
-        header
-      </header>
-      <main className="pt-12 flex-1">{children}</main>
-    </>
+    <Box
+      as="main"
+      h="inherit"
+    >
+      {children}
+    </Box>
   )
 }
 

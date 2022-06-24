@@ -3,7 +3,8 @@ import type { FC } from 'react'
 import { useMemo } from 'react'
 import type { OhbugEventLike } from 'types'
 import { RiCake2Line, RiCake3Line, RiCakeLine, RiComputerLine, RiEarthLine, RiFingerprintLine, RiHeading, RiLinkedinLine, RiLinksLine, RiTimeLine } from 'react-icons/ri'
-import Link from 'next/link'
+import NextLink from 'next/link'
+import { Box, Icon, Link, Stat, StatHelpText, StatLabel, Tag, Tooltip, Wrap, WrapItem } from '@chakra-ui/react'
 import { getDeviceInfo } from '~/libs/utils'
 
 interface Props {
@@ -19,7 +20,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'time',
         title: `发生时间: ${dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}`,
         value: dayjs(event.timestamp).fromNow(),
-        icon: <RiTimeLine />,
+        icon: RiTimeLine,
       })
     }
     if (event?.user?.uuid) {
@@ -27,7 +28,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'uuid',
         title: `UUID: ${event?.user?.uuid}`,
         value: event?.user?.uuid,
-        icon: <RiFingerprintLine />,
+        icon: RiFingerprintLine,
       })
     }
     if (event?.user?.ipAddress) {
@@ -35,7 +36,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'ip',
         title: `IP: ${event?.user?.ipAddress}`,
         value: event?.user?.ipAddress,
-        icon: <RiLinksLine />,
+        icon: RiLinksLine,
       })
     }
     if (event?.device?.title) {
@@ -43,7 +44,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'title',
         title: `标题: ${event.device.title}`,
         value: event.device.title,
-        icon: <RiHeading />,
+        icon: RiHeading,
       })
     }
     if (event?.device?.url) {
@@ -51,7 +52,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'url',
         title: `URL: ${event.device.url}`,
         value: event.device.url,
-        icon: <RiLinkedinLine />,
+        icon: RiLinkedinLine,
       })
     }
     if (event?.device?.language) {
@@ -59,7 +60,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'language',
         title: `Language: ${event.device.language}`,
         value: event.device.language,
-        icon: <RiEarthLine />,
+        icon: RiEarthLine,
       })
     }
     if (event?.appVersion) {
@@ -67,7 +68,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'appVersion',
         title: `AppVersion: ${event.appVersion}`,
         value: event.appVersion,
-        icon: <RiCakeLine />,
+        icon: RiCakeLine,
       })
     }
     if (event?.appType) {
@@ -75,7 +76,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'appType',
         title: `AppType: ${event.appType}`,
         value: event.appType,
-        icon: <RiCake2Line />,
+        icon: RiCake2Line,
       })
     }
     if (event?.releaseStage) {
@@ -83,7 +84,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'releaseStage',
         title: `ReleaseStage: ${event.releaseStage}`,
         value: event.releaseStage,
-        icon: <RiCake3Line />,
+        icon: RiCake3Line,
       })
     }
     if (
@@ -95,7 +96,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         key: 'dpi',
         title: `分辨率: ${event?.device?.device?.screenWidth} × ${event?.device?.device?.screenHeight} @ ${event?.device?.device?.pixelRatio}x`,
         value: `${event?.device?.device?.screenWidth} × ${event?.device?.device?.screenHeight} @ ${event?.device?.device?.pixelRatio}x`,
-        icon: <RiComputerLine />,
+        icon: RiComputerLine,
       })
     }
 
@@ -104,84 +105,103 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
 
   return (
     <>
-      <div>
-        <h4>
-          事件 {' '}
-          <Link
-            as={`/api/events/${event.id}`}
-            href={{
+      <Box>
+        事件 {' '}
+        <NextLink
+          as={`/api/events/${event.id}`}
+          href={
+            {
               href: 'api/events/[id]',
               query: { id: event.id },
-            }}
-          >
-            <a target="_blank">{event.id}</a>
-          </Link>
-        </h4>
-      </div>
+            }
+          }
+        >
+          <Link isExternal>{event.id}</Link>
+        </NextLink>
+      </Box>
 
-      <div>
-        <div className="stats shadow">
-          {/* 浏览器 */}
-          {deviceInfo?.browser && (
-            <div className="stat">
-              <div className="stat-title">{deviceInfo?.browser?.name ?? ''}</div>
-              <div className="stat-desc">{deviceInfo?.browser?.version ?? ''}</div>
-            </div>
-          )}
-          {/* 系统 */}
-          {deviceInfo?.os && (
-            <div className="stat">
-              <div className="stat-title">{deviceInfo?.os?.name ?? ''}</div>
-              <div className="stat-desc">{deviceInfo?.os?.version ?? ''}</div>
-            </div>
-          )}
-          {/* App */}
-          {deviceInfo?.app && (
-            <div className="stat">
-              <div className="stat-title">{deviceInfo?.app ?? ''}</div>
-              <div className="stat-desc">{`${deviceInfo?.version} / ${deviceInfo?.SDKVersion}`}</div>
-            </div>
-          )}
-          {/* 品牌 */}
-          {(deviceInfo?.device && deviceInfo?.device?.brand) && (
-            <div className="stat">
-              <div className="stat-title">{deviceInfo?.device?.brand ?? ''}</div>
-              <div className="stat-desc">{deviceInfo?.device?.model ?? ''}</div>
-            </div>
-          )}
-          {/* 平台 */}
-          {deviceInfo?.platform && (
-            <div className="stat">
-              <div className="stat-title">{deviceInfo?.platform ?? ''}</div>
-              <div className="stat-desc">{deviceInfo?.system ?? ''}</div>
-            </div>
-          )}
-          {/* SDK */}
-          {deviceInfo?.sdk && (
-            <div className="stat">
-              <div className="stat-title">{deviceInfo?.sdk.platform ?? ''}</div>
-              <div className="stat-desc">{deviceInfo?.sdk.version ?? ''}</div>
-            </div>
-          )}
-        </div>
-      </div>
+      <Box shadow="md">
+        {/* 浏览器 */}
+        {
+          deviceInfo?.browser && (
+            <Stat>
+              <StatLabel>{deviceInfo?.browser?.name ?? ''}</StatLabel>
+              <StatHelpText>{deviceInfo?.browser?.version ?? ''}</StatHelpText>
+            </Stat>
+          )
+        }
+        {/* 系统 */}
+        {
+          deviceInfo?.os && (
+            <Stat>
+              <StatLabel>{deviceInfo?.os?.name ?? ''}</StatLabel>
+              <StatHelpText>{deviceInfo?.os?.version ?? ''}</StatHelpText>
+            </Stat>
+          )
+        }
+        {/* App */}
+        {
+          deviceInfo?.app && (
+            <Stat>
+              <StatLabel>{deviceInfo?.app ?? ''}</StatLabel>
+              <StatHelpText>{`${deviceInfo?.version} / ${deviceInfo?.SDKVersion}`}</StatHelpText>
+            </Stat>
+          )
+        }
+        {/* 品牌 */}
+        {
+          (deviceInfo?.device && deviceInfo?.device?.brand) && (
+            <Stat>
+              <StatLabel>{deviceInfo?.device?.brand ?? ''}</StatLabel>
+              <StatHelpText>{deviceInfo?.device?.model ?? ''}</StatHelpText>
+            </Stat>
+          )
+        }
+        {/* 平台 */}
+        {
+          deviceInfo?.platform && (
+            <Stat>
+              <StatLabel>{deviceInfo?.platform ?? ''}</StatLabel>
+              <StatHelpText>{deviceInfo?.system ?? ''}</StatHelpText>
+            </Stat>
+          )
+        }
+        {/* SDK */}
+        {
+          deviceInfo?.sdk && (
+            <Stat>
+              <StatLabel>{deviceInfo?.sdk.platform ?? ''}</StatLabel>
+              <StatHelpText>{deviceInfo?.sdk.version ?? ''}</StatHelpText>
+            </Stat>
+          )
+        }
+      </Box>
 
-      <div className="flex gap-2">
+      <Wrap>
         {
           tagList.map(tag => (
-            <div
-              className="tooltip"
-              data-tip={tag.title}
+            <Tooltip
               key={tag.key}
+              label={tag.title}
             >
-              <span className="badge badge-outline gap-2">
-                {tag.icon}
-                {tag.value}
-              </span>
-            </div>
+              <WrapItem>
+                <Tag
+                  borderRadius="full"
+                  gap="2"
+                  size="lg"
+                >
+                  <Icon
+                    as={tag.icon}
+                    h="5"
+                    w="5"
+                  />
+                  {tag.value}
+                </Tag>
+              </WrapItem>
+            </Tooltip>
           ))
         }
-      </div>
+      </Wrap>
     </>
   )
 }

@@ -5,6 +5,7 @@ import type { Issue } from 'types'
 import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
+import { Box, Center, Flex, FormControl, FormLabel, Icon, Switch, Text, Tooltip } from '@chakra-ui/react'
 import MiniChart from './miniChart'
 import type { serviceGetIssuesTrendsReturn } from '~/services/issues'
 import { renderStringOrJson } from '~/libs/utils'
@@ -17,122 +18,161 @@ const IssueList: FC<Props> = ({ issues }) => {
   const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(`/api/trends?ids=${issues.map(issue => issue.id)}&type=${chartType}`)
 
   return (
-    <div className="border rounded w-full h-full overflow-x-hidden overflow-y-auto">
+    <Box
+      border="1px"
+      borderColor="gray.200"
+      h="full"
+      overflowX="hidden"
+      overflowY="auto"
+      rounded="lg"
+      w="full"
+    >
       {/* header */}
-      <div className="py-3 px-2 flex bg-gray-50">
-        <div className="w-1/2">
+      <Flex
+        bg="gray.50"
+        px="2"
+        py="3"
+      >
+        <Box w="50%">
           message
-        </div>
+        </Box>
 
-        <div className="w-48">
-          <div className="form-control">
-            <label className="label cursor-pointer">
-              <span className="label-text">{chartType === '24h' ? '24小时' : '14天'}</span>
-              <input
-                checked={chartType === '24h'}
-                className="toggle"
-                disabled={!trends}
-                onChange={e => setChartType(e.target.checked ? '24h' : '14d')}
-                type="checkbox"
-              />
-            </label>
-          </div>
-        </div>
+        <Box w="48">
+          <FormControl
+            alignItems="center"
+            display="flex"
+          >
+            <FormLabel
+              htmlFor="trendsType"
+              mb="0"
+            >
+              {chartType === '24h' ? '24小时' : '14天'}
+            </FormLabel>
+            <Switch
+              disabled={!trends}
+              id="trendsType"
+              isChecked={chartType === '24h'}
+              onChange={e => setChartType(e.target.checked ? '24h' : '14d')}
+            />
+          </FormControl>
+        </Box>
 
-        <div className="w-20 flex items-center justify-center">
+        <Center w="20">
           Events
-        </div>
+        </Center>
 
-        <div className="w-20 flex items-center justify-center">
+        <Center w="20">
           Users
-        </div>
-      </div>
+        </Center>
+      </Flex>
 
-      <div>
+      <Box>
         {
           issues.map(issue => (
-            <div
-              aria-label="issue item"
-              className="opacity-60 py-3 px-2 flex hover:bg-gray-400 hover:bg-opacity-10 hover:opacity-100"
+            <Flex
+              _hover={
+                { bg: 'gray.50' }
+              }
               key={issue.id}
+              px="2"
+              py="3"
             >
               {/* main */}
-              <div className="w-1/2">
+              <Box w="50%">
                 <Link
-                  href={{
-                    pathname: '/issues/[id]',
-                    query: { id: issue.id },
-                  }}
+                  href={
+                    {
+                      pathname: '/issues/[id]',
+                      query: { id: issue.id },
+                    }
+                  }
                 >
-                  <a className="max-w-md truncate">
+                  <Flex
+                    as="a"
+                    cursor="pointer"
+                    justifyContent="space-between"
+                    noOfLines={1}
+                    w="full"
+                  >
                     {/* title */}
-                    <span
-                      aria-label="issue metadata type"
-                      className="font-semibold mr-2"
+                    <Box
+                      as="span"
+                      fontWeight="bold"
+                      mr="2"
                     >
                       {issue.type}
-                    </span>
+                    </Box>
                     {/* second description */}
-                    <code aria-label="issue description">
+                    <Box
+                      as="code"
+                      textColor="gray.400"
+                    >
                       {renderStringOrJson(issue.metadata.filename ?? issue.metadata.others)}
-                    </code>
-                  </a>
+                    </Box>
+                  </Flex>
                 </Link>
                 {/* message */}
-                <div
-                  aria-label="issue metadata message"
-                  className="text-gray-500 line-clamp-2"
+                <Text
+                  noOfLines={[1, 2]}
+                  textColor="gray.400"
                 >
                   {
                     issue.metadata.message && (
-                      <code aria-label="issue metadata message">
+                      <code>
                         {renderStringOrJson(issue.metadata.message)}
                       </code>
                     )
                   }
-                </div>
+                </Text>
                 {/* other message (time/appType/...) */}
-                <div>
+                <Box>
                   {/* appType */}
                   {/* time */}
-                  <div className="flex items-center text-xs">
-                    <RiTimeLine className="mr-2"/>
-                    <span
-                      className="tooltip"
-                      data-tip={`最后出现时间 ${dayjs(issue.updatedAt).format()}`}
-                    >
+                  <Flex
+                    alignItems="center"
+                    fontSize="xs"
+                  >
+                    <Icon
+                      as={RiTimeLine}
+                      mr="2"
+                    />
+                    <Tooltip label={`最后出现时间 ${dayjs(issue.updatedAt).format()}`}>
                       {dayjs(issue.updatedAt).fromNow()}
-                    </span>
-                    <span className="mx-1">|</span>
-                    <span
-                      className="tooltip"
-                      data-tip={`首次出现时间 ${dayjs(issue.createdAt).format()}`}
-                    >
-                      {dayjs(issue.createdAt).fromNow()}
-                    </span>
-                  </div>
-                </div>
-              </div>
+                    </Tooltip>
 
-              <div className="w-48">
+                    <Box
+                      as="span"
+                      mx="1"
+                    >
+                      |
+                    </Box>
+
+                    <Tooltip label={`首次出现时间 ${dayjs(issue.createdAt).format()}`}>
+                      {dayjs(issue.createdAt).fromNow()}
+                    </Tooltip>
+                  </Flex>
+                </Box>
+              </Box>
+
+              <Box w="48">
                 <MiniChart
                   data={trends?.[issue.id]}
                   type={chartType}
                 />
-              </div>
+              </Box>
 
-              <div className="w-20 flex items-center justify-center">
+              <Center w="20">
                 {issue._count?.events}
-              </div>
+              </Center>
 
-              <div className="w-20 flex items-center justify-center">
+              <Center w="20">
                 {issue._count?.users}
-              </div>
-            </div>
+              </Center>
+            </Flex>
           ))
         }
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

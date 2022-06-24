@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import type { Issue } from 'types'
+import { Box, Text } from '@chakra-ui/react'
 import MiniChart from './miniChart'
 import type { Trend } from '~/services/issues'
 
@@ -14,53 +15,49 @@ interface Props {
 
 const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
   return (
-    <div>
-      <div className="!mb-4">
-        {trends['14d'] && (
-          <MiniChart
-            data={trends['14d']}
-            title="过去14天"
-            type="14d"
-          />
-        )}
-      </div>
-      <div className="!mb-4">
-        {trends['24h'] && (
-          <MiniChart
-            data={trends['24h']}
-            title="过去24小时"
-            type="24h"
-          />
-        )}
-      </div>
+    <Box>
+      <Box mb="4">
+        {
+          trends['14d'] && (
+            <MiniChart
+              data={trends['14d']}
+              title="过去14天"
+              type="14d"
+            />
+          )
+        }
+      </Box>
+      <Box mb="4">
+        {
+          trends['24h'] && (
+            <MiniChart
+              data={trends['24h']}
+              title="过去24小时"
+              type="24h"
+            />
+          )
+        }
+      </Box>
 
-      <div className="!mb-4">
-        <h5>首次发生</h5>
-        <div>
-          <div className="text-secondary">
-            {dayjs(issue?.createdAt).fromNow()}
-          </div>
-        </div>
-        <div>
-          <div className="text-secondary">
-            {dayjs(issue?.createdAt).format('YYYY-MM-DD HH:mm:ss A')}
-          </div>
-        </div>
-      </div>
-      <div className="!mb-4">
-        <h5>最近发生</h5>
-        <div>
-          <div className="text-secondary">
-            {dayjs(issue?.updatedAt).fromNow()}
-          </div>
-        </div>
-        <div>
-          <div className="text-secondary">
-            {dayjs(issue?.updatedAt).format('YYYY-MM-DD HH:mm:ss A')}
-          </div>
-        </div>
-      </div>
-    </div>
+      <Box mb="4">
+        <Text fontWeight="bold">首次发生</Text>
+        <Text color="dimmed">
+          {dayjs(issue?.createdAt).fromNow()}
+        </Text>
+        <Text color="dimmed">
+          {dayjs(issue?.createdAt).format('YYYY-MM-DD HH:mm:ss A')}
+        </Text>
+      </Box>
+      <Box mb="4">
+        <Text fontWeight="bold">最近发生</Text>
+        <Text color="dimmed">
+          {dayjs(issue?.updatedAt).fromNow()}
+        </Text>
+        <Text color="dimmed">
+          {dayjs(issue?.updatedAt).format('YYYY-MM-DD HH:mm:ss A')}
+        </Text>
+      </Box>
+    </Box>
   )
 }
 

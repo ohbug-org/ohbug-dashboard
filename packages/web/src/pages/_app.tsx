@@ -1,12 +1,13 @@
 import type { NextPage } from 'next'
 import type { ReactElement, ReactNode } from 'react'
 import type { AppProps } from 'next/app'
+import { ChakraProvider } from '@chakra-ui/react'
 import { SessionProvider } from 'next-auth/react'
 import { SWRConfig } from 'swr'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Layout from '../components/layout'
-import '~/styles/globals.css'
+import theme from '~/styles/theme'
 
 dayjs.extend(relativeTime)
 
@@ -26,7 +27,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWith
       <SWRConfig
         value={{ fetcher: (resource, init) => fetch(resource, init).then(res => res.json()) }}
       >
-        <Component {...pageProps} />
+        <ChakraProvider theme={theme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
       </SWRConfig>
     </SessionProvider>
   ))

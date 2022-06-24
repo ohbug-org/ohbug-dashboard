@@ -1,8 +1,8 @@
 import type { FC } from 'react'
-import { useMemo } from 'react'
-import clsx from 'clsx'
+import { useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { Tab, TabList, Tabs } from '@chakra-ui/react'
 
 const IssueDetailTabs: FC = () => {
   const router = useRouter()
@@ -18,22 +18,29 @@ const IssueDetailTabs: FC = () => {
       href: '/issues/[id]/events'.replace('[id]', router.query.id as string),
     },
   ], [router])
+  const active = useMemo(() => list.findIndex(item => item.href === router.route.replace('[id]', router.query.id as string)), [list, router])
+  const handleTabChange = useCallback((tabIndex: number) => {
+    router.push(list[tabIndex].href)
+  }, [list])
 
   return (
-    <div className="tabs">
-      {
-        list.map(v => (
-          <Link
-            href={v.href}
-            key={v.value}
-          >
-            <a className={clsx('tab tab-lifted', { 'tab-active': router.route.replace('[id]', router.query.id as string) === v.href })}>
-              {v.label}
-            </a>
-          </Link>
-        ))
-      }
-    </div>
+    <Tabs
+      defaultIndex={active}
+      onChange={handleTabChange}
+      variant="enclosed"
+    >
+      <TabList>
+        {
+          list.map(v => (
+            <Tab key={v.value}>
+              <Link href={v.href}>
+                <a>{v.label}</a>
+              </Link>
+            </Tab>
+          ))
+        }
+      </TabList>
+    </Tabs>
   )
 }
 

@@ -63,12 +63,14 @@ const MiniChart: FC<MiniChartProps> = memo(({ type, data, title }) => {
 
   return (
     <div>
-      {title && (
-        <div className="font-semibold">
-          <i />
-          {title}
-        </div>
-      )}
+      {
+        title && (
+          <div className="font-semibold">
+            <i />
+            {title}
+          </div>
+        )
+      }
       <HighchartsReact
         highcharts={Highcharts}
         options={options}

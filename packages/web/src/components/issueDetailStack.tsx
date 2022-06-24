@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import type { OhbugEventLike } from 'types'
+import { Box } from '@chakra-ui/react'
 import StackInfo from './stackInfo'
 import { renderStringOrJson } from '~/libs/utils'
 
@@ -9,53 +10,53 @@ interface Props {
 
 const IssueDetailStack: FC<Props> = ({ event }) => {
   return (
-    <div>
+    <Box>
       {/* all */}
       {
         event.detail.message && (
-          <div className="!mb-4">
+          <Box mb="4">
             {renderStringOrJson(event.detail.message)}
-          </div>
+          </Box>
         )
       }
       {/* unhandledrejectionError */}
       {/* uncaughtError */}
       {
         event.detail.stack && (
-          <div className="!mb-4">
+          <Box mb="4">
             <StackInfo
               source={event?.source}
               stack={event.detail.stack}
             />
-          </div>
+          </Box>
         )
       }
       {/* resourceError */}
       {
         event?.detail.selector && (
-          <div className="!mb-4">
+          <Box mb="4">
             {renderStringOrJson(event.detail)}
-          </div>
+          </Box>
         )
       }
       {/* ajaxError */}
       {/* fetchError */}
       {
         event?.type === 'ajaxError' && (
-          <div className="!mb-4">
+          <Box mb="4">
             {renderStringOrJson(event.detail)}
-          </div>
+          </Box>
         )
       }
       {/* websocketError */}
       {
         event?.type === 'websocketError' && (
-          <div className="!mb-4">
+          <Box mb="4">
             {renderStringOrJson(event.detail)}
-          </div>
+          </Box>
         )
       }
-    </div>
+    </Box>
   )
 }
 

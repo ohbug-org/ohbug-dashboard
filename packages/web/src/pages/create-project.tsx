@@ -1,8 +1,11 @@
+import { Box, Button, Center, FormControl, FormErrorMessage, FormLabel, Input, Select } from '@chakra-ui/react'
 import type { Project } from '@prisma/client'
 import { useRouter } from 'next/router'
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+
+type OmitProject = Omit<Project, 'id' | 'apiKey' | 'createdAt' | 'updatedAt'>
 
 const projectTypes = [
   {
@@ -13,8 +16,8 @@ const projectTypes = [
 
 const CreateProject: FC = () => {
   const router = useRouter()
-  const { register, handleSubmit } = useForm<Project>()
-  const onSubmit = useCallback((data: Project) => {
+  const { handleSubmit, register, formState: { errors } } = useForm<OmitProject>()
+  const onSubmit = useCallback((data: OmitProject) => {
     fetch(
       '/api/projects',
       {
@@ -31,57 +34,61 @@ const CreateProject: FC = () => {
   }, [])
 
   return (
-    <div className="hero min-h-screen">
-      <div className="hero-content">
-        <div className="card flex-shrink-0 w-96 shadow-2xl bg-base-100">
-          <div className="card-body">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Project Name</span>
-                </label>
-                <input
-                  className="input input-bordered"
-                  placeholder="Input Project Name"
-                  required
-                  type="text"
-                  {...register('name')}
-                />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Project Type</span>
-                </label>
-                <select
-                  className="select select-bordered w-full max-w-xs"
-                  {...register('type')}
-                >
-                  {
-                    projectTypes.map(type => (
-                      <option
-                        key={type.value}
-                        value={type.value}
-                      >
-                        {type.label}
-                      </option>
-                    ))
-                  }
-                </select>
-              </div>
+    <Center h="full">
+      <Box
+        p="3"
+        shadow="md"
+        w="lg"
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl isInvalid={!!errors.name}>
+            <FormLabel htmlFor="name">Project Name</FormLabel>
+            <Input
+              id="name"
+              placeholder="Input Project Name"
+              required
+              type="text"
+              {...register('name', { required: 'This is required' })}
+            />
+            <FormErrorMessage>
+              {errors.name && errors.name.message}
+            </FormErrorMessage>
+          </FormControl>
 
-              <div className="form-control mt-6">
-                <button
-                  className="btn btn-primary"
-                  type="submit"
-                >
-                  Create Project
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+          <FormControl isInvalid={!!errors.type}>
+            <FormLabel htmlFor="type">Project Type</FormLabel>
+            <Select
+              id="type"
+              required
+              {...register('type', { required: 'This is required' })}
+            >
+              {
+                projectTypes.map(({ label, value }) => (
+                  <option
+                    key={value}
+                    value={value}
+                  >
+                    {label}
+                  </option>
+                ))
+              }
+            </Select>
+            <FormErrorMessage>
+              {errors.type && errors.type.message}
+            </FormErrorMessage>
+          </FormControl>
+
+          <Box mt="6">
+            <Button
+              type="submit"
+              w="full"
+            >
+              Create Project
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    </Center>
   )
 }
 

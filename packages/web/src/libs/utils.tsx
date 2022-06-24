@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import type { OhbugAction, OhbugEvent } from '@ohbug/types'
 import UA from 'ua-parser-js'
+import { Text } from '@chakra-ui/react'
 
 export function renderStringOrJson(value: any) {
   return typeof value === 'string'
@@ -65,10 +66,10 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
       }
       return {
         message: (
-          <div>
+          <>
             <span>{action.message}</span>{' '}
-            <span className="text-secondary">{renderStringOrJson(action.data)}</span>
-          </div>
+            <Text color="gray.500">{renderStringOrJson(action.data)}</Text>
+          </>
         ),
         icon: '🖱️',
       }
@@ -112,10 +113,10 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
     default:
       return {
         message: (
-          <div>
+          <>
             <span>{action.message}</span>{' '}
-            <span className="text-secondary">{renderStringOrJson(action.data)}</span>
-          </div>
+            <Text color="gray.500">{renderStringOrJson(action.data)}</Text>
+          </>
         ),
         icon: null,
       }

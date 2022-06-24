@@ -1,3 +1,4 @@
+import { Box, Center, Flex, Text, Tooltip } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import type { OhbugEventLike } from 'types'
@@ -9,56 +10,86 @@ interface Props {
 
 const IssueDetailActions: FC<Props> = ({ event }) => {
   return (
-    <div>
-      <ul className="steps steps-vertical max-h-96 overflow-y-auto">
-        {event?.actions?.map((action) => {
+    <Box>
+      {
+        event?.actions?.map((action) => {
           const { message, icon } = getMessageAndIconByActionType(action)
           return (
-            <li
-              className="step step-neutral"
-              data-content={icon}
+            <Flex
+              alignItems="center"
+              gap="2"
+              justifyContent="space-between"
               key={action.timestamp + action.data}
             >
-              <div className="w-full flex justify-between items-center">
-                <div className="font-bold w-24">
-                  {action.type}
-                </div>
-                <div className="flex-1 text-secondary text-left">{message}</div>
-                <div
-                  className="tooltip"
-                  data-tip={dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}
+              <Center>
+                <Box>{icon}</Box>
+                <Text
+                  fontWeight="bold"
+                  w="80px"
                 >
-                  <div className="w-20 text-secondary">
-                    {dayjs(event.timestamp).format('HH:mm:ss')}
-                  </div>
-                </div>
-              </div>
-            </li>
+                  {action.type}
+                </Text>
+              </Center>
+
+              <Box flex="1">
+                <Text
+                  color="dimmed"
+                  size="sm"
+                >
+                  {message}
+                </Text>
+              </Box>
+
+              <Tooltip
+                label={dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}
+              >
+                <Text
+                  color="dimmed"
+                  size="sm"
+                >
+                  {dayjs(event.timestamp).format('HH:mm:ss')}
+                </Text>
+              </Tooltip>
+            </Flex>
           )
-        })}
-        <li
-          className="step step-neutral step-error"
-          data-content="🐛"
+        })
+      }
+      <Flex
+        alignItems="center"
+        gap="2"
+        justifyContent="space-between"
+      >
+        <Center>
+          <Box>🐛</Box>
+          <Text
+            fontWeight="bold"
+            w="80px"
+          >
+            exception
+          </Text>
+        </Center>
+
+        <Box flex="1">
+          <Text
+            color="dimmed"
+            size="sm"
+          >
+            {renderStringOrJson(event.detail.message)}
+          </Text>
+        </Box>
+
+        <Tooltip
+          label={dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}
         >
-          <div className="w-full flex justify-between items-center">
-            <div className="font-bold w-24">
-                exception
-            </div>
-            <div className="flex-1 text-secondary text-left">
-              {renderStringOrJson(event.detail.message)}
-            </div>
-            <div
-              className="tooltip"
-              data-tip={dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}
-            >
-              <div className="w-20 text-secondary">
-                {dayjs(event.timestamp).format('HH:mm:ss')}
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+          <Text
+            color="dimmed"
+            size="sm"
+          >
+            {dayjs(event.timestamp).format('HH:mm:ss')}
+          </Text>
+        </Tooltip>
+      </Flex>
+    </Box>
   )
 }
 
