@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+import { useSWRConfig } from 'swr'
 
 type OmitProject = Omit<Project, 'id' | 'apiKey' | 'createdAt' | 'updatedAt'>
 
@@ -16,6 +17,7 @@ const projectTypes = [
 
 const CreateProject: FC = () => {
   const router = useRouter()
+  const { mutate } = useSWRConfig()
   const { handleSubmit, register, formState: { errors } } = useForm<OmitProject>()
   const onSubmit = useCallback((data: OmitProject) => {
     fetch(
@@ -28,8 +30,8 @@ const CreateProject: FC = () => {
     )
       .then(res => res.json())
       .then((project) => {
-        if (project)
-          router.replace('/')
+        if (project) router.replace('/')
+        mutate('/api/projects')
       })
   }, [])
 

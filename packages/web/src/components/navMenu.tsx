@@ -1,84 +1,62 @@
 import type { FC } from 'react'
-import { Button, Collapse, Flex, Icon, Text, Tooltip } from '@chakra-ui/react'
-import { RiArchiveDrawerLine, RiFireLine, RiSettings4Line, RiTerminalBoxLine } from 'react-icons/ri'
-import type { IconType } from 'react-icons'
+import { Button, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 interface NavMenuItem {
   label: string
-  icon: IconType
   link: string
 }
 const navMenuList: NavMenuItem[] = [
   {
     label: 'Projects',
-    icon: RiArchiveDrawerLine,
     link: '/projects',
   },
   {
     label: 'Issues',
-    icon: RiTerminalBoxLine,
     link: '/issues',
   },
   {
     label: 'Releases',
-    icon: RiFireLine,
     link: '/releases',
   },
   {
     label: 'Settings',
-    icon: RiSettings4Line,
     link: '/settings',
   },
 ]
 
-interface Props {
-  collapsed: boolean
-}
-
-const NavMenu: FC<Props> = ({ collapsed }) => {
+const NavMenu: FC = () => {
   const router = useRouter()
 
   return (
     <Flex
       align="center"
-      direction="column"
-      justify="space-between"
+      gap="4"
+      h="full"
       w="full"
     >
       {
         navMenuList.map((item) => {
           const active = router.route.includes(item.link)
           return (
-            <Tooltip
-              isDisabled={!collapsed}
+            <Flex
+              align="center"
+              borderBottom={active ? '1px' : ''}
+              h="full"
               key={item.link}
-              label={item.label}
-              placement="right"
             >
               <Button
                 alignItems="center"
-                gap="4"
-                justifyContent={collapsed ? 'center' : 'start'}
+                gap="2"
+                justifyContent="start"
                 onClick={() => router.push(item.link)}
+                size="sm"
                 textColor={active ? 'gray.800' : 'gray.500'}
-                variant={active ? 'solid' : 'ghost'}
-                w="full"
+                variant="ghost"
               >
-                <Icon
-                  as={item.icon}
-                  h="6"
-                  w="6"
-                />
-                <Collapse
-                  animateOpacity
-                  in={!collapsed}
-                  unmountOnExit
-                >
-                  <Text >{item.label}</Text>
-                </Collapse>
+                <Text>{item.label}</Text>
               </Button>
-            </Tooltip>
+            </Flex>
           )
         })
       }

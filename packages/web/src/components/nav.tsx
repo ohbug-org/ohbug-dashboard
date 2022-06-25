@@ -1,75 +1,61 @@
-import type { Dispatch, FC, SetStateAction } from 'react'
-import { useCallback } from 'react'
-import { Flex, IconButton, Tooltip } from '@chakra-ui/react'
-import { RiMenuFill } from 'react-icons/ri'
-import Link from 'next/link'
+import type { FC } from 'react'
+import { Box, Center, Flex, Link } from '@chakra-ui/react'
+import NextLink from 'next/link'
+import Image from 'next/image'
 import User from './user'
-import NavMenu from './navMenu'
+import Project from './project'
 
-interface Props {
-  collapsed: boolean
-  setCollapsed: Dispatch<SetStateAction<boolean>>
-}
+interface Props {}
 
-const Nav: FC<Props> = ({ collapsed, setCollapsed }) => {
-  const handleToggleCollapsed = useCallback(() => setCollapsed(prevState => !prevState), [])
-
+const Nav: FC<Props> = () => {
   return (
     <Flex
       align="center"
-      as="nav"
-      bg="gray.50"
-      direction="column"
+      bg="white"
+      h="full"
       justify="space-between"
-      p="4"
       w="full"
     >
-      <Flex direction="column">
-        <Tooltip
-          label="Home"
-          placement="right"
-        >
-          <Link href="/">
-            <IconButton
-              aria-label="logo"
-              icon={
-                (
-                  <img
-                    alt="logo"
-                    src="/logo.svg"
-                  />
-                )
-              }
-              size="lg"
-              variant="ghost"
+      <Flex gap="4">
+        <NextLink href="/">
+          <Box
+            as="a"
+            cursor="pointer"
+            h="16"
+            position="relative"
+            w="16"
+          >
+            <Image
+              alt="logo"
+              layout="fill"
+              src="/logo.svg"
             />
-          </Link>
-        </Tooltip>
-        <Tooltip
-          label="Toggle Navigation"
-          placement="right"
+          </Box>
+        </NextLink>
+
+        <Center
+          fontSize="24"
+          marginTop="-1"
+          textColor="gray.200"
         >
-          <IconButton
-            aria-label="toggle navigation"
-            icon={<RiMenuFill />}
-            onClick={handleToggleCollapsed}
-            size="lg"
-            variant="ghost"
-          />
-        </Tooltip>
+          /
+        </Center>
+
+        <Project />
       </Flex>
 
       <Flex
-        direction="column"
-        flex="1"
-        justify="start"
-        pt="8"
-        w="full"
+        align="center"
+        gap="4"
       >
-        <NavMenu collapsed={collapsed} />
+        <Link
+          href="https://ohbug.net/"
+          target="_blank"
+        >
+          Docs
+        </Link>
+        <User />
       </Flex>
-
-      <User />
     </Flex>
   )
 }

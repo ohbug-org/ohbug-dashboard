@@ -13,9 +13,9 @@ const ProjectCard: FC<Props> = ({ project }) => {
       boxShadow="lg"
       p="4"
       rounded="md"
-      w="xs"
+      w="sm"
     >
-      <Flex gap="4">
+      <Flex gap="6">
         <Avatar
           name={project.name}
           src={project.image ?? ''}

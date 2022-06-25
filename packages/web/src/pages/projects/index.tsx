@@ -17,7 +17,7 @@ const Projects: NextPage<Props> = ({ projects }) => {
   return (
     <SimpleGrid
       columns={3}
-      spacing="6"
+      spacing="8"
     >
       {
         projects.map(project => (

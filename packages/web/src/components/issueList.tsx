@@ -19,8 +19,6 @@ const IssueList: FC<Props> = ({ issues }) => {
 
   return (
     <Box
-      border="1px"
-      borderColor="gray.200"
       h="full"
       overflowX="hidden"
       overflowY="auto"
@@ -34,7 +32,7 @@ const IssueList: FC<Props> = ({ issues }) => {
         py="3"
       >
         <Box w="50%">
-          message
+          Message
         </Box>
 
         <Box w="48">
@@ -71,7 +69,7 @@ const IssueList: FC<Props> = ({ issues }) => {
           issues.map(issue => (
             <Flex
               _hover={
-                { bg: 'gray.50' }
+                { bg: 'gray.100' }
               }
               key={issue.id}
               px="2"

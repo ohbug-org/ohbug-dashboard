@@ -11,7 +11,6 @@ export default async function handler(
   const { method } = req
 
   switch (method) {
-    // create project
     case 'POST':{
       const project = req.body
       const apiKey = crypto
@@ -22,7 +21,6 @@ export default async function handler(
       res.status(200).json(result)
       break
     }
-    // get projects
     case 'GET': {
       const result = await serviceGetProjects()
       res.status(200).json(result)

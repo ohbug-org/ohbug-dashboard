@@ -17,3 +17,10 @@ export async function serviceCreateProject(data: Project) {
     },
   })
 }
+
+export async function serviceUpdateProject(id: number, data: Project) {
+  return prisma.project.update({
+    where: { id },
+    data,
+  })
+}
