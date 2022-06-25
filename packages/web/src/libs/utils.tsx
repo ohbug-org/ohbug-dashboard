@@ -122,3 +122,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
       }
   }
 }
+
+export function scrollWindowTo(to?: number) {
+  document.scrollingElement?.scrollTo({ top: to ?? 0, behavior: 'smooth' })
+}

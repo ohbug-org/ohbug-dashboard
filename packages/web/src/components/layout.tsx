@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Nav from './nav'
 import NavMenu from './navMenu'
 import User from './user'
+import { scrollWindowTo } from '~/libs/utils'
 
 const HeadHeight = 64
 const NavHeight = 48
@@ -57,6 +58,7 @@ const Layout: FC<Props> = ({ children }) => {
               cursor="pointer"
               display="inline-block"
               h={`${NavHeight}px`}
+              onClick={() => scrollWindowTo()}
               opacity={scrollNavVisible ? 1 : 0}
               position="relative"
               transform={scrollNavVisible ? 'translateZ(0)' : `translate3d(0,-${NavHeight}px,0)`}
