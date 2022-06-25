@@ -8,15 +8,15 @@ import IssueDetailTabs from '~/components/issueDetailTabs'
 import IssueDetailTitle from '~/components/issueDetailTitle'
 import IssueDetailTrend from '~/components/issueDetailTrend'
 import { serviceGetEvent } from '~/services/events'
-import type { Trend } from '~/services/issues'
+import type { IssueTrend } from '~/services/issues'
 import { serviceGetIssue, serviceGetIssuesTrends } from '~/services/issues'
 
 interface Props {
   issue: Issue
   event: OhbugEventLike
   trends: {
-    '14d': Trend[]
-    '24h': Trend[]
+    '14d': IssueTrend[]
+    '24h': IssueTrend[]
   }
 }
 

@@ -3,13 +3,13 @@ import type { FC } from 'react'
 import type { Issue } from 'types'
 import { Box, Text } from '@chakra-ui/react'
 import MiniChart from './miniChart'
-import type { Trend } from '~/services/issues'
+import type { IssueTrend } from '~/services/issues'
 
 interface Props {
   issue: Issue
   trends: {
-    '14d': Trend[]
-    '24h': Trend[]
+    '14d': IssueTrend[]
+    '24h': IssueTrend[]
   }
 }
 

@@ -15,7 +15,7 @@ interface Props {
 }
 const IssueList: FC<Props> = ({ issues }) => {
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
-  const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(`/api/trends?ids=${issues.map(issue => issue.id)}&type=${chartType}`)
+  const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(`/api/trends/issues?ids=${issues.map(issue => issue.id)}&type=${chartType}`)
 
   return (
     <Box

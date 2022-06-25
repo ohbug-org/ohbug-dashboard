@@ -24,12 +24,12 @@ interface serviceGetIssuesTrendsParams {
   ids: string
   type: '24h' | '14d'
 }
-export interface Trend {
+export interface IssueTrend {
   issueId: string
   time: string
   count: number
 }
-export type serviceGetIssuesTrendsReturn = Record<string, Trend[]>
+export type serviceGetIssuesTrendsReturn = Record<string, IssueTrend[]>
 export async function serviceGetIssuesTrends({ ids, type }: serviceGetIssuesTrendsParams) {
   const format = type === '14d' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH'
   const unit = type === '14d' ? 'day' : 'hour'
@@ -38,7 +38,7 @@ export async function serviceGetIssuesTrends({ ids, type }: serviceGetIssuesTren
   const min = max.subtract(interval, unit)
 
   const list = `(${ids.split(',').map(v => `'${v}'`).join(',')})`
-  const trends = await prisma.$queryRawUnsafe<Trend[]>(`
+  const trends = await prisma.$queryRawUnsafe<IssueTrend[]>(`
     SELECT "issueId", to_char("Event"."createdAt", '${format}') AS time, count("Event".*)
     FROM "Event"
     WHERE "Event"."issueId" IN ${list}

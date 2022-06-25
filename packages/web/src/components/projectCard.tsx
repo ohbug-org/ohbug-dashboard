@@ -2,11 +2,19 @@ import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
 import type { Project } from '@prisma/client'
 import Link from 'next/link'
 import type { FC } from 'react'
+import { useMemo } from 'react'
+import useSWR from 'swr'
+import type { ProjectTrend } from 'types'
+import Loading from './loading'
+import MiniChart from './miniChart'
 
 interface Props {
   project: Project
 }
 const ProjectCard: FC<Props> = ({ project }) => {
+  const { data: trends } = useSWR<ProjectTrend[]>(`/api/trends/projects?id=${project.id}&type=14d`)
+  const trendLoading = useMemo(() => !trends, [trends])
+
   return (
     <Box
       bg="white"
@@ -33,10 +41,17 @@ const ProjectCard: FC<Props> = ({ project }) => {
         </Box>
       </Flex>
 
-      <Box mt="4">content</Box>
-
       <Box mt="4">
-      footer
+        {
+          trendLoading
+            ? <Loading />
+            : (
+              <MiniChart
+                data={trends}
+                type="14d"
+              />
+            )
+        }
       </Box>
     </Box>
   )
