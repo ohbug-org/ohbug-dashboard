@@ -13,7 +13,7 @@ const Layout: FC<Props> = ({ children }) => {
   return (
     <Flex
       as="main"
-      h="inherit"
+      h="full"
       w="full"
     >
       <Flex
@@ -32,9 +32,11 @@ const Layout: FC<Props> = ({ children }) => {
         />
       </Flex>
       <Box
+        bg="gray.50"
         ml={collapsed ? '70px' : '220px'}
         p="4"
         transition="margin 300ms ease"
+        w="full"
       >
         <Box>{children}</Box>
         <Box>footer</Box>
