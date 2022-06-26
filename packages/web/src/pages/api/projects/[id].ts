@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse<Project>,
 ) {
   const { method, query, body } = req
-  const id = query.id
+  const id = parseInt(query.id, 10)
 
   switch (method) {
     case 'PUT': {

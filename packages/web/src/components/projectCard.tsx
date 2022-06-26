@@ -1,15 +1,15 @@
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
-import type { Project } from '@prisma/client'
 import Link from 'next/link'
 import type { FC } from 'react'
 import { useMemo } from 'react'
 import useSWR from 'swr'
-import type { ProjectTrend } from 'types'
+import type { ProjectWithEventCount } from 'types'
 import Loading from './loading'
 import MiniChart from './miniChart'
+import type { ProjectTrend } from '~/services/projects'
 
 interface Props {
-  project: Project
+  project: ProjectWithEventCount
 }
 const ProjectCard: FC<Props> = ({ project }) => {
   const { data: trends } = useSWR<ProjectTrend[]>(`/api/trends/projects?id=${project.id}&type=14d`)
@@ -37,7 +37,12 @@ const ProjectCard: FC<Props> = ({ project }) => {
               {project.name}
             </Text>
           </Link>
-          <Text textColor="gray.500">Events: {23}</Text>
+          <Text
+            fontSize="xs"
+            textColor="gray.500"
+          >
+            Events: {project.eventCount ?? 0}
+          </Text>
         </Box>
       </Flex>
 

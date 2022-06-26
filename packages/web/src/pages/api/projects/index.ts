@@ -1,6 +1,6 @@
 import * as crypto from 'crypto'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { serviceCreateProject, serviceGetProjects } from '~/services/projects'
+import { serviceCreateProject, serviceGetProjectsWithEventCount } from '~/services/projects'
 
 const secret = process.env.APIKEY_SECRET ?? 'ohbug-apikey-s3cret'
 
@@ -22,7 +22,7 @@ export default async function handler(
       break
     }
     case 'GET': {
-      const result = await serviceGetProjects()
+      const result = await serviceGetProjectsWithEventCount()
       res.status(200).json(result)
       break
     }

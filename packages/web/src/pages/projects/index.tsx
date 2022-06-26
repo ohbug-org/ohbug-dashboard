@@ -1,15 +1,15 @@
 import { SimpleGrid } from '@chakra-ui/react'
-import type { Project } from '@prisma/client'
 import type { GetServerSideProps, NextPage } from 'next'
+import type { ProjectWithEventCount } from 'types'
 import ProjectCard from '~/components/projectCard'
-import { serviceGetProjects } from '~/services/projects'
+import { serviceGetProjectsWithEventCount } from '~/services/projects'
 
 interface Props {
-  projects: Project[]
+  projects: ProjectWithEventCount[]
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async() => {
-  const projects = await serviceGetProjects()
+  const projects = await serviceGetProjectsWithEventCount()
   return { props: { projects } }
 }
 

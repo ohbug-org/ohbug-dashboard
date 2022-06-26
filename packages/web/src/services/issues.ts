@@ -1,11 +1,11 @@
 import dayjs from 'dayjs'
 import { prisma } from '~/db'
 
-interface serviceGetIssuesParams {
+interface ServiceGetIssuesParams {
   skip: number
   take: number
 }
-export function serviceGetIssues({ skip = 0, take = 100 }: serviceGetIssuesParams) {
+export function serviceGetIssues({ skip = 0, take = 100 }: ServiceGetIssuesParams) {
   return prisma.issue.findMany({
     skip,
     take,
@@ -20,7 +20,7 @@ export function serviceGetIssues({ skip = 0, take = 100 }: serviceGetIssuesParam
   })
 }
 
-interface serviceGetIssuesTrendsParams {
+interface ServiceGetIssuesTrendsParams {
   ids: string
   type: '24h' | '14d'
 }
@@ -30,7 +30,7 @@ export interface IssueTrend {
   count: number
 }
 export type serviceGetIssuesTrendsReturn = Record<string, IssueTrend[]>
-export async function serviceGetIssuesTrends({ ids, type }: serviceGetIssuesTrendsParams) {
+export async function serviceGetIssuesTrends({ ids, type }: ServiceGetIssuesTrendsParams) {
   const format = type === '14d' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH'
   const unit = type === '14d' ? 'day' : 'hour'
   const interval = type === '14d' ? 14 : 24
@@ -62,11 +62,11 @@ export async function serviceGetIssuesTrends({ ids, type }: serviceGetIssuesTren
   }, {})
 }
 
-interface serviceGetIssueParams {
+interface ServiceGetIssueParams {
   id: string
   withEvents?: boolean
 }
-export function serviceGetIssue({ id, withEvents }: serviceGetIssueParams) {
+export function serviceGetIssue({ id, withEvents }: ServiceGetIssueParams) {
   return prisma.issue.findUnique({
     where: { id },
     include: {

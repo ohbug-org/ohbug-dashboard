@@ -1,9 +1,29 @@
 import type { Project } from '@prisma/client'
 import dayjs from 'dayjs'
+import type { ProjectWithEventCount } from 'types'
 import { prisma } from '~/db'
 
-export function serviceGetProjects() {
+export async function serviceGetProject(id: number) {
+  const project = await prisma.project.findUnique({ where: { id } })
+  if (!project) throw new Error(`Can't find Project with projectId: ${id}`)
+  return project
+}
+
+export async function serviceGetProjects() {
   return prisma.project.findMany()
+}
+
+export async function serviceGetProjectsWithEventCount(): Promise<ProjectWithEventCount[]> {
+  const projects = await prisma.project.findMany()
+  const projectWithEventCounts = []
+  for (const project of projects) {
+    const eventCount = await serviceGetProjectEventsCount(project.id)
+    projectWithEventCounts.push({
+      ...project,
+      eventCount,
+    })
+  }
+  return projectWithEventCounts
 }
 
 export async function serviceCreateProject(data: Project) {
@@ -26,7 +46,7 @@ export async function serviceUpdateProject(id: number, data: Project) {
   })
 }
 
-interface serviceGetProjectTrendsParams {
+interface ServiceGetProjectTrendsParams {
   id: number
   type: '24h' | '14d'
 }
@@ -34,9 +54,8 @@ export interface ProjectTrend {
   time: string
   count: number
 }
-export async function serviceGetProjectTrends({ id, type }: serviceGetProjectTrendsParams) {
-  const project = await prisma.project.findUnique({ where: { id } })
-  if (!project) throw new Error(`Can't find Project with projectId: ${id}`)
+export async function serviceGetProjectTrends({ id, type }: ServiceGetProjectTrendsParams) {
+  const project = await serviceGetProject(id)
 
   const apiKey = project.apiKey
   const format = type === '14d' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH'
@@ -62,4 +81,11 @@ export async function serviceGetProjectTrends({ id, type }: serviceGetProjectTre
       count: 0,
     }
   })
+}
+
+export async function serviceGetProjectEventsCount(id: number) {
+  const project = await serviceGetProject(id)
+
+  const apiKey = project.apiKey
+  return prisma.event.count({ where: { apiKey } })
 }

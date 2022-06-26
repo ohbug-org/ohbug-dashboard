@@ -1,14 +1,5 @@
-import type { Extension } from './extension'
-import type { NotificationRule, NotificationSetting } from './notification'
+import type { Project } from '@prisma/client'
 
-export interface Project {
-  id?: number
-  name: string
-  type: string
-  apiKey: string
-  createdAt: Date
-  updatedAt: Date
-  notificationRules: NotificationRule[]
-  notificationSetting: NotificationSetting
-  extensions?: Extension[]
+export interface ProjectWithEventCount extends Project {
+  eventCount: number
 }

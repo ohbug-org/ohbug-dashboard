@@ -2,11 +2,11 @@ import { getStackFrame, getTheSourceByError } from 'source-map-trace'
 import type { OhbugEventLike, ReceiveSourceMapFile } from 'types'
 import { prisma } from '~/db'
 
-interface serviceGetEventParams {
+interface ServiceGetEventParams {
   id?: string
   issueId?: string
 }
-export async function serviceGetEvent({ id, issueId }: serviceGetEventParams) {
+export async function serviceGetEvent({ id, issueId }: ServiceGetEventParams) {
   if (id) {
     const event = prisma.event.findUnique({ where: { id } }) as unknown as OhbugEventLike
     const source = await serviceGetEventSource(event)
