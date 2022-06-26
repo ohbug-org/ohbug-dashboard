@@ -1,6 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import type { Issue, OhbugEventLike } from 'types'
-import Breadcrumb from '~/components/breadcrumb'
 import IssueDetailActions from '~/components/issueDetailAction'
 import IssueDetailProfile from '~/components/issueDetailProfile'
 import IssueDetailStack from '~/components/issueDetailStack'
@@ -42,8 +41,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
 const Detail: NextPage<Props> = ({ issue, event, trends }) => {
   return (
     <div>
-      <Breadcrumb />
-
       <IssueDetailTitle issue={issue} />
 
       <IssueDetailTabs />

@@ -19,10 +19,6 @@ const navMenuList: NavMenuItem[] = [
     label: 'Releases',
     link: '/releases',
   },
-  {
-    label: 'Settings',
-    link: '/settings',
-  },
 ]
 
 const NavMenu: FC = () => {
@@ -41,7 +37,7 @@ const NavMenu: FC = () => {
           return (
             <Flex
               align="center"
-              borderBottom={active ? '1px' : ''}
+              borderBottom={active ? '2px' : ''}
               h="full"
               key={item.link}
             >

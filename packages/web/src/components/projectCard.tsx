@@ -5,7 +5,8 @@ import { useMemo } from 'react'
 import useSWR from 'swr'
 import type { ProjectWithEventCount } from 'types'
 import Loading from './loading'
-import MiniChart from './miniChart'
+import TrendChart from './trendChart'
+import Card from './card'
 import type { ProjectTrend } from '~/services/projects'
 
 interface Props {
@@ -16,13 +17,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
   const trendLoading = useMemo(() => !trends, [trends])
 
   return (
-    <Box
-      bg="white"
-      boxShadow="lg"
-      p="4"
-      rounded="md"
-      w="sm"
-    >
+    <Card w="sm">
       <Flex gap="6">
         <Avatar
           name={project.name}
@@ -51,14 +46,14 @@ const ProjectCard: FC<Props> = ({ project }) => {
           trendLoading
             ? <Loading />
             : (
-              <MiniChart
+              <TrendChart
                 data={trends}
                 type="14d"
               />
             )
         }
       </Box>
-    </Box>
+    </Card>
   )
 }
 

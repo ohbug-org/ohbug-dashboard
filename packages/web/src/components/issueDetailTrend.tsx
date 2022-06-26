@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import type { FC } from 'react'
 import type { Issue } from 'types'
 import { Box, Text } from '@chakra-ui/react'
-import MiniChart from './miniChart'
+import TrendChart from './trendChart'
 import type { IssueTrend } from '~/services/issues'
 
 interface Props {
@@ -19,7 +19,7 @@ const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
       <Box mb="4">
         {
           trends['14d'] && (
-            <MiniChart
+            <TrendChart
               data={trends['14d']}
               title="过去14天"
               type="14d"
@@ -30,7 +30,7 @@ const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
       <Box mb="4">
         {
           trends['24h'] && (
-            <MiniChart
+            <TrendChart
               data={trends['24h']}
               title="过去24小时"
               type="24h"

@@ -13,12 +13,14 @@ export default function useBreadcrumb() {
       const linkPath = router.asPath.split('/')
       linkPath.shift()
 
-      const pathArray = linkPath.map((path, i) => {
-        return {
-          breadcrumb: path,
-          path: `/${linkPath.slice(0, i + 1).join('/')}`,
-        }
-      })
+      const pathArray = linkPath
+        .map((path, i) => {
+          return {
+            breadcrumb: path,
+            path: `/${linkPath.slice(0, i + 1).join('/')}`,
+          }
+        })
+        .filter(v => v.breadcrumb)
       setBreadcrumbs(pathArray)
     }
   }, [router])

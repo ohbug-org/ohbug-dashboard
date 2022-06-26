@@ -6,7 +6,7 @@ import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 import { Box, Center, Flex, FormControl, FormLabel, Icon, Switch, Text, Tooltip } from '@chakra-ui/react'
-import MiniChart from './miniChart'
+import TrendChart from './trendChart'
 import type { serviceGetIssuesTrendsReturn } from '~/services/issues'
 import { renderStringOrJson } from '~/libs/utils'
 
@@ -153,7 +153,7 @@ const IssueList: FC<Props> = ({ issues }) => {
               </Box>
 
               <Box w="48">
-                <MiniChart
+                <TrendChart
                   data={trends?.[issue.id]}
                   type={chartType}
                 />

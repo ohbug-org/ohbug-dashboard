@@ -1,9 +1,7 @@
 import type { FC } from 'react'
-import { Box, Center, Flex, Link } from '@chakra-ui/react'
-import NextLink from 'next/link'
-import Image from 'next/image'
+import { Flex, Link } from '@chakra-ui/react'
 import User from './user'
-import Project from './project'
+import Breadcrumbs from './breadcrumbs'
 
 interface Props {}
 
@@ -16,33 +14,7 @@ const Nav: FC<Props> = () => {
       justify="space-between"
       w="full"
     >
-      <Flex gap="4">
-        <NextLink href="/">
-          <Box
-            as="a"
-            cursor="pointer"
-            h="16"
-            position="relative"
-            w="16"
-          >
-            <Image
-              alt="logo"
-              layout="fill"
-              src="/logo.svg"
-            />
-          </Box>
-        </NextLink>
-
-        <Center
-          fontSize="24"
-          marginTop="-1"
-          textColor="gray.200"
-        >
-          /
-        </Center>
-
-        <Project />
-      </Flex>
+      <Breadcrumbs />
 
       <Flex
         align="center"

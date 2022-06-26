@@ -96,12 +96,7 @@ const Layout: FC<Props> = ({ children }) => {
         minH={`calc(100vh - ${HeadHeight + NavHeight}px)`}
         w="full"
       >
-        <Container
-          maxW="container.xl"
-          p="4"
-        >
-          <Box>{children}</Box>
-        </Container>
+        <Box>{children}</Box>
       </Box>
       <Box
         borderTop="1px"
