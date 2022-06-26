@@ -4,13 +4,11 @@ services:
     image: postgres:alpine
     restart: always
     environment:
-      - POSTGRES_USER=ohbug
-      - POSTGRES_PASSWORD=ohbug
-      - POSTGRES_DB=ohbug
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
       - '5432:5432'
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
 
   redis:
     image: redis:alpine
