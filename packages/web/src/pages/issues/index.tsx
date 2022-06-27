@@ -1,6 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import type { Issue } from 'types'
 import IssueList from '~/components/issueList'
+import Wrapper from '~/components/wrapper'
 import { serviceGetIssues } from '~/services/issues'
 
 interface Props {
@@ -17,9 +18,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async() => {
 
 const Issues: NextPage<Props> = ({ issues }) => {
   return (
-    <IssueList
-      issues={issues}
-    />
+    <Wrapper>
+      <IssueList
+        issues={issues}
+      />
+    </Wrapper>
   )
 }
 

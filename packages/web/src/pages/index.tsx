@@ -2,6 +2,7 @@ import type { Setting } from '@prisma/client'
 import type { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
 import Login from '~/components/loginButton'
+import Wrapper from '~/components/wrapper'
 import { serviceGetSetting } from '~/services/bootstrap'
 import { serviceGetProjects } from '~/services/projects'
 
@@ -33,11 +34,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async() => {
 
 const Home: NextPage<Props> = () => {
   return (
-    <main>
-      <div><Link href="/issues"><a>go to issues</a></Link></div>
+    <Wrapper>
+      <Link href="/issues"><a>go to issues</a></Link>
 
       <Login />
-    </main>
+    </Wrapper>
   )
 }
 

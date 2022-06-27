@@ -31,7 +31,7 @@ const Bootstrap = () => {
   }, [session])
 
   return (
-    <Center h="full">
+    <Center h="100vh">
       <Box
         p="3"
         shadow="md"

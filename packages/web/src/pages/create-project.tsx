@@ -1,7 +1,7 @@
 import { Box, Button, Center, FormControl, FormErrorMessage, FormLabel, Input, Select } from '@chakra-ui/react'
 import type { Project } from '@prisma/client'
 import { useRouter } from 'next/router'
-import type { FC } from 'react'
+import type { ReactElement } from 'react'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSWRConfig } from 'swr'
@@ -15,7 +15,7 @@ const projectTypes = [
   },
 ]
 
-const CreateProject: FC = () => {
+const CreateProject = () => {
   const router = useRouter()
   const { mutate } = useSWRConfig()
   const { handleSubmit, register, formState: { errors } } = useForm<OmitProject>()
@@ -36,7 +36,7 @@ const CreateProject: FC = () => {
   }, [])
 
   return (
-    <Center h="full">
+    <Center h="100vh">
       <Box
         p="3"
         shadow="md"
@@ -92,6 +92,10 @@ const CreateProject: FC = () => {
       </Box>
     </Center>
   )
+}
+
+CreateProject.getLayout = function getLayout(page: ReactElement) {
+  return page
 }
 
 export default CreateProject
