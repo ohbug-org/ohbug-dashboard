@@ -17,6 +17,7 @@
   "funding": "https://github.com/sponsors/chenyueban",
   "sideEffects": false,
   "scripts": {
+    "postinstall": "nr docker && nr setup",
     "preinstall": "npx only-allow pnpm",
     "update:deps": "pnpm update -i -r --latest",
     "prepare": "husky install",
