@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import type { Issue } from 'types'
-import IssueDetailEventsList from '~/components/issueDetailEventsList'
+import type { Issue } from 'common'
+import EventsList from '~/components/eventsList'
 import IssueDetailTabs from '~/components/issueDetailTabs'
 import IssueDetailTitle from '~/components/issueDetailTitle'
 import Wrapper from '~/components/wrapper'
@@ -23,7 +23,7 @@ const Detail: NextPage<Props> = ({ issue }) => {
 
       <IssueDetailTabs />
 
-      <IssueDetailEventsList events={issue.events} />
+      <EventsList events={issue.events} />
     </Wrapper>
   )
 }

@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import type { Issue } from 'types'
+import type { Issue } from 'common'
 import IssueList from '~/components/issueList'
 import Wrapper from '~/components/wrapper'
 import { serviceGetIssues } from '~/services/issues'

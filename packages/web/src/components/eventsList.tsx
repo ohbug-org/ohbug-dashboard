@@ -2,17 +2,17 @@ import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/reac
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import type { FC } from 'react'
-import type { OhbugEventLike } from 'types'
+import type { Event } from '@prisma/client'
 import { renderStringOrJson } from '~/libs/utils'
 
 interface Props {
-  events?: OhbugEventLike[]
+  events?: Event[]
 }
 
-const issueDetailEventsList: FC<Props> = ({ events }) => {
+const EventsList: FC<Props> = ({ events }) => {
   return (
     <TableContainer>
-      <Table className="table table-compact w-full">
+      <Table className="w-full table table-compact">
         <Thead>
           <Tr>
             <Th>description</Th>
@@ -35,7 +35,7 @@ const issueDetailEventsList: FC<Props> = ({ events }) => {
                   <Link href={`/issues/${event.issueId}/?eventId=${event.id}`}>
                     <a>{dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}</a>
                   </Link>
-                  <div>{event.type}: {renderStringOrJson(event.detail.message ?? event.detail)}</div>
+                  <div>{event.type}: {renderStringOrJson((event.detail as any).message ?? event.detail)}</div>
                 </Td>
                 {/* appType */}
                 <Td>{event.appType}</Td>
@@ -62,4 +62,4 @@ const issueDetailEventsList: FC<Props> = ({ events }) => {
   )
 }
 
-export default issueDetailEventsList
+export default EventsList

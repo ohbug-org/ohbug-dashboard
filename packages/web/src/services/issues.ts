@@ -1,14 +1,12 @@
 import dayjs from 'dayjs'
+import type { Pagination } from 'common'
+import { PAGE_SIZE, pagination } from 'common'
 import { prisma } from '~/db'
 
-interface ServiceGetIssuesParams {
-  skip: number
-  take: number
-}
-export function serviceGetIssues({ skip = 0, take = 100 }: ServiceGetIssuesParams) {
+interface ServiceGetIssuesParams extends Pagination {}
+export function serviceGetIssues({ page = 0, pageSize = PAGE_SIZE }: ServiceGetIssuesParams) {
   return prisma.issue.findMany({
-    skip,
-    take,
+    ...pagination({ page, pageSize }),
     include: {
       _count: {
         select: {

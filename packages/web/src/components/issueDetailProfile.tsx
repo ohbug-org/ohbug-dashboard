@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import { useMemo } from 'react'
-import type { OhbugEventLike } from 'types'
+import type { OhbugEventLike } from 'common'
 import { RiCake2Line, RiCake3Line, RiCakeLine, RiComputerLine, RiEarthLine, RiFingerprintLine, RiHeading, RiLinkedinLine, RiLinksLine, RiTimeLine } from 'react-icons/ri'
 import NextLink from 'next/link'
 import { Box, Icon, Link, Stat, StatHelpText, StatLabel, Tag, Tooltip, Wrap, WrapItem } from '@chakra-ui/react'

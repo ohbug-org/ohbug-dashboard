@@ -1,6 +1,6 @@
 import type { Project } from '@prisma/client'
 import dayjs from 'dayjs'
-import type { ProjectWithEventCount } from 'types'
+import type { ProjectWithEventCount } from 'common'
 import { prisma } from '~/db'
 
 export async function serviceGetProject(id: number) {

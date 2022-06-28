@@ -1,7 +1,7 @@
 import { Box, Center, Flex, Text, Tooltip } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
-import type { OhbugEventLike } from 'types'
+import type { OhbugEventLike } from 'common'
 import { getMessageAndIconByActionType, renderStringOrJson } from '~/libs/utils'
 
 interface Props {

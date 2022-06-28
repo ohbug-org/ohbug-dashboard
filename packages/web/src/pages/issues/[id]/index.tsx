@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import type { Issue, OhbugEventLike } from 'types'
+import type { Issue, OhbugEventLike } from 'common'
 import IssueDetailActions from '~/components/issueDetailAction'
 import IssueDetailProfile from '~/components/issueDetailProfile'
 import IssueDetailStack from '~/components/issueDetailStack'

@@ -1,5 +1,7 @@
 import { getStackFrame, getTheSourceByError } from 'source-map-trace'
-import type { OhbugEventLike, ReceiveSourceMapFile } from 'types'
+import type { OhbugEventLike, Pagination, ReceiveSourceMapFile } from 'common'
+import { PAGE_SIZE, pagination } from 'common'
+import { serviceGetProject } from './projects'
 import { prisma } from '~/db'
 
 interface ServiceGetEventParams {
@@ -51,4 +53,23 @@ export async function serviceGetEventSource(event: OhbugEventLike) {
   catch (_) {
     return undefined
   }
+}
+
+interface ServiceGetEventByProjectIdParams extends Pagination {
+  projectId: number
+}
+export async function serviceGetEventByProjectId({
+  projectId,
+  page = 0,
+  pageSize = PAGE_SIZE,
+}: ServiceGetEventByProjectIdParams) {
+  const project = await serviceGetProject(projectId)
+  if (project) {
+    const apiKey = project.apiKey
+    return prisma.event.findMany({
+      where: { apiKey },
+      ...pagination({ page, pageSize }),
+    })
+  }
+  return []
 }

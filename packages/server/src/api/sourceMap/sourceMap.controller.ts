@@ -6,7 +6,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@webundsoehne/nest-fastify-file-upload'
-import { ReceiveSourceMapFile } from 'types'
+import { ReceiveSourceMapFile } from 'common'
 import { SourceMapService } from './sourceMap.service'
 import { ReceiveSourceMapDto } from './sourceMap.dto'
 import { UPLOAD_DEST } from './sourceMap.constant'

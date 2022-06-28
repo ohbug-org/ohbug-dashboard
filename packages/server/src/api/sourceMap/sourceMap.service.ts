@@ -1,6 +1,6 @@
 import { unlink } from 'fs/promises'
 import { Injectable } from '@nestjs/common'
-import { ReceiveSourceMapFile, SourceMapData } from 'types'
+import { ReceiveSourceMapFile, SourceMapData } from 'common'
 import { Prisma, Project, Release } from '@prisma/client'
 import { ReceiveSourceMapDto } from './sourceMap.dto'
 import { maxSourceMap } from './sourceMap.constant'

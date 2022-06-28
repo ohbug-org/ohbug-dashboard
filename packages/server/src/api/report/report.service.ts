@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import type { OhbugEvent } from '@ohbug/types'
 import type { Queue } from 'bull'
 import { InjectQueue } from '@nestjs/bull'
-import type { OhbugEventLike } from 'types'
+import type { OhbugEventLike } from 'common'
 import {
   getMd5FromAggregationData,
   switchErrorDetailAndGetAggregationDataAndMetaData,

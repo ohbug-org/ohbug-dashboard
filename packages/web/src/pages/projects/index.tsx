@@ -1,6 +1,6 @@
 import { SimpleGrid } from '@chakra-ui/react'
 import type { GetServerSideProps, NextPage } from 'next'
-import type { ProjectWithEventCount } from 'types'
+import type { ProjectWithEventCount } from 'common'
 import ProjectCard from '~/components/projectCard'
 import Wrapper from '~/components/wrapper'
 import { serviceGetProjectsWithEventCount } from '~/services/projects'

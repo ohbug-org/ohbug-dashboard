@@ -10,7 +10,7 @@ import type {
 import type { ReactErrorDetail } from '@ohbug/react'
 import type { VueErrorDetail } from '@ohbug/vue'
 import { Prisma } from '@prisma/client'
-import { OhbugEventLike } from 'types'
+import { OhbugEventLike } from 'common'
 
 export type OhbugEventDetail = UncaughtErrorDetail &
 UnhandledrejectionErrorDetail &

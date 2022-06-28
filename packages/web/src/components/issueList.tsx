@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import { useState } from 'react'
 import Link from 'next/link'
-import type { Issue } from 'types'
+import type { Issue } from 'common'
 import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
 import useSWR from 'swr'

@@ -1,6 +1,6 @@
 import { Box, Center, Stat, StatLabel, StatNumber } from '@chakra-ui/react'
 import type { FC } from 'react'
-import type { Issue } from 'types'
+import type { Issue } from 'common'
 import { renderStringOrJson } from '~/libs/utils'
 
 interface Props {

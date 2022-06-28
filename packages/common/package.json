@@ -1,5 +1,5 @@
 {
-  "name": "config",
+  "name": "common",
   "private": true,
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

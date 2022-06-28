@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import type { OhbugEventLike } from 'types'
+import type { OhbugEventLike } from 'common'
 import { Box } from '@chakra-ui/react'
 import StackInfo from './stackInfo'
 import { renderStringOrJson } from '~/libs/utils'

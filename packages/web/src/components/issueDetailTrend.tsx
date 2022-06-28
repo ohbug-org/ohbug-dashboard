@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import type { FC } from 'react'
-import type { Issue } from 'types'
+import type { Issue } from 'common'
 import { Box, Text } from '@chakra-ui/react'
 import TrendChart from './trendChart'
 import type { IssueTrend } from '~/services/issues'
