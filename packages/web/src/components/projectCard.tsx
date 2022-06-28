@@ -17,43 +17,44 @@ const ProjectCard: FC<Props> = ({ project }) => {
   const trendLoading = useMemo(() => !trends, [trends])
 
   return (
-    <Card w="sm">
-      <Flex gap="6">
-        <Avatar
-          name={project.name}
-          src={project.image ?? ''}
-        />
-        <Box>
-          <Link href={`/projects/${project.id}`}>
+    <Link href={`/projects/${project.id}`}>
+      <Card w="sm">
+        <Flex gap="6">
+          <Avatar
+            name={project.name}
+            src={project.image ?? ''}
+          />
+          <Box>
             <Text
               cursor="pointer"
               fontWeight="bold"
             >
               {project.name}
             </Text>
-          </Link>
-          <Text
-            fontSize="xs"
-            textColor="gray.500"
-          >
-            Events: {project.eventCount ?? 0}
-          </Text>
-        </Box>
-      </Flex>
 
-      <Box mt="4">
-        {
-          trendLoading
-            ? <Loading />
-            : (
-              <TrendChart
-                data={trends}
-                type="14d"
-              />
-            )
-        }
-      </Box>
-    </Card>
+            <Text
+              fontSize="xs"
+              textColor="gray.500"
+            >
+            Events: {project.eventCount ?? 0}
+            </Text>
+          </Box>
+        </Flex>
+
+        <Box mt="4">
+          {
+            trendLoading
+              ? <Loading />
+              : (
+                <TrendChart
+                  data={trends}
+                  type="14d"
+                />
+              )
+          }
+        </Box>
+      </Card>
+    </Link>
   )
 }
 

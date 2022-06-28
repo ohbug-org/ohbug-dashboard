@@ -5,8 +5,9 @@ import type { Issue } from 'types'
 import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
-import { Box, Center, Flex, FormControl, FormLabel, Icon, Switch, Text, Tooltip } from '@chakra-ui/react'
+import { Box, Center, Flex, FormControl, FormLabel, Icon, Switch, Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import TrendChart from './trendChart'
+import ThemeBox from './themeBox'
 import type { serviceGetIssuesTrendsReturn } from '~/services/issues'
 import { renderStringOrJson } from '~/libs/utils'
 
@@ -17,6 +18,8 @@ const IssueList: FC<Props> = ({ issues }) => {
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
   const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(`/api/trends/issues?ids=${issues.map(issue => issue.id)}&type=${chartType}`)
 
+  const rowHoverBg = useColorModeValue('gray.100', 'dark.500')
+
   return (
     <Box
       h="full"
@@ -26,8 +29,9 @@ const IssueList: FC<Props> = ({ issues }) => {
       w="full"
     >
       {/* header */}
-      <Flex
-        bg="gray.50"
+      <ThemeBox
+        bg="gray"
+        display="flex"
         px="2"
         py="3"
       >
@@ -62,18 +66,19 @@ const IssueList: FC<Props> = ({ issues }) => {
         <Center w="20">
           Users
         </Center>
-      </Flex>
+      </ThemeBox>
 
       <Box>
         {
           issues.map(issue => (
             <Flex
               _hover={
-                { bg: 'gray.100' }
+                { bg: rowHoverBg }
               }
               key={issue.id}
               px="2"
               py="3"
+              rounded="sm"
             >
               {/* main */}
               <Box w="50%">

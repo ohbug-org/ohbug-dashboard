@@ -5,7 +5,7 @@ import Highcharts from 'highcharts'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 import dayjs from 'dayjs'
-import { Box } from '@chakra-ui/react'
+import { Box, useColorMode } from '@chakra-ui/react'
 import { theme } from '~/styles/chart.theme'
 import type { IssueTrend } from '~/services/issues'
 import type { ProjectTrend } from '~/services/projects'
@@ -22,6 +22,7 @@ interface MiniChartProps {
 
 const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'mini' }) => {
   const ref = useRef<any>(null)
+  const { colorMode } = useColorMode()
 
   useEffect(() => {
     if (typeof Highcharts === 'object')
@@ -37,10 +38,13 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
     () => {
       if (variant === 'detail') {
         return {
+          colors: [colorMode === 'dark' ? 'white' : 'black'],
           chart: { type: 'column' },
           xAxis: { categories: data?.map(v => v.time), crosshair: true },
           yAxis: {
             min: 0,
+            labels: { enabled: true },
+            gridLineWidth: 1,
             title: { text: 'Events Count' },
           },
           series: [
@@ -54,6 +58,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
         }
       }
       return {
+        colors: [colorMode === 'dark' ? 'white' : 'black'],
         chart: {
           height: 60,
           spacingTop: 5,
@@ -67,7 +72,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
               name: v.time,
               y: v.count,
             })),
-            lineWidth: 4,
+            lineWidth: 2,
             marker: { enabled: false },
             tooltip: {
               headerFormat: '',
@@ -87,7 +92,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
         exporting: { enabled: false },
       }
     },
-    [data, type, variant],
+    [data, type, variant, colorMode],
   )
 
   return (

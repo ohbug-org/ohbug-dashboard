@@ -39,7 +39,7 @@ const ProjectComponent: FC = () => {
         size="xs"
         src={currentProject?.image ?? ''}
       />
-      <Text fontWeight="bold">{currentProject?.name}</Text>
+      <Text>{currentProject?.name}</Text>
       <Menu>
         <MenuButton
           aria-label="more"
@@ -59,7 +59,7 @@ const ProjectComponent: FC = () => {
                   key={project.id}
                   value={project.id.toString()}
                 >
-                  <Text fontWeight="bold">{project.name}</Text>
+                  <Text>{project.name}</Text>
                 </MenuItemOption>
               ))
             }

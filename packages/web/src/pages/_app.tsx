@@ -25,7 +25,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWith
       <SWRConfig
         value={{ fetcher: (resource, init) => fetch(resource, init).then(res => res.json()) }}
       >
-        <ChakraProvider theme={theme}>
+        <ChakraProvider
+          resetCSS
+          theme={theme}
+        >
           {
             Component.getLayout
               ? Component.getLayout(<Component {...pageProps} />)

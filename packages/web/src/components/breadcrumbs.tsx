@@ -1,22 +1,25 @@
 import type { FC } from 'react'
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Center, Flex } from '@chakra-ui/react'
+import { useMemo } from 'react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Center, Flex, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import Image from 'next/image'
 import Project from './project'
 import useBreadcrumb from '~/hooks/useBreadcrumb'
 
-const Separator = (
-  <Center
-    fontSize="24"
-    marginTop="-1"
-    textColor="gray.200"
-  >
-    /
-  </Center>
-)
-
 const Breadcrumbs: FC = () => {
   const [breadcrumbs] = useBreadcrumb()
+  const { colorMode } = useColorMode()
+  const separatorColor = useColorModeValue('gray.200', 'gray.600')
+
+  const Separator = useMemo(() => (
+    <Center
+      fontSize="24"
+      marginTop="-1"
+      textColor={separatorColor}
+    >
+      /
+    </Center>
+  ), [separatorColor])
 
   return (
     <Flex gap="4">
@@ -31,7 +34,7 @@ const Breadcrumbs: FC = () => {
           <Image
             alt="logo"
             layout="fill"
-            src="/logo.svg"
+            src={colorMode === 'dark' ? '/logo-white.svg' : '/logo.svg'}
           />
         </Box>
       </NextLink>
@@ -53,14 +56,14 @@ const Breadcrumbs: FC = () => {
             .map(v => (
               <BreadcrumbItem key={v.path}>
                 <NextLink href={v.path}>
-                  <BreadcrumbLink fontWeight="bold">
+                  <BreadcrumbLink>
                     {v.breadcrumb}
                   </BreadcrumbLink>
                 </NextLink>
               </BreadcrumbItem>
             ))
         }
-        <BreadcrumbItem><BreadcrumbLink fontWeight="bold">{breadcrumbs.at(-1)?.breadcrumb}</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbItem><BreadcrumbLink>{breadcrumbs.at(-1)?.breadcrumb}</BreadcrumbLink></BreadcrumbItem>
       </Breadcrumb>
     </Flex>
 

@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { Button, Flex, Text } from '@chakra-ui/react'
+import { Button, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 interface NavMenuItem {
@@ -23,6 +23,8 @@ const navMenuList: NavMenuItem[] = [
 
 const NavMenu: FC = () => {
   const router = useRouter()
+  const textColor = useColorModeValue('gray.500', 'gray.400')
+  const activeTextColor = useColorModeValue('gray.800', 'gray.20')
 
   return (
     <Flex
@@ -47,7 +49,7 @@ const NavMenu: FC = () => {
                 justifyContent="start"
                 onClick={() => router.push(item.link)}
                 size="sm"
-                textColor={active ? 'gray.800' : 'gray.500'}
+                textColor={active ? activeTextColor : textColor}
                 variant="ghost"
               >
                 <Text>{item.label}</Text>

@@ -5,6 +5,7 @@ import type { OhbugEventLike } from 'types'
 import { RiCake2Line, RiCake3Line, RiCakeLine, RiComputerLine, RiEarthLine, RiFingerprintLine, RiHeading, RiLinkedinLine, RiLinksLine, RiTimeLine } from 'react-icons/ri'
 import NextLink from 'next/link'
 import { Box, Icon, Link, Stat, StatHelpText, StatLabel, Tag, Tooltip, Wrap, WrapItem } from '@chakra-ui/react'
+import Card from './card'
 import { getDeviceInfo } from '~/libs/utils'
 
 interface Props {
@@ -120,7 +121,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
         </NextLink>
       </Box>
 
-      <Box shadow="md">
+      <Card>
         {/* 浏览器 */}
         {
           deviceInfo?.browser && (
@@ -175,7 +176,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
             </Stat>
           )
         }
-      </Box>
+      </Card>
 
       <Wrap>
         {

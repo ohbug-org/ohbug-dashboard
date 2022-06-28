@@ -1,4 +1,4 @@
-import { Box, Container, Flex } from '@chakra-ui/react'
+import { Box, Container, Flex, useColorMode } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
 import { useState } from 'react'
 import { useIsomorphicLayoutEffect, useWindowScroll } from 'react-use'
@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Nav from './nav'
 import NavMenu from './navMenu'
 import User from './user'
+import ThemeBox from './themeBox'
 import { scrollWindowTo } from '~/libs/utils'
 
 const HeadHeight = 64
@@ -18,16 +19,20 @@ interface Props {
 const Layout: FC<Props> = ({ children }) => {
   const { y } = useWindowScroll()
   const [scrollNavVisible, setScrollNavVisible] = useState(false)
+  const { colorMode } = useColorMode()
+
   useIsomorphicLayoutEffect(() => {
     setScrollNavVisible(y > HeadHeight)
   }, [y])
 
   return (
-    <Box
+    <ThemeBox
       as="main"
+      bg="current"
       minH="full"
       w="full"
     >
+      {/* nav */}
       <Container
         as="nav"
         h={`${HeadHeight}px`}
@@ -35,10 +40,9 @@ const Layout: FC<Props> = ({ children }) => {
       >
         <Nav />
       </Container>
-      <Box
-        bg="white"
-        borderBottom="1px"
-        borderBottomColor="gray.200"
+      {/* navMenu */}
+      <ThemeBox
+        bg="current"
         h={`${NavHeight}px`}
         position={scrollNavVisible ? 'sticky' : 'relative'}
         top={scrollNavVisible ? 0 : ''}
@@ -69,7 +73,7 @@ const Layout: FC<Props> = ({ children }) => {
               <Image
                 alt="logo"
                 layout="fill"
-                src="/logo.svg"
+                src={colorMode === 'dark' ? '/logo-white.svg' : '/logo.svg'}
               />
             </Box>
 
@@ -90,26 +94,28 @@ const Layout: FC<Props> = ({ children }) => {
             <User />
           </Box>
         </Container>
-      </Box>
-      <Box
-        bg="gray.50"
+      </ThemeBox>
+      {/* main */}
+      <ThemeBox
+        bg="gray"
+        border="1px"
+        borderColor="current"
+        borderX="0"
         minH={`calc(100vh - ${HeadHeight + NavHeight}px)`}
         w="full"
       >
         <Box>{children}</Box>
-      </Box>
-      <Box
-        borderTop="1px"
-        borderTopColor="gray.200"
-      >
+      </ThemeBox>
+      {/* footer */}
+      <ThemeBox>
         <Container
           as="footer"
           maxW="container.xl"
         >
         footer
         </Container>
-      </Box>
-    </Box>
+      </ThemeBox>
+    </ThemeBox>
   )
 }
 

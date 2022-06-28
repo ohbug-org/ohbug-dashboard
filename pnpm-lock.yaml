@@ -133,6 +133,7 @@ importers:
   packages/web:
     specifiers:
       '@chakra-ui/react': ^2.2.1
+      '@chakra-ui/theme-tools': ^2.0.2
       '@chakra-ui/utils': ^2.0.2
       '@emotion/react': ^11.9.3
       '@emotion/styled': ^11.9.3
@@ -165,6 +166,7 @@ importers:
       zustand: 4.0.0-rc.1
     dependencies:
       '@chakra-ui/react': 2.2.1_dersw4eko4axp24m2cfli7j6ja
+      '@chakra-ui/theme-tools': 2.0.2
       '@chakra-ui/utils': 2.0.2
       '@emotion/react': 11.9.3_luyos4mouogwq6z3wafb3re4ce
       '@emotion/styled': 11.9.3_mtgmvqaicd2yfw2b4v4o2ssbiu
@@ -1040,6 +1042,15 @@ packages:
       '@chakra-ui/system': 2.1.3_fdnqutfacy7v3gmlcm66flps3q
       '@chakra-ui/utils': 2.0.2
       react: 18.2.0
+    dev: false
+
+  /@chakra-ui/theme-tools/2.0.2:
+    resolution: {integrity: sha512-E01ZJZB4XVqkvn2hOXKQ/uVkvaPLQN1SyxAYXjFZGyZ1ppBLl362EWfY9IgWNzDITgq9MCJyQFfm2mXwQDUNzA==}
+    peerDependencies:
+      '@chakra-ui/system': '>=2.0.0-next.0'
+    dependencies:
+      '@chakra-ui/utils': 2.0.2
+      '@ctrl/tinycolor': 3.4.1
     dev: false
 
   /@chakra-ui/theme-tools/2.0.2_@chakra-ui+system@2.1.3:

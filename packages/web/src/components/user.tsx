@@ -1,6 +1,7 @@
 import type { FC } from 'react'
-import { Avatar, Button, Flex, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text } from '@chakra-ui/react'
+import { Avatar, Box, Button, Flex, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import Theme from './theme'
 
 const User: FC = () => {
   const { data: session } = useSession()
@@ -18,7 +19,11 @@ const User: FC = () => {
 
         <MenuList>
           <MenuGroup>
-            <MenuItem gap={4}>
+            <Flex
+              gap="4"
+              px="3"
+              py="2"
+            >
               <Avatar
                 name={session.user?.name ?? ''}
                 size="md"
@@ -33,13 +38,24 @@ const User: FC = () => {
                   {session.user?.email}
                 </Text>
               </Flex>
-            </MenuItem>
+            </Flex>
           </MenuGroup>
 
           <MenuDivider />
 
           <MenuGroup>
             <MenuItem>Dashboard</MenuItem>
+          </MenuGroup>
+
+          <MenuDivider />
+
+          <MenuGroup>
+            <Box
+              px="3"
+              py="2"
+            >
+              <Theme />
+            </Box>
           </MenuGroup>
 
           <MenuDivider />

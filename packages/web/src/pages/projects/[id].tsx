@@ -3,6 +3,7 @@ import type { Project } from '@prisma/client'
 import type { GetServerSideProps, NextPage } from 'next'
 import { useMemo, useState } from 'react'
 import Card from '~/components/card'
+import ThemeBox from '~/components/themeBox'
 import TrendChart from '~/components/trendChart'
 import Wrapper from '~/components/wrapper'
 import type { ProjectTrend } from '~/services/projects'
@@ -59,10 +60,10 @@ const Detail: NextPage<Props> = ({ project, trends }) => {
 
   return (
     <Box>
-      <Box
-        bg="white"
+      <ThemeBox
+        bg="current"
         borderBottom="1px"
-        borderBottomColor="gray.200"
+        borderColor="current"
       >
         <Wrapper
           display="flex"
@@ -74,7 +75,7 @@ const Detail: NextPage<Props> = ({ project, trends }) => {
             <Button variant="solid">Setting</Button>
           </Box>
         </Wrapper>
-      </Box>
+      </ThemeBox>
 
       <Wrapper>
         <Card>

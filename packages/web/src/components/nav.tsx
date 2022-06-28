@@ -2,16 +2,18 @@ import type { FC } from 'react'
 import { Flex, Link } from '@chakra-ui/react'
 import User from './user'
 import Breadcrumbs from './breadcrumbs'
+import ThemeBox from './themeBox'
 
 interface Props {}
 
 const Nav: FC<Props> = () => {
   return (
-    <Flex
-      align="center"
-      bg="white"
+    <ThemeBox
+      alignItems="center"
+      bg="current"
+      display="flex"
       h="full"
-      justify="space-between"
+      justifyContent="space-between"
       w="full"
     >
       <Breadcrumbs />
@@ -28,7 +30,7 @@ const Nav: FC<Props> = () => {
         </Link>
         <User />
       </Flex>
-    </Flex>
+    </ThemeBox>
   )
 }
 
