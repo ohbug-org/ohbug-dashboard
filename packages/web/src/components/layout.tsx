@@ -1,12 +1,13 @@
-import { Box, Container, Flex, useColorMode } from '@chakra-ui/react'
+import { Box, Container, Flex } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
 import { useState } from 'react'
 import { useIsomorphicLayoutEffect, useWindowScroll } from 'react-use'
-import Image from 'next/image'
 import Nav from './nav'
 import NavMenu from './navMenu'
 import User from './user'
 import ThemeBox from './themeBox'
+import Logo from './logo'
+import Footer from './footer'
 import { scrollWindowTo } from '~/libs/utils'
 
 const HeadHeight = 64
@@ -19,7 +20,6 @@ interface Props {
 const Layout: FC<Props> = ({ children }) => {
   const { y } = useWindowScroll()
   const [scrollNavVisible, setScrollNavVisible] = useState(false)
-  const { colorMode } = useColorMode()
 
   useIsomorphicLayoutEffect(() => {
     setScrollNavVisible(y > HeadHeight)
@@ -58,9 +58,7 @@ const Layout: FC<Props> = ({ children }) => {
           maxW="container.xl"
         >
           <Flex position="relative">
-            <Box
-              cursor="pointer"
-              display="inline-block"
+            <Logo
               h={`${NavHeight}px`}
               onClick={() => scrollWindowTo()}
               opacity={scrollNavVisible ? 1 : 0}
@@ -69,13 +67,7 @@ const Layout: FC<Props> = ({ children }) => {
               transition="all 250ms ease"
               visibility={scrollNavVisible ? 'visible' : 'hidden'}
               w={`${NavHeight}px`}
-            >
-              <Image
-                alt="logo"
-                layout="fill"
-                src={colorMode === 'dark' ? '/logo-white.svg' : '/logo.svg'}
-              />
-            </Box>
+            />
 
             <Box
               transform={scrollNavVisible ? 'translate3d(24px,0,0)' : `translate3d(-${NavHeight + 12}px,0,0)`}
@@ -111,8 +103,9 @@ const Layout: FC<Props> = ({ children }) => {
         <Container
           as="footer"
           maxW="container.xl"
+          py="8"
         >
-        footer
+          <Footer />
         </Container>
       </ThemeBox>
     </ThemeBox>

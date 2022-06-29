@@ -17,13 +17,7 @@ const theme: Dict = extendTheme({
             bg: mode('gray.100', 'dark.500')(props),
           },
         }),
-        ghost: (props: StyleFunctionProps) => ({
-          textColor: mode('black', 'white')(props),
-          _hover: {
-            textColor: mode('white', 'black')(props),
-            bg: mode('dark.500', 'gray.100')(props),
-          },
-        }),
+        ghost: (props: StyleFunctionProps) => ({ _hover: { bg: mode('gray.100', 'dark.200')(props) } }),
       },
     },
     Input: {

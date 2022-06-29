@@ -1,14 +1,13 @@
 import type { FC } from 'react'
 import { useMemo } from 'react'
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Center, Flex, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Center, Flex, useColorModeValue } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import Image from 'next/image'
 import Project from './project'
+import Logo from './logo'
 import useBreadcrumb from '~/hooks/useBreadcrumb'
 
 const Breadcrumbs: FC = () => {
   const [breadcrumbs] = useBreadcrumb()
-  const { colorMode } = useColorMode()
   const separatorColor = useColorModeValue('gray.200', 'gray.600')
 
   const Separator = useMemo(() => (
@@ -24,19 +23,7 @@ const Breadcrumbs: FC = () => {
   return (
     <Flex gap="4">
       <NextLink href="/">
-        <Box
-          as="a"
-          cursor="pointer"
-          h="16"
-          position="relative"
-          w="16"
-        >
-          <Image
-            alt="logo"
-            layout="fill"
-            src={colorMode === 'dark' ? '/logo-white.svg' : '/logo.svg'}
-          />
-        </Box>
+        <Logo />
       </NextLink>
 
       {Separator}

@@ -50,12 +50,16 @@ const User: FC = () => {
           <MenuDivider />
 
           <MenuGroup>
-            <Box
+            <Flex
+              align="center"
+              justify="space-between"
               px="3"
               py="2"
+              w="full"
             >
+              <Box>Theme</Box>
               <Theme />
-            </Box>
+            </Flex>
           </MenuGroup>
 
           <MenuDivider />
