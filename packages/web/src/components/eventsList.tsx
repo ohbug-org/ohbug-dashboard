@@ -1,6 +1,6 @@
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import dayjs from 'dayjs'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import type { FC } from 'react'
 import type { Event } from '@prisma/client'
 import { renderStringOrJson } from '~/libs/utils'
@@ -32,9 +32,9 @@ const EventsList: FC<Props> = ({ events }) => {
               <Tr key={event.id}>
                 {/* description */}
                 <Td>
-                  <Link href={`/issues/${event.issueId}/?eventId=${event.id}`}>
+                  <NextLink href={`/issues/${event.issueId}/?eventId=${event.id}`}>
                     <a>{dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}</a>
-                  </Link>
+                  </NextLink>
                   <div>{event.type}: {renderStringOrJson((event.detail as any).message ?? event.detail)}</div>
                 </Td>
                 {/* appType */}

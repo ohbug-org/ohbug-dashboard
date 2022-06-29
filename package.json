@@ -48,7 +48,7 @@
     "@antfu/ni": "^0.16.2",
     "@babel/types": "^7.18.4",
     "@changesets/cli": "^2.23.0",
-    "@chenyueban/eslint-config": "^1.0.11",
+    "@chenyueban/eslint-config": "^1.0.12",
     "@chenyueban/tsconfig": "^2.1.0",
     "@commitlint/cli": "^17.0.2",
     "@types/node": "^18.0.0",

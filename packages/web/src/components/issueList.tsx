@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import { useState } from 'react'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import type { Issue } from 'common'
 import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
@@ -82,7 +82,7 @@ const IssueList: FC<Props> = ({ issues }) => {
             >
               {/* main */}
               <Box w="50%">
-                <Link
+                <NextLink
                   href={
                     {
                       pathname: '/issues/[id]',
@@ -113,7 +113,7 @@ const IssueList: FC<Props> = ({ issues }) => {
                       {renderStringOrJson(issue.metadata.filename ?? issue.metadata.others)}
                     </Box>
                   </Flex>
-                </Link>
+                </NextLink>
                 {/* message */}
                 <Text
                   noOfLines={[1, 2]}

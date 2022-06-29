@@ -1,10 +1,12 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Switch, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, FormControl, FormLabel, Icon, Switch, Text } from '@chakra-ui/react'
 import type { Event, Project } from '@prisma/client'
 import type { GetServerSideProps, NextPage } from 'next'
 import type { FC } from 'react'
 import { useMemo, useState } from 'react'
 import useSWRInfinite from 'swr/infinite'
 import { PAGE_SIZE } from 'common'
+import NextLink from 'next/link'
+import { RiSettings2Line } from 'react-icons/ri'
 import Card from '~/components/card'
 import ThemeBox from '~/components/themeBox'
 import TrendChart from '~/components/trendChart'
@@ -12,6 +14,7 @@ import Wrapper from '~/components/wrapper'
 import EventsList from '~/components/eventsList'
 import type { ProjectTrend } from '~/services/projects'
 import { serviceGetProject, serviceGetProjectTrends } from '~/services/projects'
+import Title from '~/components/title'
 
 interface Props {
   project: Project
@@ -37,26 +40,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
   }
 }
 
-const Title: FC<{ project: Props['project'] }> = ({ project }) => {
-  return (
-    <ThemeBox
-      bg="current"
-      borderBottom="1px"
-      borderColor="current"
-    >
-      <Wrapper
-        display="flex"
-        justifyContent="space-between"
-        py="16"
-      >
-        <Heading>{project.name}</Heading>
-        <Box>
-          <Button variant="solid">Setting</Button>
-        </Box>
-      </Wrapper>
-    </ThemeBox>
-  )
-}
 const Trend: FC<{ trends: Props['trends'] }> = ({ trends }) => {
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
   const TrendTitle = useMemo(() => (
@@ -112,7 +95,7 @@ const Events: FC<{ project: Props['project'] }> = ({ project }) => {
           mt="6"
           onClick={() => setSize(size + 1)}
           size="sm"
-          variant="ghost"
+          variant="outline"
           w="full"
         >
           {
@@ -131,7 +114,23 @@ const Events: FC<{ project: Props['project'] }> = ({ project }) => {
 const Detail: NextPage<Props> = ({ project, trends }) => {
   return (
     <Box>
-      <Title project={project} />
+      <Title
+        rightNodes={
+          (
+            <NextLink href={`/projects/${project.id}/settings`}>
+              <Button
+                leftIcon={
+                  <Icon as={RiSettings2Line} />
+                }
+                variant="solid"
+              >Setting
+              </Button>
+            </NextLink>
+          )
+        }
+      >
+        {project.name}
+      </Title>
 
       <Trend trends={trends} />
 

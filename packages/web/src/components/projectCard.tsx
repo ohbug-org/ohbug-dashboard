@@ -1,5 +1,5 @@
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import type { FC } from 'react'
 import { useMemo } from 'react'
 import useSWR from 'swr'
@@ -17,7 +17,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
   const trendLoading = useMemo(() => !trends, [trends])
 
   return (
-    <Link href={`/projects/${project.id}`}>
+    <NextLink href={`/projects/${project.id}`}>
       <Card w="sm">
         <Flex gap="6">
           <Avatar
@@ -54,7 +54,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
           }
         </Box>
       </Card>
-    </Link>
+    </NextLink>
   )
 }
 

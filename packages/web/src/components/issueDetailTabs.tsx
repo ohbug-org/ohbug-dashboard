@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import { useCallback, useMemo } from 'react'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { Tab, TabList, Tabs } from '@chakra-ui/react'
 
@@ -33,9 +33,9 @@ const IssueDetailTabs: FC = () => {
         {
           list.map(v => (
             <Tab key={v.value}>
-              <Link href={v.href}>
+              <NextLink href={v.href}>
                 <a>{v.label}</a>
-              </Link>
+              </NextLink>
             </Tab>
           ))
         }

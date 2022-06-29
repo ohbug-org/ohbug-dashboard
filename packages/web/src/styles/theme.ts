@@ -26,6 +26,14 @@ const theme: Dict = extendTheme({
         }),
       },
     },
+    Input: {
+      variants: {
+        outline: (props: StyleFunctionProps) => ({
+          borderColor: mode('gray.200', 'dark.50')(props),
+          _hover: { borderColor: mode('black', 'white')(props) },
+        }),
+      },
+    },
     Switch: { defaultProps: { colorScheme: 'gray' } },
     Tabs: { defaultProps: { colorScheme: 'dark' } },
   },

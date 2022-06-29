@@ -7,7 +7,7 @@ importers:
       '@antfu/ni': ^0.16.2
       '@babel/types': ^7.18.4
       '@changesets/cli': ^2.23.0
-      '@chenyueban/eslint-config': ^1.0.11
+      '@chenyueban/eslint-config': ^1.0.12
       '@chenyueban/tsconfig': ^2.1.0
       '@commitlint/cli': ^17.0.2
       '@ohbug/browser': ^2.0.3
@@ -48,7 +48,7 @@ importers:
       '@antfu/ni': 0.16.2
       '@babel/types': 7.18.4
       '@changesets/cli': 2.23.0
-      '@chenyueban/eslint-config': 1.0.11_b5e7v2qnwxfo6hmiq56u52mz3e
+      '@chenyueban/eslint-config': 1.0.12_b5e7v2qnwxfo6hmiq56u52mz3e
       '@chenyueban/tsconfig': 2.1.0_typescript@4.7.4
       '@commitlint/cli': 17.0.2
       '@types/node': 18.0.0
@@ -1332,8 +1332,8 @@ packages:
       prettier: 1.19.1
     dev: true
 
-  /@chenyueban/eslint-config/1.0.11_b5e7v2qnwxfo6hmiq56u52mz3e:
-    resolution: {integrity: sha512-Ou4jkgO1+nmVQyqar08c6EZqxEo2YT2Is/hzKaD0nWtjc5idV36CJpsqAc8o2Jim4f3Jn5oQNxNnbEM5rF+/mg==}
+  /@chenyueban/eslint-config/1.0.12_b5e7v2qnwxfo6hmiq56u52mz3e:
+    resolution: {integrity: sha512-lwvfCI2b6Eib/iL4IbZwjfGeX5JiRrPtJgDbIAJ1zG8CEOS3gy3ee26/b7JbIEgpGDUKjGL/MCL3IDB+w0aFAw==}
     engines: {node: '>=16', npm: '>=7'}
     peerDependencies:
       eslint: ^8.0.0
