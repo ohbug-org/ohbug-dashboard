@@ -33,12 +33,15 @@ const IssueDetailTabs: FC = () => {
     <Tabs
       defaultIndex={active}
       onChange={handleTabChange}
-      variant="enclosed"
+      // size="sm"
+      variant="enclosed-colored"
     >
       <TabList>
         {
           list.map(v => (
-            <Tab key={v.value}>
+            <Tab
+              key={v.value}
+            >
               <NextLink href={v.href}>
                 <a>{v.label}</a>
               </NextLink>

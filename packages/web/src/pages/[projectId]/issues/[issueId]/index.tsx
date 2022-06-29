@@ -3,10 +3,8 @@ import type { Issue, OhbugEventLike } from 'common'
 import IssueDetailActions from '~/components/issueDetailAction'
 import IssueDetailProfile from '~/components/issueDetailProfile'
 import IssueDetailStack from '~/components/issueDetailStack'
-import IssueDetailTabs from '~/components/issueDetailTabs'
 import IssueDetailTitle from '~/components/issueDetailTitle'
 import IssueDetailTrend from '~/components/issueDetailTrend'
-import Wrapper from '~/components/wrapper'
 import { serviceGetEvent } from '~/services/events'
 import type { IssueTrend } from '~/services/issues'
 import { serviceGetIssue, serviceGetIssuesTrends } from '~/services/issues'
@@ -41,10 +39,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
 
 const Detail: NextPage<Props> = ({ issue, event, trends }) => {
   return (
-    <Wrapper>
+    <>
       <IssueDetailTitle issue={issue} />
-
-      <IssueDetailTabs />
 
       <IssueDetailProfile event={event} />
 
@@ -56,7 +52,7 @@ const Detail: NextPage<Props> = ({ issue, event, trends }) => {
         issue={issue}
         trends={trends}
       />
-    </Wrapper>
+    </>
   )
 }
 

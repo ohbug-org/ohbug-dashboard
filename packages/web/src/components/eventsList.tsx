@@ -5,12 +5,15 @@ import type { FC } from 'react'
 import type { Event } from '@prisma/client'
 import type { OhbugEventLike } from 'common'
 import { renderStringOrJson } from '~/libs/utils'
+import useCurrentProject from '~/hooks/useCurrentProject'
 
 interface Props {
   events?: Event[] | OhbugEventLike[]
 }
 
 const EventsList: FC<Props> = ({ events }) => {
+  const { projectId } = useCurrentProject()
+
   return (
     <TableContainer>
       <Table className="w-full table table-compact">
@@ -33,7 +36,7 @@ const EventsList: FC<Props> = ({ events }) => {
               <Tr key={event.id}>
                 {/* description */}
                 <Td>
-                  <NextLink href={`/issues/${event.issueId}/?eventId=${event.id}`}>
+                  <NextLink href={`/${projectId}/issues/${event.issueId}/?eventId=${event.id}`}>
                     <a>{dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}</a>
                   </NextLink>
                   <div>{event.type}: {renderStringOrJson((event.detail as any).message ?? event.detail)}</div>

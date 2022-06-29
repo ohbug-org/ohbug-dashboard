@@ -6,6 +6,8 @@ import { RiCake2Line, RiCake3Line, RiCakeLine, RiComputerLine, RiEarthLine, RiFi
 import NextLink from 'next/link'
 import { Box, Icon, Link, Stat, StatHelpText, StatLabel, Tag, Tooltip, Wrap, WrapItem } from '@chakra-ui/react'
 import Card from './card'
+import ThemeBox from './themeBox'
+import Wrapper from './wrapper'
 import { getDeviceInfo } from '~/libs/utils'
 
 interface Props {
@@ -105,105 +107,107 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
   }, [event])
 
   return (
-    <>
-      <Box>
-        事件 {' '}
-        <NextLink
-          as={`/api/events/${event.id}`}
-          href={
-            {
-              href: 'api/events/[id]',
-              query: { id: event.id },
+    <ThemeBox bg="current">
+      <Wrapper>
+        <Box>
+          事件 {' '}
+          <NextLink
+            as={`/api/events/${event.id}`}
+            href={
+              {
+                href: 'api/events/[id]',
+                query: { id: event.id },
+              }
             }
+          >
+            <Link isExternal>{event.id}</Link>
+          </NextLink>
+        </Box>
+
+        <Card>
+          {/* 浏览器 */}
+          {
+            deviceInfo?.browser && (
+              <Stat>
+                <StatLabel>{deviceInfo?.browser?.name ?? ''}</StatLabel>
+                <StatHelpText>{deviceInfo?.browser?.version ?? ''}</StatHelpText>
+              </Stat>
+            )
           }
-        >
-          <Link isExternal>{event.id}</Link>
-        </NextLink>
-      </Box>
+          {/* 系统 */}
+          {
+            deviceInfo?.os && (
+              <Stat>
+                <StatLabel>{deviceInfo?.os?.name ?? ''}</StatLabel>
+                <StatHelpText>{deviceInfo?.os?.version ?? ''}</StatHelpText>
+              </Stat>
+            )
+          }
+          {/* App */}
+          {
+            deviceInfo?.app && (
+              <Stat>
+                <StatLabel>{deviceInfo?.app ?? ''}</StatLabel>
+                <StatHelpText>{`${deviceInfo?.version} / ${deviceInfo?.SDKVersion}`}</StatHelpText>
+              </Stat>
+            )
+          }
+          {/* 品牌 */}
+          {
+            (deviceInfo?.device && deviceInfo?.device?.brand) && (
+              <Stat>
+                <StatLabel>{deviceInfo?.device?.brand ?? ''}</StatLabel>
+                <StatHelpText>{deviceInfo?.device?.model ?? ''}</StatHelpText>
+              </Stat>
+            )
+          }
+          {/* 平台 */}
+          {
+            deviceInfo?.platform && (
+              <Stat>
+                <StatLabel>{deviceInfo?.platform ?? ''}</StatLabel>
+                <StatHelpText>{deviceInfo?.system ?? ''}</StatHelpText>
+              </Stat>
+            )
+          }
+          {/* SDK */}
+          {
+            deviceInfo?.sdk && (
+              <Stat>
+                <StatLabel>{deviceInfo?.sdk.platform ?? ''}</StatLabel>
+                <StatHelpText>{deviceInfo?.sdk.version ?? ''}</StatHelpText>
+              </Stat>
+            )
+          }
+        </Card>
 
-      <Card>
-        {/* 浏览器 */}
-        {
-          deviceInfo?.browser && (
-            <Stat>
-              <StatLabel>{deviceInfo?.browser?.name ?? ''}</StatLabel>
-              <StatHelpText>{deviceInfo?.browser?.version ?? ''}</StatHelpText>
-            </Stat>
-          )
-        }
-        {/* 系统 */}
-        {
-          deviceInfo?.os && (
-            <Stat>
-              <StatLabel>{deviceInfo?.os?.name ?? ''}</StatLabel>
-              <StatHelpText>{deviceInfo?.os?.version ?? ''}</StatHelpText>
-            </Stat>
-          )
-        }
-        {/* App */}
-        {
-          deviceInfo?.app && (
-            <Stat>
-              <StatLabel>{deviceInfo?.app ?? ''}</StatLabel>
-              <StatHelpText>{`${deviceInfo?.version} / ${deviceInfo?.SDKVersion}`}</StatHelpText>
-            </Stat>
-          )
-        }
-        {/* 品牌 */}
-        {
-          (deviceInfo?.device && deviceInfo?.device?.brand) && (
-            <Stat>
-              <StatLabel>{deviceInfo?.device?.brand ?? ''}</StatLabel>
-              <StatHelpText>{deviceInfo?.device?.model ?? ''}</StatHelpText>
-            </Stat>
-          )
-        }
-        {/* 平台 */}
-        {
-          deviceInfo?.platform && (
-            <Stat>
-              <StatLabel>{deviceInfo?.platform ?? ''}</StatLabel>
-              <StatHelpText>{deviceInfo?.system ?? ''}</StatHelpText>
-            </Stat>
-          )
-        }
-        {/* SDK */}
-        {
-          deviceInfo?.sdk && (
-            <Stat>
-              <StatLabel>{deviceInfo?.sdk.platform ?? ''}</StatLabel>
-              <StatHelpText>{deviceInfo?.sdk.version ?? ''}</StatHelpText>
-            </Stat>
-          )
-        }
-      </Card>
-
-      <Wrap>
-        {
-          tagList.map(tag => (
-            <Tooltip
-              key={tag.key}
-              label={tag.title}
-            >
-              <WrapItem>
-                <Tag
-                  borderRadius="full"
-                  gap="2"
-                  size="lg"
-                >
-                  <Icon
-                    as={tag.icon}
-                    h="5"
-                    w="5"
-                  />
-                  {tag.value}
-                </Tag>
-              </WrapItem>
-            </Tooltip>
-          ))
-        }
-      </Wrap>
-    </>
+        <Wrap>
+          {
+            tagList.map(tag => (
+              <Tooltip
+                key={tag.key}
+                label={tag.title}
+              >
+                <WrapItem>
+                  <Tag
+                    borderRadius="full"
+                    gap="2"
+                    size="lg"
+                  >
+                    <Icon
+                      as={tag.icon}
+                      h="5"
+                      w="5"
+                    />
+                    {tag.value}
+                  </Tag>
+                </WrapItem>
+              </Tooltip>
+            ))
+          }
+        </Wrap>
+      </Wrapper>
+    </ThemeBox>
   )
 }
 

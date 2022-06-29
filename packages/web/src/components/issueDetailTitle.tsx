@@ -1,6 +1,8 @@
-import { Box, Center, Stat, StatLabel, StatNumber } from '@chakra-ui/react'
+import { Box, Stat, StatGroup, StatLabel, StatNumber } from '@chakra-ui/react'
 import type { FC } from 'react'
 import type { Issue } from 'common'
+import Title from './title'
+import IssueDetailTabs from './issueDetailTabs'
 import { renderStringOrJson } from '~/libs/utils'
 
 interface Props {
@@ -9,11 +11,29 @@ interface Props {
 
 const IssueDetailTitle: FC<Props> = ({ issue }) => {
   return (
-    <Center>
-      <Box flex="1">
+    <Title
+      bg="gray"
+      bottomNodes={
+        <IssueDetailTabs />
+      }
+      rightNodes={
+        (
+          <StatGroup w="xs">
+            <Stat>
+              <StatLabel>Events</StatLabel>
+              <StatNumber>{issue._count?.events}</StatNumber>
+            </Stat>
+            <Stat>
+              <StatLabel>Users</StatLabel>
+              <StatNumber>{issue._count?.users}</StatNumber>
+            </Stat>
+          </StatGroup>
+        )
+      }
+    >
+      <Box>
         <Box
           as="a"
-          maxW="md"
           noOfLines={1}
         >
           <Box
@@ -40,18 +60,7 @@ const IssueDetailTitle: FC<Props> = ({ issue }) => {
           }
         </Box>
       </Box>
-
-      <Box>
-        <Stat>
-          <StatLabel>事件</StatLabel>
-          <StatNumber>{issue._count?.events}</StatNumber>
-        </Stat>
-        <Stat>
-          <StatLabel>用户</StatLabel>
-          <StatNumber>{issue._count?.users}</StatNumber>
-        </Stat>
-      </Box>
-    </Center>
+    </Title>
   )
 }
 

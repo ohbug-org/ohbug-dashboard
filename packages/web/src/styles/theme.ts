@@ -29,7 +29,23 @@ const theme: Dict = extendTheme({
       },
     },
     Switch: { defaultProps: { colorScheme: 'gray' } },
-    Tabs: { defaultProps: { colorScheme: 'dark' } },
+    Tabs: {
+      variants: {
+        'enclosed-colored': (props: StyleFunctionProps) => ({
+          tab: {
+            borderColor: mode('gray.200', 'dark.50')(props),
+            _selected: {
+              borderColor: mode('gray.200', 'dark.50')(props),
+              borderTopColor: mode('gray.200', 'dark.50')(props),
+              borderBottomWidth: '2px',
+              borderBottomColor: mode('black', 'white')(props),
+              textColor: mode('black', 'white')(props),
+            },
+          },
+          tablist: { borderColor: mode('gray.200', 'dark.50')(props) },
+        }),
+      },
+    },
   },
   styles: {
     global: (props: StyleFunctionProps) => ({
