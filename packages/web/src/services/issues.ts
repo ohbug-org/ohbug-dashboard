@@ -42,7 +42,7 @@ export async function serviceGetIssuesTrends({ ids, type }: ServiceGetIssuesTren
 
   const list = `(${ids.split(',').map(v => `'${v}'`).join(',')})`
   const trends = await prisma.$queryRawUnsafe<IssueTrend[]>(`
-    SELECT "issueId", to_char("Event"."createdAt", '${format}') AS time, count("Event".*)
+    SELECT "issueId", to_char("Event"."createdAt", '${format}') AS time, count("Event".*)::int
     FROM "Event"
     WHERE "Event"."issueId" IN ${list}
     AND "Event"."createdAt" BETWEEN '${min.format('YYYY-MM-DD HH:mm:ss')}' AND '${max.format('YYYY-MM-DD HH:mm:ss')}'
