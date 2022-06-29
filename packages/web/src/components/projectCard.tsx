@@ -17,7 +17,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
   const trendLoading = useMemo(() => !trends, [trends])
 
   return (
-    <NextLink href={`/projects/${project.id}`}>
+    <NextLink href={`/${project.id}/profile`}>
       <Card w="sm">
         <Flex gap="6">
           <Avatar

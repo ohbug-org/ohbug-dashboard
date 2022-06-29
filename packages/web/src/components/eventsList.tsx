@@ -3,10 +3,11 @@ import dayjs from 'dayjs'
 import NextLink from 'next/link'
 import type { FC } from 'react'
 import type { Event } from '@prisma/client'
+import type { OhbugEventLike } from 'common'
 import { renderStringOrJson } from '~/libs/utils'
 
 interface Props {
-  events?: Event[]
+  events?: Event[] | OhbugEventLike[]
 }
 
 const EventsList: FC<Props> = ({ events }) => {

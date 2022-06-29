@@ -7,8 +7,6 @@ export default async function handler(
   res: NextApiResponse<Issue>,
 ) {
   const issue = await serviceGetIssue({ id: req.query.id as string })
-  if (issue)
-    res.status(200).json(issue)
-  else
-    res.end(`Issue ${req.query.id} not found`)
+  if (issue) { res.status(200).json(issue) }
+  else { res.end(`Issue ${req.query.id} not found`) }
 }

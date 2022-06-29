@@ -10,13 +10,13 @@ interface ServiceGetEventParams {
 }
 export async function serviceGetEvent({ id, issueId }: ServiceGetEventParams) {
   if (id) {
-    const event = prisma.event.findUnique({ where: { id } }) as unknown as OhbugEventLike
+    const event = prisma.event.findUniqueOrThrow({ where: { id } }) as unknown as OhbugEventLike
     const source = await serviceGetEventSource(event)
     return { ...event, source }
   }
   if (issueId) {
     const event = (
-      await prisma.issue.findUnique({
+      await prisma.issue.findUniqueOrThrow({
         where: { id: issueId },
         include: { events: true },
       })
@@ -44,8 +44,7 @@ export async function serviceGetEventSource(event: OhbugEventLike) {
           const sourceFileName = originalname.split('.map')[0]
           return stackFrame.fileName?.includes(sourceFileName)
         })
-        if (sourceMapTarget)
-          return await getTheSourceByError(sourceMapTarget.path, event.detail)
+        if (sourceMapTarget) { return await getTheSourceByError(sourceMapTarget.path, event.detail) }
       }
     }
     return undefined

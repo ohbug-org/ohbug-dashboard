@@ -46,7 +46,7 @@ export class SourceMapService {
     body: ReceiveSourceMapDto,
   ) {
     try {
-      const project = await this.prisma.project.findUnique({
+      const project = await this.prisma.project.findUniqueOrThrow({
         where: { apiKey: body.apiKey },
         include: { releases: true },
       })
@@ -59,8 +59,9 @@ export class SourceMapService {
         const release = project.releases.find(release => release.appVersion === appVersion)
         if (release) {
           const sourceMaps = release?.sourceMaps as unknown as SourceMapData || []
-          if (sourceMaps.length < maxSourceMap)
+          if (sourceMaps.length < maxSourceMap) {
             return this.createRelease([...sourceMaps, sourceMap], body, project, release)
+          }
           // 已经达到上限 删除最旧的
           const deleteSourceMap = sourceMaps.shift()
           if (deleteSourceMap) {

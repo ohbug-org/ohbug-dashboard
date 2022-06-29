@@ -4,9 +4,7 @@ import type { ProjectWithEventCount } from 'common'
 import { prisma } from '~/db'
 
 export async function serviceGetProject(id: number) {
-  const project = await prisma.project.findUnique({ where: { id } })
-  if (!project) throw new Error(`Can't find Project with projectId: ${id}`)
-  return project
+  return prisma.project.findUniqueOrThrow({ where: { id } })
 }
 
 export async function serviceGetProjects() {
@@ -14,7 +12,7 @@ export async function serviceGetProjects() {
 }
 
 export async function serviceGetProjectsWithEventCount(): Promise<ProjectWithEventCount[]> {
-  const projects = await prisma.project.findMany()
+  const projects = await serviceGetProjects()
   const projectWithEventCounts = []
   for (const project of projects) {
     const eventCount = await serviceGetProjectEventsCount(project.id)

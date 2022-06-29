@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
-  const projectId = parseInt(context.query.id as string)
+  const projectId = parseInt(context.query.projectId as string)
   const project = await serviceGetProject(projectId)
   const trends14d = await serviceGetProjectTrends({ id: projectId, type: '14d' })
   const trends24h = await serviceGetProjectTrends({ id: projectId, type: '24h' })
@@ -111,7 +111,7 @@ const Events: FC<{ project: Props['project'] }> = ({ project }) => {
   )
 }
 
-const Detail: NextPage<Props> = ({ project, trends }) => {
+const Profile: NextPage<Props> = ({ project, trends }) => {
   return (
     <Box>
       <Title
@@ -139,4 +139,4 @@ const Detail: NextPage<Props> = ({ project, trends }) => {
   )
 }
 
-export default Detail
+export default Profile

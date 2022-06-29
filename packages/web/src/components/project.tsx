@@ -1,16 +1,18 @@
 import type { FC } from 'react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { Avatar, Center, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Text } from '@chakra-ui/react'
 import useSWR from 'swr'
 import type { Project } from '@prisma/client'
 import { RiAddLine, RiMore2Line } from 'react-icons/ri'
 import { useRouter } from 'next/router'
 import Loading from './loading'
+import { useStore } from '~/store'
 
 const ProjectComponent: FC = () => {
   const router = useRouter()
   const { data: projects } = useSWR<Project[]>('/api/projects')
-  const [currentProject, setCurrentProject] = useState(() => projects?.find(project => project.default))
+  const currentProject = useStore(state => state.project)
+  const setCurrentProject = useStore(state => state.setProject)
   const loading = useMemo(() => !projects, [projects])
 
   useEffect(() => {

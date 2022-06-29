@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
-  const issueId = context.query.id as string
+  const issueId = context.query.issueId as string
   const eventId = context.query.eventId as string
   const issue = await serviceGetIssue({ id: issueId }) as unknown as Issue
   const event = (await serviceGetEvent({ id: eventId, issueId }))!

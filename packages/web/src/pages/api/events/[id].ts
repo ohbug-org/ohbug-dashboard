@@ -7,8 +7,6 @@ export default async function handler(
   res: NextApiResponse<Event>,
 ) {
   const event = await serviceGetEvent({ id: req.query.id as string })
-  if (event)
-    res.status(200).json(event)
-  else
-    res.end(`Event ${req.query.id} not found`)
+  if (event) { res.status(200).json(event) }
+  else { res.end(`Event ${req.query.id} not found`) }
 }

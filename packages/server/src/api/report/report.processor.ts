@@ -73,7 +73,7 @@ export class ReportProcessor {
 
   async findProjectByApiKey(apiKey: string) {
     try {
-      return this.prisma.project.findUnique({ where: { apiKey } })
+      return this.prisma.project.findUniqueOrThrow({ where: { apiKey } })
     }
     catch (error) {
       throw new ForbiddenException(400204, error)

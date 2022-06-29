@@ -3,22 +3,28 @@ import { useCallback, useMemo } from 'react'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { Tab, TabList, Tabs } from '@chakra-ui/react'
+import useCurrentProject from '~/hooks/useCurrentProject'
 
 const IssueDetailTabs: FC = () => {
   const router = useRouter()
+  const { projectId } = useCurrentProject()
   const list = useMemo(() => [
     {
       label: '详细信息',
       value: 'detail',
-      href: '/issues/[id]'.replace('[id]', router.query.id as string),
+      href: '/[projectId]/issues/[issueId]'.replace('[issueId]', router.query.issueId as string).replace('[projectId]', projectId!.toString()),
     },
     {
       label: '事件',
       value: 'events',
-      href: '/issues/[id]/events'.replace('[id]', router.query.id as string),
+      href: '/[projectId]/issues/[issueId]/events'.replace('[issueId]', router.query.issueId as string).replace('[projectId]', projectId!.toString()),
     },
-  ], [router])
-  const active = useMemo(() => list.findIndex(item => item.href === router.route.replace('[id]', router.query.id as string)), [list, router])
+  ], [router, projectId])
+  const active = useMemo(() => {
+    return list.findIndex(item => item.href === router.route
+      .replace('[issueId]', router.query.issueId as string)
+      .replace('[projectId]', projectId!.toString()))
+  }, [list, router])
   const handleTabChange = useCallback((tabIndex: number) => {
     router.push(list[tabIndex].href)
   }, [list])

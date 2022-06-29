@@ -10,11 +10,13 @@ import TrendChart from './trendChart'
 import ThemeBox from './themeBox'
 import type { serviceGetIssuesTrendsReturn } from '~/services/issues'
 import { renderStringOrJson } from '~/libs/utils'
+import useCurrentProject from '~/hooks/useCurrentProject'
 
 interface Props {
   issues: Issue[]
 }
 const IssueList: FC<Props> = ({ issues }) => {
+  const { projectId } = useCurrentProject()
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
   const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(`/api/trends/issues?ids=${issues.map(issue => issue.id)}&type=${chartType}`)
 
@@ -85,8 +87,8 @@ const IssueList: FC<Props> = ({ issues }) => {
                 <NextLink
                   href={
                     {
-                      pathname: '/issues/[id]',
-                      query: { id: issue.id },
+                      pathname: '/[projectId]/issues/[issueId]',
+                      query: { issueId: issue.id, projectId },
                     }
                   }
                 >

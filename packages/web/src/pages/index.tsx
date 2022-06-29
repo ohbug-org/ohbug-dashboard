@@ -1,13 +1,15 @@
+import { SimpleGrid } from '@chakra-ui/react'
 import type { Setting } from '@prisma/client'
+import type { ProjectWithEventCount } from 'common'
 import type { GetServerSideProps, NextPage } from 'next'
-import NextLink from 'next/link'
-import Login from '~/components/loginButton'
+import ProjectCard from '~/components/projectCard'
 import Wrapper from '~/components/wrapper'
 import { serviceGetSetting } from '~/services/bootstrap'
-import { serviceGetProjects } from '~/services/projects'
+import { serviceGetProjectsWithEventCount } from '~/services/projects'
 
 interface Props {
   setting: Setting | null
+  projects: ProjectWithEventCount[]
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async() => {
@@ -20,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async() => {
       },
     }
   }
-  const projects = await serviceGetProjects()
+  const projects = await serviceGetProjectsWithEventCount()
   if (!projects || !projects.length) {
     return {
       redirect: {
@@ -29,15 +31,26 @@ export const getServerSideProps: GetServerSideProps<Props> = async() => {
       },
     }
   }
-  return { props: { setting } }
+
+  return { props: { setting, projects } }
 }
 
-const Home: NextPage<Props> = () => {
+const Home: NextPage<Props> = ({ projects }) => {
   return (
     <Wrapper>
-      <NextLink href="/issues"><a>go to issues</a></NextLink>
-
-      <Login />
+      <SimpleGrid
+        columns={3}
+        spacing="8"
+      >
+        {
+          projects.map(project => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+            />
+          ))
+        }
+      </SimpleGrid>
     </Wrapper>
   )
 }

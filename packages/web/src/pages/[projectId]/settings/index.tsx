@@ -1,7 +1,6 @@
 import { Box, Button, Flex, FormControl, FormErrorMessage, Input, Skeleton, Text, useToast } from '@chakra-ui/react'
 import type { Project } from '@prisma/client'
 import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import type { FC } from 'react'
 import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
@@ -11,6 +10,7 @@ import Copy from '~/components/copy'
 import ThemeBox from '~/components/themeBox'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
+import useCurrentProject from '~/hooks/useCurrentProject'
 
 const SettingsProjectName: FC<{ project?: Project }> = ({ project }) => {
   interface Form {
@@ -144,8 +144,7 @@ const SettingsProjectApiKey: FC<{ project?: Project }> = ({ project }) => {
 }
 
 const Settings: NextPage = () => {
-  const router = useRouter()
-  const projectId = parseInt(router.query.id as string)
+  const { projectId } = useCurrentProject()
   const { data: project } = useSWR<Project>(`/api/projects/${projectId}`)
   const loading = useMemo(() => !project, [project])
 
