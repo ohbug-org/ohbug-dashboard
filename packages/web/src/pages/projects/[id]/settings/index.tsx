@@ -7,6 +7,7 @@ import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import useSWR, { mutate } from 'swr'
 import Card from '~/components/card'
+import Copy from '~/components/copy'
 import ThemeBox from '~/components/themeBox'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
@@ -67,7 +68,7 @@ const SettingsProjectName: FC<{ project?: Project }> = ({ project }) => {
               </FormControl>
 
               {
-                (!!name && name !== project.name) && (
+                (!!name && name !== project?.name) && (
                   <ThemeBox
                     border="1px"
                     borderColor="current"
@@ -97,8 +98,8 @@ const SettingsProjectName: FC<{ project?: Project }> = ({ project }) => {
             >
               <div>leftr</div>
               <Button
-                disabled={!(!!name && name !== project.name)}
-                size="xs"
+                disabled={!(!!name && name !== project?.name)}
+                size="sm"
                 type="submit"
                 variant="solid"
               >
@@ -108,9 +109,37 @@ const SettingsProjectName: FC<{ project?: Project }> = ({ project }) => {
           )
         }
         hover={false}
-        title="ProjectName"
+        title="Project Name"
       />
     </form>
+  )
+}
+
+const SettingsProjectApiKey: FC<{ project?: Project }> = ({ project }) => {
+  return (
+    <Card
+      content={
+        (
+          <Box>
+            <Text mb="2">To send data to Ohbug you will need to configure an SDK with a apiKey.</Text>
+
+            <Copy>{project?.apiKey ?? ''}</Copy>
+          </Box>
+        )
+      }
+      footer={
+        (
+          <Flex
+            align="center"
+            justify="space-between"
+          >
+            <div>leftr</div>
+          </Flex>
+        )
+      }
+      hover={false}
+      title="Project ApiKey"
+    />
   )
 }
 
@@ -124,9 +153,18 @@ const Settings: NextPage = () => {
     <Box>
       <Title>Project Settings</Title>
 
-      <Wrapper py="12">
+      <Wrapper
+        display="flex"
+        flexDirection="column"
+        gap="12"
+        py="12"
+      >
         <Skeleton isLoaded={!loading}>
           <SettingsProjectName project={project} />
+        </Skeleton>
+
+        <Skeleton isLoaded={!loading}>
+          <SettingsProjectApiKey project={project} />
         </Skeleton>
       </Wrapper>
     </Box>
