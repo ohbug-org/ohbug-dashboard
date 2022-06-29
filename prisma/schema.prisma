@@ -1,14 +1,12 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["filterJson"]
-}
-
-// data
 model Event {
   id           String   @id @default(uuid())
   apiKey       String
@@ -53,16 +51,15 @@ model EventUser {
 }
 
 model EventUsersOnIssues {
-  issue       Issue     @relation(fields: [issueId], references: [id])
   issueId     String
-  eventUser   EventUser @relation(fields: [eventUserId], references: [id])
   eventUserId String
   assignedAt  DateTime  @default(now())
+  eventUser   EventUser @relation(fields: [eventUserId], references: [id])
+  issue       Issue     @relation(fields: [issueId], references: [id])
 
   @@id([issueId, eventUserId])
 }
 
-// business
 model Setting {
   id                 Int    @id @default(autoincrement())
   githubClientId     String
@@ -74,39 +71,38 @@ model Project {
   apiKey    String    @unique
   name      String    @unique
   type      String
-  default   Boolean   @default(false)
-  image     String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  default   Boolean   @default(false)
+  image     String?
   releases  Release[]
 }
 
 model Release {
   id         Int      @id @default(autoincrement())
-  apiKey     String
   appVersion String
   appType    String?
   sourceMaps Json?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId  Int
+  apiKey     String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
-// accounts
 model Account {
   id                String  @id @default(cuid())
-  userId            String
-  type              String
+  access_token      String?
+  expires_at        Int?
+  id_token          String?
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
+  refresh_token     String?
   scope             String?
-  id_token          String? @db.Text
   session_state     String?
+  token_type        String?
+  type              String
+  userId            String
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
@@ -122,8 +118,8 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
   email         String?   @unique
+  name          String?
   emailVerified DateTime?
   image         String?
   accounts      Account[]

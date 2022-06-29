@@ -65,7 +65,7 @@ export async function serviceGetProjectTrends({ id, type }: ServiceGetProjectTre
   const min = max.subtract(interval, unit)
 
   const trends = await prisma.$queryRawUnsafe<ProjectTrend[]>(`
-    SELECT to_char("Event"."createdAt", '${format}') AS time, count("Event".*)
+    SELECT to_char("Event"."createdAt", '${format}') AS time, count("Event".*)::int
     FROM "Event"
     WHERE "Event"."apiKey" = '${apiKey}'
     AND "Event"."createdAt" BETWEEN '${min.format('YYYY-MM-DD HH:mm:ss')}' AND '${max.format('YYYY-MM-DD HH:mm:ss')}'
