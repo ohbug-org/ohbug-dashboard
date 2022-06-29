@@ -15,12 +15,21 @@ export default function useBreadcrumb() {
 
       const pathArray = linkPath
         .map((path, i) => {
-          return {
-            breadcrumb: path,
-            path: `/${linkPath.slice(0, i + 1).join('/')}`,
+          if (path) {
+            if (i === 0) {
+              return {
+                breadcrumb: path,
+                path: `/${path}/profile`,
+              }
+            }
+            return {
+              breadcrumb: path,
+              path: `/${linkPath.slice(0, i + 1).join('/')}`,
+            }
           }
+          return null
         })
-        .filter(v => v.breadcrumb)
+        .filter(v => !!v) as Breadcrumb[]
       setBreadcrumbs(pathArray)
     }
   }, [router])
