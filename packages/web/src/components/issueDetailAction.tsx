@@ -26,10 +26,14 @@ const IssueDetailActions: FC<Props> = ({ event }) => {
     <ThemeBox bg="gray">
       <Wrapper>
         <CardSection title="Event Actions">
-          <VStack spacing="4">
+          <VStack
+            maxH="xl"
+            overflowY="auto"
+            spacing="4"
+          >
             {
-              actions.map((action) => {
-                const { message, icon } = getMessageAndIconByActionType(action)
+              actions.map((action, index) => {
+                const { message, icon, color } = getMessageAndIconByActionType(action)
                 return (
                   <Flex
                     align="center"
@@ -38,8 +42,11 @@ const IssueDetailActions: FC<Props> = ({ event }) => {
                     key={action.timestamp + action.data}
                     w="full"
                   >
-                    <Box w="36">
-                      <Tag>
+                    <Box
+                      position="relative"
+                      w="36"
+                    >
+                      <Tag colorScheme={color}>
                         <TagLeftIcon as={icon} />
                         <TagLabel
                           fontWeight="semibold"
@@ -47,11 +54,25 @@ const IssueDetailActions: FC<Props> = ({ event }) => {
                           {action.type}
                         </TagLabel>
                       </Tag>
+                      {
+                        index !== actions.length - 1 && (
+                          <ThemeBox
+                            border="1px"
+                            borderColor="current"
+                            borderLeft="0"
+                            borderY="0"
+                            h="full"
+                            left="4"
+                            position="absolute"
+                            w="0"
+                          />
+                        )
+                      }
                     </Box>
 
                     <Box flex="1">
                       <Text
-                        color="dimmed"
+                        color="gray"
                         size="sm"
                       >
                         {message}
@@ -62,7 +83,7 @@ const IssueDetailActions: FC<Props> = ({ event }) => {
                       label={dayjs(action.timestamp).format('YYYY-MM-DD HH:mm:ss')}
                     >
                       <Text
-                        color="dimmed"
+                        color="gray"
                         size="sm"
                       >
                         {dayjs(action.timestamp).format('HH:mm:ss')}

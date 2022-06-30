@@ -12,7 +12,6 @@ interface Props {
 const IssueDetailTitle: FC<Props> = ({ issue }) => {
   return (
     <Title
-      acrylic
       bg="current"
       bottomNodes={
         <IssueDetailTabs />

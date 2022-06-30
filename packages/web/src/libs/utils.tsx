@@ -57,6 +57,7 @@ export function getDeviceInfo(event?: OhbugEvent<any>) {
 export function getMessageAndIconByActionType(action: OhbugAction): {
   message: ReactNode
   icon: IconType
+  color: string
 } {
   switch (action.type) {
     case 'click':
@@ -64,6 +65,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
         return {
           message: action.data?.selector,
           icon: RiCursorFill,
+          color: 'gray',
         }
       }
       return {
@@ -74,6 +76,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
           </>
         ),
         icon: RiCursorFill,
+        color: 'gray',
       }
     case 'navigation':
       return {
@@ -84,6 +87,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
           </>
         ),
         icon: RiRouterFill,
+        color: 'gray',
       }
     case 'ajax':
       return {
@@ -95,6 +99,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
           </>
         ),
         icon: RiLoader2Fill,
+        color: 'gray',
       }
     case 'fetch':
       return {
@@ -106,16 +111,19 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
           </>
         ),
         icon: RiLoader2Fill,
+        color: 'gray',
       }
     case 'console':
       return {
         message: `[${action.message}] ${JSON.stringify(action.data)}`,
         icon: RiTerminalBoxFill,
+        color: 'gray',
       }
     case 'exception':
       return {
         message: renderStringOrJson(action.message),
         icon: RiBugFill,
+        color: 'red',
       }
     default:
       return {
@@ -126,6 +134,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
           </>
         ),
         icon: RiGift2Fill,
+        color: 'gray',
       }
   }
 }

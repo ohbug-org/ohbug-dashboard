@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import type { Issue } from 'common'
-import { Box, Text } from '@chakra-ui/react'
+import { Box, Stat, StatGroup, StatLabel, StatNumber, Tooltip } from '@chakra-ui/react'
 import TrendChart from './trendChart'
 import ThemeBox from './themeBox'
 import Wrapper from './wrapper'
@@ -20,47 +20,64 @@ const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
   return (
     <ThemeBox bg="gray">
       <Wrapper>
-        <CardSection title="Event Trends">
-          <Box mb="4">
+        <CardSection
+          head={
+            (
+              <StatGroup>
+                <Stat>
+                  <StatLabel>First Seen</StatLabel>
+                  <Tooltip
+                    label={dayjs(issue?.createdAt).format('YYYY-MM-DD HH:mm:ss A')}
+                    placement="bottom-start"
+                  >
+                    <StatNumber>
+                      {dayjs(issue?.createdAt).fromNow()}
+                    </StatNumber>
+                  </Tooltip>
+                </Stat>
+                <Stat>
+                  <StatLabel>Last Seen</StatLabel>
+                  <Tooltip
+                    label={dayjs(issue?.updatedAt).format('YYYY-MM-DD HH:mm:ss A')}
+                    placement="bottom-start"
+                  >
+                    <StatNumber>
+                      {dayjs(issue?.updatedAt).fromNow()}
+                    </StatNumber>
+                  </Tooltip>
+                </Stat>
+              </StatGroup>
+            )
+          }
+          title="Event Trends"
+        >
+          <Box
+            mb="12"
+          >
             {
               trends['14d'] && (
                 <TrendChart
                   data={trends['14d']}
                   title="过去14天"
                   type="14d"
+                  variant="detail"
                 />
               )
             }
           </Box>
-          <Box mb="4">
+          <Box>
             {
               trends['24h'] && (
                 <TrendChart
                   data={trends['24h']}
                   title="过去24小时"
                   type="24h"
+                  variant="detail"
                 />
               )
             }
           </Box>
-          <Box mb="4">
-            <Text fontWeight="semibold">首次发生</Text>
-            <Text color="dimmed">
-              {dayjs(issue?.createdAt).fromNow()}
-            </Text>
-            <Text color="dimmed">
-              {dayjs(issue?.createdAt).format('YYYY-MM-DD HH:mm:ss A')}
-            </Text>
-          </Box>
-          <Box mb="4">
-            <Text fontWeight="semibold">最近发生</Text>
-            <Text color="dimmed">
-              {dayjs(issue?.updatedAt).fromNow()}
-            </Text>
-            <Text color="dimmed">
-              {dayjs(issue?.updatedAt).format('YYYY-MM-DD HH:mm:ss A')}
-            </Text>
-          </Box>
+
         </CardSection>
       </Wrapper>
     </ThemeBox>
