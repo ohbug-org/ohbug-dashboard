@@ -42,7 +42,10 @@ const Layout: FC<Props> = ({ children }) => {
       </Container>
       {/* navMenu */}
       <ThemeBox
+        acrylic
+        backdropFilter="saturate(180%) blur(5px)"
         bg="current"
+        boxShadow="inset 0 -1px 0 0 rgba(0,0,0,.1)"
         h={`${NavHeight}px`}
         position={scrollNavVisible ? 'sticky' : 'relative'}
         top={scrollNavVisible ? 0 : ''}
@@ -90,9 +93,8 @@ const Layout: FC<Props> = ({ children }) => {
       {/* main */}
       <ThemeBox
         bg="gray"
-        border="1px"
+        borderBottom="1px"
         borderColor="current"
-        borderX="0"
         minH={`calc(100vh - ${HeadHeight + NavHeight}px)`}
         w="full"
       >

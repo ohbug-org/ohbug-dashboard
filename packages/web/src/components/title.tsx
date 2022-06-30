@@ -1,5 +1,5 @@
 import type { BoxProps } from '@chakra-ui/react'
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Flex, Heading } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
 import ThemeBox from './themeBox'
 import Wrapper from './wrapper'
@@ -25,10 +25,13 @@ const Title: FC<Props> = ({ children, rightNodes, bottomNodes, ...props }) => {
         pb={bottomNodes ? '0' : '16'}
         pt="16"
       >
-        <Box>
+        <Flex
+          align="center"
+          justify="space-between"
+        >
           {typeof children === 'string' ? <Heading>{children}</Heading> : children}
           <Box>{rightNodes}</Box>
-        </Box>
+        </Flex>
         <Box mt="6">{bottomNodes}</Box>
       </Wrapper>
     </ThemeBox>

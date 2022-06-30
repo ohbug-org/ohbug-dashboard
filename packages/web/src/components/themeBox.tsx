@@ -4,11 +4,13 @@ import type { FC } from 'react'
 import { useMemo } from 'react'
 import { useBgColor, useBorderColor } from '~/hooks/useColor'
 
-interface Props extends BoxProps {}
+interface Props extends BoxProps {
+  acrylic?: boolean
+}
 
 const ThemeBox: FC<Props> = (props) => {
-  const bgColor = useBgColor()
-  const bgGrayColor = useBgColor(true)
+  const bgColor = useBgColor({ acrylic: props.acrylic })
+  const bgGrayColor = useBgColor({ gray: true })
   const borderColor = useBorderColor()
 
   const bg = useMemo(() => {
