@@ -17,7 +17,11 @@ const theme: Dict = extendTheme({
             bg: mode('gray.100', 'dark.500')(props),
           },
         }),
-        ghost: (props: StyleFunctionProps) => ({ _hover: { bg: mode('gray.100', 'dark.200')(props) } }),
+        ghost: (props: StyleFunctionProps) => ({
+          textColor: mode('black', 'white')(props),
+          _hover: { bg: mode('gray.100', 'dark.200')(props) },
+          _active: { textColor: 'white' },
+        }),
       },
     },
     Input: {
@@ -44,6 +48,27 @@ const theme: Dict = extendTheme({
           },
           tablist: { borderColor: mode('gray.200', 'dark.50')(props) },
         }),
+      },
+    },
+    Menu: { baseStyle: (props: StyleFunctionProps) => ({ divider: { borderColor: mode('gray.200', 'dark.50')(props) } }) },
+    Link: {
+      baseStyle: {
+        opacity: 0.6,
+        _hover: {
+          textDecoration: 'none',
+          opacity: 1,
+        },
+      },
+    },
+    Breadcrumb: {
+      baseStyle: {
+        link: {
+          opacity: 0.6,
+          _hover: {
+            textDecoration: 'none',
+            opacity: 1,
+          },
+        },
       },
     },
     Accordion: {

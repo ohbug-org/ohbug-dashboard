@@ -5,7 +5,7 @@ import type { Issue } from 'common'
 import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
-import { Box, Center, Flex, FormControl, FormLabel, Icon, Switch, Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
+import { Box, Center, Flex, FormControl, FormLabel, Icon, Link, Switch, Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import TrendChart from './trendChart'
 import ThemeBox from './themeBox'
 import type { serviceGetIssuesTrendsReturn } from '~/services/issues'
@@ -92,10 +92,10 @@ const IssueList: FC<Props> = ({ issues }) => {
                     }
                   }
                 >
-                  <Flex
-                    as="a"
+                  <Link
                     cursor="pointer"
-                    justify="space-between"
+                    display="flex"
+                    justifyContent="space-between"
                     noOfLines={1}
                     w="full"
                   >
@@ -114,7 +114,7 @@ const IssueList: FC<Props> = ({ issues }) => {
                     >
                       {renderStringOrJson(issue.metadata.filename ?? issue.metadata.others)}
                     </Box>
-                  </Flex>
+                  </Link>
                 </NextLink>
                 {/* message */}
                 <Text
