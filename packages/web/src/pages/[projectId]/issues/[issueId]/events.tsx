@@ -1,8 +1,12 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import type { Issue } from 'common'
+import { Flex } from '@chakra-ui/react'
 import EventsList from '~/components/eventsList'
 import IssueDetailTitle from '~/components/issueDetailTitle'
 import { serviceGetIssue } from '~/services/issues'
+import ThemeBox from '~/components/themeBox'
+import Wrapper from '~/components/wrapper'
+import CardSection from '~/components/cardSection'
 
 interface Props {
   issue: Issue
@@ -16,11 +20,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
 
 const Detail: NextPage<Props> = ({ issue }) => {
   return (
-    <>
+    <Flex flexDirection="column">
       <IssueDetailTitle issue={issue} />
 
-      <EventsList events={issue.events} />
-    </>
+      <ThemeBox bg="gray">
+        <Wrapper>
+          <CardSection title="Events">
+            <EventsList events={issue.events} />
+          </CardSection>
+        </Wrapper>
+      </ThemeBox>
+    </Flex>
   )
 }
 
