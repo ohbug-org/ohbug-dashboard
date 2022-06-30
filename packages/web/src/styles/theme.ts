@@ -46,6 +46,17 @@ const theme: Dict = extendTheme({
         }),
       },
     },
+    Accordion: {
+      baseStyle: (props: StyleFunctionProps) => ({
+        container: { borderColor: mode('gray.200', 'dark.50')(props) },
+        button: {
+          py: '4',
+          _hover: { bg: mode('gray.200', 'inherit')(props) },
+          _expanded: { bg: mode('gray.200', 'inherit')(props) },
+        },
+        panel: { bg: mode('gray.200', 'inherit')(props) },
+      }),
+    },
   },
   styles: {
     global: (props: StyleFunctionProps) => ({

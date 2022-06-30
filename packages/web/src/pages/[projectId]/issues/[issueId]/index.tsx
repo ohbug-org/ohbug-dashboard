@@ -1,5 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import type { Issue, OhbugEventLike } from 'common'
+import { Flex } from '@chakra-ui/react'
 import IssueDetailActions from '~/components/issueDetailAction'
 import IssueDetailProfile from '~/components/issueDetailProfile'
 import IssueDetailStack from '~/components/issueDetailStack'
@@ -39,7 +40,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
 
 const Detail: NextPage<Props> = ({ issue, event, trends }) => {
   return (
-    <>
+    <Flex
+      flexDirection="column"
+      gap="6"
+    >
       <IssueDetailTitle issue={issue} />
 
       <IssueDetailProfile event={event} />
@@ -52,7 +56,7 @@ const Detail: NextPage<Props> = ({ issue, event, trends }) => {
         issue={issue}
         trends={trends}
       />
-    </>
+    </Flex>
   )
 }
 

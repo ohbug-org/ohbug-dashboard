@@ -27,7 +27,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
           <Box>
             <Text
               cursor="pointer"
-              fontWeight="bold"
+              fontWeight="semibold"
             >
               {project.name}
             </Text>

@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import { useCallback, useMemo } from 'react'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
-import { Tab, TabList, Tabs } from '@chakra-ui/react'
+import { Link, Tab, TabList, Tabs } from '@chakra-ui/react'
 import useCurrentProject from '~/hooks/useCurrentProject'
 
 const IssueDetailTabs: FC = () => {
@@ -33,7 +33,6 @@ const IssueDetailTabs: FC = () => {
     <Tabs
       defaultIndex={active}
       onChange={handleTabChange}
-      // size="sm"
       variant="enclosed-colored"
     >
       <TabList>
@@ -43,7 +42,7 @@ const IssueDetailTabs: FC = () => {
               key={v.value}
             >
               <NextLink href={v.href}>
-                <a>{v.label}</a>
+                <Link>{v.label}</Link>
               </NextLink>
             </Tab>
           ))

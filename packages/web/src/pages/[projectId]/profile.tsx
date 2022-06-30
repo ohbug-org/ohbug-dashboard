@@ -44,7 +44,7 @@ const Trend: FC<{ trends: Props['trends'] }> = ({ trends }) => {
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
   const TrendTitle = useMemo(() => (
     <Flex justify="space-between">
-      <Text fontWeight="bold">Project Trends</Text>
+      <Text fontWeight="semibold">Project Trends</Text>
       <FormControl
         alignItems="center"
         display="flex"

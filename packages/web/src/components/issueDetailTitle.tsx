@@ -12,10 +12,12 @@ interface Props {
 const IssueDetailTitle: FC<Props> = ({ issue }) => {
   return (
     <Title
-      bg="gray"
+      acrylic
+      bg="current"
       bottomNodes={
         <IssueDetailTabs />
       }
+      position="sticky"
       rightNodes={
         (
           <StatGroup w="xs">
@@ -30,6 +32,8 @@ const IssueDetailTitle: FC<Props> = ({ issue }) => {
           </StatGroup>
         )
       }
+      top="48px"
+      zIndex="docked"
     >
       <Box>
         <Box
@@ -38,7 +42,7 @@ const IssueDetailTitle: FC<Props> = ({ issue }) => {
         >
           <Box
             as="span"
-            fontWeight="bold"
+            fontWeight="semibold"
             mr="2"
           >
             {issue.type}

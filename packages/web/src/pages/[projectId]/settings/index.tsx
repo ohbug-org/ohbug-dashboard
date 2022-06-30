@@ -79,7 +79,7 @@ const SettingsProjectName: FC<{ project?: Project }> = ({ project }) => {
                     Your Project will be renamed to `
                     <Box
                       as="span"
-                      fontWeight="bold"
+                      fontWeight="semibold"
                     >
                       {name}
                     </Box>

@@ -1,4 +1,4 @@
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import NextLink from 'next/link'
 import type { FC } from 'react'
@@ -37,7 +37,7 @@ const EventsList: FC<Props> = ({ events }) => {
                 {/* description */}
                 <Td>
                   <NextLink href={`/${projectId}/issues/${event.issueId}/?eventId=${event.id}`}>
-                    <a>{dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}</a>
+                    <Link>{dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}</Link>
                   </NextLink>
                   <div>{event.type}: {renderStringOrJson((event.detail as any).message ?? event.detail)}</div>
                 </Td>

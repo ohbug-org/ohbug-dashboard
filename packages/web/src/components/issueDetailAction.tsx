@@ -1,97 +1,79 @@
-import { Box, Center, Flex, Text, Tooltip } from '@chakra-ui/react'
+import { Box, Flex, Tag, TagLabel, TagLeftIcon, Text, Tooltip, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
+import { useMemo } from 'react'
 import type { OhbugEventLike } from 'common'
+import type { OhbugAction } from '@ohbug/types'
 import ThemeBox from './themeBox'
 import Wrapper from './wrapper'
-import { getMessageAndIconByActionType, renderStringOrJson } from '~/libs/utils'
+import CardSection from './cardSection'
+import { getMessageAndIconByActionType } from '~/libs/utils'
 
 interface Props {
   event: OhbugEventLike
 }
 
 const IssueDetailActions: FC<Props> = ({ event }) => {
+  const actions = useMemo<OhbugAction[]>(() => [
+    ...event?.actions ?? [], {
+      type: 'exception',
+      timestamp: event.timestamp,
+      message: event.detail.message,
+      data: event.detail,
+    },
+  ], [event])
   return (
-    <ThemeBox bg="current">
+    <ThemeBox bg="gray">
       <Wrapper>
-        {
-          event?.actions?.map((action) => {
-            const { message, icon } = getMessageAndIconByActionType(action)
-            return (
-              <Flex
-                align="center"
-                gap="2"
-                justify="space-between"
-                key={action.timestamp + action.data}
-              >
-                <Center>
-                  <Box>{icon}</Box>
-                  <Text
-                    fontWeight="bold"
-                    w="80px"
+        <CardSection title="Event Actions">
+          <VStack spacing="4">
+            {
+              actions.map((action) => {
+                const { message, icon } = getMessageAndIconByActionType(action)
+                return (
+                  <Flex
+                    align="center"
+                    gap="2"
+                    justify="space-between"
+                    key={action.timestamp + action.data}
+                    w="full"
                   >
-                    {action.type}
-                  </Text>
-                </Center>
+                    <Box w="36">
+                      <Tag>
+                        <TagLeftIcon as={icon} />
+                        <TagLabel
+                          fontWeight="semibold"
+                        >
+                          {action.type}
+                        </TagLabel>
+                      </Tag>
+                    </Box>
 
-                <Box flex="1">
-                  <Text
-                    color="dimmed"
-                    size="sm"
-                  >
-                    {message}
-                  </Text>
-                </Box>
+                    <Box flex="1">
+                      <Text
+                        color="dimmed"
+                        size="sm"
+                      >
+                        {message}
+                      </Text>
+                    </Box>
 
-                <Tooltip
-                  label={dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}
-                >
-                  <Text
-                    color="dimmed"
-                    size="sm"
-                  >
-                    {dayjs(event.timestamp).format('HH:mm:ss')}
-                  </Text>
-                </Tooltip>
-              </Flex>
-            )
-          })
-        }
-        <Flex
-          align="center"
-          gap="2"
-          justify="space-between"
-        >
-          <Center>
-            <Box>🐛</Box>
-            <Text
-              fontWeight="bold"
-              w="80px"
-            >
-            exception
-            </Text>
-          </Center>
-
-          <Box flex="1">
-            <Text
-              color="dimmed"
-              size="sm"
-            >
-              {renderStringOrJson(event.detail.message)}
-            </Text>
-          </Box>
-
-          <Tooltip
-            label={dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}
-          >
-            <Text
-              color="dimmed"
-              size="sm"
-            >
-              {dayjs(event.timestamp).format('HH:mm:ss')}
-            </Text>
-          </Tooltip>
-        </Flex>
+                    <Tooltip
+                      label={dayjs(action.timestamp).format('YYYY-MM-DD HH:mm:ss')}
+                    >
+                      <Text
+                        color="dimmed"
+                        size="sm"
+                      >
+                        {dayjs(action.timestamp).format('HH:mm:ss')}
+                      </Text>
+                    </Tooltip>
+                  </Flex>
+                )
+              })
+            }
+          </VStack>
+        </CardSection>
       </Wrapper>
     </ThemeBox>
   )

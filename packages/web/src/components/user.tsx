@@ -30,7 +30,7 @@ const User: FC = () => {
                 src={session.user?.image ?? ''}
               />
               <Flex direction="column">
-                <Text fontWeight="bold">{session.user?.name}</Text>
+                <Text fontWeight="semibold">{session.user?.name}</Text>
                 <Text
                   fontSize="12"
                   textColor="gray.500"

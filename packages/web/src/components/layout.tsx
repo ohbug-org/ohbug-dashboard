@@ -43,7 +43,6 @@ const Layout: FC<Props> = ({ children }) => {
       {/* navMenu */}
       <ThemeBox
         acrylic
-        backdropFilter="saturate(180%) blur(5px)"
         bg="current"
         boxShadow="inset 0 -1px 0 0 rgba(0,0,0,.1)"
         h={`${NavHeight}px`}

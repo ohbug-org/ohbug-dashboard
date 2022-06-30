@@ -102,7 +102,7 @@ const IssueList: FC<Props> = ({ issues }) => {
                     {/* title */}
                     <Box
                       as="span"
-                      fontWeight="bold"
+                      fontWeight="semibold"
                       mr="2"
                     >
                       {issue.type}

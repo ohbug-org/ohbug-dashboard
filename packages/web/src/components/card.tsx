@@ -1,17 +1,18 @@
-import type { BoxProps } from '@chakra-ui/react'
 import { Flex, Heading, useColorModeValue } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
 import { useMemo } from 'react'
+import type { ThemeBoxProps } from './themeBox'
 import ThemeBox from './themeBox'
 
-interface Props extends BoxProps {
+interface Props extends ThemeBoxProps {
   children?: ReactNode
   title?: string
   content?: ReactNode
   footer?: ReactNode
   hover?: boolean
+  variant?: 'default' | 'shadow'
 }
-const Card: FC<Props> = ({ children, title, content, footer, hover = true, ...props }) => {
+const Card: FC<Props> = ({ children, title, content, footer, hover = true, variant = 'default', ...props }) => {
   const node = useMemo(() => {
     if (children) return children
     return (
@@ -45,16 +46,17 @@ const Card: FC<Props> = ({ children, title, content, footer, hover = true, ...pr
         hover
           ? {
             boxShadow: 'lg',
-            borderColor: hoverBorderColor,
+            borderColor: variant === 'default' ? hoverBorderColor : 'transparent',
           }
           : {}
       }
       bg="current"
-      border="1px"
-      borderColor="current"
+      border={variant === 'default' ? '1px' : '0'}
+      borderColor={variant === 'default' ? 'current' : 'transparent'}
+      boxShadow={variant === 'shadow' ? 'md' : 'none'}
       cursor={hover ? 'pointer' : 'auto'}
       overflow="hidden"
-      p="4"
+      p="6"
       rounded="md"
       transition="all 200ms ease"
       {...props}

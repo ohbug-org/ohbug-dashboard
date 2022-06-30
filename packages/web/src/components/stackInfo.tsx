@@ -1,22 +1,19 @@
-import type { FC, ReactElement, ReactNode } from 'react'
-import { useMemo, useState } from 'react'
+import type { FC, ReactElement } from 'react'
+import { useMemo } from 'react'
 import type { Result } from 'source-map-trace'
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, FormControl, FormLabel, Switch, Text } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 
 interface Props {
-  stack: string
   source?: Result
 }
 
-const StackInfo: FC<Props> = ({ stack, source }) => {
-  const [toggle, setToggle] = useState<'raw' | 'code'>('raw')
-
+const StackInfo: FC<Props> = ({ source }) => {
   const title = useMemo(
     () => (
       <Box>
         <Text
           as="code"
-          fontWeight="bold"
+          fontWeight="semibold"
           mx="1"
         >
           {source?.parsed?.source}
@@ -31,7 +28,7 @@ const StackInfo: FC<Props> = ({ stack, source }) => {
         </Text>
         <Text
           as="code"
-          fontWeight="bold"
+          fontWeight="semibold"
           mx="1"
         >
           {source?.parsed?.name}
@@ -46,14 +43,14 @@ const StackInfo: FC<Props> = ({ stack, source }) => {
         </Text>
         <Text
           as="code"
-          fontWeight="bold"
+          fontWeight="semibold"
           mx="1"
         >
           {source?.parsed?.line}:
         </Text>
         <Text
           as="code"
-          fontWeight="bold"
+          fontWeight="semibold"
           mx="1"
         >
           {source?.parsed?.column}
@@ -62,82 +59,37 @@ const StackInfo: FC<Props> = ({ stack, source }) => {
     ),
     [source],
   )
-  const content = useMemo((): ReactNode => {
-    switch (toggle) {
-      case 'raw':
-        return typeof stack === 'string' ? stack : JSON.stringify(stack)
-      case 'code':
-        return (
-          <Accordion allowToggle>
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box
-                    flex="1"
-                    textAlign="left"
-                  >
-                    {title}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <Box
-                  as="ol"
-                  listStylePosition="inside"
-                  listStyleType="decimal"
-                  m="0"
-                  py="2"
-                  start={source?.code?.[0].number}
-                >
-                  {
-                    source?.code?.map(({ code, number, highlight }): ReactElement => {
-                      return (
-                        <Box
-                          as="li"
-                          bg={highlight ? 'red.500' : 'inherit'}
-                          key={number}
-                          pl="6"
-                          textColor={highlight ? 'white' : 'inherit'}
-                        >
-                          <span>{code}</span>
-                        </Box>
-                      )
-                    })
-                  }
-                </Box>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
-        )
-      default:
-        return null
-    }
-  }, [source, stack, toggle, title])
 
   return (
-    <Box>
-      <FormControl>
-        <FormLabel
-          display="inline-block"
-          htmlFor="switchCodeAndRaw"
-        >
-          {toggle === 'code' ? 'Code' : 'Raw'}
-        </FormLabel>
-        <Switch
-          checked={toggle === 'code'}
-          id="switchCodeAndRaw"
-          onChange={e => setToggle(e.target.checked ? 'code' : 'raw')}
-          size="md"
-        />
-      </FormControl>
-
+    <Box
+      as="pre"
+      mt="4"
+      wordBreak="break-word"
+    >
+      <Box>{title}</Box>
       <Box
-        as="pre"
-        mt="4"
-        wordBreak="break-word"
+        as="ol"
+        listStylePosition="inside"
+        listStyleType="decimal"
+        m="0"
+        py="2"
+        start={source?.code?.[0].number}
       >
-        {content}
+        {
+          source?.code?.map(({ code, number, highlight }): ReactElement => {
+            return (
+              <Box
+                as="li"
+                bg={highlight ? 'red.500' : 'inherit'}
+                key={number}
+                pl="6"
+                textColor={highlight ? 'white' : 'inherit'}
+              >
+                <span>{code}</span>
+              </Box>
+            )
+          })
+        }
       </Box>
     </Box>
   )

@@ -4,6 +4,7 @@ import { Box } from '@chakra-ui/react'
 import StackInfo from './stackInfo'
 import ThemeBox from './themeBox'
 import Wrapper from './wrapper'
+import CardSection from './cardSection'
 import { renderStringOrJson } from '~/libs/utils'
 
 interface Props {
@@ -12,53 +13,63 @@ interface Props {
 
 const IssueDetailStack: FC<Props> = ({ event }) => {
   return (
-    <ThemeBox bg="current">
+    <ThemeBox bg="gray">
       <Wrapper>
-        {/* all */}
-        {
-          event.detail.message && (
-            <Box mb="4">
-              {renderStringOrJson(event.detail.message)}
-            </Box>
-          )
-        }
-        {/* unhandledrejectionError */}
-        {/* uncaughtError */}
-        {
-          event.detail.stack && (
-            <Box mb="4">
-              <StackInfo
-                source={event?.source}
-                stack={event.detail.stack}
-              />
-            </Box>
-          )
-        }
-        {/* resourceError */}
-        {
-          event?.detail.selector && (
-            <Box mb="4">
-              {renderStringOrJson(event.detail)}
-            </Box>
-          )
-        }
-        {/* ajaxError */}
-        {/* fetchError */}
-        {
-          event?.type === 'ajaxError' && (
-            <Box mb="4">
-              {renderStringOrJson(event.detail)}
-            </Box>
-          )
-        }
-        {/* websocketError */}
-        {
-          event?.type === 'websocketError' && (
-            <Box mb="4">
-              {renderStringOrJson(event.detail)}
-            </Box>
-          )
-        }
+        <CardSection
+          collapse={
+            !(event.detail.stack && event?.source) && (
+              <Box mb="4">
+                <StackInfo
+                  source={event?.source}
+                />
+              </Box>
+            )
+          }
+          collapseTitle="Code"
+          head={
+            event.detail.message && (
+              <Box as="pre">
+                {renderStringOrJson(event.detail.message)}
+              </Box>
+            )
+          }
+          title="Error Stack"
+        >
+          {/* unhandledrejectionError */}
+          {/* uncaughtError */}
+          <Box
+            as="pre"
+            mt="4"
+            wordBreak="break-word"
+          >
+            {typeof event.detail.stack === 'string' ? event.detail.stack : JSON.stringify(event.detail.stack)}
+          </Box>
+          {/* resourceError */}
+          {
+            event?.detail.selector && (
+              <Box mb="4">
+                {renderStringOrJson(event.detail)}
+              </Box>
+            )
+          }
+          {/* ajaxError */}
+          {/* fetchError */}
+          {
+            event?.type === 'ajaxError' && (
+              <Box mb="4">
+                {renderStringOrJson(event.detail)}
+              </Box>
+            )
+          }
+          {/* websocketError */}
+          {
+            event?.type === 'websocketError' && (
+              <Box mb="4">
+                {renderStringOrJson(event.detail)}
+              </Box>
+            )
+          }
+        </CardSection>
       </Wrapper>
     </ThemeBox>
   )

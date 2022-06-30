@@ -2,6 +2,8 @@ import type { ReactNode } from 'react'
 import type { OhbugAction, OhbugEvent } from '@ohbug/types'
 import UA from 'ua-parser-js'
 import { Text } from '@chakra-ui/react'
+import { RiBugFill, RiCursorFill, RiGift2Fill, RiLoader2Fill, RiRouterFill, RiTerminalBoxFill } from 'react-icons/ri'
+import type { IconType } from 'react-icons'
 
 export function renderStringOrJson(value: any) {
   return typeof value === 'string'
@@ -54,14 +56,14 @@ export function getDeviceInfo(event?: OhbugEvent<any>) {
 
 export function getMessageAndIconByActionType(action: OhbugAction): {
   message: ReactNode
-  icon: ReactNode
+  icon: IconType
 } {
   switch (action.type) {
     case 'click':
       if (action.data?.selector) {
         return {
           message: action.data?.selector,
-          icon: '🖱️',
+          icon: RiCursorFill,
         }
       }
       return {
@@ -71,7 +73,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
             <Text color="gray.500">{renderStringOrJson(action.data)}</Text>
           </>
         ),
-        icon: '🖱️',
+        icon: RiCursorFill,
       }
     case 'navigation':
       return {
@@ -81,7 +83,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
             <strong>To:</strong> <em>{action.data?.to}</em>
           </>
         ),
-        icon: '🧭',
+        icon: RiRouterFill,
       }
     case 'ajax':
       return {
@@ -92,7 +94,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
             <strong>[{action.data?.res?.status}]</strong>
           </>
         ),
-        icon: '🚀',
+        icon: RiLoader2Fill,
       }
     case 'fetch':
       return {
@@ -103,12 +105,17 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
             <strong>[{action.data?.res?.status}]</strong>
           </>
         ),
-        icon: '🚀',
+        icon: RiLoader2Fill,
       }
     case 'console':
       return {
         message: `[${action.message}] ${JSON.stringify(action.data)}`,
-        icon: '⌨️',
+        icon: RiTerminalBoxFill,
+      }
+    case 'exception':
+      return {
+        message: renderStringOrJson(action.message),
+        icon: RiBugFill,
       }
     default:
       return {
@@ -118,7 +125,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
             <Text color="gray.500">{renderStringOrJson(action.data)}</Text>
           </>
         ),
-        icon: null,
+        icon: RiGift2Fill,
       }
   }
 }

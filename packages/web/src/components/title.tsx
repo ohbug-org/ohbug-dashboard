@@ -1,10 +1,10 @@
-import type { BoxProps } from '@chakra-ui/react'
 import { Box, Flex, Heading } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
+import type { ThemeBoxProps } from './themeBox'
 import ThemeBox from './themeBox'
 import Wrapper from './wrapper'
 
-interface Props extends BoxProps {
+interface Props extends ThemeBoxProps {
   children: ReactNode
   rightNodes?: ReactNode
   bottomNodes?: ReactNode
