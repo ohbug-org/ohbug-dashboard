@@ -22,6 +22,16 @@ const theme: Dict = extendTheme({
           _hover: { bg: mode('gray.100', 'dark.200')(props) },
           _active: { textColor: 'white' },
         }),
+        outline: (props: StyleFunctionProps) => ({
+          textColor: mode('gray.400', 'dark.50')(props),
+          borderColor: mode('gray.400', 'dark.50')(props),
+          _hover: {
+            textColor: mode('dark.50', 'gray.50')(props),
+            borderColor: mode('dark.50', 'gray.50')(props),
+            bg: 'inherit',
+          },
+          _active: { bg: mode('gray.200', 'dark.50')(props) },
+        }),
       },
     },
     Input: {

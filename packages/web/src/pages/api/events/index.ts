@@ -7,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Event[]>,
 ) {
-  const page = Number(req.query.page as string) || 0
+  const page = Number(req.query.page as string) || 1
   const pageSize = Number(req.query.pageSize as string) || PAGE_SIZE
   const projectId = Number(req.query.projectId as string)
 

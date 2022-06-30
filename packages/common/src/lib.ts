@@ -11,8 +11,8 @@ interface PrismaPagination {
   take: number
 }
 export function pagination(value: Pagination, defaultPageSize = 10): PrismaPagination {
-  const { page, pageSize } = value
-  const skip = page * (pageSize ?? defaultPageSize)
+  const { page = 1, pageSize } = value
+  const skip = (page - 1) * (pageSize ?? defaultPageSize)
   const take = pageSize ?? defaultPageSize
   return {
     skip,

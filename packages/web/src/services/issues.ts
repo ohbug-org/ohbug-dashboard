@@ -9,18 +9,21 @@ interface ServiceGetIssuesParams extends Pagination {
 }
 export async function serviceGetIssues({ projectId, page = 0, pageSize = PAGE_SIZE }: ServiceGetIssuesParams) {
   const project = await serviceGetProject(projectId)
-  return prisma.issue.findMany({
-    where: { apiKey: project.apiKey },
-    ...pagination({ page, pageSize }),
-    include: {
-      _count: {
-        select: {
-          events: true,
-          users: true,
+  return prisma.$transaction([
+    prisma.issue.findMany({
+      where: { apiKey: project.apiKey },
+      ...pagination({ page, pageSize }),
+      include: {
+        _count: {
+          select: {
+            events: true,
+            users: true,
+          },
         },
       },
-    },
-  })
+    }),
+    prisma.issue.count({ where: { apiKey: project.apiKey } }),
+  ])
 }
 
 interface ServiceGetIssuesTrendsParams {
