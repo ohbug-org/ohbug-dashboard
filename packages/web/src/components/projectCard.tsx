@@ -18,7 +18,10 @@ const ProjectCard: FC<Props> = ({ project }) => {
 
   return (
     <NextLink href={`/${project.id}/profile`}>
-      <Card w="sm">
+      <Card
+        minW="sm"
+        w="full"
+      >
         <Flex gap="6">
           <Avatar
             name={project.name}
