@@ -12,16 +12,11 @@ export default function useBreadcrumb() {
     if (router) {
       const linkPath = router.asPath.split('/')
       linkPath.shift()
+      linkPath.shift()
 
       const pathArray = linkPath
         .map((path, i) => {
           if (path) {
-            if (i === 0) {
-              return {
-                breadcrumb: path,
-                path: `/${path}/profile`,
-              }
-            }
             return {
               breadcrumb: path,
               path: `/${linkPath.slice(0, i + 1).join('/')}`,

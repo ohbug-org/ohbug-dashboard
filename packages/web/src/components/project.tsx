@@ -1,10 +1,11 @@
 import type { FC } from 'react'
 import { useCallback, useEffect, useMemo } from 'react'
-import { Avatar, Center, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Text } from '@chakra-ui/react'
+import { Avatar, Center, Icon, IconButton, Link, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Text } from '@chakra-ui/react'
 import useSWR from 'swr'
 import type { Project } from '@prisma/client'
 import { RiAddLine, RiMore2Line } from 'react-icons/ri'
 import { useRouter } from 'next/router'
+import NextLink from 'next/link'
 import Loading from './loading'
 import { useStore } from '~/store'
 
@@ -22,8 +23,14 @@ const ProjectComponent: FC = () => {
 
   const handleSelectProject = useCallback((value: string | string[]) => {
     const project = projects?.find(v => v.id.toString() === value)
-    if (project) setCurrentProject(project)
-  }, [projects])
+    if (project) {
+      setCurrentProject(project)
+      router.replace({
+        pathname: router.route,
+        query: { projectId: project.id },
+      })
+    }
+  }, [projects, router])
   const handleCreateProject = useCallback(() => {
     router.push('/create-project')
   }, [])
@@ -41,7 +48,9 @@ const ProjectComponent: FC = () => {
         size="xs"
         src={currentProject?.image ?? ''}
       />
-      <Text>{currentProject?.name}</Text>
+      <NextLink href={`/${currentProject?.id}/profile`}>
+        <Link>{currentProject?.name}</Link>
+      </NextLink>
       <Menu>
         <MenuButton
           aria-label="more"
