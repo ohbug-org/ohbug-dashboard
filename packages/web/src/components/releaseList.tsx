@@ -26,9 +26,7 @@ const ReleaseList: FC<Props> = ({ releases }) => {
               direction="column"
               flex="1"
             >
-              <NextLink href={`/${projectId}/releases/${release.id}`}>
-                <Link fontWeight="semibold">{release.appVersion}</Link>
-              </NextLink>
+              <Link fontWeight="semibold">{release.appVersion}</Link>
               <Text color="dimgray">{release.appType}</Text>
             </Flex>
             <Flex
