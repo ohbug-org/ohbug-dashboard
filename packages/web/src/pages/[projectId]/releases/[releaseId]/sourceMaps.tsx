@@ -29,7 +29,7 @@ const Detail: NextPage<Props> = ({ release }) => {
 
       <ThemeBox bg="gray">
         <Wrapper>
-          <Card hover={false}>
+          <Card>
             {
               sourceMaps?.map(sourceMap => (
                 <Flex

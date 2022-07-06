@@ -29,7 +29,7 @@ const Releases: NextPage = () => {
         gap="12"
         py="12"
       >
-        <Card hover={false}>
+        <Card>
           <ReleaseList releases={releases} />
           <Button
             disabled={isLoadingMore || isReachingEnd}

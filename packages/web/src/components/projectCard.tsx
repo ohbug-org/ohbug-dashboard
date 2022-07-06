@@ -19,6 +19,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
   return (
     <NextLink href={`/${project.id}/profile`}>
       <Card
+        hover
         minW="sm"
         w="full"
       >

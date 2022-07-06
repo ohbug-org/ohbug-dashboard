@@ -12,7 +12,7 @@ interface Props extends ThemeBoxProps {
   hover?: boolean
   variant?: 'default' | 'shadow'
 }
-const Card: FC<Props> = ({ children, title, content, footer, hover = true, variant = 'default', ...props }) => {
+const Card: FC<Props> = ({ children, title, content, footer, hover = false, variant = 'default', ...props }) => {
   const node = useMemo(() => {
     if (children) return children
     return (

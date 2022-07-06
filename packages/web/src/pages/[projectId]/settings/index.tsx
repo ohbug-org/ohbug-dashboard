@@ -108,7 +108,6 @@ const SettingsProjectName: FC<{ project?: Project }> = ({ project }) => {
             </Flex>
           )
         }
-        hover={false}
         title="Project Name"
       />
     </form>
@@ -137,7 +136,6 @@ const SettingsProjectApiKey: FC<{ project?: Project }> = ({ project }) => {
           </Flex>
         )
       }
-      hover={false}
       title="Project ApiKey"
     />
   )

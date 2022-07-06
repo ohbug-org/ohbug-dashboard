@@ -22,7 +22,6 @@ const CardSection: FC<Props> = ({ title, head, collapse, collapseTitle, children
         {title}
       </Heading>
       <Card
-        hover={false}
         mt="4"
         variant="shadow"
       >
