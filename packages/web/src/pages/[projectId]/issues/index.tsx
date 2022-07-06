@@ -4,6 +4,7 @@ import useSWR from 'swr'
 import IssueList from '~/components/issueList'
 import Loading from '~/components/loading'
 import Pagination from '~/components/pagination'
+import ThemeBox from '~/components/themeBox'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
 
@@ -15,25 +16,27 @@ const Issues: NextPage = () => {
   const loading = useMemo(() => !issues, [issues])
 
   return (
-    <Wrapper>
-      {
-        loading
-          ? <Loading />
-          : (
-            <>
-              <IssueList
-                issues={issues}
-              />
-              <Pagination
-                mt="6"
-                onChange={page => setPage(page)}
-                page={page}
-                total={total}
-              />
-            </>
-          )
-      }
-    </Wrapper>
+    <ThemeBox bg="current">
+      <Wrapper>
+        {
+          loading
+            ? <Loading />
+            : (
+              <>
+                <IssueList
+                  issues={issues}
+                />
+                <Pagination
+                  mt="6"
+                  onChange={page => setPage(page)}
+                  page={page}
+                  total={total}
+                />
+              </>
+            )
+        }
+      </Wrapper>
+    </ThemeBox>
   )
 }
 

@@ -27,15 +27,17 @@ const IssueList: FC<Props> = ({ issues }) => {
       h="full"
       overflowX="hidden"
       overflowY="auto"
-      rounded="lg"
       w="full"
     >
       {/* header */}
       <ThemeBox
         bg="gray"
+        border="1px"
+        borderColor="current"
         display="flex"
-        px="2"
-        py="3"
+        overflow="hidden"
+        p="2"
+        rounded="lg"
       >
         <Box w="50%">
           Message
@@ -69,18 +71,22 @@ const IssueList: FC<Props> = ({ issues }) => {
           Users
         </Center>
       </ThemeBox>
-
+      {/* body */}
       <Box>
         {
           issues.map(issue => (
-            <Flex
+            <ThemeBox
               _hover={
                 { bg: rowHoverBg }
               }
+              border="1px"
+              borderColor="current"
+              borderTop="none"
+              borderX="none"
+              display="flex"
               key={issue.id}
               px="2"
               py="3"
-              rounded="sm"
             >
               {/* main */}
               <Box w="50%">
@@ -173,7 +179,7 @@ const IssueList: FC<Props> = ({ issues }) => {
               <Center w="20">
                 {issue._count?.users}
               </Center>
-            </Flex>
+            </ThemeBox>
           ))
         }
       </Box>
