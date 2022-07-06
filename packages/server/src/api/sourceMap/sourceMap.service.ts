@@ -2,6 +2,7 @@ import { unlink } from 'fs/promises'
 import { Injectable } from '@nestjs/common'
 import { ReceiveSourceMapFile, SourceMapData } from 'common'
 import { Prisma, Project, Release } from '@prisma/client'
+import { nanoid } from 'nanoid'
 import { ReceiveSourceMapDto } from './sourceMap.dto'
 import { maxSourceMap } from './sourceMap.constant'
 import { ForbiddenException, PrismaService } from '~/common'
@@ -42,7 +43,7 @@ export class SourceMapService {
    * @param receiveSourceMapDto 此文件对应的 app 信息
    */
   async handleSourceMap(
-    sourceMap: ReceiveSourceMapFile,
+    sourceMapFile: ReceiveSourceMapFile,
     body: ReceiveSourceMapDto,
   ) {
     try {
@@ -50,7 +51,11 @@ export class SourceMapService {
         where: { apiKey: body.apiKey },
         include: { releases: true },
       })
-      if (sourceMap && project) {
+      if (sourceMapFile && project) {
+        const sourceMap = {
+          ...sourceMapFile,
+          id: nanoid(),
+        }
         // 没有 release
         if (!project.releases.length) return this.createRelease([sourceMap], body, project)
 

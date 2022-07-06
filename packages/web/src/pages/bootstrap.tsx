@@ -14,7 +14,7 @@ const Bootstrap = () => {
   const { handleSubmit, register, formState: { errors } } = useForm<OmitSetting>()
   const onSubmit = useCallback((data: OmitSetting) => {
     fetch(
-      '/api/setting',
+      '/api/settings',
       {
         method: 'POST',
         body: JSON.stringify(data),
@@ -23,10 +23,12 @@ const Bootstrap = () => {
     )
       .then(res => res.json())
       .then((setting) => {
-        if (setting && !session.data)
+        if (setting && !session.data) {
           router.replace('/api/auth/signin')
-        else
+        }
+        else {
           router.replace('/')
+        }
       })
   }, [session])
 

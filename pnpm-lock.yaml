@@ -92,6 +92,7 @@ importers:
       config: workspace:*
       fastify-multer: ^2.0.3
       fastify-multipart: ^5.4.0
+      nanoid: ^4.0.0
       nest-winston: ^1.6.2
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
@@ -116,6 +117,7 @@ importers:
       config: link:../config
       fastify-multer: 2.0.3
       fastify-multipart: 5.4.0
+      nanoid: 4.0.0
       nest-winston: 1.6.2_z3zia4mfe5cu7p2v63u2sbocky
       reflect-metadata: 0.1.13
       rimraf: 3.0.2
@@ -6760,6 +6762,12 @@ packages:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  /nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
