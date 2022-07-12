@@ -15,35 +15,25 @@ export class ReportService {
   constructor(@InjectQueue('document') private documentQueue: Queue) {}
 
   filterEvent(event: OhbugEvent<any>): OhbugEvent<any> {
-    if (!('apiKey' in event && typeof event.apiKey === 'string'))
-      throw new Error(`不合法的 Event 数据 收到 event.apiKey 为 ${event.apiKey}`)
+    if (!('apiKey' in event && typeof event.apiKey === 'string')) { throw new Error(`不合法的 Event 数据 收到 event.apiKey 为 ${event.apiKey}`) }
 
-    if ('appVersion' in event && typeof event.appVersion !== 'string')
-      throw new Error(`不合法的 Event 数据 收到 event.appVersion 为 ${event.appVersion}`)
+    if ('appVersion' in event && typeof event.appVersion !== 'string') { throw new Error(`不合法的 Event 数据 收到 event.appVersion 为 ${event.appVersion}`) }
 
-    if ('appType' in event && typeof event.appType !== 'string')
-      throw new Error(`不合法的 Event 数据 收到 event.appType 为 ${event.appType}`)
+    if ('appType' in event && typeof event.appType !== 'string') { throw new Error(`不合法的 Event 数据 收到 event.appType 为 ${event.appType}`) }
 
-    if ('releaseStage' in event && typeof event.releaseStage !== 'string')
-      throw new Error(`不合法的 Event 数据 收到 event.releaseStage 为 ${event.releaseStage}`)
+    if ('releaseStage' in event && typeof event.releaseStage !== 'string') { throw new Error(`不合法的 Event 数据 收到 event.releaseStage 为 ${event.releaseStage}`) }
 
-    if (!('timestamp' in event && typeof event.timestamp === 'string'))
-      throw new Error(`不合法的 Event 数据 收到 event.timestamp 为 ${event.timestamp}`)
+    if (!('timestamp' in event && typeof event.timestamp === 'string')) { throw new Error(`不合法的 Event 数据 收到 event.timestamp 为 ${event.timestamp}`) }
 
-    if ('category' in event && typeof event.category !== 'string')
-      throw new Error(`不合法的 Event 数据 收到 event.category 为 ${event.category}`)
+    if ('category' in event && typeof event.category !== 'string') { throw new Error(`不合法的 Event 数据 收到 event.category 为 ${event.category}`) }
 
-    if (!('type' in event && typeof event.type === 'string'))
-      throw new Error(`不合法的 Event 数据 收到 event.type 为 ${event.type}`)
+    if (!('type' in event && typeof event.type === 'string')) { throw new Error(`不合法的 Event 数据 收到 event.type 为 ${event.type}`) }
 
-    if (!('sdk' in event && event.sdk instanceof Object))
-      throw new Error(`不合法的 Event 数据 收到 event.sdk 为 ${event.sdk}`)
+    if (!('sdk' in event && event.sdk instanceof Object)) { throw new Error(`不合法的 Event 数据 收到 event.sdk 为 ${event.sdk}`) }
 
-    if (!('detail' in event))
-      throw new Error('不合法的 Event 数据 缺少 event.detail')
+    if (!('detail' in event)) { throw new Error('不合法的 Event 数据 缺少 event.detail') }
 
-    if (!('device' in event))
-      throw new Error('不合法的 Event 数据 缺少 event.device')
+    if (!('device' in event)) { throw new Error('不合法的 Event 数据 缺少 event.device') }
 
     return event
   }

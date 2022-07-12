@@ -45,7 +45,6 @@ const Bootstrap = () => {
             <Input
               id="githubClientId"
               placeholder="Client ID"
-              required
               type="text"
               {...register('githubClientId', { required: 'This is required' })}
             />
@@ -59,7 +58,6 @@ const Bootstrap = () => {
             <Input
               id="githubClientSecret"
               placeholder="Client Secret"
-              required
               type="text"
               {...register('githubClientSecret', { required: 'This is required' })}
             />

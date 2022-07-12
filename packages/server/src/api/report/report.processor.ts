@@ -1,12 +1,15 @@
-import { Process, Processor } from '@nestjs/bull'
-import type { Job } from 'bull'
+import { InjectQueue, Process, Processor } from '@nestjs/bull'
+import type { Job, Queue } from 'bull'
 import type { Prisma } from '@prisma/client'
-import type { CreateDataParams } from './report.interface'
+import type { CreateDataParams, GetAlertStatusParams } from './report.interface'
 import { ForbiddenException, PrismaService } from '~/common'
 
 @Processor('document')
 export class ReportProcessor {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @InjectQueue('alert') private alertQueue: Queue,
+  ) {}
 
   async CreateData({
     event,
@@ -73,7 +76,10 @@ export class ReportProcessor {
 
   async findProjectByApiKey(apiKey: string) {
     try {
-      return this.prisma.project.findUniqueOrThrow({ where: { apiKey } })
+      return this.prisma.project.findUniqueOrThrow({
+        where: { apiKey },
+        include: { alerts: true },
+      })
     }
     catch (error) {
       throw new ForbiddenException(400204, error)
@@ -92,25 +98,28 @@ export class ReportProcessor {
 
         if (project) {
           // 2. 创建 issue/event (postgres)
-          await this.CreateData(data)
+          const event = await this.CreateData(data)
+          const issue = await this.prisma.issue.findUniqueOrThrow({
+            where: { id: event.issueId },
+            include: {
+              events: true,
+              users: true,
+            },
+          })
 
-          // // 2. 根据 apiKey 拿到对应的 notification 配置
-          // const notification = await getNotificationByApiKey(issue.apiKey)
+          // 3. 拿到对应的 alert 配置
+          const alerts = project.alerts
 
-          // // 3. 判断当前状态十分符合 notification 配置的要求，符合则通知 notifier 开始任务
-          // const callback = async(result: {
-          //   rule: any
-          //   event: any
-          //   issue: any
-          // }) => {
-          //   lastValueFrom(this.notifierClient.send(TOPIC_MANAGER_NOTIFIER_DISPATCH_NOTICE, {
-          //     setting: notification.notificationSetting,
-          //     rule: result.rule,
-          //     event: result.event,
-          //     issue: result.issue,
-          //   }))
-          // }
-          // judgingStatus(event, issue, notification.notificationRules, callback)
+          const getAlertStatusParams: GetAlertStatusParams = {
+            event,
+            issue,
+            alerts,
+          }
+          this.alertQueue.add(getAlertStatusParams, {
+            delay: 1000,
+            removeOnComplete: true,
+            removeOnFail: true,
+          })
         }
         else {
           throw new Error(`Project not found for apiKey: ${apiKey}`)

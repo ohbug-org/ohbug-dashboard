@@ -9,7 +9,7 @@ import type {
 } from '@ohbug/browser'
 import type { ReactErrorDetail } from '@ohbug/react'
 import type { VueErrorDetail } from '@ohbug/vue'
-import { Prisma } from '@prisma/client'
+import { Alert, Event, EventUsersOnIssues, Issue, Prisma } from '@prisma/client'
 import { OhbugEventLike } from 'common'
 
 export type OhbugEventDetail = UncaughtErrorDetail &
@@ -40,4 +40,13 @@ export interface CreateDataParams {
   issueIntro: string
   userIntro: string
   metadata: Prisma.InputJsonObject
+}
+
+export interface GetAlertStatusParams {
+  event: Event
+  issue: Issue & {
+    events: Event[]
+    users: EventUsersOnIssues[]
+  }
+  alerts: Alert[]
 }

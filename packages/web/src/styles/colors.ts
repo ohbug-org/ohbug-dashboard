@@ -4,7 +4,7 @@
 // and Windi CSS
 // https://github.com/windicss/windicss/blob/main/src/config/colors.ts
 
-declare type Colors = 'inherit' | 'current' | 'transparent' | 'black' | 'white' | 'rose' | 'pink' | 'fuchsia' | 'purple' | 'violet' | 'indigo' | 'blue' | 'lightBlue' | 'sky' | 'cyan' | 'teal' | 'emerald' | 'green' | 'lime' | 'yellow' | 'amber' | 'orange' | 'red' | 'warmGray' | 'trueGray' | 'gray' | 'coolGray' | 'blueGray' | 'slate' | 'zink' | 'zinc' | 'neutral' | 'stone' | 'dark' | 'light'
+declare type Colors = 'inherit' | 'current' | 'transparent' | 'black' | 'white' | 'rose' | 'pink' | 'fuchsia' | 'purple' | 'violet' | 'indigo' | 'blue' | 'lightBlue' | 'sky' | 'cyan' | 'teal' | 'emerald' | 'green' | 'lime' | 'yellow' | 'amber' | 'orange' | 'red' | 'warmGray' | 'trueGray' | 'gray' | 'coolGray' | 'blueGray' | 'slate' | 'zinc' | 'neutral' | 'stone' | 'dark' | 'light'
 export type DefaultColors = {
   [key in Colors]: string | Record<number | string, string>;
 }
@@ -304,32 +304,17 @@ export const colors: DefaultColors = {
     800: '#181818',
     900: '#0f0f0f',
   },
-  get lightblue() {
-    return this.sky
-  },
   get lightBlue() {
     return this.sky
-  },
-  get warmgray() {
-    return this.stone
   },
   get warmGray() {
     return this.stone
   },
-  get truegray() {
-    return this.neutral
-  },
   get trueGray() {
     return this.neutral
   },
-  get coolgray() {
-    return this.gray
-  },
   get coolGray() {
     return this.gray
-  },
-  get bluegray() {
-    return this.slate
   },
   get blueGray() {
     return this.slate
@@ -342,8 +327,9 @@ Object.values(colors).forEach((color) => {
     color.DEFAULT = color.DEFAULT || color[400]
     Object.keys(color).forEach((key) => {
       const short = +key / 100
-      if (short === Math.round(short))
+      if (short === Math.round(short)) {
         color[short] = color[key]
+      }
     })
   }
 })

@@ -48,7 +48,6 @@ const CreateProject = () => {
             <Input
               id="name"
               placeholder="Input Project Name"
-              required
               type="text"
               {...register('name', { required: 'This is required' })}
             />
@@ -61,7 +60,6 @@ const CreateProject = () => {
             <FormLabel htmlFor="type">Project Type</FormLabel>
             <Select
               id="type"
-              required
               {...register('type', { required: 'This is required' })}
             >
               {

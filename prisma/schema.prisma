@@ -25,6 +25,7 @@ model Event {
   createdAt    DateTime @default(now())
   issueId      String
   issue        Issue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  alertEvents  AlertEvent[]
 }
 
 model Issue {
@@ -76,6 +77,7 @@ model Project {
   default   Boolean   @default(false)
   image     String?
   releases  Release[]
+  alerts    Alert[]
 }
 
 model Release {
@@ -88,6 +90,41 @@ model Release {
   projectId  Int
   apiKey     String
   project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+enum AlertLevel {
+  serious
+  warning
+  default
+}
+
+model Alert {
+  id             Int        @id @default(autoincrement())
+  name           String
+  releaseStage   String     @default("production")
+  level          AlertLevel
+  interval       Int        @default(60)
+  enabled        Boolean    @default(true)
+  actions        Json
+  conditions     Json
+  filters        Json
+  conditionMatch String
+  filterMatch    String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  recentlyAt     DateTime?
+  projectId      Int
+  project        Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  alertEvents    AlertEvent[]
+}
+
+model AlertEvent {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  alertId   Int
+  alert     Alert    @relation(fields: [alertId], references: [id], onDelete: Cascade)
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model Account {
