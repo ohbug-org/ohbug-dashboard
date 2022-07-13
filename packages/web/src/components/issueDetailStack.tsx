@@ -27,11 +27,7 @@ const IssueDetailStack: FC<Props> = ({ event }) => {
           }
           collapseTitle="Code"
           head={
-            event.detail.message && (
-              <Box as="pre">
-                {renderStringOrJson(event.detail.message)}
-              </Box>
-            )
+            event.detail.message && renderStringOrJson(event.detail.message)
           }
           title="Error Stack"
         >

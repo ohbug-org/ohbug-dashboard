@@ -1,4 +1,4 @@
-import { IconButton, Text, useToast } from '@chakra-ui/react'
+import { IconButton, useToast } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import { RiClipboardLine } from 'react-icons/ri'
@@ -34,7 +34,7 @@ const Copy: FC<Props> = ({ children }) => {
       py="1"
       rounded="md"
     >
-      <Text as="pre">{children}</Text>
+      <pre>{children}</pre>
       <IconButton
         aria-label="copy to clipboard"
         icon={<RiClipboardLine />}

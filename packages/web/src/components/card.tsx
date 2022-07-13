@@ -1,6 +1,6 @@
 import { Flex, Heading, useColorModeValue } from '@chakra-ui/react'
-import type { FC, ReactNode } from 'react'
-import { useMemo } from 'react'
+import type { ReactNode } from 'react'
+import { forwardRef, useMemo } from 'react'
 import type { ThemeBoxProps } from './themeBox'
 import ThemeBox from './themeBox'
 
@@ -12,29 +12,41 @@ interface Props extends ThemeBoxProps {
   hover?: boolean
   variant?: 'default' | 'shadow'
 }
-const Card: FC<Props> = ({ children, title, content, footer, hover = false, variant = 'default', ...props }) => {
+const Card = forwardRef<HTMLDivElement, Props>(({ children, title, content, footer, hover = false, variant = 'default', ...props }, ref) => {
   const node = useMemo(() => {
     if (children) return children
     return (
       <>
-        <Heading
-          mb="4"
-          size="md"
-        >
-          {title}
-        </Heading>
-        <Flex mb="4">
-          {content}
-        </Flex>
-        <ThemeBox
-          bg="gray"
-          m="-4"
-          mt="0"
-          px="4"
-          py="3"
-        >
-          {footer}
-        </ThemeBox>
+        {
+          title && (
+            <Heading
+              mb="4"
+              size="md"
+            >
+              {title}
+            </Heading>
+          )
+        }
+        {
+          content && (
+            <Flex mb="4">
+              {content}
+            </Flex>
+          )
+        }
+        {
+          footer && (
+            <ThemeBox
+              bg="gray"
+              m="-4"
+              mt="0"
+              px="4"
+              py="3"
+            >
+              {footer}
+            </ThemeBox>
+          )
+        }
       </>
     )
   }, [children, title, content, footer])
@@ -57,6 +69,7 @@ const Card: FC<Props> = ({ children, title, content, footer, hover = false, vari
       cursor={hover ? 'pointer' : 'auto'}
       overflow="hidden"
       p="6"
+      ref={ref}
       rounded="md"
       transition="all 200ms ease"
       {...props}
@@ -64,6 +77,6 @@ const Card: FC<Props> = ({ children, title, content, footer, hover = false, vari
       {node}
     </ThemeBox>
   )
-}
-
+})
+Card.displayName = 'Card'
 export default Card

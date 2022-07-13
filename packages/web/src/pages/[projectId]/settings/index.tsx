@@ -96,7 +96,7 @@ const SettingsProjectName: FC<{ project?: Project }> = ({ project }) => {
               align="center"
               justify="space-between"
             >
-              <div>leftr</div>
+              <div />
               <Button
                 disabled={!(!!name && name !== project?.name)}
                 size="sm"
@@ -124,16 +124,6 @@ const SettingsProjectApiKey: FC<{ project?: Project }> = ({ project }) => {
 
             <Copy>{project?.apiKey ?? ''}</Copy>
           </Box>
-        )
-      }
-      footer={
-        (
-          <Flex
-            align="center"
-            justify="space-between"
-          >
-            <div>leftr</div>
-          </Flex>
         )
       }
       title="Project ApiKey"

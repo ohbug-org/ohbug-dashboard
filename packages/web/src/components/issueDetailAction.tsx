@@ -1,4 +1,4 @@
-import { Box, Flex, Tag, TagLabel, TagLeftIcon, Text, Tooltip, VStack } from '@chakra-ui/react'
+import { Box, Flex, Tag, TagLabel, TagLeftIcon, Tooltip, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import { useMemo } from 'react'
@@ -71,23 +71,23 @@ const IssueDetailActions: FC<Props> = ({ event }) => {
                     </Box>
 
                     <Box flex="1">
-                      <Text
-                        color="gray"
-                        size="sm"
+                      <Box
+                        fontSize="sm"
+                        textColor="gray"
                       >
                         {message}
-                      </Text>
+                      </Box>
                     </Box>
 
                     <Tooltip
                       label={dayjs(action.timestamp).format('YYYY-MM-DD HH:mm:ss')}
                     >
-                      <Text
-                        color="gray"
-                        size="sm"
+                      <Box
+                        fontSize="sm"
+                        textColor="gray"
                       >
                         {dayjs(action.timestamp).format('HH:mm:ss')}
-                      </Text>
+                      </Box>
                     </Tooltip>
                   </Flex>
                 )

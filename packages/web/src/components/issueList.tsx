@@ -147,7 +147,10 @@ const IssueList: FC<Props> = ({ issues }) => {
                       as={RiTimeLine}
                       mr="2"
                     />
-                    <Tooltip label={`最后出现时间 ${dayjs(issue.updatedAt).format()}`}>
+                    <Tooltip
+                      aria-label="A tooltip"
+                      label={`最后出现时间 ${dayjs(issue.updatedAt).format('YYYY-MM-DD HH:mm:ss')}`}
+                    >
                       {dayjs(issue.updatedAt).fromNow()}
                     </Tooltip>
 
@@ -158,7 +161,10 @@ const IssueList: FC<Props> = ({ issues }) => {
                       |
                     </Box>
 
-                    <Tooltip label={`首次出现时间 ${dayjs(issue.createdAt).format()}`}>
+                    <Tooltip
+                      aria-label="A tooltip"
+                      label={`首次出现时间 ${dayjs(issue.createdAt).format('YYYY-MM-DD HH:mm:ss')}`}
+                    >
                       {dayjs(issue.createdAt).fromNow()}
                     </Tooltip>
                   </Flex>

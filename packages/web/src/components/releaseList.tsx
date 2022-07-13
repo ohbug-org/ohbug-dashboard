@@ -27,13 +27,23 @@ const ReleaseList: FC<Props> = ({ releases }) => {
               flex="1"
             >
               <Link fontWeight="semibold">{release.appVersion}</Link>
-              <Text color="dimgray">{release.appType}</Text>
+              <Text
+                as="span"
+                color="dimgray"
+              >
+                {release.appType}
+              </Text>
             </Flex>
             <Flex
               direction="column"
               flex="1"
             >
-              <Text fontWeight="semibold">sourceMap files</Text>
+              <Text
+                as="span"
+                fontWeight="semibold"
+              >
+                sourceMap files
+              </Text>
               <NextLink href={`/${projectId}/releases/${release.id}/sourceMaps`}>
                 <Link fontWeight="semibold">{(release.sourceMaps as Array<any>)?.length}</Link>
               </NextLink>
@@ -43,8 +53,13 @@ const ReleaseList: FC<Props> = ({ releases }) => {
               flex="1"
               justify="end"
             >
-              <Tooltip label={dayjs(release.createdAt).format()}>
-                <Text color="gray">{dayjs(release.createdAt).fromNow()}</Text>
+              <Tooltip label={dayjs(release.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
+                <Text
+                  as="span"
+                  color="gray"
+                >
+                  {dayjs(release.createdAt).fromNow()}
+                </Text>
               </Tooltip>
             </Flex>
           </Flex>

@@ -1,4 +1,4 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Heading, Text } from '@chakra-ui/react'
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Heading, Text } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
 import Card from './card'
 import type { ThemeBoxProps } from './themeBox'
@@ -27,12 +27,12 @@ const CardSection: FC<Props> = ({ title, head, collapse, collapseTitle, children
       >
         {
           head && (
-            <Text
+            <Box
               fontWeight="semibold"
               pb="4"
             >
               {head}
-            </Text>
+            </Box>
           )
         }
         {

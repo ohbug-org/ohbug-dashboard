@@ -1,11 +1,11 @@
 import type { BoxProps } from '@chakra-ui/react'
 import { Box, useColorMode } from '@chakra-ui/react'
-import type { FC } from 'react'
+import { forwardRef } from 'react'
 import Image from 'next/image'
 
 interface Props extends BoxProps {}
 
-const Logo: FC<Props> = (props) => {
+const Logo = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const { colorMode } = useColorMode()
   return (
     <Box
@@ -14,16 +14,18 @@ const Logo: FC<Props> = (props) => {
       display="inline-block"
       h="16"
       position="relative"
+      ref={ref}
       w="16"
       {...props}
     >
       <Image
         alt="logo"
         layout="fill"
+        priority
         src={colorMode === 'dark' ? '/logo-white.svg' : '/logo.svg'}
       />
     </Box>
   )
-}
-
+})
+Logo.displayName = 'Logo'
 export default Logo

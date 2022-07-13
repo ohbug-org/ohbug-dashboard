@@ -58,7 +58,7 @@ const AlertList: FC<Props> = ({ alerts }) => {
                     ))
                   }
                 </Flex>
-                <Tooltip label={`Updated at: ${dayjs(alert.createdAt).format()}`}>
+                <Tooltip label={`Updated at: ${dayjs(alert.createdAt).format('YYYY-MM-DD HH:mm:ss')}`}>
                   <Text color="gray">{dayjs(alert.createdAt).fromNow()}</Text>
                 </Tooltip>
                 <Menu>

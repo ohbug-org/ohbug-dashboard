@@ -1,15 +1,14 @@
 import type { BoxProps } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { useMemo } from 'react'
+import { forwardRef, useMemo } from 'react'
 import { useBgColor, useBorderColor } from '~/hooks/useColor'
 
 export interface ThemeBoxProps extends BoxProps {
   acrylic?: boolean
 }
 
-const ThemeBox: FC<ThemeBoxProps> = (props) => {
-  const bgColor = useBgColor({ acrylic: props.acrylic })
+const ThemeBox = forwardRef<HTMLDivElement, ThemeBoxProps>(({ acrylic, ...props }, ref) => {
+  const bgColor = useBgColor({ acrylic })
   const bgGrayColor = useBgColor({ gray: true })
   const borderColor = useBorderColor()
 
@@ -22,11 +21,12 @@ const ThemeBox: FC<ThemeBoxProps> = (props) => {
   return (
     <Box
       {...props}
-      backdropFilter={props.acrylic ? 'saturate(180%) blur(5px)' : undefined}
+      backdropFilter={acrylic ? 'saturate(180%) blur(5px)' : undefined}
       bg={bg}
       borderColor={props.borderColor === 'current' ? borderColor : props.borderColor}
+      ref={ref}
     />
   )
-}
-
+})
+ThemeBox.displayName = 'ThemeBox'
 export default ThemeBox

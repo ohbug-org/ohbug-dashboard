@@ -36,6 +36,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
     () => {
       if (variant === 'detail') {
         return {
+          accessibility: { enabled: false },
           colors: [colorMode === 'dark' ? 'white' : 'black'],
           chart: { type: 'column' },
           xAxis: { categories: data?.map(v => v.time), crosshair: true },
@@ -55,6 +56,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
         }
       }
       return {
+        accessibility: { enabled: false },
         colors: [colorMode === 'dark' ? 'white' : 'black'],
         chart: {
           height: 60,
