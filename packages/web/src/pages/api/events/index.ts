@@ -1,12 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { Event } from '@prisma/client'
 import { PAGE_SIZE } from 'common'
 import { serviceGetEventByProjectId } from '~/services/events'
+import { getAuth } from '~/libs/middleware'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Event[]>,
+  res: NextApiResponse,
 ) {
+  const auth = await getAuth(req, res)
+  if (!auth) return
+
   const page = Number(req.query.page as string) || 1
   const pageSize = Number(req.query.pageSize as string) || PAGE_SIZE
   const projectId = Number(req.query.projectId as string)

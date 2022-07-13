@@ -1,11 +1,15 @@
 import { PAGE_SIZE } from 'common'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { serviceCreateAlert, serviceGetAlerts } from '~/services/alerts'
+import { getAuth } from '~/libs/middleware'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  const auth = await getAuth(req, res)
+  if (!auth) return
+
   const { method } = req
 
   const page = parseInt(req.query.page as string) || 1

@@ -1,10 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { serviceGetAlert, serviceUpdateAlert } from '~/services/alerts'
+import { getAuth } from '~/libs/middleware'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  const auth = await getAuth(req, res)
+  if (!auth) return
+
   const { method } = req
 
   switch (method) {

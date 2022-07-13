@@ -4,7 +4,7 @@ require('dotenv').config({ path: '../../.env' })
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    runtime: 'edge',
+    runtime: 'experimental-edge',
     serverComponents: true,
   },
   env: { DATABASE_URL: process.env.DATABASE_URL },

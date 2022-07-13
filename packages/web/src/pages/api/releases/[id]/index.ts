@@ -1,11 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Release } from '@prisma/client'
 import { serviceGetRelease } from '~/services/releases'
+import { getAuth } from '~/libs/middleware'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Release>,
 ) {
+  const auth = await getAuth(req, res)
+  if (!auth) return
+
   const { method, query } = req
   const id = parseInt(query.id as string, 10)
 
