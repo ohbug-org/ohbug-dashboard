@@ -18,7 +18,7 @@ export class ReportProcessor {
     metadata,
   }: CreateDataParams) {
     try {
-      return await this.prisma.event.create({
+      const result = await this.prisma.event.create({
         data: {
           apiKey: event.apiKey,
           appVersion: event.appVersion,
@@ -68,6 +68,16 @@ export class ReportProcessor {
           },
         },
       })
+      const now = new Date()
+      await this.prisma.issue.update({
+        where: { id: issueIntro },
+        data: { updatedAt: now },
+      })
+      await this.prisma.eventUser.update({
+        where: { id: userIntro },
+        data: { updatedAt: now },
+      })
+      return result
     }
     catch (error) {
       throw new ForbiddenException(400400, error)
