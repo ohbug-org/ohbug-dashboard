@@ -34,12 +34,14 @@ const AlertList: FC<Props> = ({ alerts }) => {
                 align="center"
                 gap="2"
               >
-                <Link
-                  fontSize="lg"
-                  fontWeight="semibold"
-                >
-                  {alert.name}
-                </Link>
+                <NextLink href={`/${projectId}/alerts/${alert.id}`}>
+                  <Link
+                    fontSize="lg"
+                    fontWeight="semibold"
+                  >
+                    {alert.name}
+                  </Link>
+                </NextLink>
                 <Badge colorScheme={colorScheme}>{alert.level}</Badge>
               </Flex>
 

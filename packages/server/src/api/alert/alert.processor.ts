@@ -59,7 +59,12 @@ export class AlertProcessor {
                 data: {
                   alert: { connect: { id: item.alert.id } },
                   event: { connect: { id: data.event.id } },
+                  issue: { connect: { id: data.issue.id } },
                 },
+              })
+              await this.prisma.alert.update({
+                where: { id: item.alert.id },
+                data: { recentlyAt: new Date() },
               })
             }
           }

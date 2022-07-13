@@ -7,8 +7,8 @@ import type { Action, ConditionOption, FilterMatch, FilterOption, Interval, Omit
 import { AlertConditionTopic, AlertFilterTopic } from 'common'
 import ThemeBox from '~/components/themeBox'
 
-const ActionOptions = ['email', 'webhook']
-const ConditionOptions: ConditionOption[] = [
+export const ActionOptions = ['email', 'webhook']
+export const ConditionOptions: ConditionOption[] = [
   {
     topic: AlertConditionTopic.EventCapturedCondition,
     name: 'An event is captured',
@@ -26,8 +26,8 @@ const ConditionOptions: ConditionOption[] = [
     name: 'The issue is seen by more than {value} users in {interval}',
   },
 ]
-const IntervalOptions: Interval[] = ['1m', '5m', '15m', '1h', '1d', '7d', '30d']
-const FilterOptions: FilterOption[] = [
+export const IntervalOptions: Interval[] = ['1m', '5m', '15m', '1h', '1d', '7d', '30d']
+export const FilterOptions: FilterOption[] = [
   {
     topic: AlertFilterTopic.IssueOccurrencesFilter,
     name: 'The issue has happened at least {value} times',
@@ -41,10 +41,9 @@ const FilterOptions: FilterOption[] = [
     name: 'The event is from the latest release',
   },
 ]
-const FilterAttributeOptions: string[] = ['message', 'type']
-const FilterMatchOptions: FilterMatch[] = ['contains', 'starts with', 'ends with', 'equals', 'does not contain', 'does not start with', 'does not end with', 'does not equal']
-
-const AlertLevel = {
+export const FilterAttributeOptions: string[] = ['message', 'type']
+export const FilterMatchOptions: FilterMatch[] = ['contains', 'starts with', 'ends with', 'equals', 'does not contain', 'does not start with', 'does not end with', 'does not equal']
+export const AlertLevel = {
   serious: 'serious',
   warning: 'warning',
   default: 'default',
@@ -57,10 +56,23 @@ interface Props {
 
 const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
   const { handleSubmit, register, control, formState: { errors } } = useForm<OmitAlert>({
-    defaultValues: alert ?? {
-      filterMatch: 'all',
-      conditionMatch: 'all',
-    },
+    defaultValues: alert
+      ? {
+        name: alert.name,
+        releaseStage: alert.releaseStage,
+        level: alert.level,
+        interval: alert.interval,
+        enabled: alert.enabled,
+        actions: alert.actions,
+        conditions: alert.conditions,
+        filters: alert.filters,
+        conditionMatch: alert.conditionMatch,
+        filterMatch: alert.filterMatch,
+      }
+      : {
+        filterMatch: 'all',
+        conditionMatch: 'all',
+      },
   })
   const { fields: actionsFields, append: actionsAppend, remove: actionsRemove } = useFieldArray({ control, name: 'actions' })
   const { fields: conditionsFields, append: conditionsAppend, remove: conditionsRemove } = useFieldArray({ control, name: 'conditions' })

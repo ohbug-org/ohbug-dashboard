@@ -17,9 +17,10 @@ interface MiniChartProps {
   data?: IssueTrend[] | ProjectTrend[]
   title?: ReactNode
   variant?: 'mini' | 'detail'
+  name?: string
 }
 
-const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'mini' }) => {
+const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'mini', name = 'Events' }) => {
   const ref = useRef<any>(null)
   const { colorMode } = useColorMode()
 
@@ -42,11 +43,10 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
             min: 0,
             labels: { enabled: true },
             gridLineWidth: 1,
-            title: { text: 'Events Count' },
           },
           series: [
             {
-              name: 'Events',
+              name,
               type: 'column',
               data: data?.map(v => v.count),
             },
@@ -87,7 +87,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
         exporting: { enabled: false },
       }
     },
-    [data, type, variant, colorMode],
+    [data, type, variant, colorMode, name],
   )
 
   return (

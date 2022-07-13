@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import useCurrentProject from './useCurrentProject'
 
 interface Breadcrumb {
   breadcrumb: string
@@ -7,6 +8,7 @@ interface Breadcrumb {
 }
 export default function useBreadcrumb() {
   const router = useRouter()
+  const { projectId } = useCurrentProject()
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([])
   useEffect(() => {
     if (router) {
@@ -19,7 +21,7 @@ export default function useBreadcrumb() {
           if (path) {
             return {
               breadcrumb: path,
-              path: `/${linkPath.slice(0, i + 1).join('/')}`,
+              path: `/${projectId}/${linkPath.slice(0, i + 1).join('/')}`,
             }
           }
           return null
@@ -27,7 +29,7 @@ export default function useBreadcrumb() {
         .filter(v => !!v) as Breadcrumb[]
       setBreadcrumbs(pathArray)
     }
-  }, [router])
+  }, [router, projectId])
 
   return [breadcrumbs] as const
 }
