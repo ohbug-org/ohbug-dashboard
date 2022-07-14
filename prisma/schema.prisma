@@ -22,10 +22,13 @@ model Event {
   user         Json?
   actions      Json?
   metadata     Json?
-  createdAt    DateTime     @default(now())
+  createdAt    DateTime     @default(now()) @db.Date
   issueId      String
   issue        Issue        @relation(fields: [issueId], references: [id], onDelete: Cascade)
   alertEvents  AlertEvent[]
+
+  @@index([apiKey])
+  @@index([createdAt(ops: DateBloomOps)], type: Brin)
 }
 
 model Issue {
@@ -38,6 +41,8 @@ model Issue {
   events          Event[]
   users           EventUsersOnIssues[]
   alertEvents     AlertEvent[]
+
+  @@index([apiKey])
 }
 
 model EventUser {
@@ -124,13 +129,15 @@ model Alert {
 
 model AlertEvent {
   id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @db.Date
   alertId   Int
   alert     Alert    @relation(fields: [alertId], references: [id], onDelete: Cascade)
   eventId   String
   event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   issueId   String
   issue     Issue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt(ops: DateBloomOps)], type: Brin)
 }
 
 model Account {
