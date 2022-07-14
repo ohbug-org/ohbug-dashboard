@@ -21,12 +21,12 @@ export default async function handler(
         .createHmac('sha256', secret!)
         .update(JSON.stringify(project) + new Date().getTime())
         .digest('hex')
-      const result = await serviceCreateProject({ ...project, apiKey })
+      const result = await serviceCreateProject({ ...project, apiKey }, auth.user)
       res.status(200).json(result)
       break
     }
     case 'GET': {
-      const result = await serviceGetProjectsWithEventCount()
+      const result = await serviceGetProjectsWithEventCount(auth.user)
       res.status(200).json(result)
       break
     }

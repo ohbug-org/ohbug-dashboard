@@ -29,27 +29,27 @@ model Event {
 }
 
 model Issue {
-  id          String               @id
-  apiKey      String
-  type        String
-  metadata    Json
-  createdAt   DateTime             @default(now())
-  updatedAt   DateTime             @updatedAt
-  events      Event[]
-  users       EventUsersOnIssues[]
-  alertEvents AlertEvent[]
+  id              String               @id
+  apiKey          String
+  type            String
+  metadata        Json
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  events          Event[]
+  users           EventUsersOnIssues[]
+  alertEvents     AlertEvent[]
 }
 
 model EventUser {
-  id        String               @id
-  ipAddress String
-  uuid      String?
-  email     String?
-  name      String?
-  metadata  Json?
-  createdAt DateTime             @default(now())
-  updatedAt DateTime             @updatedAt
-  issues    EventUsersOnIssues[]
+  id              String               @id
+  ipAddress       String
+  uuid            String?
+  email           String?
+  name            String?
+  metadata        Json?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  issues          EventUsersOnIssues[]
 }
 
 model EventUsersOnIssues {
@@ -63,7 +63,7 @@ model EventUsersOnIssues {
 }
 
 model Setting {
-  id                 Int    @id @default(autoincrement())
+  id                 Int     @id @default(autoincrement())
   githubClientId     String
   githubClientSecret String
   emailServer        String?
@@ -81,6 +81,7 @@ model Project {
   image     String?
   releases  Release[]
   alerts    Alert[]
+  users     UsersOnProjects[]
 }
 
 model Release {
@@ -139,9 +140,9 @@ model Account {
   provider          String
   providerAccountId String
   scope             String?
-  refresh_token     String? @db.Text @map("refreshToken")
-  session_state     String? @db.Text @map("sessionState")
-  id_token          String? @db.Text @map("idToken")
+  refresh_token     String? @map("refreshToken") @db.Text
+  session_state     String? @map("sessionState") @db.Text
+  id_token          String? @map("idToken") @db.Text
   token_type        String? @map("tokenType")
   type              String
   userId            String
@@ -166,6 +167,17 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  projects      UsersOnProjects[]
+}
+
+model UsersOnProjects {
+  userId     String
+  projectId  Int
+  assignedAt DateTime  @default(now())
+  user       User @relation(fields: [userId], references: [id])
+  project    Project     @relation(fields: [projectId], references: [id])
+
+  @@id([userId, projectId])
 }
 
 model VerificationToken {

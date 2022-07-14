@@ -8,13 +8,14 @@ import ProjectCard from '~/components/projectCard'
 import Wrapper from '~/components/wrapper'
 import { serviceGetSetting } from '~/services/bootstrap'
 import { serviceGetProjectsWithEventCount } from '~/services/projects'
+import { getAuth } from '~/libs/middleware'
 
 interface Props {
   setting: Setting | null
   projects: ProjectWithEventCount[]
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async() => {
+export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
   const setting = await serviceGetSetting()
   if (!setting) {
     return {
@@ -24,7 +25,16 @@ export const getServerSideProps: GetServerSideProps<Props> = async() => {
       },
     }
   }
-  const projects = await serviceGetProjectsWithEventCount()
+  const auth = await getAuth(context.req, context.res)
+  if (!auth) {
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permanent: false,
+      },
+    }
+  }
+  const projects = await serviceGetProjectsWithEventCount(auth.user)
   if (!projects || !projects.length) {
     return {
       redirect: {

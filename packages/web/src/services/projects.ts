@@ -1,4 +1,4 @@
-import type { Project } from '@prisma/client'
+import type { Project, User } from '@prisma/client'
 import dayjs from 'dayjs'
 import type { ProjectWithEventCount } from 'common'
 import { prisma } from '~/db'
@@ -7,12 +7,13 @@ export async function serviceGetProject(id: number) {
   return prisma.project.findUniqueOrThrow({ where: { id } })
 }
 
-export async function serviceGetProjects() {
-  return prisma.project.findMany()
+export async function serviceGetProjects(user: User) {
+  if (!user) return []
+  return prisma.project.findMany({ where: { users: { some: { userId: user.id } } } })
 }
 
-export async function serviceGetProjectsWithEventCount(): Promise<ProjectWithEventCount[]> {
-  const projects = await serviceGetProjects()
+export async function serviceGetProjectsWithEventCount(user: User): Promise<ProjectWithEventCount[]> {
+  const projects = await serviceGetProjects(user)
   const projectWithEventCounts = []
   for (const project of projects) {
     const eventCount = await serviceGetProjectEventsCount(project.id)
@@ -24,15 +25,16 @@ export async function serviceGetProjectsWithEventCount(): Promise<ProjectWithEve
   return projectWithEventCounts
 }
 
-export async function serviceCreateProject(data: Project) {
+export async function serviceCreateProject(data: Project, user: User) {
   let isDefault = false
-  const projects = await serviceGetProjects()
+  const projects = await serviceGetProjects(user)
   if (!projects.length) isDefault = true
 
   return prisma.project.create({
     data: {
       ...data,
       default: isDefault,
+      users: { create: { userId: user.id } },
     },
   })
 }

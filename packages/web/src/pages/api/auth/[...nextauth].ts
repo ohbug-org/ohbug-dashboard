@@ -12,6 +12,12 @@ export const getAuthOptions = async(): Promise<NextAuthOptions> => {
   const options: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [],
+    callbacks: {
+      async session({ session, user }) {
+        session.user = user
+        return session
+      },
+    },
   }
   if (setting?.emailServer && setting.emailFrom) {
     options.providers.push(EmailProvider({
