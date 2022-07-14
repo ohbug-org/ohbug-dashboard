@@ -60,7 +60,12 @@ const theme: Dict = extendTheme({
         }),
       },
     },
-    Menu: { baseStyle: (props: StyleFunctionProps) => ({ divider: { borderColor: mode('gray.200', 'dark.50')(props) } }) },
+    Menu: {
+      baseStyle: (props: StyleFunctionProps) => ({
+        divider: { borderColor: mode('gray.200', 'dark.50')(props) },
+        list: { zIndex: '1300' },
+      }),
+    },
     Link: {
       baseStyle: {
         opacity: 0.6,
