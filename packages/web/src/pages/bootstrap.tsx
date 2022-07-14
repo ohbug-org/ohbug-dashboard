@@ -1,17 +1,28 @@
 import { Box, Button, Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from '@chakra-ui/react'
 import type { Setting } from '@prisma/client'
+import type { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import type { ReactElement } from 'react'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+import { serviceGetSetting } from '~/services/bootstrap'
 
 type OmitSetting = Omit<Setting, 'id'>
 
-const Bootstrap = () => {
+interface Props {
+  setting: Setting | null
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async() => {
+  const setting = await serviceGetSetting()
+  return { props: { setting } }
+}
+
+const Bootstrap = ({ setting }: Props) => {
   const router = useRouter()
   const session = useSession()
-  const { handleSubmit, register, formState: { errors } } = useForm<OmitSetting>()
+  const { handleSubmit, register, formState: { errors } } = useForm<OmitSetting>({ defaultValues: setting || {} })
   const onSubmit = useCallback((data: OmitSetting) => {
     fetch(
       '/api/settings',
@@ -72,6 +83,32 @@ const Bootstrap = () => {
             </FormHelperText>
             <FormErrorMessage>
               {errors.githubClientSecret && errors.githubClientSecret.message}
+            </FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={!!errors.emailServer}>
+            <FormLabel htmlFor="emailServer">Email Server</FormLabel>
+            <Input
+              id="emailServer"
+              placeholder="Email Server"
+              type="text"
+              {...register('emailServer')}
+            />
+            <FormErrorMessage>
+              {errors.emailServer && errors.emailServer.message}
+            </FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={!!errors.emailFrom}>
+            <FormLabel htmlFor="emailFrom">Email From</FormLabel>
+            <Input
+              id="emailFrom"
+              placeholder="Email From"
+              type="text"
+              {...register('emailFrom')}
+            />
+            <FormErrorMessage>
+              {errors.emailFrom && errors.emailFrom.message}
             </FormErrorMessage>
           </FormControl>
 

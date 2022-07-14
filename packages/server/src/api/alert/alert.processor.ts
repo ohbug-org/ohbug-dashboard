@@ -1,7 +1,6 @@
 import { Process, Processor } from '@nestjs/bull'
 import type { Job } from 'bull'
 import { Action } from 'common'
-import { ConfigService } from '@nestjs/config'
 import { HttpService } from '@nestjs/axios'
 import { GetAlertStatusParams } from '../report/report.interface'
 import { getAlertContent, getAlertStatus } from './alert.core'
@@ -14,7 +13,6 @@ export class AlertProcessor {
   constructor(
     private readonly prisma: PrismaService,
     private readonly httpService: HttpService,
-    private readonly configService: ConfigService,
   ) {}
 
   @Process()
@@ -31,10 +29,11 @@ export class AlertProcessor {
               const alertContent = getAlertContent(data.event, data.issue, item.alert)
               for (const action of item.alert.actions as unknown as Action[]) {
                 if (action.type === 'email') {
-                  const config = this.configService.get('service.email')
-                  if (config?.host) {
+                  const setting = await this.prisma.setting.findFirst()
+                  if (setting?.emailServer && setting?.emailFrom) {
                     email({
-                      config,
+                      server: setting.emailServer,
+                      from: setting.emailFrom,
                       to: action.uri,
                       title: alertContent.title,
                       text: alertContent.text,

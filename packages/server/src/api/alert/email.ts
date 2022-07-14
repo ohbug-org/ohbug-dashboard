@@ -1,17 +1,19 @@
 import nodemailer from 'nodemailer'
+import SMTPTransport from 'nodemailer/lib/smtp-transport'
 
 interface SendMail {
-  config: any
+  server: SMTPTransport.Options | string
+  from: string
   to: string
   title: string
   text: string
   html: string
 }
-async function main({ config, to, title, text, html }: SendMail) {
-  const transporter = nodemailer.createTransport(config)
+async function main({ server, from, to, title, text, html }: SendMail) {
+  const transporter = nodemailer.createTransport(server)
 
   const info = {
-    from: `Ohbug <${config?.auth?.user}>`,
+    from: `Ohbug <${from}>`,
     to,
     subject: title,
     text,
