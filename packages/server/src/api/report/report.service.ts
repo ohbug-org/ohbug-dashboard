@@ -79,7 +79,7 @@ export class ReportService {
    * @param event 通过上报接口拿到的 event
    * @param ip 用户 ip
    */
-  async handleEvent(event: OhbugEvent<any> | string, ip: string): Promise<void> {
+  async handleEvent(event: OhbugEvent<any> | string, ip: string): Promise<'ok'> {
     try {
       if (typeof event === 'string') event = JSON.parse(event)
       const filteredEvent = this.filterEvent(event as OhbugEvent<any>)
@@ -90,15 +90,18 @@ export class ReportService {
         ...aggregationEvent,
       }
 
-      this.documentQueue.add(
+      await this.documentQueue.add(
         'event',
         createDataParams,
         {
           delay: 3000,
           removeOnComplete: true,
           removeOnFail: true,
+          priority: 1,
         },
       )
+
+      return 'ok'
     }
     catch (error) {
       throw new ForbiddenException(4001000, error)

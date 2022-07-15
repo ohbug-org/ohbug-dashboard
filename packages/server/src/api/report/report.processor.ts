@@ -1,4 +1,4 @@
-import { InjectQueue, Process, Processor } from '@nestjs/bull'
+import { InjectQueue, OnQueueError, Process, Processor } from '@nestjs/bull'
 import type { Job, Queue } from 'bull'
 import type { Prisma } from '@prisma/client'
 import type { CreateDataParams, GetAlertStatusParams } from './report.interface'
@@ -67,6 +67,7 @@ export class ReportProcessor {
             },
           },
         },
+        include: { issue: true },
       })
       const now = new Date()
       await this.prisma.issue.update({
@@ -109,27 +110,22 @@ export class ReportProcessor {
         if (project) {
           // 2. 创建 issue/event (postgres)
           const event = await this.CreateData(data)
-          const issue = await this.prisma.issue.findUniqueOrThrow({
-            where: { id: event.issueId },
-            include: {
-              events: true,
-              users: true,
-            },
-          })
 
           // 3. 拿到对应的 alert 配置
           const alerts = project.alerts
-
-          const getAlertStatusParams: GetAlertStatusParams = {
-            event,
-            issue,
-            alerts,
+          if (event && event.issue && alerts.length) {
+            const getAlertStatusParams: GetAlertStatusParams = {
+              event,
+              issue: event.issue,
+              alerts,
+            }
+            await this.alertQueue.add(getAlertStatusParams, {
+              delay: 1000,
+              removeOnComplete: true,
+              removeOnFail: true,
+              priority: 2,
+            })
           }
-          this.alertQueue.add(getAlertStatusParams, {
-            delay: 1000,
-            removeOnComplete: true,
-            removeOnFail: true,
-          })
         }
         else {
           throw new Error(`Project not found for apiKey: ${apiKey}`)
@@ -139,5 +135,10 @@ export class ReportProcessor {
     catch (error) {
       throw new ForbiddenException(4001004, error)
     }
+  }
+
+  @OnQueueError()
+  handleError(error: Error) {
+    console.error(error)
   }
 }

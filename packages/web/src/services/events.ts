@@ -44,7 +44,7 @@ export async function serviceGetEventSource(event: OhbugEventLike) {
           const sourceFileName = originalname.split('.map')[0]
           return stackFrame.fileName?.includes(sourceFileName)
         })
-        if (sourceMapTarget) { return await getTheSourceByError(sourceMapTarget.path, event.detail) }
+        if (sourceMapTarget) { return getTheSourceByError(sourceMapTarget.path, event.detail) }
       }
     }
     return undefined

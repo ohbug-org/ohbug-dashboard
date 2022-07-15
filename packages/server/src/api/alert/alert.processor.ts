@@ -1,4 +1,4 @@
-import { Process, Processor } from '@nestjs/bull'
+import { OnQueueError, Process, Processor } from '@nestjs/bull'
 import type { Job } from 'bull'
 import { Action } from 'common'
 import { HttpService } from '@nestjs/axios'
@@ -21,12 +21,23 @@ export class AlertProcessor {
       const data = job.data as GetAlertStatusParams
 
       if (data) {
-        const status = await getAlertStatus(data.event, data.issue, data.alerts, this.prisma)
+        const issueEventsCount = await this.prisma.event.count({ where: { issueId: data.issue.id } })
+        const issueUsersCount = (await this.prisma.issue.findUniqueOrThrow({
+          where: { id: data.issue.id },
+          include: { users: true },
+        })).users.length
+        const status = await getAlertStatus(data.event, data.issue, issueEventsCount, data.alerts, this.prisma)
 
         if (status.length) {
           for (const item of status) {
             if (item.alert) {
-              const alertContent = getAlertContent(data.event, data.issue, item.alert)
+              const alertContent = getAlertContent(
+                data.event,
+                data.issue,
+                issueEventsCount,
+                issueUsersCount,
+                item.alert,
+              )
               for (const action of item.alert.actions as unknown as Action[]) {
                 if (action.type === 'email') {
                   const setting = await this.prisma.setting.findFirst()
@@ -73,5 +84,10 @@ export class AlertProcessor {
     catch (error) {
       throw new ForbiddenException(4001005, error)
     }
+  }
+
+  @OnQueueError()
+  handleError(error: Error) {
+    console.error(error)
   }
 }

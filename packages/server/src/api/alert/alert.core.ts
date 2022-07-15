@@ -159,9 +159,8 @@ async function judgingCondition(event: Event, issue: Issue, alert: Alert, prisma
 
 async function judgingFilter(
   event: Event,
-  issue: Issue & {
-    events: Event[]
-  },
+  issue: Issue,
+  issueEventsCount: number,
   alert: Alert,
   prisma: PrismaService,
 ) {
@@ -170,8 +169,7 @@ async function judgingFilter(
     switch (filter.topic) {
       case AlertFilterTopic.IssueOccurrencesFilter: {
         const { value } = filter
-        const eventsCount = issue.events.length
-        if (eventsCount >= value!) {
+        if (issueEventsCount >= value!) {
           return true
         }
         break
@@ -251,9 +249,8 @@ async function judgingFilter(
 
 export async function getAlertStatus(
   event: Event,
-  issue: Issue & {
-    events: Event[]
-  },
+  issue: Issue,
+  issueEventsCount: number,
   alerts: Alert[],
   prisma: PrismaService,
 ) {
@@ -266,7 +263,7 @@ export async function getAlertStatus(
   for (const alert of alerts) {
     if (!alert.enabled) continue
     if (judgingInterval(alert)) continue
-    const filtered = await judgingFilter(event, issue, alert, prisma)
+    const filtered = await judgingFilter(event, issue, issueEventsCount, alert, prisma)
     if (filtered) continue
 
     const item = await judgingCondition(event, issue, alert, prisma)
@@ -287,20 +284,20 @@ const md = markdownIt()
 export function getAlertContent(
   event: Event,
   issue: GetAlertStatusParams['issue'],
+  issueEventsCount: number,
+  issueUsersCount: number,
   alert: Alert,
 ) {
   const platform = (event.device as any).platform
   const url = (event.device as any).url
   const { type, updatedAt } = issue
-  const eventsCount = issue.events.length
-  const usersCount = issue.users.length
   const message = (issue.metadata as any).message
   const filename = (issue.metadata as any).filename
   const others = (issue.metadata as any).others
   const title = `「Ohbug」[问题通知] [${switchLevelAndGetText(alert.level)}] ${type}`
   const statistics = {
-    eventsCount,
-    usersCount,
+    eventsCount: issueEventsCount,
+    usersCount: issueUsersCount,
     time: updatedAt,
     platform,
   }
