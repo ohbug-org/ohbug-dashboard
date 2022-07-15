@@ -6,6 +6,7 @@ import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 import dayjs from 'dayjs'
 import { Box, useColorMode } from '@chakra-ui/react'
+import Loading from './loading'
 import { theme } from '~/styles/chart.theme'
 import type { IssueTrend } from '~/services/issues'
 import type { ProjectTrend } from '~/services/projects'
@@ -21,6 +22,8 @@ interface MiniChartProps {
 }
 
 const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'mini', name = 'Events' }) => {
+  if (!data) return <Loading />
+
   const ref = useRef<any>(null)
   const { colorMode } = useColorMode()
 
