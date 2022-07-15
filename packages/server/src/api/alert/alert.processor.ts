@@ -82,7 +82,7 @@ export class AlertProcessor {
       }
     }
     catch (error) {
-      throw new ForbiddenException(4001005, error)
+      throw new ForbiddenException(4001100, error)
     }
   }
 

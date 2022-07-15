@@ -80,7 +80,7 @@ export class SourceMapService {
       throw new Error('project not found')
     }
     catch (error) {
-      throw new ForbiddenException(400902, error)
+      throw new ForbiddenException(4001200, error)
     }
   }
 }

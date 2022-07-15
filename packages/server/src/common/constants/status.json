@@ -1,69 +1,10 @@
 {
-  "400100": "登录失败, 请检查用户名或密码是否正确",
-  "400101": "查询用户信息失败",
-  "400102": "更改密码失败, 请检查用户名或密码是否正确",
+  "4001000": "preprocessing event failed",
+  "4001001": "event an error occurred during aggregation",
+  "4001002": "event an error occurred during task scheduling",
+  "4001003": "failed to create event",
 
-  "400200": "生成 apiKey 失败",
-  "400201": "创建 project 失败",
-  "400202": "查询 projects 失败",
-  "400203": "查询 project 失败",
-  "400204": "根据 apiKey 查询 project 失败",
-  "400205": "更新 project 失败",
+  "4001100": "alert task execution failed",
 
-  "400300": "创建 event 失败",
-  "400301": "搜索 events 失败",
-  "400302": "根据 Intro 查询用户数失败",
-  "400303": "根据 eventId 查询用户失败",
-  "400304": "查询 events 数据统计信息失败",
-  "400305": "查询 event 失败",
-
-  "400400": "创建/更新 issue/event 失败",
-  "400401": "搜索 issues 失败",
-  "400402": "根据 issueId 获取 issue 对应的趋势信息 失败",
-  "400403": "根据 issueId 获取最近的 event 失败",
-  "400404": "删除 issue 失败",
-  "400410": "根据 issueId 获取 issue 失败",
-
-  "400500": "创建 feedback 失败",
-  "400501": "搜索 feedback 失败",
-
-  "400600": "创建 performance 失败",
-  "400601": "根据 performanceId 获取 performance 失败",
-  "400602": "获取 performance statistics 失败",
-
-  "400700": "创建 replay 失败",
-
-  "400800": "创建 view 失败",
-  "400801": "搜索 view 失败",
-  "400802": "获取 PV 失败",
-  "400803": "获取 UV 失败",
-
-  "400900": "创建 source map 失败",
-  "400901": "没有没有找到对应 project ，请确认 apiKey 是否正确",
-  "400902": "处理 source map 失败",
-  "400903": "根据 SourceMap 文件获取原始 code 失败",
-  "400904": "根据 apiKey 获取 sourceMaps 失败",
-  "400905": "根据 id 删除 sourceMap 失败",
-
-  "4001000": "预处理 event 失败",
-  "4001001": "event 聚合时发生错误",
-  "4001004": "event 任务调度时发生错误",
-  "4001005": "alert 任务调度时发生错误",
-  "4001010": "定时任务 定时删除过期数据执行失败",
-
-  "4001100": "创建 notification rule 失败",
-  "4001101": "查询 notification rules 失败",
-  "4001102": "更新 notification rule 失败",
-  "4001103": "删除 notification rule 失败",
-  "4001110": "创建 notification setting object 失败",
-  "4001111": "查询 notification setting 失败",
-  "4001112": "更新 notification setting 失败",
-  "4001113": "创建 notification setting webhook 失败",
-  "4001114": "更新 notification setting webhook 失败",
-  "4001115": "删除 notification setting webhook 失败",
-
-  "4001200": "从 awesome-ohbug 获取 extension list 失败",
-  "4001201": "根据 id 获取 Extension 详情失败",
-  "4001202": "搜索 extensions 失败",
-  "4001203": "根据 id 获取 Extension 失败"
+  "4001200": "sourceMap file upload failed"
 }

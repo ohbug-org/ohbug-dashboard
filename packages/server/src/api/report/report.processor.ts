@@ -81,19 +81,7 @@ export class ReportProcessor {
       return result
     }
     catch (error) {
-      throw new ForbiddenException(400400, error)
-    }
-  }
-
-  async findProjectByApiKey(apiKey: string) {
-    try {
-      return this.prisma.project.findUniqueOrThrow({
-        where: { apiKey },
-        include: { alerts: true },
-      })
-    }
-    catch (error) {
-      throw new ForbiddenException(400204, error)
+      throw new ForbiddenException(4001003, error)
     }
   }
 
@@ -105,7 +93,10 @@ export class ReportProcessor {
       if (data) {
         // 1. 查询有没有对应的 project
         const apiKey = data.event.apiKey
-        const project = await this.findProjectByApiKey(apiKey)
+        const project = await this.prisma.project.findUniqueOrThrow({
+          where: { apiKey },
+          include: { alerts: true },
+        })
 
         if (project) {
           // 2. 创建 issue/event (postgres)
@@ -133,7 +124,7 @@ export class ReportProcessor {
       }
     }
     catch (error) {
-      throw new ForbiddenException(4001004, error)
+      throw new ForbiddenException(4001002, error)
     }
   }
 
