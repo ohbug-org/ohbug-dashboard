@@ -16,16 +16,27 @@ export async function serviceGetEvent({ id, issueId }: ServiceGetEventParams) {
   }
   if (issueId) {
     const event = (
-      await prisma.issue.findUniqueOrThrow({
-        where: { id: issueId },
-        include: { events: true },
-      })
-    )?.events?.[0] as unknown as OhbugEventLike
+      await prisma.event.findFirstOrThrow({ where: { issueId } })
+    ) as unknown as OhbugEventLike
     const source = await serviceGetEventSource(event)
     return { ...event, source }
   }
 
   return null
+}
+
+interface ServiceGetEventsByIssueIdParams extends Pagination {
+  issueId: string
+}
+export async function serviceGetEventsByIssueId({
+  issueId,
+  page = 0,
+  pageSize = PAGE_SIZE,
+}: ServiceGetEventsByIssueIdParams) {
+  return prisma.event.findMany({
+    where: { issueId },
+    ...pagination({ page, pageSize }),
+  })
 }
 
 export async function serviceGetEventSource(event: OhbugEventLike) {

@@ -1,23 +1,16 @@
 import { Box, Button } from '@chakra-ui/react'
 import type { Release } from '@prisma/client'
-import { PAGE_SIZE } from 'common'
 import type { NextPage } from 'next'
-import { useMemo } from 'react'
-import useSWRInfinite from 'swr/infinite'
 import Card from '~/components/card'
 import ReleaseList from '~/components/releaseList'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
+import { useInfinite } from '~/hooks/useInfinite'
 
 const Releases: NextPage = () => {
   const { projectId } = useCurrentProject()
-  const { data, error, size, setSize } = useSWRInfinite<Release[]>(index => `/api/releases?projectId=${projectId}&page=${index + 1}`)
-  const isEmpty = data?.[0]?.length === 0
-  const isLoadingInitialData = !data && !error
-  const isLoadingMore = isLoadingInitialData || (size > 0 && data && typeof data[size - 1] === 'undefined')
-  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
-  const releases = useMemo(() => data?.flat() ?? [], [data])
+  const { data, isLoading, size, setSize, isReachingEnd } = useInfinite<Release>(index => `/api/releases?projectId=${projectId}&page=${index + 1}`)
 
   return (
     <Box>
@@ -30,9 +23,9 @@ const Releases: NextPage = () => {
         py="12"
       >
         <Card>
-          <ReleaseList releases={releases} />
+          <ReleaseList releases={data} />
           <Button
-            disabled={isLoadingMore || isReachingEnd}
+            disabled={isLoading || isReachingEnd}
             mt="6"
             onClick={() => setSize(size + 1)}
             size="sm"
@@ -40,7 +33,7 @@ const Releases: NextPage = () => {
             w="full"
           >
             {
-              isLoadingMore
+              isLoading
                 ? 'Loading...'
                 : isReachingEnd
                   ? 'No More Events'

@@ -70,13 +70,11 @@ export async function serviceGetIssuesTrends({ ids, type }: ServiceGetIssuesTren
 
 interface ServiceGetIssueParams {
   id: string
-  withEvents?: boolean
 }
-export function serviceGetIssue({ id, withEvents }: ServiceGetIssueParams) {
+export function serviceGetIssue({ id }: ServiceGetIssueParams) {
   return prisma.issue.findUniqueOrThrow({
     where: { id },
     include: {
-      events: withEvents,
       _count: {
         select: {
           events: true,

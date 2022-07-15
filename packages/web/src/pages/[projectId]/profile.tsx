@@ -3,8 +3,6 @@ import type { Event, Project } from '@prisma/client'
 import type { GetServerSideProps, NextPage } from 'next'
 import type { FC } from 'react'
 import { useMemo, useState } from 'react'
-import useSWRInfinite from 'swr/infinite'
-import { PAGE_SIZE } from 'common'
 import NextLink from 'next/link'
 import { RiSettings2Line } from 'react-icons/ri'
 import Card from '~/components/card'
@@ -15,6 +13,7 @@ import EventsList from '~/components/eventsList'
 import type { ProjectTrend } from '~/services/projects'
 import { serviceGetProject, serviceGetProjectTrends } from '~/services/projects'
 import Title from '~/components/title'
+import { useInfinite } from '~/hooks/useInfinite'
 
 interface Props {
   project: Project
@@ -79,19 +78,14 @@ const Trend: FC<{ trends: Props['trends'] }> = ({ trends }) => {
   )
 }
 const Events: FC<{ project: Props['project'] }> = ({ project }) => {
-  const { data, error, size, setSize } = useSWRInfinite<Event[]>(index => `/api/events?projectId=${project.id}&page=${index + 1}`)
-  const isEmpty = data?.[0]?.length === 0
-  const isLoadingInitialData = !data && !error
-  const isLoadingMore = isLoadingInitialData || (size > 0 && data && typeof data[size - 1] === 'undefined')
-  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
-  const events = useMemo(() => data?.flat() ?? [], [data])
+  const { data, size, setSize, isLoading, isReachingEnd } = useInfinite<Event>(index => `/api/events?projectId=${project.id}&page=${index + 1}`)
 
   return (
     <ThemeBox bg="current">
       <Wrapper>
-        <EventsList events={events} />
+        <EventsList events={data} />
         <Button
-          disabled={isLoadingMore || isReachingEnd}
+          disabled={isLoading || isReachingEnd}
           mt="6"
           onClick={() => setSize(size + 1)}
           size="sm"
@@ -99,7 +93,7 @@ const Events: FC<{ project: Props['project'] }> = ({ project }) => {
           w="full"
         >
           {
-            isLoadingMore
+            isLoading
               ? 'Loading...'
               : isReachingEnd
                 ? 'No More Events'
