@@ -5,19 +5,6 @@ import markdownIt from 'markdown-it'
 import { GetAlertStatusParams } from '../report/report.interface'
 import { PrismaService } from '~/common'
 
-/**
- * 判断是否在静默期内 在 return true 否则 return false
- */
-function judgingInterval(alert: Alert) {
-  if (alert.recentlyAt) {
-    // 判断当前时间是否大于静默期
-    const now = dayjs()
-    const last = dayjs(alert.recentlyAt)
-    if (now.isBefore(last.add(alert.interval, 'ms'))) return true
-  }
-  return false
-}
-
 function getIntervalMs(interval: Interval) {
   switch ((interval)) {
     case '1m': {
@@ -51,6 +38,22 @@ function getIntervalMs(interval: Interval) {
     default:
       return 0
   }
+}
+
+/**
+ * 判断是否在静默期内 在 return true 否则 return false
+ */
+function judgingInterval(alert: Alert) {
+  if (alert.recentlyAt) {
+    // 判断当前时间是否大于静默期
+    const now = dayjs()
+    const last = dayjs(alert.recentlyAt)
+    const interval = getIntervalMs(alert.interval as Interval)
+    if (now.isBefore(last.add(interval, 'ms'))) {
+      return true
+    }
+  }
+  return false
 }
 
 async function getEventIntervalCount(
@@ -261,12 +264,13 @@ export async function getAlertStatus(
     alert?: Alert
   }[] = []
   for (const alert of alerts) {
-    if (!alert.enabled) continue
-    if (judgingInterval(alert)) continue
-    const filtered = await judgingFilter(event, issue, issueEventsCount, alert, prisma)
-    if (filtered) continue
+    const alertNew = await prisma.alert.findUniqueOrThrow({ where: { id: alert.id } })
+    if (!alertNew.enabled) continue
+    if (judgingInterval(alertNew)) continue
+    const filtered = await judgingFilter(event, issue, issueEventsCount, alertNew, prisma)
+    if (!filtered) continue
 
-    const item = await judgingCondition(event, issue, alert, prisma)
+    const item = await judgingCondition(event, issue, alertNew, prisma)
     result = result.concat(item.filter(v => v.condition))
   }
   return result
@@ -312,27 +316,27 @@ export function getAlertContent(
   总事件数：${statistics.eventsCount}
   总用户数：${statistics.usersCount}
   时间：${dayjs(statistics.time).format('YYYY-MM-DD HH:mm:ss')}
-  平台：${statistics.platform}
+  平台：${statistics.platform ?? 'unknown'}
 
   ${
-  !!url
-    && url !== 'undefined'
-    && `Url
+  (!!url && url !== 'undefined')
+    ? `Url
   ${url}`
+    : ''
 }
 
   ${
-  !!filename
-    && filename !== 'undefined'
-    && `File
+  (!!filename && filename !== 'undefined')
+    ? `File
   ${filename}`
+    : ''
 }
 
   ${
-  !!others
-    && others !== 'undefined'
-    && `Others
+  (!!others && others !== 'undefined')
+    ? `Others
   ${others}`
+    : ''
 }
   `
   const markdown = `
@@ -345,27 +349,27 @@ export function getAlertContent(
   - 总事件数：${statistics.eventsCount}
   - 总用户数：${statistics.usersCount}
   - 时间：${dayjs(statistics.time).format('YYYY-MM-DD HH:mm:ss')}
-  - 平台：${statistics.platform}
+  - 平台：${statistics.platform ?? 'unknown'}
 
   ${
-  !!url
-    && url !== 'undefined'
-    && `Url
+  (!!url && url !== 'undefined')
+    ? `Url
   ${url}`
+    : ''
 }
 
-  ${
-  !!filename
-    && filename !== 'undefined'
-    && `File
+    ${
+  (!!filename && filename !== 'undefined')
+    ? `File
   ${filename}`
+    : ''
 }
 
-  ${
-  !!others
-    && others !== 'undefined'
-    && `Others
+    ${
+  (!!others && others !== 'undefined')
+    ? `Others
   ${others}`
+    : ''
 }
   `
   const html = md.render(markdown)

@@ -501,16 +501,22 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
 
       <FormControl isInvalid={!!errors.interval}>
         <FormLabel htmlFor="interval">Alert Interval</FormLabel>
-        <NumberInput variant="filled">
-          <NumberInputField
-            id="interval"
-            {...register('interval', { required: 'This is required', valueAsNumber: true })}
-          />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
+        <Select
+          id="interval"
+          variant="filled"
+          {...register('interval', { required: 'This is required' })}
+        >
+          {
+            IntervalOptions.map(interval => (
+              <option
+                key={interval}
+                value={interval}
+              >
+                {interval}
+              </option>
+            ))
+          }
+        </Select>
         <FormErrorMessage>
           {errors.interval && errors.interval.message}
         </FormErrorMessage>

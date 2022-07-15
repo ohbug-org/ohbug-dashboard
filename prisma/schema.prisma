@@ -112,7 +112,7 @@ model Alert {
   name           String
   releaseStage   String       @default("production")
   level          AlertLevel
-  interval       Int          @default(60)
+  interval       String
   enabled        Boolean      @default(true)
   actions        Json
   conditions     Json
