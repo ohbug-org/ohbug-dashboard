@@ -15,8 +15,9 @@ if (process.env.NODE_ENV === 'production') {
   prisma = getClient()
 }
 else {
-  if (!global.__db__)
+  if (!global.__db__) {
     global.__db__ = getClient()
+  }
 
   prisma = global.__db__
 }
@@ -30,14 +31,12 @@ function getClient() {
   const isLocalHost = databaseUrl.hostname === 'localhost'
 
   const PRIMARY_REGION = isLocalHost ? null : process.env.PRIMARY_REGION
-  const FLY_REGION = isLocalHost ? null : process.env.FLY_REGION
 
-  const isReadReplicaRegion = !PRIMARY_REGION || PRIMARY_REGION === FLY_REGION
+  const isReadReplicaRegion = !PRIMARY_REGION
 
   if (!isLocalHost) {
-    databaseUrl.host = `${FLY_REGION}.${databaseUrl.host}`
-    if (!isReadReplicaRegion)
-      databaseUrl.port = '5432'
+    databaseUrl.host = `${databaseUrl.host}`
+    if (!isReadReplicaRegion) { databaseUrl.port = '5432' }
   }
 
   console.warn(`🔌 setting up prisma client to ${databaseUrl.host}`)

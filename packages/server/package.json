@@ -6,7 +6,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "start": "nest start",
-    "start:prod": "pm2 start dist/main.js -i 4",
+    "start:pm2": "pm2 start dist/main.js",
     "dev": "nest start --watch",
     "dev:debug": "nest start --debug --watch",
     "dev:prod": "node dist/main"

@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Alert" ALTER COLUMN "interval" DROP DEFAULT,
-ALTER COLUMN "interval" SET DATA TYPE TEXT;

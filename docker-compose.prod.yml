@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    hostname: postgres
+    ports:
+      - '5432:5432'
+
+  redis:
+    image: redis:alpine
+    restart: always
+    hostname: redis
+    ports:
+      - '6379:6379'
+
+  app:
+    image: ohbug/ohbug-ce:latest
+    ports:
+      - '3000:3000'
+      - '6660:6660'

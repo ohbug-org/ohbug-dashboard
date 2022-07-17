@@ -1,7 +1,8 @@
 import path from 'path'
+import { cwd } from 'process'
 import * as dotenv from 'dotenv'
 
-dotenv.config({ path: path.join(__dirname, '../../../.env') })
+dotenv.config({ path: path.join(cwd(), '../../.env') })
 
 export default {
   redis: {
