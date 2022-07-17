@@ -1,4 +1,4 @@
-import { unlink } from 'fs/promises'
+import { unlink } from 'node:fs/promises'
 import { Injectable } from '@nestjs/common'
 import { ReceiveSourceMapFile, SourceMapData } from 'common'
 import { Prisma, Project, Release } from '@prisma/client'

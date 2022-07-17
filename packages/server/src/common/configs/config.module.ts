@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule as ConfigBaseModule } from '@nestjs/config'
-import config from 'config'
+import { getConfig } from 'config'
 
 @Module({
   imports: [
     ConfigBaseModule.forRoot({
-      load: [() => config],
+      load: [getConfig],
       isGlobal: true,
     }),
   ],

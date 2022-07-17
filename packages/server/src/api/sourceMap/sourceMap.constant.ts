@@ -1,5 +1,5 @@
-import { cwd } from 'process'
-import { join } from 'path'
+import { cwd } from 'node:process'
+import { join } from 'node:path'
 
 export const UPLOAD_DEST = join(cwd(), '../../.uploads')
 

@@ -17,6 +17,7 @@
     "@next-auth/prisma-adapter": "^1.0.3",
     "clsx": "^1.2.1",
     "common": "workspace:*",
+    "config": "workspace:*",
     "framer-motion": "^6.5.1",
     "highcharts": "^10.2.0",
     "highcharts-react-official": "^3.1.0",

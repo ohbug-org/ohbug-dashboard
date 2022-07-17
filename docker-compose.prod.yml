@@ -23,3 +23,5 @@ services:
     ports:
       - '3000:3000'
       - '6660:6660'
+    volumes:
+      - ./ohbug.config.yml:/app/ohbug.config.yml

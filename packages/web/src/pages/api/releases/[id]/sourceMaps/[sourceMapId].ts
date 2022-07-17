@@ -1,4 +1,4 @@
-import { readFile } from 'fs/promises'
+import { readFile } from 'node:fs/promises'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getAuth } from '~/libs/middleware'
 import { serviceGetRelease } from '~/services/releases'

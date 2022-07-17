@@ -1,0 +1,16 @@
+db:
+  postgres:
+    host: postgres
+    port: 5432
+    database: ohbug
+    user: ohbug
+    password: ohbug
+
+  redis:
+    host: redis
+    port: 6379
+
+secret:
+  session: super-duper-s3cret
+  apikey: ohbug-apikey-s3cret
+  nextauth: ohbug-nextauth-s3cret

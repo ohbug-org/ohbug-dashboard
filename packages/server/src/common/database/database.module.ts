@@ -6,6 +6,6 @@ export const BullModuleConfig = BullModule.forRootAsync({
   imports: [ConfigModule],
   inject: [ConfigService],
   useFactory: (configService: ConfigService) => {
-    return { redis: configService.get('redis') }
+    return { redis: configService.get('db.redis') }
   },
 })

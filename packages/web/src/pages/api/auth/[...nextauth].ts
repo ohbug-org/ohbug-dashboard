@@ -4,12 +4,14 @@ import NextAuth from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import EmailProvider from 'next-auth/providers/email'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { getConfig } from 'config'
 import { serviceGetSetting } from '~/services/bootstrap'
 import { prisma } from '~/db'
 
 export const getAuthOptions = async(): Promise<NextAuthOptions> => {
   const setting = await serviceGetSetting()
   const options: NextAuthOptions = {
+    secret: getConfig().secret?.nextauth ?? 'ohbug-nextauth-s3cret',
     adapter: PrismaAdapter(prisma),
     providers: [],
     callbacks: {

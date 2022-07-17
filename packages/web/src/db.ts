@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { getConfig } from 'config'
 
 declare global {
   // eslint-disable-next-line vars-on-top,no-var
@@ -23,10 +24,7 @@ else {
 }
 
 function getClient() {
-  const { DATABASE_URL } = process.env
-  if (typeof DATABASE_URL !== 'string') throw new Error('DATABASE_URL env var not set')
-
-  const databaseUrl = new URL(DATABASE_URL)
+  const databaseUrl = new URL(getConfig().db.postgres.url)
 
   const isLocalHost = databaseUrl.hostname === 'localhost'
 
