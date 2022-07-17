@@ -1,5 +1,4 @@
 FROM node:16 AS base
-RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
 WORKDIR /app
 
