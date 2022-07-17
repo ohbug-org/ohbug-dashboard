@@ -12,7 +12,7 @@ RUN npx prisma generate
 RUN pnpm run build
 
 FROM base AS runner
-COPY --from=builder /app ./
+COPY --from=deps /app ./
 EXPOSE 3000
 EXPOSE 6660
 CMD ["pnpm", "run", "start"]
