@@ -1,7 +1,6 @@
-FROM node:16-alpine AS base
+FROM node:16 AS base
 RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
-RUN npm install -g prisma
 WORKDIR /app
 
 FROM base AS deps
@@ -9,13 +8,7 @@ COPY pnpm-*.yaml .
 RUN pnpm fetch
 COPY . .
 RUN pnpm install
-RUN prisma generate
-
-FROM base AS builder
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/packages/server/node_modules ./packages/server/node_modules
-COPY --from=deps /app/packages/web/node_modules ./packages/web/node_modules
-COPY . .
+RUN npx prisma generate
 RUN pnpm run build
 
 FROM base AS runner
