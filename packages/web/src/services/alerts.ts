@@ -2,10 +2,10 @@ import type { Prisma } from '@prisma/client'
 import type { OmitAlert, Pagination } from 'common'
 import { pagination } from 'common'
 import dayjs from 'dayjs'
-import { prisma } from '~/db'
+import { getPrisma } from '~/db'
 
 export function serviceCreateAlert({ projectId, ...alert }: OmitAlert) {
-  return prisma.alert.create({
+  return getPrisma().alert.create({
     data: {
       name: alert.name,
       releaseStage: alert.releaseStage,
@@ -26,7 +26,7 @@ interface ServiceGetAlertsParams extends Pagination {
   projectId: number
 }
 export function serviceGetAlerts({ page, pageSize, projectId }: ServiceGetAlertsParams) {
-  return prisma.alert.findMany({
+  return getPrisma().alert.findMany({
     where: { projectId },
     ...pagination({ page, pageSize }),
   })
@@ -36,11 +36,11 @@ interface ServiceGetReleaseParams {
   id: number
 }
 export function serviceGetAlert({ id }: ServiceGetReleaseParams) {
-  return prisma.alert.findUniqueOrThrow({ where: { id } })
+  return getPrisma().alert.findUniqueOrThrow({ where: { id } })
 }
 
 export function serviceUpdateAlert(id: number, data: OmitAlert) {
-  return prisma.alert.update({
+  return getPrisma().alert.update({
     where: { id },
     data: {
       ...data,
@@ -50,7 +50,7 @@ export function serviceUpdateAlert(id: number, data: OmitAlert) {
 }
 
 export function serviceGetAlertEvents(alertId: number) {
-  return prisma.alertEvent.findMany({
+  return getPrisma().alertEvent.findMany({
     where: { alertId },
     include: {
       event: true,
@@ -74,7 +74,7 @@ export async function serviceGetAlertEventTrends({ id, type }: ServiceGetAlertEv
   const max = dayjs()
   const min = max.subtract(interval, unit)
 
-  const trends = await prisma.$queryRawUnsafe<AlertEventTrend[]>(`
+  const trends = await getPrisma().$queryRawUnsafe<AlertEventTrend[]>(`
     SELECT to_char("AlertEvent"."createdAt", '${format}') AS time, count("AlertEvent".*)::int
     FROM "AlertEvent"
     WHERE "AlertEvent"."alertId" = ${id}

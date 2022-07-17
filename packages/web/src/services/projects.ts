@@ -1,15 +1,15 @@
 import type { Project, User } from '@prisma/client'
 import dayjs from 'dayjs'
 import type { ProjectWithEventCount } from 'common'
-import { prisma } from '~/db'
+import { getPrisma } from '~/db'
 
 export async function serviceGetProject(id: number) {
-  return prisma.project.findUniqueOrThrow({ where: { id } })
+  return getPrisma().project.findUniqueOrThrow({ where: { id } })
 }
 
 export async function serviceGetProjects(user: User) {
   if (!user) return []
-  return prisma.project.findMany({ where: { users: { some: { userId: user.id } } } })
+  return getPrisma().project.findMany({ where: { users: { some: { userId: user.id } } } })
 }
 
 export async function serviceGetProjectsWithEventCount(user: User): Promise<ProjectWithEventCount[]> {
@@ -30,7 +30,7 @@ export async function serviceCreateProject(data: Project, user: User) {
   const projects = await serviceGetProjects(user)
   if (!projects.length) isDefault = true
 
-  return prisma.project.create({
+  return getPrisma().project.create({
     data: {
       ...data,
       default: isDefault,
@@ -40,7 +40,7 @@ export async function serviceCreateProject(data: Project, user: User) {
 }
 
 export async function serviceUpdateProject(id: number, data: Project) {
-  return prisma.project.update({
+  return getPrisma().project.update({
     where: { id },
     data,
   })
@@ -64,7 +64,7 @@ export async function serviceGetProjectTrends({ id, type }: ServiceGetProjectTre
   const max = dayjs()
   const min = max.subtract(interval, unit)
 
-  const trends = await prisma.$queryRawUnsafe<ProjectTrend[]>(`
+  const trends = await getPrisma().$queryRawUnsafe<ProjectTrend[]>(`
     SELECT to_char("Event"."createdAt", '${format}') AS time, count("Event".*)::int
     FROM "Event"
     WHERE "Event"."apiKey" = '${apiKey}'
@@ -87,5 +87,5 @@ export async function serviceGetProjectEventsCount(id: number) {
   const project = await serviceGetProject(id)
 
   const apiKey = project.apiKey
-  return prisma.event.count({ where: { apiKey } })
+  return getPrisma().event.count({ where: { apiKey } })
 }

@@ -2,7 +2,7 @@ import { getStackFrame, getTheSourceByError } from 'source-map-trace'
 import type { OhbugEventLike, Pagination, ReceiveSourceMapFile } from 'common'
 import { PAGE_SIZE, pagination } from 'common'
 import { serviceGetProject } from './projects'
-import { prisma } from '~/db'
+import { getPrisma } from '~/db'
 
 interface ServiceGetEventParams {
   id?: string
@@ -10,13 +10,13 @@ interface ServiceGetEventParams {
 }
 export async function serviceGetEvent({ id, issueId }: ServiceGetEventParams) {
   if (id) {
-    const event = prisma.event.findUniqueOrThrow({ where: { id } }) as unknown as OhbugEventLike
+    const event = getPrisma().event.findUniqueOrThrow({ where: { id } }) as unknown as OhbugEventLike
     const source = await serviceGetEventSource(event)
     return { ...event, source }
   }
   if (issueId) {
     const event = (
-      await prisma.event.findFirstOrThrow({ where: { issueId } })
+      await getPrisma().event.findFirstOrThrow({ where: { issueId } })
     ) as unknown as OhbugEventLike
     const source = await serviceGetEventSource(event)
     return { ...event, source }
@@ -33,7 +33,7 @@ export async function serviceGetEventsByIssueId({
   page = 0,
   pageSize = PAGE_SIZE,
 }: ServiceGetEventsByIssueIdParams) {
-  return prisma.event.findMany({
+  return getPrisma().event.findMany({
     where: { issueId },
     ...pagination({ page, pageSize }),
   })
@@ -43,7 +43,7 @@ export async function serviceGetEventSource(event: OhbugEventLike) {
   try {
     const stackFrame = getStackFrame(event.detail)
     if (stackFrame) {
-      const release = await prisma.release.findFirst({
+      const release = await getPrisma().release.findFirst({
         where: {
           apiKey: event.apiKey,
           appVersion: event.appVersion,
@@ -76,7 +76,7 @@ export async function serviceGetEventByProjectId({
   const project = await serviceGetProject(projectId)
   if (project) {
     const apiKey = project.apiKey
-    return prisma.event.findMany({
+    return getPrisma().event.findMany({
       where: { apiKey },
       ...pagination({ page, pageSize }),
     })

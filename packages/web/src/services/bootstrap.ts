@@ -1,17 +1,17 @@
 import type { Setting } from '@prisma/client'
-import { prisma } from '~/db'
+import { getPrisma } from '~/db'
 
 export function serviceGetSetting() {
-  return prisma.setting.findFirst()
+  return getPrisma().setting.findFirst()
 }
 
 export async function serviceCreateSetting(data: Setting) {
-  const setting = await prisma.setting.findFirst()
+  const setting = await getPrisma().setting.findFirst()
   if (setting) {
-    return prisma.setting.update({
+    return getPrisma().setting.update({
       data,
       where: { id: setting.id },
     })
   }
-  return prisma.setting.create({ data })
+  return getPrisma().setting.create({ data })
 }

@@ -2,15 +2,15 @@ import dayjs from 'dayjs'
 import type { Pagination } from 'common'
 import { PAGE_SIZE, pagination } from 'common'
 import { serviceGetProject } from './projects'
-import { prisma } from '~/db'
+import { getPrisma } from '~/db'
 
 interface ServiceGetIssuesParams extends Pagination {
   projectId: number
 }
 export async function serviceGetIssues({ projectId, page = 0, pageSize = PAGE_SIZE }: ServiceGetIssuesParams) {
   const project = await serviceGetProject(projectId)
-  return prisma.$transaction([
-    prisma.issue.findMany({
+  return getPrisma().$transaction([
+    getPrisma().issue.findMany({
       where: { apiKey: project.apiKey },
       ...pagination({ page, pageSize }),
       include: {
@@ -22,7 +22,7 @@ export async function serviceGetIssues({ projectId, page = 0, pageSize = PAGE_SI
         },
       },
     }),
-    prisma.issue.count({ where: { apiKey: project.apiKey } }),
+    getPrisma().issue.count({ where: { apiKey: project.apiKey } }),
   ])
 }
 
@@ -44,7 +44,7 @@ export async function serviceGetIssuesTrends({ ids, type }: ServiceGetIssuesTren
   const min = max.subtract(interval, unit)
 
   const list = `(${ids.split(',').map(v => `'${v}'`).join(',')})`
-  const trends = await prisma.$queryRawUnsafe<IssueTrend[]>(`
+  const trends = await getPrisma().$queryRawUnsafe<IssueTrend[]>(`
     SELECT "issueId", to_char("Event"."createdAt", '${format}') AS time, count("Event".*)::int
     FROM "Event"
     WHERE "Event"."issueId" IN ${list}
@@ -72,7 +72,7 @@ interface ServiceGetIssueParams {
   id: string
 }
 export function serviceGetIssue({ id }: ServiceGetIssueParams) {
-  return prisma.issue.findUniqueOrThrow({
+  return getPrisma().issue.findUniqueOrThrow({
     where: { id },
     include: {
       _count: {
