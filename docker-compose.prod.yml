@@ -4,9 +4,9 @@ services:
     image: postgres:alpine
     restart: always
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=ohbug
+      - POSTGRES_PASSWORD=ohbug
+      - POSTGRES_DB=ohbug
     hostname: postgres
     ports:
       - '5432:5432'
