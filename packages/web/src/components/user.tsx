@@ -1,10 +1,19 @@
 import type { FC } from 'react'
-import { Avatar, Box, Button, Flex, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text } from '@chakra-ui/react'
+import { useMemo } from 'react'
+import { Avatar, AvatarBadge, Box, Button, Flex, Highlight, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import useSWR from 'swr'
 import Theme from './theme'
 
 const User: FC = () => {
   const { data: session } = useSession()
+  const { data } = useSWR('https://cdn.jsdelivr.net/gh/ohbug-org/ohbug-dashboard/package.json')
+  const hasNewVersion = useMemo(() => {
+    if (!data) return false
+    const { version } = data
+    const currentVersion = process.env.NEXT_PUBLIC_VERSION
+    return version !== currentVersion
+  }, [data])
 
   if (session) {
     return (
@@ -14,7 +23,16 @@ const User: FC = () => {
             name={session.user?.name ?? ''}
             size="sm"
             src={session.user?.image ?? ''}
-          />
+          >
+            {
+              hasNewVersion && (
+                <AvatarBadge
+                  bg="green.500"
+                  boxSize="1.25em"
+                />
+              )
+            }
+          </Avatar>
         </MenuButton>
 
         <MenuList>
@@ -39,6 +57,22 @@ const User: FC = () => {
                 </Text>
               </Flex>
             </Flex>
+            {
+              hasNewVersion && (
+                <MenuItem
+                  as="a"
+                  href="https://www.ohbug.net/guide/upgrade.html"
+                  target="_blank"
+                >
+                  <Highlight
+                    query="latest version"
+                    styles={{ ml: '2', px: '2', py: '1', bg: 'orange.100' }}
+                  >
+                    Get the latest version
+                  </Highlight>
+                </MenuItem>
+              )
+            }
           </MenuGroup>
 
           <MenuDivider />

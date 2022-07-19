@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { cwd } from 'node:process'
 import * as yaml from 'js-yaml'
+import pkg from '../package.json'
 import type { Config } from '../packages/config'
 
 const YAML_CONFIG_FILENAME = 'ohbug.config.yml'
@@ -14,7 +15,8 @@ async function main() {
   const configPath = join(cwd(), process.env.NODE_ENV === 'development' ? DEVELOP_YAML_CONFIG_FILENAME : YAML_CONFIG_FILENAME)
   const config = yaml.load(await readFile(configPath, 'utf8')) as Config
 
-  const fileContents = `DB_USER=${config.db.postgres.user}
+  const fileContents = `NEXT_PUBLIC_VERSION=${pkg.version}
+DB_USER=${config.db.postgres.user}
 DB_PASSWORD=${config.db.postgres.password}
 DB_NAME=${config.db.postgres.database}
 DATABASE_URL="postgresql://${config.db.postgres.user}:${config.db.postgres.password}@${config.db.postgres.host}:${config.db.postgres.port}/${config.db.postgres.database}"
