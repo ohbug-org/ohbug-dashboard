@@ -1,4 +1,4 @@
-FROM node:16-slim AS deps
+FROM node:16 AS deps
 RUN npm install -g pnpm
 RUN npm i -g @antfu/ni
 WORKDIR /app
@@ -10,9 +10,7 @@ COPY packages/server/package.json ./packages/server/package.json
 COPY packages/web/package.json ./packages/web/package.json
 RUN nci
 
-FROM node:16-slim AS builder
-RUN apt-get update
-RUN apt-get install -y openssl
+FROM node:16 AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/packages/server/node_modules ./packages/server/node_modules
@@ -20,7 +18,7 @@ COPY --from=deps /app/packages/web/node_modules ./packages/web/node_modules
 COPY . .
 RUN npm run build
 
-FROM node:16-slim AS runner
+FROM node:16 AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=builder /app/node_modules ./node_modules
