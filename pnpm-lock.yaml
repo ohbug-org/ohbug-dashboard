@@ -29,6 +29,7 @@ importers:
       lint-staged: ^13.0.3
       nodemailer: ^6.7.7
       pm2: ^5.2.0
+      pnpm: ^7.5.2
       prisma: ^4.0.0
       ramda: ^0.28.0
       rimraf: ^3.0.2
@@ -65,6 +66,7 @@ importers:
       husky: 8.0.1
       lint-staged: 13.0.3
       pm2: 5.2.0
+      pnpm: 7.5.2
       prisma: 4.0.0
       rimraf: 3.0.2
       tsup: 6.1.3_typescript@4.7.4
@@ -7622,6 +7624,12 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
+    dev: true
+
+  /pnpm/7.5.2:
+    resolution: {integrity: sha512-tTLvMnu1zIAWrD87Q/Dgw0+d71Brhlm+aM62KkDr/EPNZyA7dBIsu7tS9pNfRSvwgVF7V1Dhc8jJLAsTNTXnDQ==}
+    engines: {node: '>=14.6'}
+    hasBin: true
     dev: true
 
   /popmotion/11.0.3:

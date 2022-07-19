@@ -5,6 +5,7 @@ const nextConfig = {
     runtime: 'experimental-edge',
     serverComponents: true,
   },
+  output: 'standalone',
 }
 
 module.exports = nextConfig

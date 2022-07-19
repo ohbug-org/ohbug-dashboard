@@ -1,17 +1,48 @@
-FROM node:16 AS base
+FROM node:16-alpine AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
+RUN npm i -g @antfu/ni
 WORKDIR /app
-
-FROM base AS deps
 COPY pnpm-*.yaml .
-RUN pnpm fetch
-COPY . .
-RUN pnpm install
-RUN npx prisma generate
-RUN pnpm run build
+COPY package.json .
+COPY packages/common/package.json ./packages/common/package.json
+COPY packages/config/package.json ./packages/config/package.json
+COPY packages/server/package.json ./packages/server/package.json
+COPY packages/web/package.json ./packages/web/package.json
+RUN nci
 
-FROM base AS runner
-COPY --from=deps /app ./
+FROM node:16-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/packages/server/node_modules ./packages/server/node_modules
+COPY --from=deps /app/packages/web/node_modules ./packages/web/node_modules
+COPY . .
+RUN npm run build
+
+FROM node:16-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/prisma ./prisma
+# common
+COPY --from=builder /app/packages/common/package.json ./packages/common/package.json
+COPY --from=builder /app/packages/common/dist ./packages/common/dist
+# config
+COPY --from=builder /app/packages/config/package.json ./packages/config/package.json
+COPY --from=builder /app/packages/config/dist ./packages/config/dist
+# server
+COPY --from=builder /app/packages/server/node_modules ./packages/server/node_modules
+COPY --from=builder /app/packages/server/package.json ./packages/server/package.json
+COPY --from=builder /app/packages/server/tsconfig.json ./packages/server/tsconfig.json
+COPY --from=builder /app/packages/server/tsconfig.build.json ./packages/server/tsconfig.build.json
+COPY --from=builder /app/packages/server/dist ./packages/server/dist
+# web
+COPY --from=builder /app/packages/web/public ./packages/web/public
+COPY --from=builder /app/packages/web/.next/standalone ./packages/web
+COPY --from=builder /app/packages/web/.next/static ./packages/web/.next/static
 EXPOSE 3000
 EXPOSE 6660
-CMD ["pnpm", "run", "start"]
+CMD ["npm", "run", "start"]
