@@ -11,7 +11,7 @@ import { getPrisma } from '~/db'
 export const getAuthOptions = async(): Promise<NextAuthOptions> => {
   const setting = await serviceGetSetting()
   const options: NextAuthOptions = {
-    secret: getConfig().secret?.nextauth ?? 'ohbug-nextauth-s3cret',
+    secret: getConfig().secret?.session ?? 'ohbug-session-s3cret',
     adapter: PrismaAdapter(getPrisma()),
     providers: [],
     callbacks: {

@@ -7,21 +7,11 @@ services:
       - POSTGRES_USER=ohbug
       - POSTGRES_PASSWORD=ohbug
       - POSTGRES_DB=ohbug
-    hostname: postgres
     ports:
       - '5432:5432'
 
   redis:
     image: redis:alpine
     restart: always
-    hostname: redis
     ports:
       - '6379:6379'
-
-  app:
-    image: ohbug/ohbug-ce:latest
-    ports:
-      - '3000:3000'
-      - '6660:6660'
-    volumes:
-      - ./ohbug.config.yml:/app/ohbug.config.yml
