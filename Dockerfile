@@ -1,6 +1,4 @@
-FROM node:16-alpine AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+FROM node:16-slim AS deps
 RUN npm install -g pnpm
 RUN npm i -g @antfu/ni
 WORKDIR /app
@@ -12,7 +10,9 @@ COPY packages/server/package.json ./packages/server/package.json
 COPY packages/web/package.json ./packages/web/package.json
 RUN nci
 
-FROM node:16-alpine AS builder
+FROM node:16-slim AS builder
+RUN apt-get update
+RUN apt-get install -y openssl
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/packages/server/node_modules ./packages/server/node_modules
@@ -20,7 +20,7 @@ COPY --from=deps /app/packages/web/node_modules ./packages/web/node_modules
 COPY . .
 RUN npm run build
 
-FROM node:16-alpine AS runner
+FROM node:16-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=builder /app/node_modules ./node_modules
