@@ -1,20 +1,21 @@
 import { Box, Stat, StatGroup, StatLabel, StatNumber } from '@chakra-ui/react'
 import type { FC } from 'react'
-import type { Issue } from 'common'
+import type { Issue, OhbugEventLike } from 'common'
 import Title from './title'
 import IssueDetailTabs from './issueDetailTabs'
 import { renderStringOrJson } from '~/libs/utils'
 
 interface Props {
   issue: Issue
+  event: OhbugEventLike
 }
 
-const IssueDetailTitle: FC<Props> = ({ issue }) => {
+const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
   return (
     <Title
       bg="current"
       bottomNodes={
-        <IssueDetailTabs />
+        <IssueDetailTabs event={event} />
       }
       position="sticky"
       rightNodes={

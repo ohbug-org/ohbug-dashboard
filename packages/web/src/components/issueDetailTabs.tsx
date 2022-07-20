@@ -1,33 +1,54 @@
 import type { FC } from 'react'
 import { useCallback, useMemo } from 'react'
-import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { Link, Tab, TabList, Tabs } from '@chakra-ui/react'
+import type { OhbugEventLike } from 'common'
 import useCurrentProject from '~/hooks/useCurrentProject'
 
-const IssueDetailTabs: FC = () => {
+interface Props {
+  event: OhbugEventLike
+}
+
+const IssueDetailTabs: FC<Props> = ({ event }) => {
   const router = useRouter()
   const { projectId } = useCurrentProject()
-  const list = useMemo(() => [
-    {
-      label: '详细信息',
-      value: 'detail',
-      href: '/[projectId]/issues/[issueId]'.replace('[issueId]', router.query.issueId as string).replace('[projectId]', projectId!.toString()),
-    },
-    {
-      label: '事件',
-      value: 'events',
-      href: '/[projectId]/issues/[issueId]/events'.replace('[issueId]', router.query.issueId as string).replace('[projectId]', projectId!.toString()),
-    },
-  ], [router, projectId])
+  const list = useMemo(() => {
+    const base = [
+      {
+        label: '详细信息',
+        value: 'detail',
+        tab: 'detail',
+      },
+      {
+        label: '事件',
+        value: 'events',
+        tab: 'events',
+      },
+    ]
+    if (event.metadata) {
+      Object.keys(event.metadata).forEach((key) => {
+        base.push({
+          label: key,
+          value: key,
+          tab: key,
+        })
+      })
+    }
+    return base
+  }, [event, router, projectId])
   const active = useMemo(() => {
-    return list.findIndex(item => item.href === router.route
-      .replace('[issueId]', router.query.issueId as string)
-      .replace('[projectId]', projectId!.toString()))
+    const index = list.findIndex(item => item.tab === router.query.tab)
+    return index > 0 ? index : 0
   }, [list, router])
-  const handleTabChange = useCallback((tabIndex: number) => {
-    router.push(list[tabIndex].href)
-  }, [list])
+  const handleTabChange = useCallback((index: number) => {
+    const item = list[index]
+    if (item) {
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, tab: item.tab },
+      })
+    }
+  }, [list, router])
 
   return (
     <Tabs
@@ -41,9 +62,7 @@ const IssueDetailTabs: FC = () => {
             <Tab
               key={v.value}
             >
-              <NextLink href={v.href}>
-                <Link>{v.label}</Link>
-              </NextLink>
+              <Link>{v.label}</Link>
             </Tab>
           ))
         }
