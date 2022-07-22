@@ -1,5 +1,6 @@
 import { Box, Stat, StatGroup, StatLabel, StatNumber } from '@chakra-ui/react'
 import type { FC } from 'react'
+import { useMemo } from 'react'
 import type { Issue, OhbugEventLike } from 'common'
 import Title from './title'
 import IssueDetailTabs from './issueDetailTabs'
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
+  const metadata = useMemo(() => JSON.parse(issue.metadata) || {}, [issue])
   return (
     <Title
       bg="current"
@@ -48,7 +50,7 @@ const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
             {issue.type}
           </Box>
           <code>
-            {renderStringOrJson(issue.metadata.filename ?? issue.metadata.others)}
+            {renderStringOrJson(metadata.filename ?? metadata.others)}
           </code>
         </Box>
         <Box
@@ -56,9 +58,9 @@ const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
           textColor="gray.400"
         >
           {
-            issue.metadata.message && (
+            metadata.message && (
               <code>
-                {renderStringOrJson(issue.metadata.message)}
+                {renderStringOrJson(metadata.message)}
               </code>
             )
           }

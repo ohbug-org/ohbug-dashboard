@@ -17,6 +17,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "dev": "tsup src/index.ts --dts --format esm,cjs --watch --env.NODE_ENV development",
-    "build": "tsup src/index.ts --dts --format esm,cjs --env.NODE_ENV production"
+    "build": "tsup src/index.ts --dts --format esm,cjs --env.NODE_ENV production",
+    "lint": "tsc && eslint . --fix"
   }
 }

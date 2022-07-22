@@ -6,22 +6,27 @@ import { getPrisma } from '~/db'
 
 interface ServiceGetIssuesParams extends Pagination {
   projectId: number
+  query?: string
 }
-export async function serviceGetIssues({ projectId, page = 0, pageSize = PAGE_SIZE }: ServiceGetIssuesParams) {
+export async function serviceGetIssues({ projectId, query, page = 0, pageSize = PAGE_SIZE }: ServiceGetIssuesParams) {
   const project = await serviceGetProject(projectId)
-  return getPrisma().$transaction([
-    getPrisma().issue.findMany({
-      where: { apiKey: project.apiKey },
-      ...pagination({ page, pageSize }),
-      include: {
-        _count: {
-          select: {
-            events: true,
-            users: true,
-          },
+  const options: any = {
+    where: { apiKey: project.apiKey },
+    ...pagination({ page, pageSize }),
+    include: {
+      _count: {
+        select: {
+          events: true,
+          users: true,
         },
       },
-    }),
+    },
+  }
+  if (query) {
+    options.where.metadata = { search: query }
+  }
+  return getPrisma().$transaction([
+    getPrisma().issue.findMany(options),
     getPrisma().issue.count({ where: { apiKey: project.apiKey } }),
   ])
 }

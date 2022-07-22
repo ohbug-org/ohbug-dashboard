@@ -28,7 +28,7 @@ CREATE TABLE "Issue" (
     "id" TEXT NOT NULL,
     "apiKey" TEXT NOT NULL,
     "type" TEXT NOT NULL,
-    "metadata" JSONB NOT NULL,
+    "metadata" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

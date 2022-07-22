@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -35,14 +36,15 @@ model Issue {
   id              String               @id
   apiKey          String
   type            String
-  metadata        Json
+  metadata        String
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
+
   events          Event[]
   users           EventUsersOnIssues[]
   alertEvents     AlertEvent[]
 
-  @@index([apiKey])
+  @@index([apiKey, metadata])
 }
 
 model EventUser {

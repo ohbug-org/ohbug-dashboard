@@ -32,7 +32,7 @@ export class ReportProcessor {
           device: event.device as Prisma.InputJsonObject,
           user: event.user as Prisma.InputJsonObject,
           actions: event.actions as unknown as Prisma.InputJsonArray,
-          metadata: event.metadata as Prisma.InputJsonObject,
+          metadata: event.metadata,
           issue: {
             connectOrCreate: {
               where: { id: issueIntro },
@@ -40,7 +40,7 @@ export class ReportProcessor {
                 id: issueIntro,
                 apiKey: event.apiKey,
                 type: event.type,
-                metadata,
+                metadata: JSON.stringify(metadata),
                 users: {
                   connectOrCreate: {
                     where: {

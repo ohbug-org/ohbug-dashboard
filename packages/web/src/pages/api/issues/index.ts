@@ -14,10 +14,12 @@ export default async function handler(
   const page = parseInt(req.query.page as string) || 1
   const pageSize = parseInt(req.query.pageSize as string) || PAGE_SIZE
   const projectId = parseInt(req.query.projectId as string)
+  const query = req.query.query as string
   const issues = await serviceGetIssues({
     page,
     pageSize,
     projectId,
+    query,
   })
   res.status(200).json(issues)
 }

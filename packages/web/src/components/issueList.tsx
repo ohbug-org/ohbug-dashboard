@@ -74,119 +74,122 @@ const IssueList: FC<Props> = ({ issues }) => {
       {/* body */}
       <Box>
         {
-          issues.map(issue => (
-            <ThemeBox
-              _hover={
-                { bg: rowHoverBg }
-              }
-              border="1px"
-              borderColor="current"
-              borderTop="none"
-              borderX="none"
-              display="flex"
-              key={issue.id}
-              px="2"
-              py="3"
-            >
-              {/* main */}
-              <Box w="50%">
-                <NextLink
-                  href={
-                    {
-                      pathname: '/[projectId]/issues/[issueId]',
-                      query: { issueId: issue.id, projectId },
+          issues.map((issue) => {
+            const metadata = JSON.parse(issue.metadata) || {}
+            return (
+              <ThemeBox
+                _hover={
+                  { bg: rowHoverBg }
+                }
+                border="1px"
+                borderColor="current"
+                borderTop="none"
+                borderX="none"
+                display="flex"
+                key={issue.id}
+                px="2"
+                py="3"
+              >
+                {/* main */}
+                <Box w="50%">
+                  <NextLink
+                    href={
+                      {
+                        pathname: '/[projectId]/issues/[issueId]',
+                        query: { issueId: issue.id, projectId },
+                      }
                     }
-                  }
-                >
-                  <Link
-                    cursor="pointer"
-                    display="flex"
-                    justifyContent="space-between"
-                    noOfLines={1}
-                    w="full"
                   >
-                    {/* title */}
-                    <Box
-                      as="span"
-                      fontWeight="semibold"
-                      mr="2"
+                    <Link
+                      cursor="pointer"
+                      display="flex"
+                      justifyContent="space-between"
+                      noOfLines={1}
+                      w="full"
                     >
-                      {issue.type}
-                    </Box>
-                    {/* second description */}
-                    <Box
-                      as="code"
-                      textColor="gray.400"
-                    >
-                      {renderStringOrJson(issue.metadata.filename ?? issue.metadata.others)}
-                    </Box>
-                  </Link>
-                </NextLink>
-                {/* message */}
-                <Text
-                  noOfLines={[1, 2]}
-                  textColor="gray.400"
-                >
-                  {
-                    issue.metadata.message && (
-                      <code>
-                        {renderStringOrJson(issue.metadata.message)}
-                      </code>
-                    )
-                  }
-                </Text>
-                {/* other message (time/appType/...) */}
-                <Box>
-                  {/* appType */}
-                  {/* time */}
-                  <Flex
-                    align="center"
-                    fontSize="xs"
+                      {/* title */}
+                      <Box
+                        as="span"
+                        fontWeight="semibold"
+                        mr="2"
+                      >
+                        {issue.type}
+                      </Box>
+                      {/* second description */}
+                      <Box
+                        as="code"
+                        textColor="gray.400"
+                      >
+                        {renderStringOrJson(metadata.filename ?? metadata.others)}
+                      </Box>
+                    </Link>
+                  </NextLink>
+                  {/* message */}
+                  <Text
+                    noOfLines={[1, 2]}
+                    textColor="gray.400"
                   >
-                    <Icon
-                      as={RiTimeLine}
-                      mr="2"
-                    />
-                    <Tooltip
-                      aria-label="A tooltip"
-                      label={`最后出现时间 ${dayjs(issue.updatedAt).format('YYYY-MM-DD HH:mm:ss')}`}
+                    {
+                      metadata.message && (
+                        <code>
+                          {renderStringOrJson(metadata.message)}
+                        </code>
+                      )
+                    }
+                  </Text>
+                  {/* other message (time/appType/...) */}
+                  <Box>
+                    {/* appType */}
+                    {/* time */}
+                    <Flex
+                      align="center"
+                      fontSize="xs"
                     >
-                      {dayjs(issue.updatedAt).fromNow()}
-                    </Tooltip>
+                      <Icon
+                        as={RiTimeLine}
+                        mr="2"
+                      />
+                      <Tooltip
+                        aria-label="A tooltip"
+                        label={`最后出现时间 ${dayjs(issue.updatedAt).format('YYYY-MM-DD HH:mm:ss')}`}
+                      >
+                        {dayjs(issue.updatedAt).fromNow()}
+                      </Tooltip>
 
-                    <Box
-                      as="span"
-                      mx="1"
-                    >
-                      |
-                    </Box>
+                      <Box
+                        as="span"
+                        mx="1"
+                      >
+                        |
+                      </Box>
 
-                    <Tooltip
-                      aria-label="A tooltip"
-                      label={`首次出现时间 ${dayjs(issue.createdAt).format('YYYY-MM-DD HH:mm:ss')}`}
-                    >
-                      {dayjs(issue.createdAt).fromNow()}
-                    </Tooltip>
-                  </Flex>
+                      <Tooltip
+                        aria-label="A tooltip"
+                        label={`首次出现时间 ${dayjs(issue.createdAt).format('YYYY-MM-DD HH:mm:ss')}`}
+                      >
+                        {dayjs(issue.createdAt).fromNow()}
+                      </Tooltip>
+                    </Flex>
+                  </Box>
                 </Box>
-              </Box>
 
-              <Box w="48">
-                <TrendChart
-                  data={trends?.[issue.id]}
-                  type={chartType}
-                />
-              </Box>
+                <Box w="48">
+                  <TrendChart
+                    data={trends?.[issue.id]}
+                    type={chartType}
+                  />
+                </Box>
 
-              <Center w="20">
-                {issue._count?.events}
-              </Center>
+                <Center w="20">
+                  {issue._count?.events}
+                </Center>
 
-              <Center w="20">
-                {issue._count?.users}
-              </Center>
-            </ThemeBox>
-          ))
+                <Center w="20">
+                  {issue._count?.users}
+                </Center>
+              </ThemeBox>
+            )
+          })
         }
       </Box>
     </Box>

@@ -12,7 +12,7 @@ export interface Issue {
   id: string
   apiKey: string
   type: string
-  metadata: MetaData
+  metadata: string
   createdAt: Date
   updatedAt: Date
   _count?: {
