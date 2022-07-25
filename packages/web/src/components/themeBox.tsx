@@ -21,7 +21,7 @@ const ThemeBox = forwardRef<HTMLDivElement, ThemeBoxProps>(({ acrylic, ...props 
   return (
     <Box
       {...props}
-      backdropFilter={acrylic ? 'saturate(180%) blur(5px)' : undefined}
+      backdropFilter={acrylic ? 'saturate(100%) blur(10px)' : undefined}
       bg={bg}
       borderColor={props.borderColor === 'current' ? borderColor : props.borderColor}
       ref={ref}

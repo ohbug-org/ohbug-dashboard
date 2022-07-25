@@ -1,3 +1,4 @@
+import type { Issue } from 'common'
 import type { NextPage } from 'next'
 import { useMemo, useState } from 'react'
 import useSWR from 'swr'
@@ -11,7 +12,7 @@ import useCurrentProject from '~/hooks/useCurrentProject'
 const Issues: NextPage = () => {
   const { projectId } = useCurrentProject()
   const [page, setPage] = useState(() => 1)
-  const { data: issuesAndTotal } = useSWR(projectId ? `/api/issues?projectId=${projectId}&page=${page}` : null)
+  const { data: issuesAndTotal } = useSWR<[Issue[], number]>(projectId ? `/api/issues?projectId=${projectId}&page=${page}` : null)
   const [issues, total] = issuesAndTotal || []
   const loading = useMemo(() => !issues, [issues])
 
@@ -24,13 +25,13 @@ const Issues: NextPage = () => {
             : (
               <>
                 <IssueList
-                  issues={issues}
+                  issues={issues!}
                 />
                 <Pagination
                   mt="6"
                   onChange={page => setPage(page)}
                   page={page}
-                  total={total}
+                  total={total!}
                 />
               </>
             )

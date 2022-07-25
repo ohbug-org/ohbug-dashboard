@@ -1,92 +1,82 @@
+import type { ReactNode } from 'react'
 import { useMemo } from 'react'
-import type { Action } from 'kbar'
 import { useRouter } from 'next/router'
 import { Icon, useColorMode } from '@chakra-ui/react'
-import { RiDiscordFill, RiGithubFill, RiHomeFill, RiMoonFill, RiSunFill } from 'react-icons/ri'
+import { RiDiscordLine, RiGithubLine, RiHomeLine, RiMoonLine, RiSunLine } from 'react-icons/ri'
+
+interface Action {
+  label: string
+  value: string
+  subtitle?: string
+  section: string
+  shortcut: string[]
+  keywords: string[]
+  icon: ReactNode
+  perform: (currentAction: Action) => void
+}
 
 export function useSearchBarActions() {
   const router = useRouter()
   const { setColorMode } = useColorMode()
-  const staticActions: Action[] = [
+  const actions = useMemo<Action[]>(() => [
     {
-      id: 'home',
-      name: 'Home',
+      value: 'home',
+      label: 'Home',
       section: 'Scope',
       shortcut: [],
-      keywords: 'home',
+      keywords: ['home'],
       icon: (
-        <Icon
-          as={RiHomeFill}
-          h="5"
-          w="5"
-        />
+        <Icon as={RiHomeLine}/>
       ),
       perform: () => router.push('/'),
     },
     {
-      id: 'github',
-      name: 'Github',
+      value: 'github',
+      label: 'Github',
       subtitle: 'ohbug-org',
       section: 'Social',
       shortcut: [],
-      keywords: 'github, source code, open, code',
+      keywords: ['github', 'source code', 'open', 'code'],
       icon: (
-        <Icon
-          as={RiGithubFill}
-          h="5"
-          w="5"
-        />
+        <Icon as={RiGithubLine}/>
       ),
       perform: () => window.open('https://github.com/ohbug-org/ohbug'),
     },
     {
-      id: 'discord',
-      name: 'Discord',
+      value: 'discord',
+      label: 'Discord',
       subtitle: 'Join us!',
       section: 'Social',
       shortcut: [],
-      keywords: 'chat, community, join',
+      keywords: ['chat', 'community', 'join'],
       icon: (
-        <Icon
-          as={RiDiscordFill}
-          h="5"
-          w="5"
-        />
+        <Icon as={RiDiscordLine}/>
       ),
       perform: () => window.open('https://discord.gg/FmxaBSBumM'),
     },
 
     {
-      id: 'darkTheme',
-      name: 'Dark',
+      value: 'darkTheme',
+      label: 'Dark',
       section: 'Theme',
-      keywords: 'dark',
+      keywords: ['dark'],
       icon: (
-        <Icon
-          as={RiMoonFill}
-          h="5"
-          w="5"
-        />
+        <Icon as={RiMoonLine}/>
       ),
       shortcut: [],
       perform: () => setColorMode('dark'),
     },
     {
-      id: 'lightTheme',
-      name: 'Light',
+      value: 'lightTheme',
+      label: 'Light',
       section: 'Theme',
-      keywords: 'light',
+      keywords: ['light'],
       shortcut: [],
       icon: (
-        <Icon
-          as={RiSunFill}
-          h="5"
-          w="5"
-        />
+        <Icon as={RiSunLine}/>
       ),
       perform: () => setColorMode('light'),
     },
-  ]
-  const actions = useMemo(() => [...staticActions], [staticActions])
+  ], [])
   return { actions }
 }

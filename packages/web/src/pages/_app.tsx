@@ -6,7 +6,6 @@ import { SessionProvider } from 'next-auth/react'
 import { SWRConfig } from 'swr'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { SearchBarProvider } from '~/components/searchBar'
 import Layout from '~/components/layout'
 import theme from '~/styles/theme'
 dayjs.extend(relativeTime)
@@ -29,13 +28,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppPropsWith
           resetCSS
           theme={theme}
         >
-          <SearchBarProvider>
-            {
-              Component.getLayout
-                ? Component.getLayout(<Component {...pageProps} />)
-                : <Layout><Component {...pageProps} /></Layout>
-            }
-          </SearchBarProvider>
+          {
+            Component.getLayout
+              ? Component.getLayout(<Component {...pageProps} />)
+              : <Layout><Component {...pageProps} /></Layout>
+          }
         </ChakraProvider>
       </SWRConfig>
     </SessionProvider>

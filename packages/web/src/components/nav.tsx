@@ -1,23 +1,13 @@
 import type { FC } from 'react'
-import { useCallback } from 'react'
-import { Flex, Kbd, Link } from '@chakra-ui/react'
-import { VisualState, useKBar } from 'kbar'
-import { isMacOs } from 'react-device-detect'
+import { Flex, Link } from '@chakra-ui/react'
 import User from './user'
 import Breadcrumbs from './breadcrumbs'
 import ThemeBox from './themeBox'
+import SearchBar from './searchBar'
 
 interface Props {}
 
 const Nav: FC<Props> = () => {
-  const { query } = useKBar()
-  const handleKeyboardClick = useCallback(() => {
-    query.setVisualState(vs =>
-      [VisualState.animatingOut, VisualState.hidden].includes(vs)
-        ? VisualState.animatingIn
-        : VisualState.animatingOut)
-  }, [])
-
   return (
     <ThemeBox
       alignItems="center"
@@ -33,24 +23,7 @@ const Nav: FC<Props> = () => {
         align="center"
         gap="4"
       >
-        <ThemeBox
-          alignItems="center"
-          bg="gray"
-          cursor="pointer"
-          display="flex"
-          justifyContent="space-between"
-          onClick={handleKeyboardClick}
-          p="2"
-          w="40"
-        >
-          <span>Search...</span>
-          <Flex gap="1">
-            <Kbd>
-              {isMacOs ? '⌘' : '⌃'}
-            </Kbd>
-            <Kbd>K</Kbd>
-          </Flex>
-        </ThemeBox>
+        <SearchBar />
         <Link
           href="https://ohbug.net/"
           target="_blank"
