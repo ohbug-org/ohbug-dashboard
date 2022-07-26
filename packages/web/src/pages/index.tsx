@@ -4,6 +4,7 @@ import type { ProjectWithEventCount } from 'common'
 import type { GetServerSideProps, NextPage } from 'next'
 import { RiAddLine } from 'react-icons/ri'
 import NextLink from 'next/link'
+import { useTranslations } from 'next-intl'
 import ProjectCard from '~/components/projectCard'
 import Wrapper from '~/components/wrapper'
 import { serviceGetSetting } from '~/services/bootstrap'
@@ -48,6 +49,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
 }
 
 const Home: NextPage<Props> = ({ projects }) => {
+  const t = useTranslations('Index')
   return (
     <Wrapper>
       <Flex justify="end">
@@ -55,7 +57,7 @@ const Home: NextPage<Props> = ({ projects }) => {
           <Button
             leftIcon={<RiAddLine />}
           >
-            Create a Project
+            {t('createProject')}
           </Button>
         </NextLink>
       </Flex>

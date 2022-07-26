@@ -2,6 +2,7 @@ import { Box, Stat, StatGroup, StatLabel, StatNumber } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useMemo } from 'react'
 import type { Issue, OhbugEventLike } from 'common'
+import { useTranslations } from 'next-intl'
 import Title from './title'
 import IssueDetailTabs from './issueDetailTabs'
 import { renderStringOrJson } from '~/libs/utils'
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
+  const t = useTranslations('Event')
   const metadata = useMemo(() => JSON.parse(issue.metadata) || {}, [issue])
   return (
     <Title
@@ -24,11 +26,11 @@ const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
         (
           <StatGroup w="xs">
             <Stat>
-              <StatLabel>Events</StatLabel>
+              <StatLabel>{t('titleEvents')}</StatLabel>
               <StatNumber>{issue._count?.events}</StatNumber>
             </Stat>
             <Stat>
-              <StatLabel>Users</StatLabel>
+              <StatLabel>{t('titleUsers')}</StatLabel>
               <StatNumber>{issue._count?.users}</StatNumber>
             </Stat>
           </StatGroup>

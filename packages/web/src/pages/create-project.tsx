@@ -1,5 +1,6 @@
 import { Box, Button, Center, FormControl, FormErrorMessage, FormLabel, Input, Select } from '@chakra-ui/react'
 import type { Project } from '@prisma/client'
+import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
@@ -15,6 +16,8 @@ const projectTypes = [
 ]
 
 const CreateProject = () => {
+  const ct = useTranslations('Common')
+  const t = useTranslations('CreateProject')
   const router = useRouter()
   const { mutate } = useSWRConfig()
   const { handleSubmit, register, formState: { errors } } = useForm<OmitProject>()
@@ -43,23 +46,26 @@ const CreateProject = () => {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={!!errors.name}>
-            <FormLabel htmlFor="name">Project Name</FormLabel>
+            <FormLabel htmlFor="name">{t('projectName')}</FormLabel>
             <Input
               id="name"
-              placeholder="Input Project Name"
+              placeholder={t('projectNamePlaceholder')}
               type="text"
-              {...register('name', { required: 'This is required' })}
+              {...register('name', { required: ct('thisIsRequired') })}
             />
             <FormErrorMessage>
               {errors.name && errors.name.message}
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.type}>
-            <FormLabel htmlFor="type">Project Type</FormLabel>
+          <FormControl
+            isInvalid={!!errors.type}
+            mt="3"
+          >
+            <FormLabel htmlFor="type">{t('projectType')}</FormLabel>
             <Select
               id="type"
-              {...register('type', { required: 'This is required' })}
+              {...register('type', { required: ct('thisIsRequired') })}
             >
               {
                 projectTypes.map(({ label, value }) => (
@@ -82,7 +88,7 @@ const CreateProject = () => {
               type="submit"
               w="full"
             >
-              Create Project
+              {t('createProject')}
             </Button>
           </Box>
         </form>

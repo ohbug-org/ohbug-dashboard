@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import type { OhbugEventLike } from 'common'
 import { RiCake2Line, RiCake3Line, RiCakeLine, RiComputerLine, RiEarthLine, RiFingerprintLine, RiHeading, RiLinkedinLine, RiLinksLine, RiTimeLine } from 'react-icons/ri'
 import { Icon, Link, Stat, StatGroup, StatHelpText, StatLabel, Tag, Tooltip, Wrap, WrapItem } from '@chakra-ui/react'
+import { useTranslations } from 'next-intl'
 import ThemeBox from './themeBox'
 import Wrapper from './wrapper'
 import CardSection from './cardSection'
@@ -14,13 +15,14 @@ interface Props {
 }
 
 const IssueDetailProfile: FC<Props> = ({ event }) => {
+  const t = useTranslations('Event')
   const deviceInfo = useMemo(() => getDeviceInfo(event), [event])
   const tagList = useMemo(() => {
     const result = []
     if (event?.timestamp) {
       result.push({
         key: 'time',
-        title: `发生时间: ${dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}`,
+        title: `${t('profileTimestamp')}: ${dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}`,
         value: dayjs(event.timestamp).fromNow(),
         icon: RiTimeLine,
       })
@@ -44,7 +46,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
     if (event?.device?.title) {
       result.push({
         key: 'title',
-        title: `标题: ${event.device.title}`,
+        title: `${t('profileTitle')}: ${event.device.title}`,
         value: event.device.title,
         icon: RiHeading,
       })
@@ -60,7 +62,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
     if (event?.device?.language) {
       result.push({
         key: 'language',
-        title: `Language: ${event.device.language}`,
+        title: `${t('profileLanguage')}: ${event.device.language}`,
         value: event.device.language,
         icon: RiEarthLine,
       })
@@ -96,7 +98,7 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
     ) {
       result.push({
         key: 'dpi',
-        title: `分辨率: ${event?.device?.device?.screenWidth} × ${event?.device?.device?.screenHeight} @ ${event?.device?.device?.pixelRatio}x`,
+        title: `${t('profileDPI')}: ${event?.device?.device?.screenWidth} × ${event?.device?.device?.screenHeight} @ ${event?.device?.device?.pixelRatio}x`,
         value: `${event?.device?.device?.screenWidth} × ${event?.device?.device?.screenHeight} @ ${event?.device?.device?.pixelRatio}x`,
         icon: RiComputerLine,
       })

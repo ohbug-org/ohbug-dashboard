@@ -1,7 +1,8 @@
-import { Box, Button } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import type { Release } from '@prisma/client'
 import type { NextPage } from 'next'
 import Card from '~/components/card'
+import LoadingMoreButton from '~/components/loadMoreButton'
 import ReleaseList from '~/components/releaseList'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
@@ -24,22 +25,11 @@ const Releases: NextPage = () => {
       >
         <Card>
           <ReleaseList releases={data} />
-          <Button
-            disabled={isLoading || isReachingEnd}
-            mt="6"
+          <LoadingMoreButton
+            isLoading={isLoading}
+            isReachingEnd={isReachingEnd}
             onClick={() => setSize(size + 1)}
-            size="sm"
-            variant="outline"
-            w="full"
-          >
-            {
-              isLoading
-                ? 'Loading...'
-                : isReachingEnd
-                  ? 'No More Events'
-                  : 'Load More'
-            }
-          </Button>
+          />
         </Card>
       </Wrapper>
     </Box>

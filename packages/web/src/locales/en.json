@@ -1,0 +1,76 @@
+{
+  "Common": {
+    "thisIsRequired": "This is required",
+    "24h": "24hours",
+    "14d": "14days",
+    "lastSeen": "LastSeen",
+    "firstSeen": "FirstSeen",
+    "loading": "Loading",
+    "noMoreData": "No More Data",
+    "loadMore": "Load More",
+    "total": "Total"
+  },
+  "Header": {
+    "User": {
+      "theme": "Theme",
+      "logout": "Logout",
+      "signIn": "Sign In",
+      "language": "Language"
+    }
+  },
+  "Index": {
+    "createProject": "Create a Project"
+  },
+  "CreateProject": {
+    "projectName": "Project Name",
+    "projectType": "Project Type",
+    "createProject": "Create Project",
+    "projectNamePlaceholder": "Input Project Name"
+  },
+  "Bootstrap": {
+    "getClientSetting": "Get Client ID/Secret?",
+    "bootstrap": "Bootstrap"
+  },
+  "Issues": {},
+  "Event": {
+    "titleEvents": "Events",
+    "titleUsers": "Users",
+    "tabsDetail": "Details",
+    "tabsEvents": "Events",
+    "profileTimestamp": "Time",
+    "profileTitle": "Title",
+    "profileLanguage": "Language",
+    "profileDPI": "DPI"
+  },
+  "Alerts": {
+    "createAlert": "Create Alert",
+    "updateAlert": "Update Alert",
+    "alertConditions": "Alert Conditions",
+    "addCondition": "Add Condition",
+    "alertFilters": "Alert Filters",
+    "addFilter": "Add Filter",
+    "alertInterval": "Alert Interval",
+    "alertLevel": "Alert Level",
+    "alertActions": "Alert Actions",
+    "addAction": "Add Action",
+    "alertName": "Alert Name",
+    "dingtalk": "DINGDING",
+    "wechatWork": "WECHAT WORK",
+    "others": "OTHERS",
+    "webhookTooltip": "Contact information of the person in charge, mostly used for @ corresponding person in charge, usually cell phone number (multiple please use English comma to separate)",
+    "webhookContact": "Contact",
+    "mustBeTheCorrectEmailAddress": "Must be the correct email address",
+    "mustBeTheCorrectUrlAddress": "Must be the correct url address",
+    "inputEmailAddress": "Input Email Address",
+    "inputWebhookURL": "Input Webhook URL"
+  },
+  "Settings": {
+    "save": "Save",
+    "projectSettings": "Project Settings",
+    "projectDescription": "Used to identify your Project on the Dashboard",
+    "projectName": "Project Name",
+    "yourProjectWillBeRenamedTo": "Your Project will be renamed to",
+    "apiKeyDescription": "To send data to Ohbug you will need to configure an SDK with a apiKey",
+    "projectApiKey": "Project ApiKey"
+  }
+}

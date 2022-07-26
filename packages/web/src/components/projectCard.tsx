@@ -40,7 +40,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
               fontSize="xs"
               textColor="gray.500"
             >
-            Events: {project.eventCount ?? 0}
+              Events: {project.eventCount ?? 0}
             </Text>
           </Box>
         </Flex>

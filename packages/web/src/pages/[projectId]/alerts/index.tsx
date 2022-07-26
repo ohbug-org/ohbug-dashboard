@@ -2,14 +2,17 @@ import { Box, Button } from '@chakra-ui/react'
 import type { Alert } from '@prisma/client'
 import type { NextPage } from 'next'
 import NextLink from 'next/link'
+import { useTranslations } from 'next-intl'
 import Card from '~/components/card'
 import AlertsList from '~/components/alertList'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
 import { useInfinite } from '~/hooks/useInfinite'
+import LoadingMoreButton from '~/components/loadMoreButton'
 
 const Alerts: NextPage = () => {
+  const t = useTranslations('Alerts')
   const { projectId } = useCurrentProject()
   const { data, isLoading, size, setSize, isReachingEnd } = useInfinite<Alert>(index => `/api/alerts?projectId=${projectId}&page=${index + 1}`)
 
@@ -19,7 +22,7 @@ const Alerts: NextPage = () => {
         rightNodes={
           (
             <NextLink href={`/${projectId}/alerts/create`}>
-              <Button variant="solid">Create Alert</Button>
+              <Button variant="solid">{t('createAlert')}</Button>
             </NextLink>
           )
         }
@@ -35,22 +38,11 @@ const Alerts: NextPage = () => {
       >
         <Card>
           <AlertsList alerts={data} />
-          <Button
-            disabled={isLoading || isReachingEnd}
-            mt="6"
+          <LoadingMoreButton
+            isLoading={isLoading}
+            isReachingEnd={isReachingEnd}
             onClick={() => setSize(size + 1)}
-            size="sm"
-            variant="outline"
-            w="full"
-          >
-            {
-              isLoading
-                ? 'Loading...'
-                : isReachingEnd
-                  ? 'No More Events'
-                  : 'Load More'
-            }
-          </Button>
+          />
         </Card>
       </Wrapper>
     </Box>

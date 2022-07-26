@@ -3,6 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { Link, Tab, TabList, Tabs } from '@chakra-ui/react'
 import type { OhbugEventLike } from 'common'
+import { useTranslations } from 'next-intl'
 import useCurrentProject from '~/hooks/useCurrentProject'
 
 interface Props {
@@ -10,17 +11,18 @@ interface Props {
 }
 
 const IssueDetailTabs: FC<Props> = ({ event }) => {
+  const t = useTranslations('Event')
   const router = useRouter()
   const { projectId } = useCurrentProject()
   const list = useMemo(() => {
     const base = [
       {
-        label: '详细信息',
+        label: t('tabsDetail'),
         value: 'detail',
         tab: 'detail',
       },
       {
-        label: '事件',
+        label: t('tabsEvents'),
         value: 'events',
         tab: 'events',
       },

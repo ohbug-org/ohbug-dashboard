@@ -2,6 +2,7 @@ import { Box, Button, Center, FormControl, FormErrorMessage, FormHelperText, For
 import type { Setting } from '@prisma/client'
 import type { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/router'
 import type { ReactElement } from 'react'
 import { useCallback } from 'react'
@@ -20,6 +21,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async() => {
 }
 
 const Bootstrap = ({ setting }: Props) => {
+  const ct = useTranslations('Common')
+  const t = useTranslations('Bootstrap')
   const router = useRouter()
   const session = useSession()
   const { handleSubmit, register, formState: { errors } } = useForm<OmitSetting>({ defaultValues: setting || {} })
@@ -57,20 +60,23 @@ const Bootstrap = ({ setting }: Props) => {
               id="githubClientId"
               placeholder="Client ID"
               type="text"
-              {...register('githubClientId', { required: 'This is required' })}
+              {...register('githubClientId', { required: ct('thisIsRequired') })}
             />
             <FormErrorMessage>
               {errors.githubClientId && errors.githubClientId.message}
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.githubClientSecret}>
+          <FormControl
+            isInvalid={!!errors.githubClientSecret}
+            mt="3"
+          >
             <FormLabel htmlFor="githubClientSecret">Github OAuth Client Secret</FormLabel>
             <Input
               id="githubClientSecret"
               placeholder="Client Secret"
               type="text"
-              {...register('githubClientSecret', { required: 'This is required' })}
+              {...register('githubClientSecret', { required: ct('thisIsRequired') })}
             />
             <FormHelperText>
               <a
@@ -78,7 +84,7 @@ const Bootstrap = ({ setting }: Props) => {
                 rel="noreferrer"
                 target="_blank"
               >
-                Get Client ID/Secret?
+                {t('getClientSetting')}
               </a>
             </FormHelperText>
             <FormErrorMessage>
@@ -86,7 +92,10 @@ const Bootstrap = ({ setting }: Props) => {
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.emailServer}>
+          <FormControl
+            isInvalid={!!errors.emailServer}
+            mt="3"
+          >
             <FormLabel htmlFor="emailServer">Email Server</FormLabel>
             <Input
               id="emailServer"
@@ -99,7 +108,10 @@ const Bootstrap = ({ setting }: Props) => {
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.emailFrom}>
+          <FormControl
+            isInvalid={!!errors.emailFrom}
+            mt="3"
+          >
             <FormLabel htmlFor="emailFrom">Email From</FormLabel>
             <Input
               id="emailFrom"
@@ -117,7 +129,7 @@ const Bootstrap = ({ setting }: Props) => {
               type="submit"
               w="full"
             >
-              Bootstrap
+              {t('bootstrap')}
             </Button>
           </Box>
         </form>

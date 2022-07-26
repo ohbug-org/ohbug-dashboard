@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import type { FC } from 'react'
 import type { Issue } from 'common'
 import { Box, Stat, StatGroup, StatLabel, StatNumber, Tooltip } from '@chakra-ui/react'
+import { useTranslations } from 'next-intl'
 import TrendChart from './trendChart'
 import ThemeBox from './themeBox'
 import Wrapper from './wrapper'
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
+  const ct = useTranslations('Common')
   return (
     <ThemeBox bg="gray">
       <Wrapper>
@@ -25,7 +27,7 @@ const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
             (
               <StatGroup>
                 <Stat>
-                  <StatLabel>First Seen</StatLabel>
+                  <StatLabel>{ct('firstSeen')}</StatLabel>
                   <Tooltip
                     label={dayjs(issue?.createdAt).format('YYYY-MM-DD HH:mm:ss A')}
                     placement="bottom-start"
@@ -36,7 +38,7 @@ const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
                   </Tooltip>
                 </Stat>
                 <Stat>
-                  <StatLabel>Last Seen</StatLabel>
+                  <StatLabel>{ct('lastSeen')}</StatLabel>
                   <Tooltip
                     label={dayjs(issue?.updatedAt).format('YYYY-MM-DD HH:mm:ss A')}
                     placement="bottom-start"
@@ -58,7 +60,7 @@ const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
               trends['14d'] && (
                 <TrendChart
                   data={trends['14d']}
-                  title="过去14天"
+                  title={ct('14d')}
                   type="14d"
                   variant="detail"
                 />
@@ -70,7 +72,7 @@ const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
               trends['24h'] && (
                 <TrendChart
                   data={trends['24h']}
-                  title="过去24小时"
+                  title={ct('24h')}
                   type="24h"
                   variant="detail"
                 />

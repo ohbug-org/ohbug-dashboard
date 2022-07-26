@@ -1,0 +1,76 @@
+{
+  "Common": {
+    "thisIsRequired": "此项为必填项",
+    "24h": "24小时",
+    "14d": "14天",
+    "lastSeen": "最后出现时间",
+    "firstSeen": "首次出现时间",
+    "loading": "加载中",
+    "noMoreData": "没有更多数据",
+    "loadMore": "加载更多",
+    "total": "合计"
+  },
+  "Header": {
+    "User": {
+      "theme": "主题",
+      "logout": "注销",
+      "signIn": "登录",
+      "language": "语言"
+    }
+  },
+  "Index": {
+    "createProject": "创建项目"
+  },
+  "CreateProject": {
+    "projectName": "项目名称",
+    "projectType": "项目类型",
+    "createProject": "创建项目",
+    "projectNamePlaceholder": "请输入项目名称"
+  },
+  "Bootstrap": {
+    "getClientSetting": "获取 Client ID/Secret?",
+    "bootstrap": "创建"
+  },
+  "Issues": {},
+  "Event": {
+    "titleEvents": "事件数",
+    "titleUsers": "用户数",
+    "tabsDetail": "详细信息",
+    "tabsEvents": "事件",
+    "profileTimestamp": "发生时间",
+    "profileTitle": "标题",
+    "profileLanguage": "语言",
+    "profileDPI": "分辨率"
+  },
+  "Alerts": {
+    "createAlert": "创建提示",
+    "updateAlert": "更新提示",
+    "alertConditions": "条件",
+    "addCondition": "新增条件",
+    "alertFilters": "过滤",
+    "addFilter": "新增过滤",
+    "alertInterval": "间隔",
+    "alertLevel": "级别",
+    "alertActions": "动作",
+    "addAction": "新增动作",
+    "alertName": "名称",
+    "dingtalk": "钉钉",
+    "wechatWork": "企业微信",
+    "others": "其他",
+    "webhookTooltip": "负责人的联系方式，多用于@对应负责人，通常为手机号 (多个请使用英文逗号分隔)",
+    "webhookContact": "联系方式",
+    "mustBeTheCorrectEmailAddress": "必须为正确的邮箱地址",
+    "mustBeTheCorrectUrlAddress": "必须为正确的 URL 地址",
+    "inputEmailAddress": "请输入邮箱地址",
+    "inputWebhookURL": "请输入 Webhook 地址"
+  },
+  "Settings": {
+    "save": "保存",
+    "projectSettings": "项目设置",
+    "projectDescription": "用于在控制台中区分不同项目",
+    "projectName": "项目名称",
+    "yourProjectWillBeRenamedTo": "你的项目将更名为",
+    "apiKeyDescription": "需要在 SDK 中配置 apiKey 才能在 Ohbug 控制台中使用",
+    "projectApiKey": "项目 ApiKey"
+  }
+}

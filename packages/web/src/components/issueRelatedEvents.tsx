@@ -2,6 +2,7 @@ import type { Issue } from 'common'
 import { Button } from '@chakra-ui/react'
 import type { Event } from '@prisma/client'
 import type { FC } from 'react'
+import { useTranslations } from 'next-intl'
 import EventsList from '~/components/eventsList'
 import ThemeBox from '~/components/themeBox'
 import Wrapper from '~/components/wrapper'
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const IssueRelatedEvents: FC<Props> = ({ issue }) => {
+  const ct = useTranslations('Common')
   const { data: events, isLoading, size, setSize, isReachingEnd } = useInfinite<Event>(index => `/api/events?issueId=${issue.id}&page=${index + 1}`)
 
   return (
@@ -30,10 +32,10 @@ const IssueRelatedEvents: FC<Props> = ({ issue }) => {
           >
             {
               isLoading
-                ? 'Loading...'
+                ? `${ct('loading')}...`
                 : isReachingEnd
-                  ? 'No More Events'
-                  : 'Load More'
+                  ? ct('noMoreData')
+                  : ct('loadMore')
             }
           </Button>
         </CardSection>

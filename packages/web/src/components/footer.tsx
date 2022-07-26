@@ -2,6 +2,7 @@ import { Box, Flex, Icon, Link } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { RiGithubFill } from 'react-icons/ri'
 import Logo from './logo'
+import Intl from './intl'
 import Theme from './theme'
 
 const Footer: FC = () => {
@@ -25,7 +26,14 @@ const Footer: FC = () => {
         </Link>
       </Box>
 
-      <Theme />
+      <Flex
+        align="center"
+        gap="2"
+      >
+        <Intl />
+        <Theme />
+
+      </Flex>
     </Flex>
   )
 }

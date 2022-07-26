@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { useCallback } from 'react'
 import type { OmitAlert } from 'common'
 import { useRouter } from 'next/router'
+import { useTranslations } from 'next-intl'
 import Card from '~/components/card'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
@@ -10,6 +11,7 @@ import useCurrentProject from '~/hooks/useCurrentProject'
 import EditAlert from '~/components/editAlert'
 
 const Create: NextPage = () => {
+  const t = useTranslations('Alerts')
   const router = useRouter()
   const { projectId } = useCurrentProject()
   const onSubmit = useCallback((data: OmitAlert) => {
@@ -29,7 +31,7 @@ const Create: NextPage = () => {
 
   return (
     <Box>
-      <Title>Create Alerts</Title>
+      <Title>{t('createAlert')}</Title>
 
       <Wrapper
         display="flex"

@@ -5,6 +5,7 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import { RiCustomerService2Fill, RiDeleteBinLine, RiDingdingFill, RiWechatFill } from 'react-icons/ri'
 import type { Action, ConditionOption, FilterMatch, FilterOption, Interval, OmitAlert } from 'common'
 import { AlertConditionTopic, AlertFilterTopic } from 'common'
+import { useTranslations } from 'next-intl'
 import ThemeBox from '~/components/themeBox'
 
 export const ActionOptions = ['email', 'webhook']
@@ -55,6 +56,8 @@ interface Props {
 }
 
 const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
+  const ct = useTranslations('Common')
+  const t = useTranslations('Alerts')
   const { handleSubmit, register, control, formState: { errors } } = useForm<OmitAlert>({
     defaultValues: alert
       ? {
@@ -102,7 +105,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
     >
       <Box>
         <FormControl>
-          <FormLabel>Alert Conditions</FormLabel>
+          <FormLabel>{t('alertConditions')}</FormLabel>
           <Flex
             align="center"
             gap="2"
@@ -124,7 +127,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                 <Select
                   size="xs"
                   width="24"
-                  {...register('conditionMatch', { required: 'This is required' })}
+                  {...register('conditionMatch', { required: ct('thisIsRequired') })}
                 >
                   <option value="all">all</option>
                   <option value="every">every</option>
@@ -178,7 +181,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                               <NumberInputField
                                 id="interval"
                                 {...register(`conditions.${index}.value`, {
-                                  required: 'This is required',
+                                  required: ct('thisIsRequired'),
                                   min: 1,
                                   valueAsNumber: true,
                                 })}
@@ -197,7 +200,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                             <Select
                               size="xs"
                               width="24"
-                              {...register(`conditions.${index}.interval`, { required: 'This is required' })}
+                              {...register(`conditions.${index}.interval`, { required: ct('thisIsRequired') })}
                             >
                               {
                                 IntervalOptions.map(interval => (
@@ -231,7 +234,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                               <NumberInputField
                                 id="interval"
                                 {...register(`conditions.${index}.value`, {
-                                  required: 'This is required',
+                                  required: ct('thisIsRequired'),
                                   min: 1,
                                   valueAsNumber: true,
                                 })}
@@ -250,7 +253,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                             <Select
                               size="xs"
                               width="24"
-                              {...register(`conditions.${index}.interval`, { required: 'This is required' })}
+                              {...register(`conditions.${index}.interval`, { required: ct('thisIsRequired') })}
                             >
                               {
                                 IntervalOptions.map(interval => (
@@ -287,7 +290,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
             size="sm"
             variant="outline"
           >
-            Add Condition
+            {t('addCondition')}
           </MenuButton>
           <MenuList>
             <MenuOptionGroup
@@ -311,7 +314,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
 
       <Box>
         <FormControl>
-          <FormLabel>Alert Filters</FormLabel>
+          <FormLabel>{t('alertFilters')}</FormLabel>
           <Flex
             align="center"
             gap="2"
@@ -332,7 +335,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                 <Select
                   size="xs"
                   width="24"
-                  {...register('filterMatch', { required: 'This is required' })}
+                  {...register('filterMatch', { required: ct('thisIsRequired') })}
                 >
                   <option value="all">all</option>
                   <option value="every">every</option>
@@ -376,7 +379,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                               <NumberInputField
                                 id="interval"
                                 {...register(`filters.${index}.value`, {
-                                  required: 'This is required',
+                                  required: ct('thisIsRequired'),
                                   min: 1,
                                   valueAsNumber: true,
                                 })}
@@ -402,7 +405,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                             <Select
                               size="xs"
                               width="24"
-                              {...register(`filters.${index}.attribute`, { required: 'This is required' })}
+                              {...register(`filters.${index}.attribute`, { required: ct('thisIsRequired') })}
                             >
                               {
                                 FilterAttributeOptions.map(attribute => (
@@ -424,7 +427,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                             <Select
                               size="xs"
                               width="24"
-                              {...register(`filters.${index}.match`, { required: 'This is required' })}
+                              {...register(`filters.${index}.match`, { required: ct('thisIsRequired') })}
                             >
                               {
                                 FilterMatchOptions.map(match => (
@@ -446,7 +449,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                               size="xs"
                               variant="filled"
                               width="24"
-                              {...register(`filters.${index}.value`, { required: 'This is required' })}
+                              {...register(`filters.${index}.value`, { required: ct('thisIsRequired') })}
                             />
                           </FormControl>
                         </>
@@ -477,7 +480,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
             size="sm"
             variant="outline"
           >
-            Add Filter
+            {t('addFilter')}
           </MenuButton>
           <MenuList>
             <MenuOptionGroup
@@ -500,11 +503,11 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
       </Box>
 
       <FormControl isInvalid={!!errors.interval}>
-        <FormLabel htmlFor="interval">Alert Interval</FormLabel>
+        <FormLabel htmlFor="interval">{t('alertInterval')}</FormLabel>
         <Select
           id="interval"
           variant="filled"
-          {...register('interval', { required: 'This is required' })}
+          {...register('interval', { required: ct('thisIsRequired') })}
         >
           {
             IntervalOptions.map(interval => (
@@ -523,11 +526,11 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
       </FormControl>
 
       <FormControl isInvalid={!!errors.level}>
-        <FormLabel htmlFor="level">Alert Level</FormLabel>
+        <FormLabel htmlFor="level">{t('alertLevel')}</FormLabel>
         <Select
           id="level"
           variant="filled"
-          {...register('level', { required: 'This is required' })}
+          {...register('level', { required: ct('thisIsRequired') })}
         >
           {
             Object.values(AlertLevel).map(item => (
@@ -547,7 +550,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
 
       <Box>
         <FormControl isInvalid={!!errors.actions}>
-          <FormLabel>Alert Actions</FormLabel>
+          <FormLabel>{t('alertActions')}</FormLabel>
           {
             actionsFields.map((item, index) => {
               return (
@@ -570,19 +573,19 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                       item.type === 'webhook' && (
                         <Select
                           w="72"
-                          {...register(`actions.${index}.webhookType`, { required: 'This is required' })}
+                          {...register(`actions.${index}.webhookType`, { required: ct('thisIsRequired') })}
                         >
-                          <option value="dingtalk"><RiDingdingFill />钉钉</option>
-                          <option value="wechatWork"><RiWechatFill />企业微信</option>
-                          <option value="others"><RiCustomerService2Fill />其他</option>
+                          <option value="dingtalk"><RiDingdingFill />{t('dingtalk')}</option>
+                          <option value="wechatWork"><RiWechatFill />{t('wechatWork')}</option>
+                          <option value="others"><RiCustomerService2Fill />{t('others')}</option>
                         </Select>
                       )
                     }
                     {
                       item.type === 'webhook' && (
-                        <Tooltip label="负责人的联系方式，多用于@对应负责人，通常为手机号 (多个请使用英文逗号分隔)">
+                        <Tooltip label={t('webhookTooltip')}>
                           <Input
-                            placeholder="联系方式"
+                            placeholder={t('webhookContact')}
                             variant="filled"
                             w="96"
                             {...register(`actions.${index}.at`)}
@@ -594,13 +597,13 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                       variant="filled"
                       w="full"
                       {...register(`actions.${index}.uri`, {
-                        required: 'This is required',
+                        required: ct('thisIsRequired'),
                         pattern: {
                           value: item.type === 'email' ? /\S+@\S+\.\S+/ : /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-                          message: item.type === 'email' ? 'Must be the correct email address' : 'Must be the correct url address',
+                          message: item.type === 'email' ? t('mustBeTheCorrectEmailAddress') : t('mustBeTheCorrectUrlAddress'),
                         },
                       })}
-                      placeholder={item.type === 'email' ? 'Input Email Address' : 'Input Webhook URL'}
+                      placeholder={item.type === 'email' ? t('inputEmailAddress') : t('inputWebhookURL')}
                     />
                     <IconButton
                       aria-label="delete action"
@@ -624,7 +627,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
             size="sm"
             variant="outline"
           >
-            Add Action
+            {t('addAction')}
           </MenuButton>
           <MenuList>
             <MenuOptionGroup
@@ -647,13 +650,13 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
       </Box>
 
       <FormControl isInvalid={!!errors.name}>
-        <FormLabel htmlFor="name">Alert Name</FormLabel>
+        <FormLabel htmlFor="name">{t('alertName')}</FormLabel>
         <Input
           id="name"
           placeholder="Input Alert Name"
           type="text"
           variant="filled"
-          {...register('name', { required: 'This is required' })}
+          {...register('name', { required: ct('thisIsRequired') })}
         />
         <FormErrorMessage>
           {errors.name && errors.name.message}
@@ -666,7 +669,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
           w="full"
         >
           {
-            alert ? 'Update Alert' : 'Create Alert'
+            alert ? t('updateAlert') : t('createAlert')
           }
         </Button>
       </Box>

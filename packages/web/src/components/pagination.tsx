@@ -1,6 +1,7 @@
 import type { FlexProps } from '@chakra-ui/react'
 import { ButtonGroup, Flex, IconButton, Text } from '@chakra-ui/react'
 import { PAGE_SIZE } from 'common'
+import { useTranslations } from 'next-intl'
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri'
@@ -13,6 +14,7 @@ interface Props extends Omit<FlexProps, 'onChange'> {
 }
 
 const Pagination: FC<Props> = ({ page = 1, pageSize = PAGE_SIZE, total, onChange, ...props }) => {
+  const t = useTranslations('Common')
   const handlePrev = useCallback(() => {
     const _page = page - 1
     const value = _page > 0 ? _page : 1
@@ -35,7 +37,7 @@ const Pagination: FC<Props> = ({ page = 1, pageSize = PAGE_SIZE, total, onChange
         fontSize="sm"
         textColor="gray"
       >
-        total: {total}
+        {t('total')}: {total}
       </Text>
       <ButtonGroup
         isAttached

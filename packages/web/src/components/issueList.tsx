@@ -6,6 +6,7 @@ import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 import { Box, Center, Flex, FormControl, FormLabel, Icon, Link, Switch, Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
+import { useTranslations } from 'next-intl'
 import TrendChart from './trendChart'
 import ThemeBox from './themeBox'
 import type { serviceGetIssuesTrendsReturn } from '~/services/issues'
@@ -16,6 +17,7 @@ interface Props {
   issues: Issue[]
 }
 const IssueList: FC<Props> = ({ issues }) => {
+  const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
   const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(`/api/trends/issues?ids=${issues.map(issue => issue.id)}&type=${chartType}`)
@@ -52,7 +54,7 @@ const IssueList: FC<Props> = ({ issues }) => {
               htmlFor="trendsType"
               mb="0"
             >
-              {chartType === '24h' ? '24小时' : '14天'}
+              {chartType === '24h' ? ct('24h') : ct('14d')}
             </FormLabel>
             <Switch
               disabled={!trends}
@@ -151,7 +153,7 @@ const IssueList: FC<Props> = ({ issues }) => {
                       />
                       <Tooltip
                         aria-label="A tooltip"
-                        label={`最后出现时间 ${dayjs(issue.updatedAt).format('YYYY-MM-DD HH:mm:ss')}`}
+                        label={`${ct('lastSeen')} ${dayjs(issue.updatedAt).format('YYYY-MM-DD HH:mm:ss')}`}
                       >
                         {dayjs(issue.updatedAt).fromNow()}
                       </Tooltip>
@@ -165,7 +167,7 @@ const IssueList: FC<Props> = ({ issues }) => {
 
                       <Tooltip
                         aria-label="A tooltip"
-                        label={`首次出现时间 ${dayjs(issue.createdAt).format('YYYY-MM-DD HH:mm:ss')}`}
+                        label={`${ct('firstSeen')} ${dayjs(issue.createdAt).format('YYYY-MM-DD HH:mm:ss')}`}
                       >
                         {dayjs(issue.createdAt).fromNow()}
                       </Tooltip>
