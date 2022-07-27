@@ -14,7 +14,7 @@ const LoadingMoreButton: FC<Props> = ({ isLoading, isReachingEnd, onClick }) => 
       mt="6"
       onClick={onClick}
       size="sm"
-      variant="outline"
+      variant="filled"
       w="full"
     >
       {

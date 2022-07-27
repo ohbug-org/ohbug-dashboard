@@ -35,11 +35,15 @@ export interface AggregationDataAndMetaData {
   metadata: Prisma.InputJsonObject
 }
 
-export interface CreateDataParams {
+export interface CreateEventParams {
   event: OhbugEventLike
   issueIntro: string
   userIntro: string
   metadata: Prisma.InputJsonObject
+}
+
+export interface CreateMetricParams {
+  metric: OhbugEventLike
 }
 
 export interface GetAlertStatusParams {

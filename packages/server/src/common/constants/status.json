@@ -3,6 +3,7 @@
   "4001001": "event an error occurred during aggregation",
   "4001002": "event an error occurred during task scheduling",
   "4001003": "failed to create event",
+  "4001004": "failed to create metrics",
 
   "4001100": "alert task execution failed",
 

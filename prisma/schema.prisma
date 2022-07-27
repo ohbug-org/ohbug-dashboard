@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
 }
 
@@ -32,31 +32,56 @@ model Event {
   @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
 }
 
-model Issue {
-  id              String               @id
-  apiKey          String
-  type            String
-  metadata        String
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
+model Metric {
+  id           String   @id @default(uuid())
+  apiKey       String
+  appVersion   String?
+  appType      String?
+  releaseStage String?
+  timestamp    DateTime
+  category     String?
+  type         String
+  sdk          Json
+  device       Json
+  user         Json?
+  actions      Json?
+  metadata     Json?
+  createdAt    DateTime @default(now()) @db.Timestamp
+  CLS          Float?
+  FCP          Float?
+  FID          Float?
+  LCP          Float?
+  TTFB         Float?
 
-  events          Event[]
-  users           EventUsersOnIssues[]
-  alertEvents     AlertEvent[]
+  @@index([apiKey])
+  @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
+}
+
+model Issue {
+  id        String   @id
+  apiKey    String
+  type      String
+  metadata  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events      Event[]
+  users       EventUsersOnIssues[]
+  alertEvents AlertEvent[]
 
   @@index([apiKey, metadata])
 }
 
 model EventUser {
-  id              String               @id
-  ipAddress       String
-  uuid            String?
-  email           String?
-  name            String?
-  metadata        Json?
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
-  issues          EventUsersOnIssues[]
+  id        String               @id
+  ipAddress String
+  uuid      String?
+  email     String?
+  name      String?
+  metadata  Json?
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+  issues    EventUsersOnIssues[]
 }
 
 model EventUsersOnIssues {
@@ -78,13 +103,13 @@ model Setting {
 }
 
 model Project {
-  id        Int       @id @default(autoincrement())
-  apiKey    String    @unique
-  name      String    @unique
+  id        Int               @id @default(autoincrement())
+  apiKey    String            @unique
+  name      String            @unique
   type      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  default   Boolean   @default(false)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  default   Boolean           @default(false)
   image     String?
   releases  Release[]
   alerts    Alert[]
@@ -169,8 +194,8 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String?   @unique
+  id            String            @id @default(cuid())
+  email         String?           @unique
   name          String?
   emailVerified DateTime?
   image         String?
@@ -182,9 +207,9 @@ model User {
 model UsersOnProjects {
   userId     String
   projectId  Int
-  assignedAt DateTime  @default(now())
-  user       User @relation(fields: [userId], references: [id])
-  project    Project     @relation(fields: [projectId], references: [id])
+  assignedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  project    Project  @relation(fields: [projectId], references: [id])
 
   @@id([userId, projectId])
 }

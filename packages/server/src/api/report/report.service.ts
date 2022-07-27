@@ -7,7 +7,7 @@ import {
   getMd5FromAggregationData,
   switchErrorDetailAndGetAggregationDataAndMetaData,
 } from './report.core'
-import type { CreateDataParams } from './report.interface'
+import type { CreateEventParams, CreateMetricParams } from './report.interface'
 import { ForbiddenException } from '~/common'
 
 @Injectable()
@@ -84,22 +84,37 @@ export class ReportService {
       if (typeof event === 'string') event = JSON.parse(event)
       const filteredEvent = this.filterEvent(event as OhbugEvent<any>)
       const eventLike = this.transferEvent(filteredEvent, ip)
-      const aggregationEvent = this.aggregation(eventLike)
-      const createDataParams: CreateDataParams = {
-        event: eventLike,
-        ...aggregationEvent,
-      }
+      if (eventLike.category === 'performance') {
+        const createMetricParams: CreateMetricParams = { metric: eventLike }
 
-      await this.documentQueue.add(
-        'event',
-        createDataParams,
-        {
-          delay: 3000,
-          removeOnComplete: true,
-          removeOnFail: true,
-          priority: 1,
-        },
-      )
+        await this.documentQueue.add(
+          'metric',
+          createMetricParams,
+          {
+            delay: 3000,
+            removeOnComplete: true,
+            removeOnFail: true,
+          },
+        )
+      }
+      else {
+        const aggregationEvent = this.aggregation(eventLike)
+        const createEventParams: CreateEventParams = {
+          event: eventLike,
+          ...aggregationEvent,
+        }
+
+        await this.documentQueue.add(
+          'event',
+          createEventParams,
+          {
+            delay: 3000,
+            removeOnComplete: true,
+            removeOnFail: true,
+            priority: 1,
+          },
+        )
+      }
 
       return 'ok'
     }
