@@ -8,7 +8,8 @@
     "loading": "加载中",
     "noMoreData": "没有更多数据",
     "loadMore": "加载更多",
-    "total": "合计"
+    "total": "合计",
+    "integration": "集成到项目"
   },
   "Header": {
     "User": {

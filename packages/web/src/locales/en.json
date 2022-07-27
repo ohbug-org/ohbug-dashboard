@@ -8,7 +8,8 @@
     "loading": "Loading",
     "noMoreData": "No More Data",
     "loadMore": "Load More",
-    "total": "Total"
+    "total": "Total",
+    "integration": "Integration"
   },
   "Header": {
     "User": {

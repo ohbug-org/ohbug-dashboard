@@ -1,6 +1,8 @@
+import { Button, Icon, Link } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import { useTranslations } from 'next-intl'
 import useSWR from 'swr'
+import { RiQuestionLine } from 'react-icons/ri'
 import IntroduceChart from '~/components/introduceChart'
 import ThemeBox from '~/components/themeBox'
 import Title from '~/components/title'
@@ -17,6 +19,7 @@ const FCP_THRESHOLD = [1800, 3000]
 const TTFB_THRESHOLD = [800, 1800]
 
 const Metrics: NextPage = () => {
+  const ct = useTranslations('Common')
   const t = useTranslations('Metrics')
   const { projectId } = useCurrentProject()
   const { data: CLSData } = useSWR<MetricsTrend[]>(projectId ? `/api/trends/metrics?projectId=${projectId}&type=${'24h'}&metric=CLS` : null)
@@ -27,7 +30,31 @@ const Metrics: NextPage = () => {
 
   return (
     <ThemeBox bg="current">
-      <Title>
+      <Title
+        rightNodes={
+          (
+            <Link
+              href="https://ohbug.net/guide/metrics.html"
+              target="_blank"
+            >
+              <Button
+                leftIcon={
+                  (
+                    <Icon
+                      as={RiQuestionLine}
+                      h="5"
+                      w="5"
+                    />
+                  )
+                }
+                variant="ghost"
+              >
+                {ct('integration')}
+              </Button>
+            </Link>
+          )
+        }
+      >
         Metrics
       </Title>
 
