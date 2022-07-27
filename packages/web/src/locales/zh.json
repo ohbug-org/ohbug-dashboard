@@ -72,5 +72,12 @@
     "yourProjectWillBeRenamedTo": "你的项目将更名为",
     "apiKeyDescription": "需要在 SDK 中配置 apiKey 才能在 Ohbug 控制台中使用",
     "projectApiKey": "项目 ApiKey"
+  },
+  "Metrics": {
+    "CLSDescription": "CLS 测量整个页面生命周期内发生的所有意外布局偏移中最大一连串的布局偏移分数",
+    "FIDDescription": "FID 测量从用户第一次与页面交互（例如当他们单击链接、点按按钮或使用由 JavaScript 驱动的自定义控件）直到浏览器对交互作出响应，并实际能够开始处理事件处理程序所经过的时间",
+    "LCPDescription": "最大内容绘制 (LCP) 指标会根据页面首次开始加载的时间点来报告可视区域内可见的最大图像或文本块完成渲染的相对时间",
+    "FCPDescription": "首次内容绘制 (FCP) 指标测量页面从开始加载到页面内容的任何部分在屏幕上完成渲染的时间。对于该指标，内容指的是文本、图像（包括背景图像）、svg 元素或非白色的 canvas 元素",
+    "TTFBDescription": "TTFB 是衡量对资源的请求和响应的第一个字节开始到达之间的时间指标"
   }
 }

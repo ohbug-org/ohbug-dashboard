@@ -142,3 +142,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
 export function scrollWindowTo(to?: number) {
   document.scrollingElement?.scrollTo({ top: to ?? 0, behavior: 'smooth' })
 }
+
+export function average(arr: number[]) {
+  return (arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(2)
+}
