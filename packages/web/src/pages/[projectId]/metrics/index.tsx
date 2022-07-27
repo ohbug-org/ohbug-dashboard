@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl'
 import useSWR from 'swr'
 import IntroduceChart from '~/components/introduceChart'
 import ThemeBox from '~/components/themeBox'
+import Title from '~/components/title'
 import TrendChart from '~/components/trendChart'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
@@ -26,6 +27,10 @@ const Metrics: NextPage = () => {
 
   return (
     <ThemeBox bg="current">
+      <Title>
+        Metrics
+      </Title>
+
       <Wrapper
         display="flex"
         flexDirection="column"
