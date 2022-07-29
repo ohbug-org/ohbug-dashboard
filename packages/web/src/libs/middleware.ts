@@ -10,8 +10,17 @@ export async function getAuth(
   const authOptions = await getAuthOptions()
   const session = (await unstable_getServerSession(req, res, authOptions)) as unknown as (Session & { user: User })
   if (!session) {
-    if ((res as NextApiResponse).status) (res as NextApiResponse).status(401).json({ message: 'Please logged in.' })
-    return false
+    if ((res as NextApiResponse).redirect) {
+      return (res as NextApiResponse).redirect(401, '/api/auth/signin')
+    }
+    else {
+      return {
+        redirect: {
+          destination: '/api/auth/signin',
+          permanent: false,
+        },
+      }
+    }
   }
   return session
 }

@@ -3,7 +3,7 @@ import type { ReactElement, ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
-import { SessionProvider } from 'next-auth/react'
+import { SessionProvider, useSession } from 'next-auth/react'
 import { SWRConfig } from 'swr'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -20,6 +20,17 @@ type NextPageWithLayout = NextPage & {
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
+}
+
+function Controller({ children }: { children: ReactElement }) {
+  const router = useRouter()
+  const session = useSession()
+  useEffect(() => {
+    if (session.status === 'unauthenticated') {
+      router.replace('/api/auth/signin')
+    }
+  }, [session])
+  return children
 }
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -42,20 +53,22 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       messages={pageProps.messages || messages}
     >
       <SessionProvider session={pageProps.session}>
-        <SWRConfig
-          value={{ fetcher: (resource, init) => fetch(resource, init).then(res => res.json()) }}
-        >
-          <ChakraProvider
-            resetCSS
-            theme={theme}
+        <Controller>
+          <SWRConfig
+            value={{ fetcher: (resource, init) => fetch(resource, init).then(res => res.json()) }}
           >
-            {
-              Component.getLayout
-                ? Component.getLayout(<Component {...pageProps} />)
-                : <Layout><Component {...pageProps} /></Layout>
-            }
-          </ChakraProvider>
-        </SWRConfig>
+            <ChakraProvider
+              resetCSS
+              theme={theme}
+            >
+              {
+                Component.getLayout
+                  ? Component.getLayout(<Component {...pageProps} />)
+                  : <Layout><Component {...pageProps} /></Layout>
+              }
+            </ChakraProvider>
+          </SWRConfig>
+        </Controller>
       </SessionProvider>
     </NextIntlProvider>
   )
