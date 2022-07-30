@@ -1,31 +1,24 @@
 import { Button, Flex, SimpleGrid } from '@chakra-ui/react'
-import type { Setting } from '@prisma/client'
 import type { ProjectWithEventCount } from 'common'
 import type { GetServerSideProps, NextPage } from 'next'
 import { RiAddLine } from 'react-icons/ri'
 import NextLink from 'next/link'
 import { useTranslations } from 'next-intl'
+import type { Config } from 'config'
+import { getConfig } from 'config'
 import ProjectCard from '~/components/projectCard'
 import Wrapper from '~/components/wrapper'
-import { serviceGetSetting } from '~/services/bootstrap'
 import { serviceGetProjectsWithEventCount } from '~/services/projects'
 import { getAuth } from '~/libs/middleware'
 
 interface Props {
-  setting: Setting | null
+  config: Config | null
   projects: ProjectWithEventCount[]
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
-  const setting = await serviceGetSetting()
-  if (!setting) {
-    return {
-      redirect: {
-        destination: '/bootstrap',
-        permanent: false,
-      },
-    }
-  }
+  const config = getConfig()
+
   const auth = await getAuth(context.req, context.res)
   if (!auth) {
     return {
@@ -45,7 +38,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
     }
   }
 
-  return { props: { setting, projects } }
+  return { props: { config, projects } }
 }
 
 const Home: NextPage<Props> = ({ projects }) => {

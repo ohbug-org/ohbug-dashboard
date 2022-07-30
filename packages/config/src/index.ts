@@ -16,14 +16,28 @@ export interface Config {
       password: string
       url: string
     }
-    redis: {
-      host: string
-      port: number
-    }
   }
   secret?: {
     apikey?: string
     session?: string
+  }
+  oauth?: {
+    github: {
+      clientId: string
+      clientSecret: string
+    }
+  }
+  email?: {
+    server: {
+      host: string
+      port: number
+      auth: {
+
+        user: string
+        pass: string
+      }
+    }
+    from: string
   }
 }
 const YAML_CONFIG_FILENAME = 'ohbug.config.yml'

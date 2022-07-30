@@ -3,24 +3,12 @@ import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 
 import { unstable_getServerSession } from 'next-auth'
 import { getAuthOptions } from '~/pages/api/auth/[...nextauth]'
 
-export async function getAuth(
-  req: NextApiRequest | GetServerSidePropsContext['req'],
-  res: NextApiResponse | GetServerSidePropsContext['res'],
+export async function getAuth<Req, Res>(
+  req: Req extends NextApiRequest ? Req : GetServerSidePropsContext['req'],
+  res: Res extends NextApiResponse ? Res : GetServerSidePropsContext['res'],
 ) {
   const authOptions = await getAuthOptions()
   const session = (await unstable_getServerSession(req, res, authOptions)) as unknown as (Session & { user: User })
-  if (!session) {
-    if ((res as NextApiResponse).redirect) {
-      return (res as NextApiResponse).redirect(401, '/api/auth/signin')
-    }
-    else {
-      return {
-        redirect: {
-          destination: '/api/auth/signin',
-          permanent: false,
-        },
-      }
-    }
-  }
+  if (!session) return null
   return session
 }

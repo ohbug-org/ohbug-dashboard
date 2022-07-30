@@ -3,16 +3,26 @@ http:
 
 db:
   postgres:
-    host: postgres
+    host: localhost
     port: 5432
     database: ohbug
     user: ohbug
     password: ohbug
 
-  redis:
-    host: redis
-    port: 6379
-
 secret:
   apikey: ohbug-apikey-s3cret
   session: ohbug-session-s3cret
+
+oauth:
+  github:
+    clientId: ''
+    clientSecret: ''
+
+# email:
+#   server:
+#     host: smtp.example.com
+#     port: 465
+#     auth:
+#       user: username
+#       pass: password
+#   from: admin@ohbug.net
