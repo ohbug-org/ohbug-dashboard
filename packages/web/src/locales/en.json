@@ -31,7 +31,11 @@
     "getClientSetting": "Get Client ID/Secret?",
     "bootstrap": "Bootstrap"
   },
-  "Issues": {},
+  "Issues": {
+    "Empty": {
+      "gettingStarted": "Haven't integrated the SDK into your project yet? Click the button below to start the integration!"
+    }
+  },
   "Event": {
     "titleEvents": "Events",
     "titleUsers": "Users",

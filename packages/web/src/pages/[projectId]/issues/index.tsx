@@ -2,6 +2,7 @@ import type { Issue } from 'common'
 import type { NextPage } from 'next'
 import { useMemo, useState } from 'react'
 import useSWR from 'swr'
+import EmptyIssues from '~/components/emptyIssues'
 import IssueList from '~/components/issueList'
 import Loading from '~/components/loading'
 import Pagination from '~/components/pagination'
@@ -25,6 +26,7 @@ const Issues: NextPage = () => {
             : (
               <>
                 <IssueList
+                  empty={<EmptyIssues />}
                   issues={issues!}
                 />
                 <Pagination
