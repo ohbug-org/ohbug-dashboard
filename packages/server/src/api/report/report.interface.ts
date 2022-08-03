@@ -46,6 +46,10 @@ export interface CreateMetricParams {
   metric: OhbugEventLike
 }
 
+export interface CreateFeedbackParams {
+  feedback: OhbugEventLike
+}
+
 export interface GetAlertStatusParams {
   event: Event
   issue: Issue

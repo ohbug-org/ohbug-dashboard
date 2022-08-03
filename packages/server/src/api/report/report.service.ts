@@ -7,7 +7,7 @@ import {
   getMd5FromAggregationData,
   switchErrorDetailAndGetAggregationDataAndMetaData,
 } from './report.core'
-import type { CreateEventParams, CreateMetricParams } from './report.interface'
+import type { CreateEventParams, CreateFeedbackParams, CreateMetricParams } from './report.interface'
 import { ForbiddenException } from '~/common'
 
 @Injectable()
@@ -90,6 +90,18 @@ export class ReportService {
         await this.documentQueue.add(
           'metric',
           createMetricParams,
+          {
+            delay: 3000,
+            removeOnComplete: true,
+            removeOnFail: true,
+          },
+        )
+      }
+      else if (eventLike.category === 'feedback') {
+        const createFeedbackParams: CreateFeedbackParams = { feedback: eventLike }
+        await this.documentQueue.add(
+          'feedback',
+          createFeedbackParams,
           {
             delay: 3000,
             removeOnComplete: true,

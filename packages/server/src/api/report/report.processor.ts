@@ -1,7 +1,7 @@
 import { InjectQueue, OnQueueError, Process, Processor } from '@nestjs/bull'
 import type { Job, Queue } from 'bull'
 import type { Prisma } from '@prisma/client'
-import type { CreateEventParams, CreateMetricParams, GetAlertStatusParams } from './report.interface'
+import type { CreateEventParams, CreateFeedbackParams, CreateMetricParams, GetAlertStatusParams } from './report.interface'
 import { ForbiddenException, PrismaService } from '~/common'
 
 @Processor('document')
@@ -110,7 +110,32 @@ export class ReportProcessor {
       })
     }
     catch (error) {
-      throw new ForbiddenException(4001003, error)
+      throw new ForbiddenException(4001004, error)
+    }
+  }
+
+  async CreateFeedback({ feedback }: CreateFeedbackParams) {
+    try {
+      return this.prisma.feedback.create({
+        data: {
+          apiKey: feedback.apiKey,
+          appVersion: feedback.appVersion,
+          appType: feedback.appType,
+          releaseStage: feedback.releaseStage,
+          timestamp: feedback.timestamp,
+          category: feedback.category,
+          type: feedback.type,
+          sdk: feedback.sdk as unknown as Prisma.InputJsonObject,
+          detail: feedback.detail as Prisma.InputJsonValue,
+          device: feedback.device as Prisma.InputJsonObject,
+          user: feedback.user as Prisma.InputJsonObject,
+          actions: feedback.actions as unknown as Prisma.InputJsonArray,
+          metadata: feedback.metadata,
+        },
+      })
+    }
+    catch (error) {
+      throw new ForbiddenException(4001005, error)
     }
   }
 
@@ -168,6 +193,28 @@ export class ReportProcessor {
 
         if (project) {
           await this.CreateMetric(data)
+        }
+        else {
+          throw new Error(`Project not found for apiKey: ${apiKey}`)
+        }
+      }
+    }
+    catch (error) {
+      throw new ForbiddenException(4001004, error)
+    }
+  }
+
+  @Process('feedback')
+  async handleFeedback(job: Job) {
+    try {
+      const data = job.data as CreateFeedbackParams
+
+      if (data) {
+        const apiKey = data.feedback.apiKey
+        const project = await this.prisma.project.findUniqueOrThrow({ where: { apiKey } })
+
+        if (project) {
+          await this.CreateFeedback(data)
         }
         else {
           throw new Error(`Project not found for apiKey: ${apiKey}`)
