@@ -33,7 +33,8 @@
   },
   "Issues": {
     "Empty": {
-      "gettingStarted": "Haven't integrated the SDK into your project yet? Click the button below to start the integration!"
+      "gettingStarted": "Haven't integrated the SDK into your project yet? Click the button below to start the integration!",
+      "getApiKey": "Need get project apiKey?"
     }
   },
   "Event": {

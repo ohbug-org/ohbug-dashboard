@@ -1,9 +1,12 @@
+import type { FC } from 'react'
 import { Box, Button, Center, Link } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
-import type { FC } from 'react'
 import { RiExternalLinkLine } from 'react-icons/ri'
+import NextLink from 'next/link'
+import useCurrentProject from '~/hooks/useCurrentProject'
 
 const EmptyIssues: FC = () => {
+  const { projectId } = useCurrentProject()
   const t = useTranslations('Issues.Empty')
   return (
     <Center
@@ -26,6 +29,10 @@ const EmptyIssues: FC = () => {
           </Button>
         </Link>
       </Box>
+      <Box>{t('getApiKey')}</Box>
+      <NextLink href={`/${projectId}/settings`}>
+        <Button variant="link">Get apiKey</Button>
+      </NextLink>
     </Center>
   )
 }

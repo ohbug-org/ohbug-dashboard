@@ -33,7 +33,8 @@
   },
   "Issues": {
     "Empty": {
-      "gettingStarted": "还没有集成 SDK 到你的项目？ 点击下面的按钮，开始集成！"
+      "gettingStarted": "还没有集成 SDK 到你的项目？ 点击下面的按钮，开始集成！",
+      "getApiKey": "需要获取 apiKey？"
     }
   },
   "Event": {
