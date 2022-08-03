@@ -16,6 +16,10 @@ export interface Config {
       password: string
       url: string
     }
+    redis: {
+      host: string
+      port: number
+    }
   }
   secret?: {
     apikey?: string
