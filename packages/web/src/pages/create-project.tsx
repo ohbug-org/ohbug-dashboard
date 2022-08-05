@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSWRConfig } from 'swr'
+import type { NextPageWithLayout } from './_app'
 
 type OmitProject = Omit<Project, 'id' | 'apiKey' | 'createdAt' | 'updatedAt'>
 
@@ -15,7 +16,7 @@ const projectTypes = [
   },
 ]
 
-const CreateProject = () => {
+const CreateProject: NextPageWithLayout = () => {
   const ct = useTranslations('Common')
   const t = useTranslations('CreateProject')
   const router = useRouter()
@@ -96,5 +97,7 @@ const CreateProject = () => {
     </Center>
   )
 }
+
+CreateProject.getLayout = page => page
 
 export default CreateProject

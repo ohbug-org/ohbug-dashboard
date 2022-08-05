@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
 import { SessionProvider, useSession } from 'next-auth/react'
-import { SWRConfig } from 'swr'
+import useSWR, { SWRConfig } from 'swr'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { NextIntlProvider } from 'next-intl'
@@ -14,7 +14,7 @@ import Layout from '~/components/layout'
 import theme from '~/styles/theme'
 dayjs.extend(relativeTime)
 
-type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
 }
 
@@ -25,11 +25,19 @@ type AppPropsWithLayout = AppProps & {
 function Controller({ children }: { children: ReactElement }) {
   const router = useRouter()
   const session = useSession()
+  const { data: projects } = useSWR(session.status === 'authenticated' ? '/api/projects' : null)
+
   useEffect(() => {
     if (session.status === 'unauthenticated') {
       router.replace('/api/auth/signin')
     }
   }, [session])
+  useEffect(() => {
+    if (projects && !projects.length) {
+      router.replace('/create-project')
+    }
+  }, [projects])
+
   return children
 }
 

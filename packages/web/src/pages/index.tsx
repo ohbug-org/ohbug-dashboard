@@ -1,48 +1,17 @@
 import { Button, Flex, SimpleGrid } from '@chakra-ui/react'
 import type { ProjectWithEventCount } from 'common'
-import type { GetServerSideProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import { RiAddLine } from 'react-icons/ri'
 import NextLink from 'next/link'
 import { useTranslations } from 'next-intl'
-import type { Config } from 'config'
-import { getConfig } from 'config'
+import useSWR from 'swr'
 import ProjectCard from '~/components/projectCard'
 import Wrapper from '~/components/wrapper'
-import { serviceGetProjectsWithEventCount } from '~/services/projects'
-import { getAuth } from '~/libs/middleware'
 
-interface Props {
-  config: Config | null
-  projects: ProjectWithEventCount[]
-}
-
-export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
-  const config = getConfig()
-
-  const auth = await getAuth(context.req, context.res)
-  if (!auth) {
-    return {
-      redirect: {
-        destination: '/api/auth/signin',
-        permanent: false,
-      },
-    }
-  }
-  const projects = await serviceGetProjectsWithEventCount(auth.user)
-  if (!projects || !projects.length) {
-    return {
-      redirect: {
-        destination: '/create-project',
-        permanent: false,
-      },
-    }
-  }
-
-  return { props: { config, projects } }
-}
-
-const Home: NextPage<Props> = ({ projects }) => {
+const Home: NextPage = () => {
   const t = useTranslations('Index')
+  const { data: projects } = useSWR<ProjectWithEventCount[]>('/api/projects')
+
   return (
     <Wrapper>
       <Flex justify="end">
@@ -60,7 +29,7 @@ const Home: NextPage<Props> = ({ projects }) => {
         spacing="8"
       >
         {
-          projects.map(project => (
+          projects?.map(project => (
             <ProjectCard
               key={project.id}
               project={project}
