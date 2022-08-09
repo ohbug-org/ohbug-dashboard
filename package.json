@@ -1,6 +1,6 @@
 {
   "name": "ohbug-dashboard",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "packageManager": "pnpm@7.9.0",
   "homepage": "https://github.com/ohbug-org/ohbug-dashboard#readme",
   "bugs": {
