@@ -1,6 +1,6 @@
 import type { Dict } from '@chakra-ui/utils'
 import { extendTheme } from '@chakra-ui/react'
-import type { StyleFunctionProps } from '@chakra-ui/theme-tools'
+import type { GlobalStyleProps } from '@chakra-ui/theme-tools'
 import { mode } from '@chakra-ui/theme-tools'
 import { colors } from './colors'
 
@@ -10,19 +10,19 @@ const theme: Dict = extendTheme({
     Button: {
       defaultProps: { colorScheme: 'dark' },
       variants: {
-        solid: (props: StyleFunctionProps) => ({
+        solid: (props: GlobalStyleProps) => ({
           bg: mode('dark.500', 'gray.50')(props),
           _hover: {
             textColor: mode('black', 'white')(props),
             bg: mode('gray.100', 'dark.500')(props),
           },
         }),
-        ghost: (props: StyleFunctionProps) => ({
+        ghost: (props: GlobalStyleProps) => ({
           textColor: mode('black', 'white')(props),
           _hover: { bg: mode('gray.100', 'dark.200')(props) },
           _active: { textColor: 'white' },
         }),
-        outline: (props: StyleFunctionProps) => ({
+        outline: (props: GlobalStyleProps) => ({
           textColor: mode('gray.400', 'dark.50')(props),
           borderColor: mode('gray.400', 'dark.50')(props),
           _hover: {
@@ -36,7 +36,7 @@ const theme: Dict = extendTheme({
     },
     Input: {
       variants: {
-        outline: (props: StyleFunctionProps) => ({
+        outline: (props: GlobalStyleProps) => ({
           borderColor: mode('gray.200', 'dark.50')(props),
           _hover: { borderColor: mode('black', 'white')(props) },
         }),
@@ -45,7 +45,7 @@ const theme: Dict = extendTheme({
     Switch: { defaultProps: { colorScheme: 'gray' } },
     Tabs: {
       variants: {
-        'enclosed-colored': (props: StyleFunctionProps) => ({
+        'enclosed-colored': (props: GlobalStyleProps) => ({
           tab: {
             borderColor: mode('gray.200', 'dark.50')(props),
             _selected: {
@@ -61,7 +61,7 @@ const theme: Dict = extendTheme({
       },
     },
     Menu: {
-      baseStyle: (props: StyleFunctionProps) => ({
+      baseStyle: (props: GlobalStyleProps) => ({
         divider: { borderColor: mode('gray.200', 'dark.50')(props) },
         list: { zIndex: '1300' },
       }),
@@ -87,7 +87,7 @@ const theme: Dict = extendTheme({
       },
     },
     Accordion: {
-      baseStyle: (props: StyleFunctionProps) => ({
+      baseStyle: (props: GlobalStyleProps) => ({
         container: { borderColor: mode('gray.200', 'dark.50')(props) },
         button: {
           py: '4',
@@ -99,7 +99,7 @@ const theme: Dict = extendTheme({
     },
   },
   styles: {
-    global: (props: StyleFunctionProps) => ({
+    global: (props: GlobalStyleProps) => ({
       'html, body, #__next': { width: '100%', minHeight: '100vh' },
       'body': {
         bg: mode('white', 'dark.800')(props),

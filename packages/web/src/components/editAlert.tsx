@@ -87,12 +87,12 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
   }, [])
   const handleAddCondition = useCallback((topic: ConditionOption['topic']) => {
     if (topic) {
-      conditionsAppend({ topic })
+      conditionsAppend({ topic, name: ConditionOptions.find(v => v.topic === topic)!.name })
     }
   }, [])
   const handleAddFilter = useCallback((topic: FilterOption['topic']) => {
     if (topic) {
-      filtersAppend({ topic })
+      filtersAppend({ topic, name: FilterOptions.find(v => v.topic === topic)!.name })
     }
   }, [])
 
