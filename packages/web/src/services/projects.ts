@@ -1,10 +1,25 @@
 import type { Project, User } from '@prisma/client'
 import dayjs from 'dayjs'
-import type { ProjectWithEventCount } from 'common'
+import type { ProjectWithEventCount, ProjectWithMembers } from 'common'
 import { getPrisma } from '~/db'
 
 export async function serviceGetProject(id: number) {
   return getPrisma().project.findUniqueOrThrow({ where: { id } })
+}
+
+export async function serviceGetProjectWithUsers(id: number) {
+  const data = await getPrisma().project.findUniqueOrThrow({
+    where: { id },
+    include: { users: { include: { user: true } } },
+  })
+  const members = data.users.map(item => item.user)
+  const result = {
+    ...data,
+    members,
+  }
+  // @ts-expect-error type error
+  if (result.users) delete result.users
+  return result as ProjectWithMembers
 }
 
 export async function serviceGetProjects(user: User) {

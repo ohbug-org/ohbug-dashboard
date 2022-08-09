@@ -16,3 +16,17 @@ db:
 secret:
   apikey: ohbug-apikey-s3cret
   session: ohbug-session-s3cret
+
+oauth:
+  github:
+    clientId: ''
+    clientSecret: ''
+
+# email:
+#   server:
+#     host: smtp.example.com
+#     port: 465
+#     auth:
+#       user: username
+#       pass: password
+#   from: admin@ohbug.net

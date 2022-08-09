@@ -25,6 +25,24 @@ export interface Config {
     apikey?: string
     session?: string
   }
+  oauth?: {
+    github: {
+      clientId: string
+      clientSecret: string
+    }
+  }
+  email?: {
+    server: {
+      host: string
+      port: number
+      auth: {
+
+        user: string
+        pass: string
+      }
+    }
+    from: string
+  }
 }
 const YAML_CONFIG_FILENAME = 'ohbug.config.yml'
 const DEVELOP_YAML_CONFIG_FILENAME = 'ohbug.config.development.yml'

@@ -21,6 +21,7 @@ DB_PASSWORD=${config.db.postgres.password}
 DB_NAME=${config.db.postgres.database}
 DATABASE_URL="postgresql://${config.db.postgres.user}:${config.db.postgres.password}@${config.db.postgres.host}:${config.db.postgres.port}/${config.db.postgres.database}"
 NEXTAUTH_URL=${config.http.url}
+NEXT_PUBLIC_NEXTAUTH_URL=${config.http.url}
 `
   await writeFile(rootFilePath, fileContents)
   await writeFile(webFilePath, fileContents)

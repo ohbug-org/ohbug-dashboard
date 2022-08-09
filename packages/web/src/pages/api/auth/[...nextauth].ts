@@ -5,11 +5,10 @@ import GithubProvider from 'next-auth/providers/github'
 import EmailProvider from 'next-auth/providers/email'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { getConfig } from 'config'
-import { serviceGetSetting } from '~/services/bootstrap'
 import { getPrisma } from '~/db'
 
 export const getAuthOptions = async(): Promise<NextAuthOptions> => {
-  const setting = await serviceGetSetting()
+  const config = getConfig()
   const options: NextAuthOptions = {
     secret: getConfig().secret?.session ?? 'ohbug-session-s3cret',
     adapter: PrismaAdapter(getPrisma()),
@@ -20,18 +19,16 @@ export const getAuthOptions = async(): Promise<NextAuthOptions> => {
         return session
       },
     },
+    pages: { signIn: '/auth/signin' },
   }
-  if (setting?.emailServer && setting.emailFrom) {
-    options.providers.push(EmailProvider({
-      server: setting?.emailServer,
-      from: setting.emailFrom,
-    }))
+  if (config?.email) {
+    options.providers.push(EmailProvider(config.email))
   }
-  if (setting?.githubClientId && setting.githubClientSecret) {
+  if (config?.oauth?.github) {
     options.providers.push(GithubProvider({
-      clientId: setting?.githubClientId,
-      clientSecret: setting?.githubClientSecret,
-      httpOptions: { timeout: 20000 },
+      clientId: config?.oauth?.github?.clientId,
+      clientSecret: config?.oauth?.github.clientSecret,
+      httpOptions: { timeout: 30000 },
     }))
   }
   return options

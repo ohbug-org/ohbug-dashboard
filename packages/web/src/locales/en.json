@@ -9,7 +9,8 @@
     "noMoreData": "No More Data",
     "loadMore": "Load More",
     "total": "Total",
-    "integration": "Integration"
+    "integration": "Integration",
+    "mustBeTheCorrectEmailAddress": "Must be the correct email address"
   },
   "Header": {
     "User": {
@@ -32,7 +33,12 @@
     "getClientSetting": "Get Client ID/Secret?",
     "bootstrap": "Bootstrap"
   },
-  "Issues": {},
+  "Issues": {
+    "Empty": {
+      "gettingStarted": "Haven't integrated the SDK into your project yet? Click the button below to start the integration!",
+      "getApiKey": "Need get project apiKey?"
+    }
+  },
   "Event": {
     "titleEvents": "Events",
     "titleUsers": "Users",
@@ -60,7 +66,6 @@
     "others": "OTHERS",
     "webhookTooltip": "Contact information of the person in charge, mostly used for @ corresponding person in charge, usually cell phone number (multiple please use English comma to separate)",
     "webhookContact": "Contact",
-    "mustBeTheCorrectEmailAddress": "Must be the correct email address",
     "mustBeTheCorrectUrlAddress": "Must be the correct url address",
     "inputEmailAddress": "Input Email Address",
     "inputWebhookURL": "Input Webhook URL"
@@ -72,7 +77,10 @@
     "projectName": "Project Name",
     "yourProjectWillBeRenamedTo": "Your Project will be renamed to",
     "apiKeyDescription": "To send data to Ohbug you will need to configure an SDK with a apiKey",
-    "projectApiKey": "Project ApiKey"
+    "projectApiKey": "Project ApiKey",
+    "projectMembers": "Project Members",
+    "inviteMembers": "Invite Members",
+    "inviteMembersDescription": "Copy the link and invite members to join the project"
   },
   "Metrics": {
     "CLSDescription": "CLS is a measure of the largest burst of layout shift scores for every unexpected layout shift that occurs during the entire lifespan of a page",

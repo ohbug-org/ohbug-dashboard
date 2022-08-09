@@ -39,6 +39,10 @@ export function serviceGetAlert({ id }: ServiceGetReleaseParams) {
   return getPrisma().alert.findUniqueOrThrow({ where: { id } })
 }
 
+export function serviceDeleteAlert({ id }: ServiceGetReleaseParams) {
+  return getPrisma().alert.delete({ where: { id } })
+}
+
 export function serviceUpdateAlert(id: number, data: OmitAlert) {
   return getPrisma().alert.update({
     where: { id },

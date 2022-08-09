@@ -38,6 +38,7 @@ coverage
 
 # config
 .env
+ohbug.config.development.yml
 
 # docker
 postgres-data

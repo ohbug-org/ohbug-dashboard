@@ -57,6 +57,27 @@ model Metric {
   @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
 }
 
+model Feedback {
+  id           String       @id @default(uuid())
+  apiKey       String
+  appVersion   String?
+  appType      String?
+  releaseStage String?
+  timestamp    DateTime
+  category     String?
+  type         String
+  sdk          Json
+  detail       Json
+  device       Json
+  user         Json?
+  actions      Json?
+  metadata     Json?
+  createdAt    DateTime     @default(now()) @db.Timestamp
+
+  @@index([apiKey])
+  @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
+}
+
 model Issue {
   id        String   @id
   apiKey    String

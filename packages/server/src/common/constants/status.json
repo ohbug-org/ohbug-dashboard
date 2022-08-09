@@ -4,6 +4,7 @@
   "4001002": "event an error occurred during task scheduling",
   "4001003": "failed to create event",
   "4001004": "failed to create metrics",
+  "4001005": "failed to create feedback",
 
   "4001100": "alert task execution failed",
 

@@ -14,7 +14,7 @@ import LoadingMoreButton from '~/components/loadMoreButton'
 const Alerts: NextPage = () => {
   const t = useTranslations('Alerts')
   const { projectId } = useCurrentProject()
-  const { data, isLoading, size, setSize, isReachingEnd } = useInfinite<Alert>(index => `/api/alerts?projectId=${projectId}&page=${index + 1}`)
+  const { data, isLoading, size, setSize, isReachingEnd, mutate } = useInfinite<Alert>(index => `/api/alerts?projectId=${projectId}&page=${index + 1}`)
 
   return (
     <Box>
@@ -37,7 +37,10 @@ const Alerts: NextPage = () => {
         py="12"
       >
         <Card>
-          <AlertsList alerts={data} />
+          <AlertsList
+            alerts={data}
+            mutate={mutate}
+          />
           <LoadingMoreButton
             isLoading={isLoading}
             isReachingEnd={isReachingEnd}

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { serviceGetAlert, serviceUpdateAlert } from '~/services/alerts'
+import { serviceDeleteAlert, serviceGetAlert, serviceUpdateAlert } from '~/services/alerts'
 import { getAuth } from '~/libs/middleware'
 
 export default async function handler(
@@ -20,6 +20,12 @@ export default async function handler(
     }
     case 'GET': {
       const alert = await serviceGetAlert({ id: parseInt(req.query.id as string) })
+      if (alert) { res.status(200).json(alert) }
+      else { res.end(`Alert ${req.query.id} not found`) }
+      break
+    }
+    case 'DELETE': {
+      const alert = await serviceDeleteAlert({ id: parseInt(req.query.id as string) })
       if (alert) { res.status(200).json(alert) }
       else { res.end(`Alert ${req.query.id} not found`) }
       break
