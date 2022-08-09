@@ -1,6 +1,6 @@
 import { Avatar, Button, Center, FormControl, FormErrorMessage, Heading, Icon, Input, Stack } from '@chakra-ui/react'
 import type { GetServerSideProps } from 'next'
-import { getProviders, signIn } from 'next-auth/react'
+import { getProviders, getSession, signIn } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/router'
 import type { Dispatch, FC, SetStateAction } from 'react'
@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import { RiGithubFill, RiMailLine } from 'react-icons/ri'
 import type { Project, User } from '@prisma/client'
 import { useAtom } from 'jotai'
+import { useMount } from 'react-use'
 import type { NextPageWithLayout } from '../_app'
 import { serviceGetProject } from '~/services/projects'
 import { serviceGetUser } from '~/services/users'
@@ -154,6 +155,12 @@ const GithubSignIn: FC<Props & {
 
 const SignIn: NextPageWithLayout<Props> = ({ providers, inviter }) => {
   const router = useRouter()
+  useMount(async() => {
+    const user = (await getSession())?.user
+    if (user) {
+      router.push('/')
+    }
+  })
   const [step, setStep] = useState(1)
   const title = useMemo(() => {
     if (inviter && inviter.project && inviter.user) {
