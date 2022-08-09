@@ -19,6 +19,7 @@ export const getAuthOptions = async(): Promise<NextAuthOptions> => {
         return session
       },
     },
+    pages: { signIn: '/auth/signin' },
   }
   if (config?.email) {
     options.providers.push(EmailProvider(config.email))
@@ -27,7 +28,7 @@ export const getAuthOptions = async(): Promise<NextAuthOptions> => {
     options.providers.push(GithubProvider({
       clientId: config?.oauth?.github?.clientId,
       clientSecret: config?.oauth?.github.clientSecret,
-      httpOptions: { timeout: 20000 },
+      httpOptions: { timeout: 30000 },
     }))
   }
   return options

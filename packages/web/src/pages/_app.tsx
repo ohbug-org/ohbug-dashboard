@@ -9,12 +9,13 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { NextIntlProvider } from 'next-intl'
 import { useRouter } from 'next/router'
+import { withNextRuntime } from 'next-runtime/app'
 import defaultMessages from '../locales/en.json'
 import Layout from '~/components/layout'
 import theme from '~/styles/theme'
 dayjs.extend(relativeTime)
 
-export type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout<T = any> = NextPage<T> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
 
@@ -29,7 +30,9 @@ function Controller({ children }: { children: ReactElement }) {
 
   useEffect(() => {
     if (session.status === 'unauthenticated') {
-      router.replace('/api/auth/signin')
+      if (router.pathname !== '/auth/signin') {
+        router.replace('/auth/signin')
+      }
     }
   }, [session])
   useEffect(() => {
@@ -82,4 +85,4 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   )
 }
 
-export default MyApp
+export default withNextRuntime(MyApp)

@@ -26,6 +26,7 @@
     "next": "12.2.3",
     "next-auth": "^4.10.3",
     "next-intl": "^2.7.4",
+    "next-runtime": "^2.4.1",
     "react": "18.2.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",

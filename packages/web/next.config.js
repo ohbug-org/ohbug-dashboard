@@ -6,10 +6,6 @@ const nextConfig = {
     localeDetection: false,
   },
   reactStrictMode: true,
-  experimental: {
-    runtime: 'experimental-edge',
-    serverComponents: true,
-  },
   output: 'standalone',
 }
 

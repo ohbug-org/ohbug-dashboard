@@ -600,7 +600,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                         required: ct('thisIsRequired'),
                         pattern: {
                           value: item.type === 'email' ? /\S+@\S+\.\S+/ : /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-                          message: item.type === 'email' ? t('mustBeTheCorrectEmailAddress') : t('mustBeTheCorrectUrlAddress'),
+                          message: item.type === 'email' ? ct('mustBeTheCorrectEmailAddress') : t('mustBeTheCorrectUrlAddress'),
                         },
                       })}
                       placeholder={item.type === 'email' ? t('inputEmailAddress') : t('inputWebhookURL')}

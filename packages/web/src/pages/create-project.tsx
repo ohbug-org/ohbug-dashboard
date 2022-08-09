@@ -1,11 +1,13 @@
+import crypto from 'crypto'
 import { Box, Button, Center, FormControl, FormErrorMessage, FormLabel, Input, Select } from '@chakra-ui/react'
 import type { Project } from '@prisma/client'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/router'
-import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSWRConfig } from 'swr'
+import { handle, redirect } from 'next-runtime'
+import { getConfig } from 'config'
 import type { NextPageWithLayout } from './_app'
+import { serviceCreateProject } from '~/services/projects'
+import { getAuth } from '~/libs/middleware'
 
 type OmitProject = Omit<Project, 'id' | 'apiKey' | 'createdAt' | 'updatedAt'>
 
@@ -16,27 +18,32 @@ const projectTypes = [
   },
 ]
 
+const secret = getConfig().secret?.apikey ?? 'ohbug-apikey-s3cret'
+
+export const getServerSideProps = handle({
+  async get() {
+    return { props: {} }
+  },
+  async post({ req, res }) {
+    const auth = await getAuth(req, res)
+    if (!auth) {
+      return redirect('/auth/signin', { status: 302 })
+    }
+    const project = req.body as Project
+    const apiKey = crypto
+      .createHmac('sha256', secret)
+      .update(JSON.stringify(project) + new Date().getTime())
+      .digest('hex')
+    await serviceCreateProject({ ...project, apiKey }, auth.user)
+
+    return redirect('/')
+  },
+})
+
 const CreateProject: NextPageWithLayout = () => {
   const ct = useTranslations('Common')
   const t = useTranslations('CreateProject')
-  const router = useRouter()
-  const { mutate } = useSWRConfig()
   const { handleSubmit, register, formState: { errors } } = useForm<OmitProject>()
-  const onSubmit = useCallback((data: OmitProject) => {
-    fetch(
-      '/api/projects',
-      {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      },
-    )
-      .then(res => res.json())
-      .then((project) => {
-        if (project) router.replace('/')
-        mutate('/api/projects')
-      })
-  }, [])
 
   return (
     <Center h="100vh">
@@ -45,7 +52,10 @@ const CreateProject: NextPageWithLayout = () => {
         shadow="md"
         w="lg"
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          method="POST"
+          onSubmit={handleSubmit((_, e) => e?.target.submit())}
+        >
           <FormControl isInvalid={!!errors.name}>
             <FormLabel htmlFor="name">{t('projectName')}</FormLabel>
             <Input

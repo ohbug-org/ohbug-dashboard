@@ -7,12 +7,13 @@ import ThemeBox from './themeBox'
 interface Props extends ThemeBoxProps {
   children?: ReactNode
   title?: string
+  extra?: ReactNode
   content?: ReactNode
   footer?: ReactNode
   hover?: boolean
   variant?: 'default' | 'shadow'
 }
-const Card = forwardRef<HTMLDivElement, Props>(({ children, title, content, footer, hover = false, variant = 'default', ...props }, ref) => {
+const Card = forwardRef<HTMLDivElement, Props>(({ children, title, extra, content, footer, hover = false, variant = 'default', ...props }, ref) => {
   const node = useMemo(() => {
     if (children) return children
     return (
@@ -20,10 +21,13 @@ const Card = forwardRef<HTMLDivElement, Props>(({ children, title, content, foot
         {
           title && (
             <Heading
+              display="flex"
+              justifyContent="space-between"
               mb="4"
               size="md"
             >
               {title}
+              {extra}
             </Heading>
           )
         }

@@ -8,7 +8,8 @@
     "loading": "加载中",
     "noMoreData": "没有更多数据",
     "loadMore": "加载更多",
-    "total": "合计"
+    "total": "合计",
+    "mustBeTheCorrectEmailAddress": "必须为正确的邮箱地址"
   },
   "Header": {
     "User": {
@@ -64,7 +65,6 @@
     "others": "其他",
     "webhookTooltip": "负责人的联系方式，多用于@对应负责人，通常为手机号 (多个请使用英文逗号分隔)",
     "webhookContact": "联系方式",
-    "mustBeTheCorrectEmailAddress": "必须为正确的邮箱地址",
     "mustBeTheCorrectUrlAddress": "必须为正确的 URL 地址",
     "inputEmailAddress": "请输入邮箱地址",
     "inputWebhookURL": "请输入 Webhook 地址"
@@ -76,7 +76,10 @@
     "projectName": "项目名称",
     "yourProjectWillBeRenamedTo": "你的项目将更名为",
     "apiKeyDescription": "需要在 SDK 中配置 apiKey 才能在 Ohbug 控制台中使用",
-    "projectApiKey": "项目 ApiKey"
+    "projectApiKey": "项目 ApiKey",
+    "projectMembers": "项目 成员",
+    "inviteMembers": "邀请成员",
+    "inviteMembersDescription": "复制链接，邀请成员加入项目"
   },
   "Metrics": {
     "CLSDescription": "CLS 测量整个页面生命周期内发生的所有意外布局偏移中最大一连串的布局偏移分数",

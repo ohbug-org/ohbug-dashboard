@@ -7,10 +7,12 @@ import { useTranslations } from 'next-intl'
 import useSWR from 'swr'
 import ProjectCard from '~/components/projectCard'
 import Wrapper from '~/components/wrapper'
+import { useInviteMember } from '~/hooks/useInviteMember'
 
 const Home: NextPage = () => {
   const t = useTranslations('Index')
   const { data: projects } = useSWR<ProjectWithEventCount[]>('/api/projects')
+  useInviteMember()
 
   return (
     <Wrapper>
