@@ -1,5 +1,12 @@
 
 
+## [0.1.3](https://github.com/ohbug-org/ohbug-dashboard/compare/0.1.2...0.1.3) (2022-08-09)
+
+
+### Bug Fixes
+
+* **web:** next-auth warning ([cb721d2](https://github.com/ohbug-org/ohbug-dashboard/commit/cb721d20ede836a2b7952e3fff4d5d28a23f1ca9))
+
 ## [0.1.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.1.1...0.1.2) (2022-08-09)
 
 
