@@ -1,5 +1,12 @@
 
 
+## [0.1.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.1.0...0.1.1) (2022-08-09)
+
+
+### Bug Fixes
+
+* **web:** ts error ([46e6ed4](https://github.com/ohbug-org/ohbug-dashboard/commit/46e6ed474338805dcb542a355112a49b2ec6e1f6))
+
 # 0.1.0 (2022-08-09)
 
 
