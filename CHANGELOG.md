@@ -1,5 +1,12 @@
 
 
+## [0.1.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.1.1...0.1.2) (2022-08-09)
+
+
+### Bug Fixes
+
+* **web:** nextjs middleware position error ([74f3bbf](https://github.com/ohbug-org/ohbug-dashboard/commit/74f3bbf219ca9927b37947608bab2d5cded39bb9))
+
 ## [0.1.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.1.0...0.1.1) (2022-08-09)
 
 
