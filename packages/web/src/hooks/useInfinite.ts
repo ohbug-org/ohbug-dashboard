@@ -4,7 +4,7 @@ import type { SWRInfiniteKeyLoader } from 'swr/infinite'
 import useSWRInfinite from 'swr/infinite'
 
 export function useInfinite<T = any>(keyLoading: SWRInfiniteKeyLoader) {
-  const { data, error, size, setSize } = useSWRInfinite<T[]>(keyLoading)
+  const { data, error, size, setSize, mutate } = useSWRInfinite<T[]>(keyLoading)
   const isEmpty = data?.[0]?.length === 0
   const isLoadingInitialData = !data && !error
   const isLoading = isLoadingInitialData || (size > 0 && data && typeof data[size - 1] === 'undefined')
@@ -21,5 +21,6 @@ export function useInfinite<T = any>(keyLoading: SWRInfiniteKeyLoader) {
     isEmpty,
     isLoadingInitialData,
     isReachingEnd,
+    mutate,
   }
 }
