@@ -58,7 +58,7 @@ model Metric {
 }
 
 model Feedback {
-  id           String       @id @default(uuid())
+  id           String   @id @default(uuid())
   apiKey       String
   appVersion   String?
   appType      String?
@@ -72,7 +72,49 @@ model Feedback {
   user         Json?
   actions      Json?
   metadata     Json?
-  createdAt    DateTime     @default(now()) @db.Timestamp
+  createdAt    DateTime @default(now()) @db.Timestamp
+
+  @@index([apiKey])
+  @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
+}
+
+model PageView {
+  id           Int      @id @default(autoincrement())
+  apiKey       String
+  appVersion   String?
+  appType      String?
+  releaseStage String?
+  timestamp    DateTime
+  category     String?
+  type         String
+  sdk          Json
+  device       Json
+  path         String
+  user         Json?
+  actions      Json?
+  metadata     Json?
+  createdAt    DateTime @default(now()) @db.Timestamp
+
+  @@index([apiKey])
+  @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
+}
+
+model UserView {
+  id           Int      @id @default(autoincrement())
+  apiKey       String
+  appVersion   String?
+  appType      String?
+  releaseStage String?
+  timestamp    DateTime
+  category     String?
+  type         String
+  sdk          Json
+  device       Json
+  path         String
+  user         Json?
+  actions      Json?
+  metadata     Json?
+  createdAt    DateTime @default(now()) @db.Timestamp
 
   @@index([apiKey])
   @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
@@ -113,14 +155,6 @@ model EventUsersOnIssues {
   issue       Issue     @relation(fields: [issueId], references: [id])
 
   @@id([issueId, eventUserId])
-}
-
-model Setting {
-  id                 Int     @id @default(autoincrement())
-  githubClientId     String
-  githubClientSecret String
-  emailServer        String?
-  emailFrom          String?
 }
 
 model Project {

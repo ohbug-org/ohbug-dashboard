@@ -7,7 +7,7 @@ import {
   getMd5FromAggregationData,
   switchErrorDetailAndGetAggregationDataAndMetaData,
 } from './report.core'
-import type { CreateEventParams, CreateFeedbackParams, CreateMetricParams } from './report.interface'
+import type { CreateEventParams, CreateFeedbackParams, CreateMetricParams, CreateViewParams } from './report.interface'
 import { ForbiddenException } from '~/common'
 
 @Injectable()
@@ -108,6 +108,31 @@ export class ReportService {
             removeOnFail: true,
           },
         )
+      }
+      else if (eventLike.category === 'view') {
+        const createViewParams: CreateViewParams = { view: eventLike }
+        if (eventLike.type === 'pageView') {
+          await this.documentQueue.add(
+            'pageView',
+            createViewParams,
+            {
+              delay: 3000,
+              removeOnComplete: true,
+              removeOnFail: true,
+            },
+          )
+        }
+        if (eventLike.type === 'userView') {
+          await this.documentQueue.add(
+            'userView',
+            createViewParams,
+            {
+              delay: 3000,
+              removeOnComplete: true,
+              removeOnFail: true,
+            },
+          )
+        }
       }
       else {
         const aggregationEvent = this.aggregation(eventLike)
