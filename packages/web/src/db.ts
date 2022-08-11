@@ -1,13 +1,15 @@
 import { PrismaClient } from '@prisma/client'
-import { getConfig } from 'config'
 
 declare global {
   // eslint-disable-next-line vars-on-top,no-var
   var __db__: PrismaClient
 }
 
-function getClient() {
-  const databaseUrl = new URL(getConfig().db.postgres.url)
+/**
+ * server
+ */
+function createClient() {
+  const databaseUrl = new URL(process.env.DATABASE_URL)
 
   const isLocalHost = databaseUrl.hostname === 'localhost'
 
@@ -32,9 +34,71 @@ function getClient() {
   return client
 }
 
+/**
+ * client
+ */
+function handleFetch(link: any[]) {
+  const [table, operate, data] = link
+  const body = {
+    operate,
+    data,
+  }
+  return fetch(
+    `/api/prisma/${table}`,
+    {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    },
+  )
+    .then(res => res.json())
+    .then((res) => {
+      if (res.success) {
+        return res.data
+      }
+      throw new Error(res.errorMessage)
+    })
+}
+const operates = [
+  'findUnique',
+  'findUniqueOrThrow',
+  'findFirst',
+  'findFirstOrThrow',
+  'findMany',
+  'create',
+  'update',
+  'upsert',
+  'delete',
+  'createMany',
+  'updateMany',
+  'deleteMany',
+  'count',
+  'aggregate',
+  'groupBy',
+]
+const tempLink: any[] = []
+function createProxy<T extends Object>(target: T): T {
+  return new Proxy(target, {
+    get(_target, prop: string) {
+      if (!prop.includes('$')) {
+        tempLink.push(prop)
+      }
+      if (operates.includes(prop)) {
+        return async(args: any) => {
+          tempLink.push(args)
+          const result = await handleFetch(tempLink)
+          tempLink.length = 0
+          return result
+        }
+      }
+      return createProxy<T>({} as T)
+    },
+  })
+}
+
 export function getPrisma() {
   if (!global.__db__) {
-    global.__db__ = getClient()
+    global.__db__ = typeof window === 'undefined' ? createClient() : createProxy({} as PrismaClient)
   }
 
   return global.__db__

@@ -8,10 +8,17 @@ import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
 import { useInfinite } from '~/hooks/useInfinite'
+import { serviceGetReleases } from '~/services/releases'
 
 const Releases: NextPage = () => {
   const { projectId } = useCurrentProject()
-  const { data, isLoading, size, setSize, isReachingEnd } = useInfinite<Release>(index => `/api/releases?projectId=${projectId}&page=${index + 1}`)
+  const { data, isLoading, size, setSize, isReachingEnd } = useInfinite<Release>(
+    index => serviceGetReleases({
+      page: index + 1,
+      projectId: projectId!,
+    }),
+    { enabled: projectId !== undefined },
+  )
 
   return (
     <Box>
@@ -24,7 +31,7 @@ const Releases: NextPage = () => {
         py="12"
       >
         <Card>
-          <ReleaseList releases={data} />
+          {data && <ReleaseList releases={data} />}
           <LoadingMoreButton
             isLoading={isLoading}
             isReachingEnd={isReachingEnd}

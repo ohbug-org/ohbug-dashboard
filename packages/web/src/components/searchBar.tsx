@@ -51,7 +51,7 @@ const SearchBar: FC = () => {
       return item ? item.label : ''
     },
   })
-  const { data: searchedIssues, loading: searchedIssuesLoading } = useIssuesSearch(!items.length ? query : '')
+  const { data: searchedIssues, isLoading: searchedIssuesLoading } = useIssuesSearch(!items.length ? query : '')
   useEffect(() => {
     if (Array.isArray(searchedIssues) && searchedIssues.length > 0) {
       setItems(searchedIssues.map(issue => ({

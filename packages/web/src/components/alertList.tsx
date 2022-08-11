@@ -5,31 +5,34 @@ import { Badge, Box, Flex, IconButton, Link, Menu, MenuButton, MenuItem, MenuLis
 import type { Alert } from '@prisma/client'
 import { RiMoreLine } from 'react-icons/ri'
 import NextLink from 'next/link'
-import type { KeyedMutator } from 'swr'
 import useCurrentProject from '~/hooks/useCurrentProject'
+import { serviceDeleteAlert } from '~/services/alerts'
 
 interface Props {
   alerts: Alert[]
-  mutate: KeyedMutator<Alert[][]>
+  mutate: any
 }
 const AlertList: FC<Props> = ({ alerts, mutate }) => {
   const { projectId } = useCurrentProject()
   const toast = useToast()
-  const onDelete = useCallback((alertId: number) => {
-    fetch(
-      `/api/alerts/${alertId}`,
-      {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      },
-    )
-      .then(() => mutate())
-      .then(() => toast({
-        title: 'Alert Deleted!',
-        description: 'Your alert has been deleted!',
-        status: 'success',
-      }))
-  }, [projectId])
+  const onDelete = useCallback((id: number) => {
+    serviceDeleteAlert({ id })
+      .then(() => {
+        toast({
+          title: 'Alert Deleted!',
+          description: 'Your alert has been deleted!',
+          status: 'success',
+        })
+        mutate()
+      })
+      .catch((error) => {
+        toast({
+          title: 'Alert Edit Error',
+          description: error.message,
+          status: 'error',
+        })
+      })
+  }, [])
 
   return (
     <Box

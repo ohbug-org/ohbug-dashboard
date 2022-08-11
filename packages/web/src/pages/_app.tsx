@@ -4,15 +4,18 @@ import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
 import { SessionProvider, useSession } from 'next-auth/react'
-import useSWR, { SWRConfig } from 'swr'
+import { SWRConfig } from 'swr'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { NextIntlProvider } from 'next-intl'
 import { useRouter } from 'next/router'
 import { withNextRuntime } from 'next-runtime/app'
+import type { User } from '@prisma/client'
 import defaultMessages from '../locales/en.json'
 import Layout from '~/components/layout'
 import theme from '~/styles/theme'
+import { serviceGetProjects } from '~/services/projects'
+import { useQuery } from '~/hooks/useQuery'
 dayjs.extend(relativeTime)
 
 export type NextPageWithLayout<T = any> = NextPage<T> & {
@@ -26,7 +29,10 @@ type AppPropsWithLayout = AppProps & {
 function Controller({ children }: { children: ReactElement }) {
   const router = useRouter()
   const session = useSession()
-  const { data: projects } = useSWR(session.status === 'authenticated' ? '/api/projects' : null)
+  const { data: projects } = useQuery(
+    () => serviceGetProjects(session.data?.user as User),
+    { enabled: session.status === 'authenticated' },
+  )
 
   useEffect(() => {
     if (session.status === 'unauthenticated') {

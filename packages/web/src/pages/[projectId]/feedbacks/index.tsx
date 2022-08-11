@@ -8,11 +8,18 @@ import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
 import { useInfinite } from '~/hooks/useInfinite'
+import { serviceGetFeedbacks } from '~/services/feedbacks'
 
 const Feedbacks: NextPage = () => {
   const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
-  const { data: feedbacks, isLoading, size, setSize, isReachingEnd } = useInfinite<Feedback>(index => `/api/feedbacks?projectId=${projectId}&page=${index + 1}`)
+  const { data: feedbacks, isLoading, size, setSize, isReachingEnd } = useInfinite<Feedback>(
+    index => serviceGetFeedbacks({
+      page: index + 1,
+      projectId: projectId!,
+    }),
+    { enabled: projectId !== undefined },
+  )
 
   return (
     <ThemeBox bg="current">

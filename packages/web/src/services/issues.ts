@@ -25,10 +25,7 @@ export async function serviceGetIssues({ projectId, query, page = 0, pageSize = 
   if (query) {
     options.where.metadata = { search: query }
   }
-  return getPrisma().$transaction([
-    getPrisma().issue.findMany(options),
-    getPrisma().issue.count({ where: { apiKey: project.apiKey } }),
-  ])
+  return getPrisma().issue.findMany(options)
 }
 
 interface ServiceGetIssuesTrendsParams {

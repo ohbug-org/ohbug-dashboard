@@ -14,14 +14,14 @@ import { renderStringOrJson } from '~/libs/utils'
 import useCurrentProject from '~/hooks/useCurrentProject'
 
 interface Props {
-  issues: Issue[]
+  issues?: Issue[]
   empty: ReactNode
 }
 const IssueList: FC<Props> = ({ issues, empty }) => {
   const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
-  const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(`/api/trends/issues?ids=${issues.map(issue => issue.id)}&type=${chartType}`)
+  const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(issues ? `/api/trends/issues?ids=${issues.map(issue => issue.id)}&type=${chartType}` : null)
 
   const rowHoverBg = useColorModeValue('gray.100', 'dark.500')
 
@@ -58,7 +58,7 @@ const IssueList: FC<Props> = ({ issues, empty }) => {
               {chartType === '24h' ? ct('24h') : ct('14d')}
             </FormLabel>
             <Switch
-              disabled={!trends || !issues.length}
+              disabled={!trends || !issues?.length}
               id="trendsType"
               isChecked={chartType === '24h'}
               onChange={e => setChartType(e.target.checked ? '24h' : '14d')}
@@ -77,7 +77,7 @@ const IssueList: FC<Props> = ({ issues, empty }) => {
       {/* body */}
       <Box>
         {
-          issues.length
+          issues?.length
             ? issues.map((issue) => {
               const metadata = JSON.parse(issue.metadata) || {}
               return (

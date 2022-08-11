@@ -1,17 +1,23 @@
 import type { FC } from 'react'
 import { useCallback, useEffect, useMemo } from 'react'
 import { Avatar, Center, Icon, IconButton, Link, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Text } from '@chakra-ui/react'
-import useSWR from 'swr'
-import type { Project } from '@prisma/client'
+import type { User } from '@prisma/client'
 import { RiAddLine, RiMore2Line } from 'react-icons/ri'
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
+import { useSession } from 'next-auth/react'
 import Loading from './loading'
 import { useStore } from '~/store'
+import { serviceGetProjectsWithEventCount } from '~/services/projects'
+import { useQuery } from '~/hooks/useQuery'
 
 const ProjectComponent: FC = () => {
   const router = useRouter()
-  const { data: projects } = useSWR<Project[]>('/api/projects')
+  const session = useSession()
+  const { data: projects } = useQuery(
+    () => serviceGetProjectsWithEventCount(session.data?.user as User),
+    { enabled: session.status === 'authenticated' },
+  )
   const currentProject = useStore(state => state.project)
   const setCurrentProject = useStore(state => state.setProject)
   const loading = useMemo(() => !projects, [projects])

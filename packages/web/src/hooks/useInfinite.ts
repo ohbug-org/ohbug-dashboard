@@ -1,25 +1,67 @@
 import { PAGE_SIZE } from 'common'
-import { useMemo } from 'react'
-import type { SWRInfiniteKeyLoader } from 'swr/infinite'
-import useSWRInfinite from 'swr/infinite'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-export function useInfinite<T = any>(keyLoading: SWRInfiniteKeyLoader) {
-  const { data, error, size, setSize, mutate } = useSWRInfinite<T[]>(keyLoading)
-  const isEmpty = data?.[0]?.length === 0
-  const isLoadingInitialData = !data && !error
-  const isLoading = isLoadingInitialData || (size > 0 && data && typeof data[size - 1] === 'undefined')
-  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
-  const result = useMemo(() => data?.flat() ?? [], [data])
+interface State<T> {
+  isLoading: boolean
+  error?: Error
+  data?: T[]
+  result?: T[][]
+  size: number
+}
+interface Options {
+  enabled: boolean
+}
+
+export function useInfinite<T = any>(
+  keyLoading: (index: number) => (Promise<T[]>),
+  options?: Options,
+) {
+  const { enabled = true } = options ?? {}
+  const lastCallId = useRef(0)
+  const [state, set] = useState<State<T>>({ isLoading: false, size: 0 })
+  const mutate = useCallback(() => {
+    const callId = ++lastCallId.current
+    set(prevState => ({
+      ...prevState,
+      isLoading: true,
+    }))
+    return keyLoading(state.size)
+      .then((res) => {
+        callId === lastCallId.current && set(prevState => ({
+          ...prevState,
+          data: prevState.data ? [...prevState.data, ...res] : res,
+          result: prevState.result ? [...prevState.result, res] : [res],
+          isLoading: false,
+        }))
+        return res
+      })
+      .catch((err) => {
+        callId === lastCallId.current && set(prevState => ({
+          ...prevState,
+          error: err,
+          isLoading: false,
+        }))
+        return err
+      })
+  }, [keyLoading, state.size])
+  useEffect(() => {
+    if (enabled) {
+      mutate()
+    }
+  }, [enabled, state.size])
+  const isEmpty = useMemo(() => state.result?.[0]?.length === 0, [state.result])
+  const isReachingEnd = useMemo(
+    () => isEmpty || (state.result && state.result[state.result.length - 1]?.length < PAGE_SIZE),
+    [isEmpty, state.result],
+  )
+  const setSize = useCallback((value: number) => {
+    set(prevState => ({ ...prevState, size: value }))
+  }, [])
 
   return {
-    originalData: data,
-    data: result,
-    isLoading,
-    error,
-    size,
+    ...state,
     setSize,
     isEmpty,
-    isLoadingInitialData,
     isReachingEnd,
     mutate,
   }
