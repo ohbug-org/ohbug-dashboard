@@ -1,6 +1,8 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Button, Icon, Link } from '@chakra-ui/react'
 import type { Release } from '@prisma/client'
 import type { NextPage } from 'next'
+import { useTranslations } from 'next-intl'
+import { RiQuestionLine } from 'react-icons/ri'
 import Card from '~/components/card'
 import LoadingMoreButton from '~/components/loadMoreButton'
 import ReleaseList from '~/components/releaseList'
@@ -11,6 +13,7 @@ import { useInfinite } from '~/hooks/useInfinite'
 import { serviceGetReleases } from '~/services/releases'
 
 const Releases: NextPage = () => {
+  const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
   const { data, isLoading, size, setSize, isReachingEnd } = useInfinite<Release>(
     index => serviceGetReleases({
@@ -22,7 +25,32 @@ const Releases: NextPage = () => {
 
   return (
     <Box>
-      <Title>Releases</Title>
+      <Title
+        rightNodes={
+          (
+            <Link
+              href="https://ohbug.net/guide/releases.html"
+              target="_blank"
+            >
+              <Button
+                leftIcon={
+                  (
+                    <Icon
+                      as={RiQuestionLine}
+                      h="5"
+                      w="5"
+                    />
+                  )
+                }
+                variant="ghost"
+              >
+                {ct('integration')}
+              </Button>
+            </Link>
+          )
+        }
+      >Releases
+      </Title>
 
       <Wrapper
         display="flex"
