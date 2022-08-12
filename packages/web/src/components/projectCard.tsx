@@ -1,20 +1,25 @@
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import type { FC } from 'react'
-import { useMemo } from 'react'
-import useSWR from 'swr'
 import type { ProjectWithEventCount } from 'common'
 import Loading from './loading'
 import TrendChart from './trendChart'
 import Card from './card'
 import type { ProjectTrend } from '~/services/projects'
+import { serviceGetProjectTrends } from '~/services/projects'
+import { useQuery } from '~/hooks/useQuery'
 
 interface Props {
   project: ProjectWithEventCount
 }
 const ProjectCard: FC<Props> = ({ project }) => {
-  const { data: trends } = useSWR<ProjectTrend[]>(`/api/trends/projects?id=${project.id}&type=14d`)
-  const trendLoading = useMemo(() => !trends, [trends])
+  const { data: trends, isLoading } = useQuery<ProjectTrend[]>(
+    () => serviceGetProjectTrends({
+      id: project.id,
+      type: '14d',
+    }),
+    { enabled: project.id !== undefined },
+  )
 
   return (
     <NextLink href={`/${project.id}/profile`}>
@@ -47,7 +52,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
 
         <Box mt="4">
           {
-            trendLoading
+            isLoading
               ? <Loading />
               : (
                 <TrendChart

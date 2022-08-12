@@ -4,14 +4,14 @@ import NextLink from 'next/link'
 import type { Issue } from 'common'
 import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
-import useSWR from 'swr'
 import { Box, Center, Flex, FormControl, FormLabel, Icon, Link, Switch, Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
 import TrendChart from './trendChart'
 import ThemeBox from './themeBox'
-import type { serviceGetIssuesTrendsReturn } from '~/services/issues'
+import { serviceGetIssuesTrends } from '~/services/issues'
 import { renderStringOrJson } from '~/libs/utils'
 import useCurrentProject from '~/hooks/useCurrentProject'
+import { useQuery } from '~/hooks/useQuery'
 
 interface Props {
   issues?: Issue[]
@@ -21,7 +21,16 @@ const IssueList: FC<Props> = ({ issues, empty }) => {
   const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
-  const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(issues ? `/api/trends/issues?ids=${issues.map(issue => issue.id)}&type=${chartType}` : null)
+  const { data: trends } = useQuery(
+    () => serviceGetIssuesTrends({
+      ids: issues!.map(issue => issue.id).join(','),
+      type: chartType,
+    }),
+    {
+      enabled: !!issues,
+      deps: [issues, chartType],
+    },
+  )
 
   const rowHoverBg = useColorModeValue('gray.100', 'dark.500')
 

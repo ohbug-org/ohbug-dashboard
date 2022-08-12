@@ -2,6 +2,11 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getAuth } from '~/libs/middleware'
 import { getPrisma } from '~/db'
 
+const methods = [
+  '$queryRaw',
+  '$queryRawUnsafe',
+]
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -10,11 +15,21 @@ export default async function handler(
   if (!auth) return res.status(401).json('Unauthorized')
 
   const prisma = getPrisma()
-  const table = req.query.table?.[0]
   const { operate, data } = req.body
   try {
+    const name = req.query.name![0]
+    if (methods.includes(name)) {
+      // @ts-expect-error need to do this
+      const result = await prisma[name](data)
+      if (result) {
+        return res.status(200).json({
+          data: result,
+          success: true,
+        })
+      }
+    }
     // @ts-expect-error need to do this
-    const result = await prisma[table][operate](data)
+    const result = await prisma[name][operate](data)
     if (result) {
       return res.status(200).json({
         data: result,
@@ -23,7 +38,7 @@ export default async function handler(
     }
     return res.status(400).json({
       success: false,
-      errorMessage: `NotFound: ${table}`,
+      errorMessage: `NotFound: ${name}`,
     })
   }
   catch (error) {

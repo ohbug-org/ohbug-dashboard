@@ -7,7 +7,8 @@ interface State<T> {
   data?: T
 }
 interface Options {
-  enabled: boolean
+  enabled?: boolean
+  deps?: any[]
 }
 
 export function useQuery<T = any>(
@@ -15,7 +16,7 @@ export function useQuery<T = any>(
   options?: Options,
 ) {
   const toast = useToast()
-  const { enabled = true } = options ?? {}
+  const { enabled = true, deps = [] } = options ?? {}
   const lastCallId = useRef(0)
   const [state, set] = useState<State<T>>({ isLoading: false })
   const mutate = useCallback(() => {
@@ -56,6 +57,11 @@ export function useQuery<T = any>(
       mutate()
     }
   }, [enabled])
+  useEffect(() => {
+    if (enabled) {
+      mutate()
+    }
+  }, [...deps, enabled])
 
   return {
     ...state,

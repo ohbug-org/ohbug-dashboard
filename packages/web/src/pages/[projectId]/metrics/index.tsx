@@ -1,7 +1,6 @@
 import { Button, Icon, Link } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import { useTranslations } from 'next-intl'
-import useSWR from 'swr'
 import { RiQuestionLine } from 'react-icons/ri'
 import IntroduceChart from '~/components/introduceChart'
 import ThemeBox from '~/components/themeBox'
@@ -10,7 +9,8 @@ import TrendChart from '~/components/trendChart'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
 import { average } from '~/libs/utils'
-import type { MetricsTrend } from '~/services/metrics'
+import { serviceGetMetricsTrends } from '~/services/metrics'
+import { useQuery } from '~/hooks/useQuery'
 
 const CLS_THRESHOLD = [0.1, 0.25]
 const FID_THRESHOLD = [100, 300]
@@ -22,11 +22,46 @@ const Metrics: NextPage = () => {
   const ct = useTranslations('Common')
   const t = useTranslations('Metrics')
   const { projectId } = useCurrentProject()
-  const { data: CLSData } = useSWR<MetricsTrend[]>(projectId ? `/api/trends/metrics?projectId=${projectId}&type=${'24h'}&metric=CLS` : null)
-  const { data: FIDData } = useSWR<MetricsTrend[]>(projectId ? `/api/trends/metrics?projectId=${projectId}&type=${'24h'}&metric=FID` : null)
-  const { data: LCPData } = useSWR<MetricsTrend[]>(projectId ? `/api/trends/metrics?projectId=${projectId}&type=${'24h'}&metric=LCP` : null)
-  const { data: FCPData } = useSWR<MetricsTrend[]>(projectId ? `/api/trends/metrics?projectId=${projectId}&type=${'24h'}&metric=FCP` : null)
-  const { data: TTFBData } = useSWR<MetricsTrend[]>(projectId ? `/api/trends/metrics?projectId=${projectId}&type=${'24h'}&metric=TTFB` : null)
+  const { data: CLSData } = useQuery(
+    () => serviceGetMetricsTrends({
+      projectId: projectId!,
+      type: '14d',
+      metric: 'CLS',
+    }),
+    { enabled: projectId !== undefined },
+  )
+  const { data: FIDData } = useQuery(
+    () => serviceGetMetricsTrends({
+      projectId: projectId!,
+      type: '14d',
+      metric: 'FID',
+    }),
+    { enabled: projectId !== undefined },
+  )
+  const { data: LCPData } = useQuery(
+    () => serviceGetMetricsTrends({
+      projectId: projectId!,
+      type: '14d',
+      metric: 'LCP',
+    }),
+    { enabled: projectId !== undefined },
+  )
+  const { data: FCPData } = useQuery(
+    () => serviceGetMetricsTrends({
+      projectId: projectId!,
+      type: '14d',
+      metric: 'FCP',
+    }),
+    { enabled: projectId !== undefined },
+  )
+  const { data: TTFBData } = useQuery(
+    () => serviceGetMetricsTrends({
+      projectId: projectId!,
+      type: '14d',
+      metric: 'TTFB',
+    }),
+    { enabled: projectId !== undefined },
+  )
 
   return (
     <ThemeBox bg="current">
@@ -74,7 +109,7 @@ const Metrics: NextPage = () => {
             name="CLS"
             plotValue={CLS_THRESHOLD}
             timeField="time"
-            type="24h"
+            type="14d"
             unit="ms"
             valueField="value"
             variant="line"
@@ -92,7 +127,7 @@ const Metrics: NextPage = () => {
             name="FID"
             plotValue={FID_THRESHOLD}
             timeField="time"
-            type="24h"
+            type="14d"
             unit="ms"
             valueField="value"
             variant="line"
@@ -110,7 +145,7 @@ const Metrics: NextPage = () => {
             name="LCP"
             plotValue={LCP_THRESHOLD}
             timeField="time"
-            type="24h"
+            type="14d"
             unit="ms"
             valueField="value"
             variant="line"
@@ -128,7 +163,7 @@ const Metrics: NextPage = () => {
             name="FCP"
             plotValue={FCP_THRESHOLD}
             timeField="time"
-            type="24h"
+            type="14d"
             unit="ms"
             valueField="value"
             variant="line"
@@ -146,7 +181,7 @@ const Metrics: NextPage = () => {
             name="TTFB"
             plotValue={TTFB_THRESHOLD}
             timeField="time"
-            type="24h"
+            type="14d"
             unit="ms"
             valueField="value"
             variant="line"
