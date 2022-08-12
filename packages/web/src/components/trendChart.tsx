@@ -63,6 +63,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
       }
       if (variant === 'line') {
         return {
+          chart: { spacingTop: 15 },
           accessibility: { enabled: false },
           colors: [colorMode === 'dark' ? 'white' : 'black'],
           xAxis: { categories: data?.map(v => v[timeField]) },
