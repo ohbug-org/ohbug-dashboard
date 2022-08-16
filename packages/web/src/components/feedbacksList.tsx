@@ -1,23 +1,26 @@
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import type { Feedback } from '@prisma/client'
+import NextLink from 'next/link'
 import { renderStringOrJson } from '~/libs/utils'
+import useCurrentProject from '~/hooks/useCurrentProject'
 
 interface Props {
   feedbacks?: Feedback[]
 }
 
 const FeedbacksList: FC<Props> = ({ feedbacks }) => {
+  const { projectId } = useCurrentProject()
+
   return (
     <TableContainer>
       <Table className="w-full table table-compact">
         <Thead>
           <Tr>
-            <Th>createdAt</Th>
             <Th>feedback</Th>
+            <Th>createdAt</Th>
             <Th>user</Th>
-            <Th>selected element</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -27,16 +30,14 @@ const FeedbacksList: FC<Props> = ({ feedbacks }) => {
               return (
                 <Tr key={feedback.id}>
                   <Td>
+                    <NextLink href={`/${projectId}/feedbacks/${feedback.id}`}>
+                      <Link>{detail.feedback}</Link>
+                    </NextLink>
+                  </Td>
+                  <Td>
                     {dayjs(feedback.createdAt).format('YYYY-MM-DD HH:mm:ss')}
                   </Td>
-                  <Td>{detail.feedback}</Td>
                   <Td>{renderStringOrJson(feedback.user)}</Td>
-                  <Td>
-                    <img
-                      alt="selected element"
-                      src={detail.dataURL}
-                    />
-                  </Td>
                 </Tr>
               )
             })

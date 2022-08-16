@@ -3,11 +3,12 @@ import type { Issue, OhbugEventLike } from 'common'
 import { Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
-import IssueDetailActions from '~/components/issueDetailAction'
-import IssueDetailProfile from '~/components/issueDetailProfile'
-import IssueDetailStack from '~/components/issueDetailStack'
+import EventDetailActions from '~/components/eventDetailAction'
+import EventDetailProfile from '~/components/eventDetailProfile'
+import EventDetailStack from '~/components/eventDetailStack'
 import IssueDetailTitle from '~/components/issueDetailTitle'
-import IssueDetailTrend from '~/components/issueDetailTrend'
+import EventDetailTrend from '~/components/eventDetailTrend'
+import EventDetailUser from '~/components/eventDetailUser'
 import IssueRelatedEvents from '~/components/issueRelatedEvents'
 import { serviceGetEvent } from '~/services/events'
 import type { IssueTrend } from '~/services/issues'
@@ -51,16 +52,18 @@ const Detail: NextPage<Props> = ({ issue, event, trends }) => {
     if (!tab || tab === 'detail') {
       return (
         <>
-          <IssueDetailProfile event={event} />
+          <EventDetailProfile event={event} />
 
-          <IssueDetailStack event={event} />
+          <EventDetailStack event={event} />
 
-          <IssueDetailActions event={event} />
+          <EventDetailActions event={event} />
 
-          <IssueDetailTrend
+          <EventDetailTrend
             issue={issue}
             trends={trends}
           />
+
+          <EventDetailUser event={event} />
         </>
       )
     }

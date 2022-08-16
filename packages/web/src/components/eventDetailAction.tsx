@@ -10,10 +10,10 @@ import CardSection from './cardSection'
 import { getMessageAndIconByActionType } from '~/libs/utils'
 
 interface Props {
-  event: OhbugEventLike
+  event: OhbugEventLike | any
 }
 
-const IssueDetailActions: FC<Props> = ({ event }) => {
+const EventDetailActions: FC<Props> = ({ event }) => {
   const actions = useMemo<OhbugAction[]>(() => [
     ...event?.actions ?? [], {
       type: 'exception',
@@ -100,4 +100,4 @@ const IssueDetailActions: FC<Props> = ({ event }) => {
   )
 }
 
-export default IssueDetailActions
+export default EventDetailActions

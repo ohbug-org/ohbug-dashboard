@@ -17,7 +17,7 @@ interface Props {
   }
 }
 
-const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
+const EventDetailTrend: FC<Props> = ({ issue, trends }) => {
   const ct = useTranslations('Common')
   return (
     <ThemeBox bg="gray">
@@ -86,4 +86,4 @@ const IssueDetailTrend: FC<Props> = ({ issue, trends }) => {
   )
 }
 
-export default IssueDetailTrend
+export default EventDetailTrend
