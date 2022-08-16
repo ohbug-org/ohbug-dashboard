@@ -112,14 +112,16 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
       <Wrapper>
         <CardSection
           head={
-            (
-              <Link
-                href={`/api/events/${event.id}`}
-                isExternal
-              >
+            event.category === 'error'
+              ? (
+                <Link
+                  href={`/api/events/${event.id}`}
+                  isExternal
+                >
                 JSON Raw {event.id}
-              </Link>
-            )
+                </Link>
+              )
+              : null
           }
           title="Event Environment"
         >
