@@ -88,6 +88,7 @@ function handleFetch(link: any[]) {
         throw new Error(res.errorMessage)
       })
   }
+  return null
 }
 const operates = [
   'findUnique',
