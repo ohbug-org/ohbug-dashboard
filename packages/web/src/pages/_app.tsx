@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { NextIntlProvider } from 'next-intl'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import { withNextRuntime } from 'next-runtime/app'
 import type { User } from '@prisma/client'
 import defaultMessages from '../locales/en.json'
@@ -16,6 +17,14 @@ import Layout from '~/components/layout'
 import theme from '~/styles/theme'
 import { serviceGetProjects } from '~/services/projects'
 import { useQuery } from '~/hooks/useQuery'
+import '~/styles/nprogress.css'
+
+const TopProgressBar = dynamic(
+  () => {
+    return import('~/components/topProgressBar')
+  },
+  { ssr: false },
+)
 dayjs.extend(relativeTime)
 
 export type NextPageWithLayout<T = any> = NextPage<T> & {
@@ -78,6 +87,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               resetCSS
               theme={theme}
             >
+              <TopProgressBar />
               {
                 Component.getLayout
                   ? Component.getLayout(<Component {...pageProps} />)
