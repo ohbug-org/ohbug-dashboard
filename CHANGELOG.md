@@ -1,5 +1,25 @@
 
 
+# [0.2.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.1.3...0.2.0) (2022-08-17)
+
+
+### Bug Fixes
+
+* **web:** eslint warning ([64881ef](https://github.com/ohbug-org/ohbug-dashboard/commit/64881ef14ba659cdc4262b9dc35dd63f4b14be3f))
+* **web:** reload data after deps changed ([f4d7422](https://github.com/ohbug-org/ohbug-dashboard/commit/f4d742207f4918bc72bcc3b2d6dc313cdfc14b22))
+* **web:** trendChart render ([f8a6c78](https://github.com/ohbug-org/ohbug-dashboard/commit/f8a6c785a0068b1242fb7cd87138f297ebfd2c72))
+
+
+### Features
+
+* **server:** store view data ([5a44d56](https://github.com/ohbug-org/ohbug-dashboard/commit/5a44d56a039b55255bb499626927d47bfcc0df32))
+* **web:** add integration button ([76d54a6](https://github.com/ohbug-org/ohbug-dashboard/commit/76d54a60c2c612201ceefb81c0e4257cc9e8c87e))
+* **web:** only error event support check raw json data ([12bad61](https://github.com/ohbug-org/ohbug-dashboard/commit/12bad61446fe782e8f0a2529a1d0cd1fa1779db3))
+* **web:** simplify API Route ([82994d5](https://github.com/ohbug-org/ohbug-dashboard/commit/82994d5f29dd2fb9b837bd3d558429e1f7eaaecc))
+* **web:** simplify trends api ([b646a75](https://github.com/ohbug-org/ohbug-dashboard/commit/b646a754ee0bd19d85851fd761e50f2f3bac9894))
+* **web:** support check feedback detail ([de13466](https://github.com/ohbug-org/ohbug-dashboard/commit/de13466c94e6d75a60eea281d2bd68efdff34607))
+* **web:** use nprogress ([3e63544](https://github.com/ohbug-org/ohbug-dashboard/commit/3e635445c8177b933f83003f29448526f943a924))
+
 ## [0.1.3](https://github.com/ohbug-org/ohbug-dashboard/compare/0.1.2...0.1.3) (2022-08-09)
 
 
