@@ -1,9 +1,10 @@
 import type { Issue } from 'common'
 import { useMemo, useState } from 'react'
 import { useDebounce } from 'react-use'
-import useSWR from 'swr'
 import useCurrentProject from './useCurrentProject'
+import { useInfinite } from './useInfinite'
 import { useSearchBarActions } from './useSearchBarActions'
+import { serviceGetIssues } from '~/services/issues'
 
 export function useIssuesSearch(query: string) {
   const { projectId } = useCurrentProject()
@@ -21,18 +22,21 @@ export function useIssuesSearch(query: string) {
     () => actions.some(action => (action.label === debouncedQuery || action.label === query)),
     [debouncedQuery, query, actions],
   )
-  const { data: issuesAndTotal, error } = useSWR<[Issue[], number]>((projectId && debouncedQuery && !isAction)
-    ? `/api/issues?projectId=${projectId}&query=${debouncedQuery}`
-    : null)
-  const [data] = issuesAndTotal || []
-  const loading = useMemo(
-    () => !issuesAndTotal && !error && !!query && !isAction,
-    [issuesAndTotal, error, query, isAction],
+  const { data, error, isLoading } = useInfinite<Issue>(
+    index => serviceGetIssues({
+      page: index + 1,
+      projectId: projectId!,
+      query: debouncedQuery,
+    }),
+    {
+      enabled: !!(projectId && debouncedQuery && !isAction),
+      deps: [projectId, debouncedQuery],
+    },
   )
 
   return {
     data,
     error,
-    loading,
+    isLoading,
   }
 }

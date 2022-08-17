@@ -1,22 +1,23 @@
 import type { FC } from 'react'
-import { useMemo } from 'react'
+import { useState } from 'react'
 import { Avatar, AvatarBadge, Box, Button, Flex, Highlight, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import useSWR from 'swr'
 import { useTranslations } from 'next-intl'
+import { useMount } from 'react-use'
 import Theme from './theme'
 import Intl from './intl'
 
 const User: FC = () => {
   const t = useTranslations('Header.User')
   const { data: session } = useSession()
-  const { data } = useSWR('https://cdn.jsdelivr.net/gh/ohbug-org/ohbug-dashboard/package.json')
-  const hasNewVersion = useMemo(() => {
-    if (!data) return false
+  const [hasNewVersion, setHasNewVersion] = useState(false)
+  useMount(async() => {
+    const data = await (await fetch('https://cdn.jsdelivr.net/gh/ohbug-org/ohbug-dashboard/package.json')).json()
+    if (!data) return
     const { version } = data
     const currentVersion = process.env.NEXT_PUBLIC_VERSION
-    return version !== currentVersion
-  }, [data])
+    setHasNewVersion(version !== currentVersion)
+  })
 
   if (session) {
     return (

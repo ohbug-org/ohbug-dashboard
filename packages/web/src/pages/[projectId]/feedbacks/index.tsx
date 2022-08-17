@@ -1,22 +1,57 @@
-import { Button } from '@chakra-ui/react'
+import { Button, Icon, Link } from '@chakra-ui/react'
 import type { Feedback } from '@prisma/client'
 import type { NextPage } from 'next'
 import { useTranslations } from 'next-intl'
+import { RiQuestionLine } from 'react-icons/ri'
 import FeedbacksList from '~/components/feedbacksList'
 import ThemeBox from '~/components/themeBox'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
 import { useInfinite } from '~/hooks/useInfinite'
+import { serviceGetFeedbacks } from '~/services/feedbacks'
 
 const Feedbacks: NextPage = () => {
   const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
-  const { data: feedbacks, isLoading, size, setSize, isReachingEnd } = useInfinite<Feedback>(index => `/api/feedbacks?projectId=${projectId}&page=${index + 1}`)
+  const { data: feedbacks, isLoading, size, setSize, isReachingEnd } = useInfinite<Feedback>(
+    index => serviceGetFeedbacks({
+      page: index + 1,
+      projectId: projectId!,
+    }),
+    {
+      enabled: projectId !== undefined,
+      deps: [projectId],
+    },
+  )
 
   return (
     <ThemeBox bg="current">
-      <Title>
+      <Title
+        rightNodes={
+          (
+            <Link
+              href="https://ohbug.net/guide/feedbacks.html"
+              target="_blank"
+            >
+              <Button
+                leftIcon={
+                  (
+                    <Icon
+                      as={RiQuestionLine}
+                      h="5"
+                      w="5"
+                    />
+                  )
+                }
+                variant="ghost"
+              >
+                {ct('integration')}
+              </Button>
+            </Link>
+          )
+        }
+      >
         Feedbacks
       </Title>
 

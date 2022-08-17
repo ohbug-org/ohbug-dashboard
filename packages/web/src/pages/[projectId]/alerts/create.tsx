@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, useToast } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import { useCallback } from 'react'
 import type { OmitAlert } from 'common'
@@ -9,23 +9,29 @@ import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
 import EditAlert from '~/components/editAlert'
+import { serviceCreateAlert } from '~/services/alerts'
 
 const Create: NextPage = () => {
   const t = useTranslations('Alerts')
   const router = useRouter()
   const { projectId } = useCurrentProject()
-  const onSubmit = useCallback((data: OmitAlert) => {
-    fetch(
-      '/api/alerts',
-      {
-        method: 'POST',
-        body: JSON.stringify({ ...data, projectId }),
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      },
-    )
-      .then(res => res.json())
-      .then((alert) => {
-        if (alert) router.back()
+  const toast = useToast()
+  const onSubmit = useCallback((value: OmitAlert) => {
+    serviceCreateAlert({ ...value, projectId: projectId! })
+      .then(() => {
+        toast({
+          title: 'Alert Created!',
+          description: 'Your alert has been created!',
+          status: 'success',
+        })
+        router.back()
+      })
+      .catch((error) => {
+        toast({
+          title: 'Alert Create Error',
+          description: error.message,
+          status: 'error',
+        })
       })
   }, [projectId])
 

@@ -11,7 +11,7 @@ interface Props {
   event: OhbugEventLike
 }
 
-const IssueDetailStack: FC<Props> = ({ event }) => {
+const EventDetailStack: FC<Props> = ({ event }) => {
   return (
     <ThemeBox bg="gray">
       <Wrapper>
@@ -71,4 +71,4 @@ const IssueDetailStack: FC<Props> = ({ event }) => {
   )
 }
 
-export default IssueDetailStack
+export default EventDetailStack

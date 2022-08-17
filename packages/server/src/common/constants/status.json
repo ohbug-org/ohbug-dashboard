@@ -5,6 +5,8 @@
   "4001003": "failed to create event",
   "4001004": "failed to create metrics",
   "4001005": "failed to create feedback",
+  "4001006": "failed to create pageView",
+  "4001007": "failed to create userView",
 
   "4001100": "alert task execution failed",
 

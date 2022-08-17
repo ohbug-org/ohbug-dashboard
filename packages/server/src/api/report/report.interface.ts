@@ -50,6 +50,10 @@ export interface CreateFeedbackParams {
   feedback: OhbugEventLike
 }
 
+export interface CreateViewParams {
+  view: OhbugEventLike
+}
+
 export interface GetAlertStatusParams {
   event: Event
   issue: Issue

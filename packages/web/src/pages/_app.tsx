@@ -4,15 +4,26 @@ import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
 import { SessionProvider, useSession } from 'next-auth/react'
-import useSWR, { SWRConfig } from 'swr'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { NextIntlProvider } from 'next-intl'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import { withNextRuntime } from 'next-runtime/app'
+import type { User } from '@prisma/client'
 import defaultMessages from '../locales/en.json'
 import Layout from '~/components/layout'
 import theme from '~/styles/theme'
+import { serviceGetProjects } from '~/services/projects'
+import { useQuery } from '~/hooks/useQuery'
+import '~/styles/nprogress.css'
+
+const TopProgressBar = dynamic(
+  () => {
+    return import('~/components/topProgressBar')
+  },
+  { ssr: false },
+)
 dayjs.extend(relativeTime)
 
 export type NextPageWithLayout<T = any> = NextPage<T> & {
@@ -26,7 +37,10 @@ type AppPropsWithLayout = AppProps & {
 function Controller({ children }: { children: ReactElement }) {
   const router = useRouter()
   const session = useSession()
-  const { data: projects } = useSWR(session.status === 'authenticated' ? '/api/projects' : null)
+  const { data: projects } = useQuery(
+    () => serviceGetProjects(session.data?.user as User),
+    { enabled: session.status === 'authenticated' },
+  )
 
   useEffect(() => {
     if (session.status === 'unauthenticated') {
@@ -65,20 +79,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     >
       <SessionProvider session={pageProps.session}>
         <Controller>
-          <SWRConfig
-            value={{ fetcher: (resource, init) => fetch(resource, init).then(res => res.json()) }}
+          <ChakraProvider
+            resetCSS
+            theme={theme}
           >
-            <ChakraProvider
-              resetCSS
-              theme={theme}
-            >
-              {
-                Component.getLayout
-                  ? Component.getLayout(<Component {...pageProps} />)
-                  : <Layout><Component {...pageProps} /></Layout>
-              }
-            </ChakraProvider>
-          </SWRConfig>
+            <TopProgressBar />
+            {
+              Component.getLayout
+                ? Component.getLayout(<Component {...pageProps} />)
+                : <Layout><Component {...pageProps} /></Layout>
+            }
+          </ChakraProvider>
         </Controller>
       </SessionProvider>
     </NextIntlProvider>

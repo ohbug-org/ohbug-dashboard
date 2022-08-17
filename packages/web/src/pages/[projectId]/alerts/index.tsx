@@ -10,11 +10,21 @@ import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
 import { useInfinite } from '~/hooks/useInfinite'
 import LoadingMoreButton from '~/components/loadMoreButton'
+import { serviceGetAlerts } from '~/services/alerts'
 
 const Alerts: NextPage = () => {
   const t = useTranslations('Alerts')
   const { projectId } = useCurrentProject()
-  const { data, isLoading, size, setSize, isReachingEnd, mutate } = useInfinite<Alert>(index => `/api/alerts?projectId=${projectId}&page=${index + 1}`)
+  const { data, isLoading, size, setSize, isReachingEnd, mutate } = useInfinite<Alert>(
+    index => serviceGetAlerts({
+      page: index + 1,
+      projectId: projectId!,
+    }),
+    {
+      enabled: projectId !== undefined,
+      deps: [projectId],
+    },
+  )
 
   return (
     <Box>
@@ -37,10 +47,14 @@ const Alerts: NextPage = () => {
         py="12"
       >
         <Card>
-          <AlertsList
-            alerts={data}
-            mutate={mutate}
-          />
+          {
+            data && (
+              <AlertsList
+                alerts={data}
+                mutate={mutate}
+              />
+            )
+          }
           <LoadingMoreButton
             isLoading={isLoading}
             isReachingEnd={isReachingEnd}

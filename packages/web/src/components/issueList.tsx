@@ -4,24 +4,33 @@ import NextLink from 'next/link'
 import type { Issue } from 'common'
 import { RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
-import useSWR from 'swr'
 import { Box, Center, Flex, FormControl, FormLabel, Icon, Link, Switch, Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
 import TrendChart from './trendChart'
 import ThemeBox from './themeBox'
-import type { serviceGetIssuesTrendsReturn } from '~/services/issues'
+import { serviceGetIssuesTrends } from '~/services/issues'
 import { renderStringOrJson } from '~/libs/utils'
 import useCurrentProject from '~/hooks/useCurrentProject'
+import { useQuery } from '~/hooks/useQuery'
 
 interface Props {
-  issues: Issue[]
+  issues?: Issue[]
   empty: ReactNode
 }
 const IssueList: FC<Props> = ({ issues, empty }) => {
   const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
-  const { data: trends } = useSWR<serviceGetIssuesTrendsReturn>(`/api/trends/issues?ids=${issues.map(issue => issue.id)}&type=${chartType}`)
+  const { data: trends } = useQuery(
+    () => serviceGetIssuesTrends({
+      ids: issues!.map(issue => issue.id).join(','),
+      type: chartType,
+    }),
+    {
+      enabled: !!issues,
+      deps: [issues, chartType],
+    },
+  )
 
   const rowHoverBg = useColorModeValue('gray.100', 'dark.500')
 
@@ -58,7 +67,7 @@ const IssueList: FC<Props> = ({ issues, empty }) => {
               {chartType === '24h' ? ct('24h') : ct('14d')}
             </FormLabel>
             <Switch
-              disabled={!trends || !issues.length}
+              disabled={!trends || !issues?.length}
               id="trendsType"
               isChecked={chartType === '24h'}
               onChange={e => setChartType(e.target.checked ? '24h' : '14d')}
@@ -77,7 +86,7 @@ const IssueList: FC<Props> = ({ issues, empty }) => {
       {/* body */}
       <Box>
         {
-          issues.length
+          issues?.length
             ? issues.map((issue) => {
               const metadata = JSON.parse(issue.metadata) || {}
               return (

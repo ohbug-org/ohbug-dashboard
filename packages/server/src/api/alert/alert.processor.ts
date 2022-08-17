@@ -2,6 +2,7 @@ import { OnQueueError, Process, Processor } from '@nestjs/bull'
 import type { Job } from 'bull'
 import { Action } from 'common'
 import { HttpService } from '@nestjs/axios'
+import { getConfig } from 'config'
 import { GetAlertStatusParams } from '../report/report.interface'
 import { getAlertContent, getAlertStatus } from './alert.core'
 import email from './email'
@@ -40,11 +41,11 @@ export class AlertProcessor {
               )
               for (const action of item.alert.actions as unknown as Action[]) {
                 if (action.type === 'email') {
-                  const setting = await this.prisma.setting.findFirst()
-                  if (setting?.emailServer && setting?.emailFrom) {
+                  const config = getConfig()
+                  if (config.email && config.email.server && config.email.from) {
                     email({
-                      server: setting.emailServer,
-                      from: setting.emailFrom,
+                      server: config.email.server,
+                      from: config.email.from,
                       to: action.uri,
                       title: alertContent.title,
                       text: alertContent.text,

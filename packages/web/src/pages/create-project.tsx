@@ -18,13 +18,12 @@ const projectTypes = [
   },
 ]
 
-const secret = getConfig().secret?.apikey ?? 'ohbug-apikey-s3cret'
-
 export const getServerSideProps = handle({
   async get() {
     return { props: {} }
   },
   async post({ req, res }) {
+    const secret = getConfig().secret?.apikey ?? 'ohbug-apikey-s3cret'
     const auth = await getAuth(req, res)
     if (!auth) {
       return redirect('/auth/signin', { status: 302 })

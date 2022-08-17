@@ -1,20 +1,16 @@
 import type { FlexProps } from '@chakra-ui/react'
-import { ButtonGroup, Flex, IconButton, Text } from '@chakra-ui/react'
-import { PAGE_SIZE } from 'common'
-import { useTranslations } from 'next-intl'
+import { ButtonGroup, Flex, IconButton } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri'
 
 interface Props extends Omit<FlexProps, 'onChange'> {
   page: number
-  pageSize?: number
-  total: number
   onChange: (page: number) => void
+  isReachingEnd: boolean
 }
 
-const Pagination: FC<Props> = ({ page = 1, pageSize = PAGE_SIZE, total, onChange, ...props }) => {
-  const t = useTranslations('Common')
+const Pagination: FC<Props> = ({ page = 1, onChange, isReachingEnd, ...props }) => {
   const handlePrev = useCallback(() => {
     const _page = page - 1
     const value = _page > 0 ? _page : 1
@@ -33,12 +29,6 @@ const Pagination: FC<Props> = ({ page = 1, pageSize = PAGE_SIZE, total, onChange
       justify="end"
       {...props}
     >
-      <Text
-        fontSize="sm"
-        textColor="gray"
-      >
-        {t('total')}: {total}
-      </Text>
       <ButtonGroup
         isAttached
         size="sm"
@@ -54,7 +44,7 @@ const Pagination: FC<Props> = ({ page = 1, pageSize = PAGE_SIZE, total, onChange
         <IconButton
           aria-label="right"
           cursor="pointer"
-          disabled={page * pageSize >= total}
+          disabled={isReachingEnd}
           icon={<RiArrowRightSLine />}
           onClick={handleNext}
         />

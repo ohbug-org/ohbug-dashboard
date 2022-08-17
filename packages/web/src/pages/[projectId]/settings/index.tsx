@@ -3,41 +3,24 @@ import type { Project } from '@prisma/client'
 import type { NextPage } from 'next'
 import { useTranslations } from 'next-intl'
 import type { FC } from 'react'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import useSWR from 'swr'
 import type { ProjectWithMembers } from 'common'
 import { RiAddLine } from 'react-icons/ri'
 import { useSession } from 'next-auth/react'
-import { handle, json } from 'next-runtime'
-import { Form } from 'next-runtime/form'
 import Card from '~/components/card'
 import Copy from '~/components/copy'
 import ThemeBox from '~/components/themeBox'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/useCurrentProject'
-import { serviceUpdateProject } from '~/services/projects'
-
-export const getServerSideProps = handle({
-  async get() {
-    return { props: {} }
-  },
-  async put({ req }) {
-    const body = req.body as Project
-    const id = parseInt(body.id as unknown as string)
-    const project = await serviceUpdateProject(id, body)
-    return json(project)
-  },
-})
+import { serviceGetProjectWithUsers, serviceUpdateProject } from '~/services/projects'
+import { useQuery } from '~/hooks/useQuery'
 
 interface CommonProps {
   project?: ProjectWithMembers
 }
 
-interface FormData {
-  name: string
-}
 const SettingsProjectName: FC<CommonProps> = ({ project }) => {
   const ct = useTranslations('Common')
   const t = useTranslations('Settings')
@@ -45,43 +28,35 @@ const SettingsProjectName: FC<CommonProps> = ({ project }) => {
     register,
     formState: { errors },
     watch,
-  } = useForm<FormData>({ defaultValues: { name: project?.name } })
+    handleSubmit,
+  } = useForm<Project>({ defaultValues: { name: project?.name } })
   const toast = useToast()
   const name = watch('name')
+  const onSubmit = useCallback((value: Project) => {
+    serviceUpdateProject(project!.id, value)
+      .then(() => {
+        toast({
+          title: 'Project Updated!',
+          description: 'Your project name has been updated!',
+          status: 'success',
+        })
+      })
+      .catch((error) => {
+        toast({
+          title: 'Project Update Failed!',
+          description: error.message,
+          status: 'error',
+        })
+      })
+  }, [project])
 
   return (
-    <Form
-      method="PUT"
-      onError={
-        () => {
-          toast({
-            title: 'Project Update Failed!',
-            description: 'Your project name update failed!',
-            status: 'error',
-          })
-        }
-      }
-      onSuccess={
-        () => {
-          toast({
-            title: 'Project Updated!',
-            description: 'Your project name has been updated!',
-            status: 'success',
-          })
-        }
-      }
-    >
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Card
         content={
           (
             <Box>
               <Text mb="2">{t('projectDescription')}</Text>
-
-              <input
-                defaultValue={project?.id}
-                name="id"
-                type="hidden"
-              />
 
               <FormControl isInvalid={!!errors.name}>
                 <Input
@@ -140,7 +115,7 @@ const SettingsProjectName: FC<CommonProps> = ({ project }) => {
         }
         title={t('projectName')}
       />
-    </Form>
+    </form>
   )
 }
 
@@ -242,8 +217,13 @@ const SettingsProjectUsers: FC<CommonProps> = ({ project }) => {
 const Settings: NextPage = () => {
   const t = useTranslations('Settings')
   const { projectId } = useCurrentProject()
-  const { data: project } = useSWR<Project>(`/api/projects/${projectId}`)
-  const loading = useMemo(() => !project, [project])
+  const { data: project, isLoading } = useQuery(
+    () => serviceGetProjectWithUsers(projectId!),
+    {
+      enabled: !!projectId,
+      deps: [projectId],
+    },
+  )
 
   return (
     <Box>
@@ -255,19 +235,19 @@ const Settings: NextPage = () => {
         gap="12"
         py="12"
       >
-        <Skeleton isLoaded={!loading}>
+        <Skeleton isLoaded={!isLoading}>
           <SettingsProjectName
             project={project}
           />
         </Skeleton>
 
-        <Skeleton isLoaded={!loading}>
+        <Skeleton isLoaded={!isLoading}>
           <SettingsProjectApiKey
             project={project}
           />
         </Skeleton>
 
-        <Skeleton isLoaded={!loading}>
+        <Skeleton isLoaded={!isLoading}>
           <SettingsProjectUsers
             project={project}
           />

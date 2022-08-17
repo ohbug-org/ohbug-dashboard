@@ -8,6 +8,7 @@ import ThemeBox from '~/components/themeBox'
 import Wrapper from '~/components/wrapper'
 import CardSection from '~/components/cardSection'
 import { useInfinite } from '~/hooks/useInfinite'
+import { serviceGetEventsByIssueId } from '~/services/events'
 
 interface Props {
   issue: Issue
@@ -15,7 +16,13 @@ interface Props {
 
 const IssueRelatedEvents: FC<Props> = ({ issue }) => {
   const ct = useTranslations('Common')
-  const { data: events, isLoading, size, setSize, isReachingEnd } = useInfinite<Event>(index => `/api/events?issueId=${issue.id}&page=${index + 1}`)
+  const { data: events, isLoading, size, setSize, isReachingEnd } = useInfinite<Event>(
+    index => serviceGetEventsByIssueId({ issueId: issue.id, page: index + 1 }),
+    {
+      enabled: issue.id !== undefined,
+      deps: [issue.id],
+    },
+  )
 
   return (
     <ThemeBox bg="gray">

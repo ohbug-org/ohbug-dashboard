@@ -1,35 +1,45 @@
-import { Box } from '@chakra-ui/react'
-import type { NextPage } from 'next'
-import { useCallback, useMemo } from 'react'
+import { Box, useToast } from '@chakra-ui/react'
+import type { GetServerSideProps, NextPage } from 'next'
+import { useCallback } from 'react'
 import type { OmitAlert } from 'common'
 import { useRouter } from 'next/router'
-import useSWR from 'swr'
 import Card from '~/components/card'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
-import useCurrentProject from '~/hooks/useCurrentProject'
 import EditAlert from '~/components/editAlert'
-import Loading from '~/components/loading'
+import { serviceGetAlert, serviceUpdateAlert } from '~/services/alerts'
 
-const Edit: NextPage = () => {
+interface Props {
+  alert: OmitAlert
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
+  const alertId = parseInt(context.query.alertId as string)
+  const alert = (await serviceGetAlert({ id: alertId })) as unknown as OmitAlert
+  return { props: { alert } }
+}
+
+const Edit: NextPage<Props> = ({ alert }) => {
   const router = useRouter()
-  const { projectId } = useCurrentProject()
-  const { data } = useSWR(router.query.alertId ? `/api/alerts/${router.query.alertId}` : null)
-  const loading = useMemo(() => !data, [data])
-  const onSubmit = useCallback((data: OmitAlert) => {
-    fetch(
-      `/api/alerts/${router.query.alertId}`,
-      {
-        method: 'PUT',
-        body: JSON.stringify({ ...data, projectId }),
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      },
-    )
-      .then(res => res.json())
-      .then((alert) => {
-        if (alert) router.back()
+  const toast = useToast()
+  const onSubmit = useCallback((value: OmitAlert) => {
+    serviceUpdateAlert(parseInt(router.query.alertId as string), value)
+      .then(() => {
+        toast({
+          title: 'Alert Edited!',
+          description: 'Your alert has been edited!',
+          status: 'success',
+        })
+        router.back()
       })
-  }, [projectId, router.query.alertId])
+      .catch((error) => {
+        toast({
+          title: 'Alert Edit Error',
+          description: error.message,
+          status: 'error',
+        })
+      })
+  }, [router.query.alertId])
 
   return (
     <Box>
@@ -42,16 +52,10 @@ const Edit: NextPage = () => {
         py="12"
       >
         <Card>
-          {
-            loading
-              ? <Loading />
-              : (
-                <EditAlert
-                  alert={data}
-                  onSubmit={onSubmit}
-                />
-              )
-          }
+          <EditAlert
+            alert={alert}
+            onSubmit={onSubmit}
+          />
         </Card>
       </Wrapper>
     </Box>

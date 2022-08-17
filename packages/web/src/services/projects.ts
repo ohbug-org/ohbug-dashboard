@@ -7,9 +7,9 @@ export async function serviceGetProject(id: number) {
   return getPrisma().project.findUniqueOrThrow({ where: { id } })
 }
 
-export async function serviceGetProjectWithUsers(id: number) {
+export async function serviceGetProjectWithUsers(projectId: number) {
   const data = await getPrisma().project.findUniqueOrThrow({
-    where: { id },
+    where: { id: projectId },
     include: { users: { include: { user: true } } },
   })
   const members = data.users.map(item => item.user)
@@ -31,7 +31,11 @@ export async function serviceGetProjectsWithEventCount(user: User): Promise<Proj
   const projects = await serviceGetProjects(user)
   const projectWithEventCounts = []
   for (const project of projects) {
-    const eventCount = await serviceGetProjectEventsCount(project.id)
+    let eventCount = 0
+    try {
+      eventCount = await getPrisma().event.count({ where: { apiKey: project.apiKey } })
+    }
+    catch (_) {}
     projectWithEventCounts.push({
       ...project,
       eventCount,
@@ -96,11 +100,4 @@ export async function serviceGetProjectTrends({ id, type }: ServiceGetProjectTre
       count: 0,
     }
   })
-}
-
-export async function serviceGetProjectEventsCount(id: number) {
-  const project = await serviceGetProject(id)
-
-  const apiKey = project.apiKey
-  return getPrisma().event.count({ where: { apiKey } })
 }

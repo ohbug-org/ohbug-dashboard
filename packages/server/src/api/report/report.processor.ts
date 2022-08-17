@@ -1,7 +1,7 @@
 import { InjectQueue, OnQueueError, Process, Processor } from '@nestjs/bull'
 import type { Job, Queue } from 'bull'
 import type { Prisma } from '@prisma/client'
-import type { CreateEventParams, CreateFeedbackParams, CreateMetricParams, GetAlertStatusParams } from './report.interface'
+import type { CreateEventParams, CreateFeedbackParams, CreateMetricParams, CreateViewParams, GetAlertStatusParams } from './report.interface'
 import { ForbiddenException, PrismaService } from '~/common'
 
 @Processor('document')
@@ -139,6 +139,56 @@ export class ReportProcessor {
     }
   }
 
+  async CreatePageView({ view }: CreateViewParams) {
+    try {
+      return this.prisma.pageView.create({
+        data: {
+          apiKey: view.apiKey,
+          appVersion: view.appVersion,
+          appType: view.appType,
+          releaseStage: view.releaseStage,
+          timestamp: view.timestamp,
+          category: view.category,
+          type: view.type,
+          sdk: view.sdk as unknown as Prisma.InputJsonObject,
+          device: view.device as Prisma.InputJsonObject,
+          path: view.detail.path,
+          user: view.user as Prisma.InputJsonObject,
+          actions: view.actions as unknown as Prisma.InputJsonArray,
+          metadata: view.metadata,
+        },
+      })
+    }
+    catch (error) {
+      throw new ForbiddenException(4001006, error)
+    }
+  }
+
+  async CreateUserView({ view }: CreateViewParams) {
+    try {
+      return this.prisma.userView.create({
+        data: {
+          apiKey: view.apiKey,
+          appVersion: view.appVersion,
+          appType: view.appType,
+          releaseStage: view.releaseStage,
+          timestamp: view.timestamp,
+          category: view.category,
+          type: view.type,
+          sdk: view.sdk as unknown as Prisma.InputJsonObject,
+          device: view.device as Prisma.InputJsonObject,
+          path: view.detail.path,
+          user: view.user as Prisma.InputJsonObject,
+          actions: view.actions as unknown as Prisma.InputJsonArray,
+          metadata: view.metadata,
+        },
+      })
+    }
+    catch (error) {
+      throw new ForbiddenException(4001007, error)
+    }
+  }
+
   @Process('event')
   async handleEvent(job: Job) {
     try {
@@ -178,7 +228,7 @@ export class ReportProcessor {
       }
     }
     catch (error) {
-      throw new ForbiddenException(4001002, error)
+      throw new ForbiddenException(4001003, error)
     }
   }
 
@@ -222,7 +272,51 @@ export class ReportProcessor {
       }
     }
     catch (error) {
-      throw new ForbiddenException(4001004, error)
+      throw new ForbiddenException(4001005, error)
+    }
+  }
+
+  @Process('pageView')
+  async handlePageView(job: Job) {
+    try {
+      const data = job.data as CreateViewParams
+
+      if (data) {
+        const apiKey = data.view.apiKey
+        const project = await this.prisma.project.findUniqueOrThrow({ where: { apiKey } })
+
+        if (project) {
+          await this.CreatePageView(data)
+        }
+        else {
+          throw new Error(`Project not found for apiKey: ${apiKey}`)
+        }
+      }
+    }
+    catch (error) {
+      throw new ForbiddenException(4001006, error)
+    }
+  }
+
+  @Process('userView')
+  async handleUserView(job: Job) {
+    try {
+      const data = job.data as CreateViewParams
+
+      if (data) {
+        const apiKey = data.view.apiKey
+        const project = await this.prisma.project.findUniqueOrThrow({ where: { apiKey } })
+
+        if (project) {
+          await this.CreateUserView(data)
+        }
+        else {
+          throw new Error(`Project not found for apiKey: ${apiKey}`)
+        }
+      }
+    }
+    catch (error) {
+      throw new ForbiddenException(4001007, error)
     }
   }
 

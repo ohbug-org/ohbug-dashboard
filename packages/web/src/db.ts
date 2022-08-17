@@ -1,13 +1,15 @@
 import { PrismaClient } from '@prisma/client'
-import { getConfig } from 'config'
 
 declare global {
   // eslint-disable-next-line vars-on-top,no-var
   var __db__: PrismaClient
 }
 
-function getClient() {
-  const databaseUrl = new URL(getConfig().db.postgres.url)
+/**
+ * server
+ */
+function createClient() {
+  const databaseUrl = new URL(process.env.DATABASE_URL)
 
   const isLocalHost = databaseUrl.hostname === 'localhost'
 
@@ -32,10 +34,118 @@ function getClient() {
   return client
 }
 
-export function getPrisma() {
-  if (!global.__db__) {
-    global.__db__ = getClient()
+/**
+ * client
+ */
+function handleFetch(link: any[]) {
+  const isOperate = link.length === 3
+  const isMethod = link.length === 2
+  let table = ''
+  let operate = ''
+  let method = ''
+  let data = ''
+  if (isOperate) {
+    table = link[0]
+    operate = link[1]
+    data = link[2]
+    const body = {
+      operate,
+      data,
+    }
+    return fetch(
+      `/api/prisma/${table}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      },
+    )
+      .then(res => res.json())
+      .then((res) => {
+        if (res.success) {
+          return res.data
+        }
+        throw new Error(res.errorMessage)
+      })
   }
+  else if (isMethod) {
+    method = link[0]
+    data = link[1]
+    const body = { data }
+    return fetch(
+      `/api/prisma/${method}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      },
+    )
+      .then(res => res.json())
+      .then((res) => {
+        if (res.success) {
+          return res.data
+        }
+        throw new Error(res.errorMessage)
+      })
+  }
+}
+const operates = [
+  'findUnique',
+  'findUniqueOrThrow',
+  'findFirst',
+  'findFirstOrThrow',
+  'findMany',
+  'create',
+  'update',
+  'upsert',
+  'delete',
+  'createMany',
+  'updateMany',
+  'deleteMany',
+  'count',
+  'aggregate',
+  'groupBy',
 
-  return global.__db__
+]
+const methods = [
+  '$queryRaw',
+  '$queryRawUnsafe',
+]
+function createProxy<T extends Object>(target: T, tempLink: any[] = []): T {
+  return new Proxy(target, {
+    get(_target, prop: string) {
+      if (!prop.includes('$')) {
+        tempLink.push(prop)
+      }
+      if (operates.includes(prop)) {
+        return async(args: any) => {
+          tempLink.push(args)
+          const result = await handleFetch(tempLink)
+          tempLink.length = 0
+          return result
+        }
+      }
+      if (methods.includes(prop)) {
+        tempLink.push(prop)
+        return async(args: any) => {
+          tempLink.push(args)
+          const result = await handleFetch(tempLink)
+          tempLink.length = 0
+          return result
+        }
+      }
+      return createProxy<T>({} as T, tempLink)
+    },
+  })
+}
+
+export function getPrisma() {
+  if (typeof window === 'undefined') {
+    if (!global.__db__) {
+      global.__db__ = createClient()
+    }
+    return global.__db__
+  }
+  const tempLink: any[] = []
+  return createProxy({} as PrismaClient, tempLink)
 }

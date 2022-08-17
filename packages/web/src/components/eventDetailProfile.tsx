@@ -11,10 +11,10 @@ import CardSection from './cardSection'
 import { getDeviceInfo } from '~/libs/utils'
 
 interface Props {
-  event: OhbugEventLike
+  event: OhbugEventLike | any
 }
 
-const IssueDetailProfile: FC<Props> = ({ event }) => {
+const EventDetailProfile: FC<Props> = ({ event }) => {
   const t = useTranslations('Event')
   const deviceInfo = useMemo(() => getDeviceInfo(event), [event])
   const tagList = useMemo(() => {
@@ -112,14 +112,16 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
       <Wrapper>
         <CardSection
           head={
-            (
-              <Link
-                href={`/api/events/${event.id}`}
-                isExternal
-              >
+            event.category === 'error'
+              ? (
+                <Link
+                  href={`/api/events/${event.id}`}
+                  isExternal
+                >
                 JSON Raw {event.id}
-              </Link>
-            )
+                </Link>
+              )
+              : null
           }
           title="Event Environment"
         >
@@ -211,4 +213,4 @@ const IssueDetailProfile: FC<Props> = ({ event }) => {
   )
 }
 
-export default IssueDetailProfile
+export default EventDetailProfile
