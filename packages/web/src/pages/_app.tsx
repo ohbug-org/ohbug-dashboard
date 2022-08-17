@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
 import { SessionProvider, useSession } from 'next-auth/react'
-import { SWRConfig } from 'swr'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { NextIntlProvider } from 'next-intl'
@@ -80,21 +79,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     >
       <SessionProvider session={pageProps.session}>
         <Controller>
-          <SWRConfig
-            value={{ fetcher: (resource, init) => fetch(resource, init).then(res => res.json()) }}
+          <ChakraProvider
+            resetCSS
+            theme={theme}
           >
-            <ChakraProvider
-              resetCSS
-              theme={theme}
-            >
-              <TopProgressBar />
-              {
-                Component.getLayout
-                  ? Component.getLayout(<Component {...pageProps} />)
-                  : <Layout><Component {...pageProps} /></Layout>
-              }
-            </ChakraProvider>
-          </SWRConfig>
+            <TopProgressBar />
+            {
+              Component.getLayout
+                ? Component.getLayout(<Component {...pageProps} />)
+                : <Layout><Component {...pageProps} /></Layout>
+            }
+          </ChakraProvider>
         </Controller>
       </SessionProvider>
     </NextIntlProvider>
