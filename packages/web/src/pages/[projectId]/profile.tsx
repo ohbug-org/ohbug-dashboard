@@ -81,7 +81,10 @@ const Trend: FC<{ trends: Props['trends'] }> = ({ trends }) => {
 const Events: FC<{ project: Props['project'] }> = ({ project }) => {
   const { data, size, setSize, isLoading, isReachingEnd } = useInfinite<Event>(
     index => serviceGetEventByProjectId({ projectId: project.id, page: index + 1 }),
-    { enabled: project.id !== undefined },
+    {
+      enabled: project.id !== undefined,
+      deps: [project.id],
+    },
   )
 
   return (

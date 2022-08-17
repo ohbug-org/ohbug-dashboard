@@ -20,7 +20,10 @@ const Releases: NextPage = () => {
       page: index + 1,
       projectId: projectId!,
     }),
-    { enabled: projectId !== undefined },
+    {
+      enabled: projectId !== undefined,
+      deps: [projectId],
+    },
   )
 
   return (

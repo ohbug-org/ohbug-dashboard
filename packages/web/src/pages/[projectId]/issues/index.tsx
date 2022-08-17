@@ -17,7 +17,11 @@ const Issues: NextPage = () => {
       page: index + 1,
       projectId: projectId!,
     }),
-    { enabled: projectId !== undefined },
+    {
+      enabled: projectId !== undefined,
+      deps: [projectId],
+      pagination: true,
+    },
   )
 
   return (

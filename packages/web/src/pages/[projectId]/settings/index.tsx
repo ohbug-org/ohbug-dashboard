@@ -217,11 +217,13 @@ const SettingsProjectUsers: FC<CommonProps> = ({ project }) => {
 const Settings: NextPage = () => {
   const t = useTranslations('Settings')
   const { projectId } = useCurrentProject()
-  const { data: project } = useQuery(
+  const { data: project, isLoading } = useQuery(
     () => serviceGetProjectWithUsers(projectId!),
-    { enabled: !!projectId },
+    {
+      enabled: !!projectId,
+      deps: [projectId],
+    },
   )
-  const loading = useMemo(() => !project, [project])
 
   return (
     <Box>
@@ -233,19 +235,19 @@ const Settings: NextPage = () => {
         gap="12"
         py="12"
       >
-        <Skeleton isLoaded={!loading}>
+        <Skeleton isLoaded={!isLoading}>
           <SettingsProjectName
             project={project}
           />
         </Skeleton>
 
-        <Skeleton isLoaded={!loading}>
+        <Skeleton isLoaded={!isLoading}>
           <SettingsProjectApiKey
             project={project}
           />
         </Skeleton>
 
-        <Skeleton isLoaded={!loading}>
+        <Skeleton isLoaded={!isLoading}>
           <SettingsProjectUsers
             project={project}
           />

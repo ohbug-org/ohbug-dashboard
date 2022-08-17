@@ -51,17 +51,12 @@ export function useQuery<T = any>(
         }
         return err
       })
-  }, [fn])
+  }, [fn, ...deps])
   useEffect(() => {
     if (enabled) {
       mutate()
     }
-  }, [enabled])
-  useEffect(() => {
-    if (enabled) {
-      mutate()
-    }
-  }, [...deps, enabled])
+  }, [enabled, ...deps])
 
   return {
     ...state,

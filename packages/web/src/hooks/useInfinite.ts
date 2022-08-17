@@ -10,15 +10,18 @@ interface State<T> {
 }
 interface Options {
   enabled: boolean
+  deps?: any[]
+  pagination?: boolean
 }
-
+const initialState: State<any> = { isLoading: false, size: 0 }
 export function useInfinite<T = any>(
   keyLoading: (index: number) => (Promise<T[]>),
   options?: Options,
 ) {
-  const { enabled = true } = options ?? {}
+  const { enabled = true, deps = [], pagination = false } = options ?? {}
   const lastCallId = useRef(0)
-  const [state, set] = useState<State<T>>({ isLoading: false, size: 0 })
+  const [state, set] = useState<State<T>>(initialState)
+  const reset = useCallback(() => set(initialState), [])
   const mutate = useCallback(() => {
     const callId = ++lastCallId.current
     set(prevState => ({
@@ -29,7 +32,11 @@ export function useInfinite<T = any>(
       .then((res) => {
         callId === lastCallId.current && set(prevState => ({
           ...prevState,
-          data: prevState.data ? [...prevState.data, ...res] : res,
+          data: !pagination
+            ? prevState.data
+              ? [...prevState.data, ...res]
+              : res
+            : res,
           result: prevState.result ? [...prevState.result, res] : [res],
           isLoading: false,
         }))
@@ -43,12 +50,13 @@ export function useInfinite<T = any>(
         }))
         return err
       })
-  }, [keyLoading, state.size])
+  }, [keyLoading, state.size, pagination, ...deps])
   useEffect(() => {
     if (enabled) {
       mutate()
     }
-  }, [enabled, state.size])
+  }, [enabled, state.size, ...deps])
+  useEffect(() => reset(), deps)
   const isEmpty = useMemo(() => state.result?.[0]?.length === 0, [state.result])
   const isReachingEnd = useMemo(
     () => isEmpty || (state.result && state.result[state.result.length - 1]?.length < PAGE_SIZE),
@@ -61,6 +69,7 @@ export function useInfinite<T = any>(
   return {
     ...state,
     setSize,
+    reset,
     isEmpty,
     isReachingEnd,
     mutate,

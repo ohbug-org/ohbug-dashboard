@@ -18,7 +18,10 @@ const IssueRelatedEvents: FC<Props> = ({ issue }) => {
   const ct = useTranslations('Common')
   const { data: events, isLoading, size, setSize, isReachingEnd } = useInfinite<Event>(
     index => serviceGetEventsByIssueId({ issueId: issue.id, page: index + 1 }),
-    { enabled: issue.id !== undefined },
+    {
+      enabled: issue.id !== undefined,
+      deps: [issue.id],
+    },
   )
 
   return (

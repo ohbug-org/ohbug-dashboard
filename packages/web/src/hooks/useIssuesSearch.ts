@@ -28,7 +28,10 @@ export function useIssuesSearch(query: string) {
       projectId: projectId!,
       query: debouncedQuery,
     }),
-    { enabled: !!(projectId && debouncedQuery && !isAction) },
+    {
+      enabled: !!(projectId && debouncedQuery && !isAction),
+      deps: [projectId, debouncedQuery],
+    },
   )
 
   return {
