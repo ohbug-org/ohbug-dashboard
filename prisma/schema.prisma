@@ -44,8 +44,6 @@ model Metric {
   sdk          Json
   device       Json
   user         Json?
-  actions      Json?
-  metadata     Json?
   createdAt    DateTime @default(now()) @db.Timestamp
   CLS          Float?
   FCP          Float?
@@ -70,8 +68,6 @@ model Feedback {
   detail       Json
   device       Json
   user         Json?
-  actions      Json?
-  metadata     Json?
   createdAt    DateTime @default(now()) @db.Timestamp
 
   @@index([apiKey])
@@ -91,8 +87,6 @@ model PageView {
   device       Json
   path         String
   user         Json?
-  actions      Json?
-  metadata     Json?
   createdAt    DateTime @default(now()) @db.Timestamp
 
   @@index([apiKey])
@@ -112,8 +106,6 @@ model UserView {
   device       Json
   path         String
   user         Json?
-  actions      Json?
-  metadata     Json?
   createdAt    DateTime @default(now()) @db.Timestamp
 
   @@index([apiKey])
