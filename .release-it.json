@@ -6,6 +6,7 @@
     "@release-it/conventional-changelog": {
       "preset": "angular",
       "infile": "CHANGELOG.md"
-    }
+    },
+    "./scripts/release-it-deploy": {}
   }
 }
