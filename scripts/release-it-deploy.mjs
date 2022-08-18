@@ -12,7 +12,7 @@ docker buildx build --platform linux/amd64,linux/arm64 -t ${imageName}
 
 echo Successfully released ${name}
 `
-    writeFileSync('./buildDockerImage.sh', raw, {
+    writeFileSync('./scripts/buildDockerImage.sh', raw, {
       encoding: 'utf8',
       mode: 0o755,
     })
