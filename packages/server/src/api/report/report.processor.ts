@@ -30,7 +30,6 @@ export class ReportProcessor {
           sdk: event.sdk as unknown as Prisma.InputJsonObject,
           detail: event.detail as Prisma.InputJsonValue,
           device: event.device as Prisma.InputJsonObject,
-          user: event.user as Prisma.InputJsonObject,
           actions: event.actions as unknown as Prisma.InputJsonArray,
           metadata: event.metadata,
           issue: {
@@ -66,6 +65,16 @@ export class ReportProcessor {
               },
             },
           },
+          user: {
+            connectOrCreate: {
+              where: { id: userIntro },
+              create: {
+                ...event.user,
+                id: userIntro,
+                ipAddress: event.user.ipAddress!,
+              },
+            },
+          },
         },
         include: { issue: true },
       })
@@ -85,7 +94,7 @@ export class ReportProcessor {
     }
   }
 
-  async CreateMetric({ metric }: CreateMetricParams) {
+  async CreateMetric({ metric, userIntro }: CreateMetricParams) {
     try {
       return this.prisma.metric.create({
         data: {
@@ -98,14 +107,21 @@ export class ReportProcessor {
           type: metric.type,
           sdk: metric.sdk as unknown as Prisma.InputJsonObject,
           device: metric.device as Prisma.InputJsonObject,
-          user: metric.user as Prisma.InputJsonObject,
-          actions: metric.actions as unknown as Prisma.InputJsonArray,
-          metadata: metric.metadata,
           CLS: metric.detail.CLS,
           FCP: metric.detail.FCP,
           FID: metric.detail.FID,
           LCP: metric.detail.LCP,
           TTFB: metric.detail.TTFB,
+          user: {
+            connectOrCreate: {
+              where: { id: userIntro },
+              create: {
+                ...metric.user,
+                id: userIntro,
+                ipAddress: metric.user.ipAddress!,
+              },
+            },
+          },
         },
       })
     }
@@ -114,7 +130,7 @@ export class ReportProcessor {
     }
   }
 
-  async CreateFeedback({ feedback }: CreateFeedbackParams) {
+  async CreateFeedback({ feedback, userIntro }: CreateFeedbackParams) {
     try {
       return this.prisma.feedback.create({
         data: {
@@ -128,9 +144,16 @@ export class ReportProcessor {
           sdk: feedback.sdk as unknown as Prisma.InputJsonObject,
           detail: feedback.detail as Prisma.InputJsonValue,
           device: feedback.device as Prisma.InputJsonObject,
-          user: feedback.user as Prisma.InputJsonObject,
-          actions: feedback.actions as unknown as Prisma.InputJsonArray,
-          metadata: feedback.metadata,
+          user: {
+            connectOrCreate: {
+              where: { id: userIntro },
+              create: {
+                ...feedback.user,
+                id: userIntro,
+                ipAddress: feedback.user.ipAddress!,
+              },
+            },
+          },
         },
       })
     }
@@ -139,7 +162,7 @@ export class ReportProcessor {
     }
   }
 
-  async CreatePageView({ view }: CreateViewParams) {
+  async CreatePageView({ view, userIntro }: CreateViewParams) {
     try {
       return this.prisma.pageView.create({
         data: {
@@ -153,9 +176,16 @@ export class ReportProcessor {
           sdk: view.sdk as unknown as Prisma.InputJsonObject,
           device: view.device as Prisma.InputJsonObject,
           path: view.detail.path,
-          user: view.user as Prisma.InputJsonObject,
-          actions: view.actions as unknown as Prisma.InputJsonArray,
-          metadata: view.metadata,
+          user: {
+            connectOrCreate: {
+              where: { id: userIntro },
+              create: {
+                ...view.user,
+                id: userIntro,
+                ipAddress: view.user.ipAddress!,
+              },
+            },
+          },
         },
       })
     }
@@ -164,7 +194,7 @@ export class ReportProcessor {
     }
   }
 
-  async CreateUserView({ view }: CreateViewParams) {
+  async CreateUserView({ view, userIntro }: CreateViewParams) {
     try {
       return this.prisma.userView.create({
         data: {
@@ -178,9 +208,16 @@ export class ReportProcessor {
           sdk: view.sdk as unknown as Prisma.InputJsonObject,
           device: view.device as Prisma.InputJsonObject,
           path: view.detail.path,
-          user: view.user as Prisma.InputJsonObject,
-          actions: view.actions as unknown as Prisma.InputJsonArray,
-          metadata: view.metadata,
+          user: {
+            connectOrCreate: {
+              where: { id: userIntro },
+              create: {
+                ...view.user,
+                id: userIntro,
+                ipAddress: view.user.ipAddress!,
+              },
+            },
+          },
         },
       })
     }

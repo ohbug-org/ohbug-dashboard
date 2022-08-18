@@ -33,6 +33,11 @@
     "getClientSetting": "Get Client ID/Secret?",
     "bootstrap": "Bootstrap"
   },
+  "Profile": {
+    "pv": "PageView",
+    "uv": "UserView",
+    "activeUser": "ActiveUser"
+  },
   "Issues": {
     "Empty": {
       "gettingStarted": "Haven't integrated the SDK into your project yet? Click the button below to start the integration!",

@@ -20,10 +20,11 @@ model Event {
   sdk          Json
   detail       Json
   device       Json
-  user         Json?
   actions      Json?
   metadata     Json?
   createdAt    DateTime     @default(now()) @db.Timestamp
+  userId       String
+  user         EventUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
   issueId      String
   issue        Issue        @relation(fields: [issueId], references: [id], onDelete: Cascade)
   alertEvents  AlertEvent[]
@@ -43,13 +44,14 @@ model Metric {
   type         String
   sdk          Json
   device       Json
-  user         Json?
-  createdAt    DateTime @default(now()) @db.Timestamp
   CLS          Float?
   FCP          Float?
   FID          Float?
   LCP          Float?
   TTFB         Float?
+  createdAt    DateTime @default(now()) @db.Timestamp
+  userId       String
+  user         EventUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([apiKey])
   @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
@@ -67,8 +69,9 @@ model Feedback {
   sdk          Json
   detail       Json
   device       Json
-  user         Json?
   createdAt    DateTime @default(now()) @db.Timestamp
+  userId       String
+  user         EventUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([apiKey])
   @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
@@ -86,8 +89,9 @@ model PageView {
   sdk          Json
   device       Json
   path         String
-  user         Json?
   createdAt    DateTime @default(now()) @db.Timestamp
+  userId       String
+  user         EventUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([apiKey])
   @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
@@ -105,8 +109,9 @@ model UserView {
   sdk          Json
   device       Json
   path         String
-  user         Json?
   createdAt    DateTime @default(now()) @db.Timestamp
+  userId       String
+  user         EventUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([apiKey])
   @@index([createdAt(ops: TimestampBloomOps)], type: Brin)
@@ -137,6 +142,11 @@ model EventUser {
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
   issues    EventUsersOnIssues[]
+  events    Event[]
+  metrics   Metric[]
+  feedbacks Feedback[]
+  pageViews PageView[]
+  userViews UserView[]
 }
 
 model EventUsersOnIssues {

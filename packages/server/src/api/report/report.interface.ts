@@ -44,14 +44,17 @@ export interface CreateEventParams {
 
 export interface CreateMetricParams {
   metric: OhbugEventLike
+  userIntro: string
 }
 
 export interface CreateFeedbackParams {
   feedback: OhbugEventLike
+  userIntro: string
 }
 
 export interface CreateViewParams {
   view: OhbugEventLike
+  userIntro: string
 }
 
 export interface GetAlertStatusParams {

@@ -33,6 +33,11 @@
     "getClientSetting": "获取 Client ID/Secret?",
     "bootstrap": "创建"
   },
+  "Profile": {
+    "pv": "浏览量",
+    "uv": "访客数",
+    "activeUser": "活跃用户"
+  },
   "Issues": {
     "Empty": {
       "gettingStarted": "还没有集成 SDK 到你的项目？ 点击下面的按钮，开始集成！",

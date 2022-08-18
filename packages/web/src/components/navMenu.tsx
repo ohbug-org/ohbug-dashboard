@@ -17,6 +17,11 @@ const NavMenu: FC = () => {
   const { projectId } = useCurrentProject()
   const navMenuList = useMemo<NavMenuItem[]>(() => [
     {
+      label: 'Profile',
+      link: '/[projectId]/profile',
+      as: `/${projectId}/profile`,
+    },
+    {
       label: 'Issues',
       link: '/[projectId]/issues',
       as: `/${projectId}/issues`,

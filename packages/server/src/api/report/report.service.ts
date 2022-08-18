@@ -65,8 +65,7 @@ export class ReportService {
       const { agg, metadata }
         = switchErrorDetailAndGetAggregationDataAndMetaData(type, detail)
       const issueIntro = getMd5FromAggregationData(apiKey, ...agg)
-      const userIntro = getMd5FromAggregationData(apiKey, ...Object.values(event.user))
-      return { issueIntro, userIntro, metadata }
+      return { issueIntro, metadata }
     }
     catch (error) {
       throw new ForbiddenException(4001001, error)
@@ -84,8 +83,9 @@ export class ReportService {
       if (typeof event === 'string') event = JSON.parse(event)
       const filteredEvent = this.filterEvent(event as OhbugEvent<any>)
       const eventLike = this.transferEvent(filteredEvent, ip)
+      const userIntro = getMd5FromAggregationData(eventLike.apiKey, ...Object.values(eventLike.user))
       if (eventLike.category === 'performance') {
-        const createMetricParams: CreateMetricParams = { metric: eventLike }
+        const createMetricParams: CreateMetricParams = { metric: eventLike, userIntro }
 
         await this.documentQueue.add(
           'metric',
@@ -98,7 +98,7 @@ export class ReportService {
         )
       }
       else if (eventLike.category === 'feedback') {
-        const createFeedbackParams: CreateFeedbackParams = { feedback: eventLike }
+        const createFeedbackParams: CreateFeedbackParams = { feedback: eventLike, userIntro }
         await this.documentQueue.add(
           'feedback',
           createFeedbackParams,
@@ -110,7 +110,7 @@ export class ReportService {
         )
       }
       else if (eventLike.category === 'view') {
-        const createViewParams: CreateViewParams = { view: eventLike }
+        const createViewParams: CreateViewParams = { view: eventLike, userIntro }
         if (eventLike.type === 'pageView') {
           await this.documentQueue.add(
             'pageView',
@@ -138,6 +138,7 @@ export class ReportService {
         const aggregationEvent = this.aggregation(eventLike)
         const createEventParams: CreateEventParams = {
           event: eventLike,
+          userIntro,
           ...aggregationEvent,
         }
 
