@@ -8,7 +8,7 @@ class Deploy extends Plugin {
     const name = `${imageName}:${tagName}`
     const raw = `#!/bin/sh
 
-docker buildx build --platform linux/amd64,linux/arm64 -t ${name} -t ${imageName}:latest .`
+docker buildx build --platform linux/amd64,linux/arm64 -t ${name} -t ${imageName}:latest --push .`
     writeFileSync('./scripts/buildDockerImage.sh', raw, {
       encoding: 'utf8',
       mode: 0o777,
