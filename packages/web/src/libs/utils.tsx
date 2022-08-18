@@ -5,7 +5,7 @@ import { Text } from '@chakra-ui/react'
 import { RiBugFill, RiCursorFill, RiGift2Fill, RiLoader2Fill, RiRouterFill, RiTerminalBoxFill } from 'react-icons/ri'
 import type { IconType } from 'react-icons'
 
-export function renderStringOrJson(value: any) {
+export function renderStringOrJson(value?: any) {
   return typeof value === 'string'
     ? value
     : JSON.stringify(value)

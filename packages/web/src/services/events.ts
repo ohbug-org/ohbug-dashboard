@@ -10,13 +10,19 @@ interface ServiceGetEventParams {
 }
 export async function serviceGetEvent({ id, issueId }: ServiceGetEventParams) {
   if (id) {
-    const event = getPrisma().event.findUniqueOrThrow({ where: { id } }) as unknown as OhbugEventLike
+    const event = getPrisma().event.findUniqueOrThrow({
+      where: { id },
+      include: { user: true },
+    }) as unknown as OhbugEventLike
     const source = await serviceGetEventSource(event)
     return { ...event, source }
   }
   if (issueId) {
     const event = (
-      await getPrisma().event.findFirstOrThrow({ where: { issueId } })
+      await getPrisma().event.findFirstOrThrow({
+        where: { issueId },
+        include: { user: true },
+      })
     ) as unknown as OhbugEventLike
     const source = await serviceGetEventSource(event)
     return { ...event, source }
@@ -36,6 +42,7 @@ export async function serviceGetEventsByIssueId({
   return getPrisma().event.findMany({
     where: { issueId },
     ...pagination({ page, pageSize }),
+    include: { user: true },
   })
 }
 

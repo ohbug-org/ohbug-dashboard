@@ -1,13 +1,13 @@
 import { Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
-import type { Feedback } from '@prisma/client'
+import type { EventUser, Feedback } from '@prisma/client'
 import NextLink from 'next/link'
 import { renderStringOrJson } from '~/libs/utils'
 import useCurrentProject from '~/hooks/useCurrentProject'
 
 interface Props {
-  feedbacks?: Feedback[]
+  feedbacks?: (Feedback & { user: EventUser })[]
 }
 
 const FeedbacksList: FC<Props> = ({ feedbacks }) => {

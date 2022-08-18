@@ -50,7 +50,7 @@ const EventsList: FC<Props> = ({ events }) => {
                 {/* releaseStage */}
                 <Td>{event.releaseStage}</Td>
                 {/* user */}
-                <Td>{renderStringOrJson(event.user)}</Td>
+                <Td>{renderStringOrJson(('user' in event) ? event.user : '')}</Td>
                 {/* sdk */}
                 <Td>{renderStringOrJson(event.sdk)}</Td>
                 {/* device */}

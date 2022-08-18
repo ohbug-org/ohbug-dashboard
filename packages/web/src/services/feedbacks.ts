@@ -5,28 +5,26 @@ import { getPrisma } from '~/db'
 
 interface ServiceGetFeedbacksParams extends Pagination {
   projectId: number
-  query?: string
 }
 export async function serviceGetFeedbacks({
   projectId,
-  query,
   page = 0,
   pageSize = PAGE_SIZE,
 }: ServiceGetFeedbacksParams) {
   const project = await serviceGetProject(projectId)
-  const options: any = {
+  return getPrisma().feedback.findMany({
     where: { apiKey: project.apiKey },
     ...pagination({ page, pageSize }),
-  }
-  if (query) {
-    options.where.metadata = { search: query }
-  }
-  return getPrisma().feedback.findMany(options)
+    include: { user: true },
+  })
 }
 
 interface ServiceGetFeedbackParams {
   id: string
 }
 export function serviceGetFeedback({ id }: ServiceGetFeedbackParams) {
-  return getPrisma().feedback.findUniqueOrThrow({ where: { id } })
+  return getPrisma().feedback.findUniqueOrThrow({
+    where: { id },
+    include: { user: true },
+  })
 }
