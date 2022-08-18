@@ -1,5 +1,17 @@
 
 
+# [0.3.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.2.0...0.3.0) (2022-08-18)
+
+
+### Features
+
+* **prisma:** drop useless column ([49e586c](https://github.com/ohbug-org/ohbug-dashboard/commit/49e586cf42236a565cfc339effc1d5f20d971c5b))
+
+
+### Performance Improvements
+
+* change user table ([c697710](https://github.com/ohbug-org/ohbug-dashboard/commit/c6977101e699aadf0d25a69ace339a577cb28b7a))
+
 # [0.2.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.1.3...0.2.0) (2022-08-17)
 
 
