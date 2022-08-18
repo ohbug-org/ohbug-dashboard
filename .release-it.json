@@ -7,6 +7,6 @@
       "preset": "angular",
       "infile": "CHANGELOG.md"
     },
-    "./scripts/release-it-deploy": {}
+    "./scripts/release-it-deploy.mjs": {}
   }
 }
