@@ -11,6 +11,6 @@
   },
   "hooks": {
     "before:init": ["npm run lint", "npm test"],
-    "after:release": "./scripts/buildDockerImage.sh"
+    "after:release": "sh ./scripts/buildDockerImage.sh"
   }
 }
