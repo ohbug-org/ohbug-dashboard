@@ -14,7 +14,7 @@ echo Successfully released ${name}
 `
     writeFileSync('./scripts/buildDockerImage.sh', raw, {
       encoding: 'utf8',
-      mode: 0o755,
+      mode: 0o777,
     })
   }
 }
