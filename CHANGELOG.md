@@ -1,5 +1,12 @@
 
 
+## [0.3.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.3.0...0.3.1) (2022-08-18)
+
+
+### Bug Fixes
+
+* **web:** user error ([86409f0](https://github.com/ohbug-org/ohbug-dashboard/commit/86409f0d81eefbee15b2c440f5f133b230eaf35e))
+
 # [0.3.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.2.0...0.3.0) (2022-08-18)
 
 
