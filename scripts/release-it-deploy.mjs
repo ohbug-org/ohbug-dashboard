@@ -2,7 +2,7 @@ import { writeFileSync } from 'fs'
 import { Plugin } from 'release-it'
 
 class Deploy extends Plugin {
-  afterRelease() {
+  beforeRelease() {
     const tagName = this.config.contextOptions.tagName || this.config.contextOptions.version || 'latest'
     const imageName = 'ohbug/ohbug-ce'
     const name = `${imageName}:${tagName}`
@@ -12,7 +12,10 @@ docker buildx build --platform linux/amd64,linux/arm64 -t ${imageName}
 
 echo Successfully released ${name}
 `
-    writeFileSync('./buildDockerImage.sh', raw, 'utf8')
+    writeFileSync('./buildDockerImage.sh', raw, {
+      encoding: 'utf8',
+      mode: 0o755,
+    })
   }
 }
 
