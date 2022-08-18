@@ -8,5 +8,9 @@
       "infile": "CHANGELOG.md"
     },
     "./scripts/release-it-deploy.mjs": {}
+  },
+  "hooks": {
+    "before:init": ["npm run lint", "npm test"],
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
   }
 }

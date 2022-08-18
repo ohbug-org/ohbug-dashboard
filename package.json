@@ -34,7 +34,7 @@
     "prepublishOnly": "pnpm run build",
     "lint": "pnpm -r run lint",
     "test": "pnpm -r run test",
-    "release": "pnpm run lint && release-it --no-npm.publish"
+    "release": "release-it --no-npm.publish"
   },
   "dependencies": {
     "@ohbug/browser": "^2.1.2",
