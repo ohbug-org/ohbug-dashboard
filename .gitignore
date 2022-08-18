@@ -5,6 +5,7 @@ build
 public/build
 .uploads
 tsconfig.tsbuildinfo
+buildDockerImage.sh
 
 # Logs
 logs
