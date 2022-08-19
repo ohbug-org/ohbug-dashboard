@@ -1,5 +1,7 @@
 
 
+## [0.3.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.3.1...0.3.2) (2022-08-19)
+
 ## [0.3.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.3.0...0.3.1) (2022-08-18)
 
 
