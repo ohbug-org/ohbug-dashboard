@@ -1,4 +1,4 @@
-import { Body, Controller, Ip, Post } from '@nestjs/common'
+import { Body, Controller, HttpCode, Ip, Post } from '@nestjs/common'
 import type { OhbugEvent } from '@ohbug/types'
 import { ReportService } from './report.service'
 
@@ -18,7 +18,8 @@ export class ReportController {
    * @param req
    */
   @Post()
+  @HttpCode(204)
   async receiveEventFromPost(@Body() event: OhbugEvent<any> | string, @Ip() ip: string) {
-    return this.reportService.handleEvent(event, ip)
+    this.reportService.handleEvent(event, ip)
   }
 }
