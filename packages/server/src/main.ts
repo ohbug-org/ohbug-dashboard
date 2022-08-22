@@ -8,6 +8,7 @@ import { WinstonModule } from 'nest-winston'
 import { contentParser } from 'fastify-multer'
 import dotenv from 'dotenv'
 import { AppModule } from './app.module'
+import { Cluster } from './cluster'
 import {
   AllExceptionsFilter,
   ForbiddenExceptionFilter,
@@ -33,8 +34,5 @@ async function bootstrap() {
   await app.listen(6660, '0.0.0.0')
   console.warn(`Application is running on: ${await app.getUrl()}`)
 }
-bootstrap()
-  .catch((error) => {
-    console.error(error)
-    process.exit(1)
-  })
+
+Cluster.register(4, bootstrap)
