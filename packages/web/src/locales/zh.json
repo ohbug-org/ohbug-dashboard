@@ -36,7 +36,11 @@
   "Profile": {
     "pv": "浏览量",
     "uv": "访客数",
-    "activeUser": "活跃用户"
+    "activeUser": "活跃用户",
+    "pageViews": "页面访问量",
+    "pageViewsDesc": "统计不同页面的访问量",
+    "referrers": "来源网站统计",
+    "referrersDesc": "统计不同来源网站的数量"
   },
   "Issues": {
     "Empty": {

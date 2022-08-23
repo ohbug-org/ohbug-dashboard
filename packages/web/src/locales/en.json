@@ -36,7 +36,11 @@
   "Profile": {
     "pv": "PageView",
     "uv": "UserView",
-    "activeUser": "ActiveUser"
+    "activeUser": "ActiveUser",
+    "pageViews": "Page View Count",
+    "pageViewsDesc": "Statistics the number of different pages",
+    "referrers": "Referrer Count",
+    "referrersDesc": "Statistics the number of different referrers"
   },
   "Issues": {
     "Empty": {

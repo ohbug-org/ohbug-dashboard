@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormControl, FormLabel, Icon, Stat, StatArrow, StatGroup, StatHelpText, StatLabel, StatNumber, Switch, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, FormControl, FormLabel, Icon, Stat, StatArrow, StatGroup, StatHelpText, StatLabel, StatNumber, Switch, Text, Tooltip } from '@chakra-ui/react'
 import type { Event, Project } from '@prisma/client'
 import type { GetServerSideProps, NextPage } from 'next'
 import type { FC } from 'react'
@@ -123,7 +123,13 @@ const View: FC<{ views: Props['views'] }> = ({ views }) => {
               data={views.pvPathGroupResult}
               name="number"
               timeField="value"
-              title="网站访问量"
+              title={
+                (
+                  <Tooltip label={t('pageViewsDesc')}>
+                    {t('pageViews')}
+                  </Tooltip>
+                )
+              }
               type="14d"
               variant="row"
             />
@@ -133,7 +139,13 @@ const View: FC<{ views: Props['views'] }> = ({ views }) => {
               data={views.pvReferrerGroupResult}
               name="number"
               timeField="value"
-              title="来源网站"
+              title={
+                (
+                  <Tooltip label={t('referrersDesc')}>
+                    {t('referrers')}
+                  </Tooltip>
+                )
+              }
               type="14d"
               variant="row"
             />
