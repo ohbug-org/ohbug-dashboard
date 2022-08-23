@@ -1,4 +1,6 @@
 export const theme = {
+  accessibility: { enabled: false },
+  exporting: { enabled: false },
   credits: { enabled: false },
   colors: ['black'],
   title: { text: undefined },

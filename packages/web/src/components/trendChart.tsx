@@ -16,7 +16,7 @@ interface MiniChartProps {
   type: '24h' | '14d'
   data?: any[]
   title?: ReactNode
-  variant?: 'mini' | 'detail' | 'line'
+  variant?: 'mini' | 'detail' | 'line' | 'row'
   name?: string
   timeField?: string
   valueField?: string
@@ -45,6 +45,27 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
           accessibility: { enabled: false },
           colors: [colorMode === 'dark' ? 'white' : 'black'],
           chart: { type: 'column' },
+          xAxis: { categories: data?.map(v => v[timeField]), crosshair: true },
+          yAxis: {
+            min: 0,
+            labels: { enabled: true },
+            gridLineWidth: 1,
+          },
+          series: [
+            {
+              name,
+              type: 'column',
+              data: data?.map(v => v[valueField]),
+            },
+          ],
+          exporting: { enabled: false },
+        }
+      }
+      if (variant === 'row') {
+        return {
+          accessibility: { enabled: false },
+          colors: [colorMode === 'dark' ? 'white' : 'black'],
+          chart: { type: 'bar' },
           xAxis: { categories: data?.map(v => v[timeField]), crosshair: true },
           yAxis: {
             min: 0,
