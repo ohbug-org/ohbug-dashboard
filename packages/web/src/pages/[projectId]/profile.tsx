@@ -118,38 +118,46 @@ const View: FC<{ views: Props['views'] }> = ({ views }) => {
       </Wrapper>
       <Wrapper>
         <Flex gap="8">
-          <Card flex="1">
-            <TrendChart
-              data={views.pvPathGroupResult}
-              name="number"
-              timeField="value"
-              title={
-                (
-                  <Tooltip label={t('pageViewsDesc')}>
-                    {t('pageViews')}
-                  </Tooltip>
-                )
-              }
-              type="14d"
-              variant="row"
-            />
-          </Card>
-          <Card flex="1">
-            <TrendChart
-              data={views.pvReferrerGroupResult}
-              name="number"
-              timeField="value"
-              title={
-                (
-                  <Tooltip label={t('referrersDesc')}>
-                    {t('referrers')}
-                  </Tooltip>
-                )
-              }
-              type="14d"
-              variant="row"
-            />
-          </Card>
+          {
+            views.pvPathGroupResult.length > 0 && (
+              <Card flex="1">
+                <TrendChart
+                  data={views.pvPathGroupResult}
+                  name="number"
+                  timeField="value"
+                  title={
+                    (
+                      <Tooltip label={t('pageViewsDesc')}>
+                        {t('pageViews')}
+                      </Tooltip>
+                    )
+                  }
+                  type="14d"
+                  variant="row"
+                />
+              </Card>
+            )
+          }
+          {
+            views.pvReferrerGroupResult.length > 0 && (
+              <Card flex="1">
+                <TrendChart
+                  data={views.pvReferrerGroupResult}
+                  name="number"
+                  timeField="value"
+                  title={
+                    (
+                      <Tooltip label={t('referrersDesc')}>
+                        {t('referrers')}
+                      </Tooltip>
+                    )
+                  }
+                  type="14d"
+                  variant="row"
+                />
+              </Card>
+            )
+          }
         </Flex>
       </Wrapper>
     </>
