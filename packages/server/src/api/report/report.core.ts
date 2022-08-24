@@ -1,9 +1,9 @@
 import { EventTypes } from '@ohbug/core'
+import { md5 } from 'common'
 import type {
   AggregationDataAndMetaData,
   OhbugEventDetail,
 } from './report.interface'
-import { md5 } from '~/common'
 
 /**
  * 根据不同 error detail 返回可用于聚合的字段

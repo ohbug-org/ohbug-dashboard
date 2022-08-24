@@ -23,7 +23,7 @@ const ProjectComponent: FC = () => {
   const loading = useMemo(() => !projects, [projects])
 
   useEffect(() => {
-    const target = projects?.find(project => project.default)
+    const target = projects?.find(project => project.default) ?? projects?.[0]
     if (target) setCurrentProject(target)
   }, [projects])
 

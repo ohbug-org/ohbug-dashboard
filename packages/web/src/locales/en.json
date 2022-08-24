@@ -10,7 +10,8 @@
     "loadMore": "Load More",
     "total": "Total",
     "integration": "Integration",
-    "mustBeTheCorrectEmailAddress": "Must be the correct email address"
+    "mustBeTheCorrectEmailAddress": "Must be the correct email address",
+    "signInError": "Sign in to fail account or password error"
   },
   "Header": {
     "User": {

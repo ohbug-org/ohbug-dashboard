@@ -175,7 +175,6 @@ export class ReportProcessor {
           type: view.type,
           sdk: view.sdk as unknown as Prisma.InputJsonObject,
           device: view.device as Prisma.InputJsonObject,
-          path: view.detail.path,
           user: {
             connectOrCreate: {
               where: { id: userIntro },
@@ -207,7 +206,6 @@ export class ReportProcessor {
           type: view.type,
           sdk: view.sdk as unknown as Prisma.InputJsonObject,
           device: view.device as Prisma.InputJsonObject,
-          path: view.detail.path,
           user: {
             connectOrCreate: {
               where: { id: userIntro },

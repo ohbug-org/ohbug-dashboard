@@ -49,11 +49,12 @@ export async function serviceCreateProject(data: Project, user: User) {
   const projects = await serviceGetProjects(user)
   if (!projects.length) isDefault = true
 
+  const userId = user.id ?? (await getPrisma().user.findUnique({ where: { email: user.email! } }))?.id
   return getPrisma().project.create({
     data: {
       ...data,
       default: isDefault,
-      users: { create: { userId: user.id } },
+      users: { create: { user: { connect: { id: userId } } } },
     },
   })
 }

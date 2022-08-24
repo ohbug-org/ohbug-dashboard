@@ -10,7 +10,8 @@
     "loadMore": "加载更多",
     "total": "合计",
     "integration": "集成到项目",
-    "mustBeTheCorrectEmailAddress": "必须为正确的邮箱地址"
+    "mustBeTheCorrectEmailAddress": "必须为正确的邮箱地址",
+    "signInError": "登录失败 账号或密码错误"
   },
   "Header": {
     "User": {
