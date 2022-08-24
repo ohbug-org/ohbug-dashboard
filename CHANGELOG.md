@@ -1,5 +1,17 @@
 
 
+# [0.4.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.3.2...0.4.0) (2022-08-24)
+
+
+### Features
+
+* **server:** report api return httpCode 204 ([cdd7b66](https://github.com/ohbug-org/ohbug-dashboard/commit/cdd7b662e2ca940041d7595fa66bae38d95d9de9))
+* **server:** support cluster mode ([cb06054](https://github.com/ohbug-org/ohbug-dashboard/commit/cb06054e835b0641fed967b11e99edaafafc966d))
+* **web:** hide project profile pv data ([e916e49](https://github.com/ohbug-org/ohbug-dashboard/commit/e916e49ea3c47224b7849a2856e0a4ee4b1ddced))
+* **web:** project profile complete i18n ([b162f09](https://github.com/ohbug-org/ohbug-dashboard/commit/b162f09a68525c7a674d9e213ff064386d23b445))
+* **web:** project profile support view path and referrer group data ([bac11ff](https://github.com/ohbug-org/ohbug-dashboard/commit/bac11ff177273b30237d44852f7b44253e2f5569))
+* **web:** support credentials signin ([c2465c8](https://github.com/ohbug-org/ohbug-dashboard/commit/c2465c88e3b8bb36c3d3ae5c9a5ba2ae259eb9ce))
+
 ## [0.3.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.3.1...0.3.2) (2022-08-19)
 
 ## [0.3.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.3.0...0.3.1) (2022-08-18)
