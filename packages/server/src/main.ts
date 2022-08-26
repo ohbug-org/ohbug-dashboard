@@ -21,7 +21,10 @@ dotenv.config({ path: join(cwd(), '../../', '.env') })
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(),
+    new FastifyAdapter({
+      // 50mb
+      bodyLimit: 624288000,
+    }),
     { logger: WinstonModule.createLogger(LoggerConfig) },
   )
   await app.register(contentParser)
