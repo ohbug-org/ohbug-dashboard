@@ -1,5 +1,12 @@
 
 
+## [0.4.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.4.0...0.4.1) (2022-08-26)
+
+
+### Bug Fixes
+
+* **server:** fix server too large body error ([835d493](https://github.com/ohbug-org/ohbug-dashboard/commit/835d49396298494209f8ecd22aa34078103f5c44))
+
 # [0.4.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.3.2...0.4.0) (2022-08-24)
 
 
