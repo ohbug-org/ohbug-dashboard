@@ -17,7 +17,7 @@ const EventDetailStack: FC<Props> = ({ event }) => {
       <Wrapper>
         <CardSection
           collapse={
-            !(event.detail.stack && event?.source) && (
+            (event.detail.stack && event?.source) && (
               <Box mb="4">
                 <StackInfo
                   source={event?.source}
