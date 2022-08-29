@@ -44,6 +44,10 @@
     "referrersDesc": "统计不同来源网站的数量"
   },
   "Issues": {
+    "orderByUpdatedAt": "最后出现时间",
+    "orderByCreatedAt": "首次出现时间",
+    "orderByEvents": "事件数",
+    "orderByUsers": "用户数",
     "Empty": {
       "gettingStarted": "还没有集成 SDK 到你的项目？ 点击下面的按钮，开始集成！",
       "getApiKey": "需要获取 apiKey？"

@@ -4,11 +4,13 @@ import { PAGE_SIZE, pagination } from 'common'
 import { serviceGetProject } from './projects'
 import { getPrisma } from '~/db'
 
+export type SearchIssuesOrderBy = 'updatedAt' | 'createdAt' | 'events' | 'users'
 interface ServiceGetIssuesParams extends Pagination {
   projectId: number
   query?: string
+  orderBy?: SearchIssuesOrderBy
 }
-export async function serviceGetIssues({ projectId, query, page = 0, pageSize = PAGE_SIZE }: ServiceGetIssuesParams) {
+export async function serviceGetIssues({ projectId, query, page = 0, pageSize = PAGE_SIZE, orderBy = 'updatedAt' }: ServiceGetIssuesParams) {
   const project = await serviceGetProject(projectId)
   const options: any = {
     where: { apiKey: project.apiKey },
@@ -21,7 +23,12 @@ export async function serviceGetIssues({ projectId, query, page = 0, pageSize = 
         },
       },
     },
-    orderBy: { updatedAt: 'desc' },
+  }
+  if (orderBy === 'updatedAt' || orderBy === 'createdAt') {
+    options.orderBy = { [orderBy]: 'desc' }
+  }
+  else {
+    options.orderBy = { [orderBy]: { _count: 'desc' } }
   }
   if (query) {
     options.where.metadata = { search: query }

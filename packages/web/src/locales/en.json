@@ -44,6 +44,10 @@
     "referrersDesc": "Statistics the number of different referrers"
   },
   "Issues": {
+    "orderByUpdatedAt": "Last time the issue occurred",
+    "orderByCreatedAt": "First time the issue occurred",
+    "orderByEvents": "Number of events",
+    "orderByUsers": "Number of users affected",
     "Empty": {
       "gettingStarted": "Haven't integrated the SDK into your project yet? Click the button below to start the integration!",
       "getApiKey": "Need get project apiKey?"

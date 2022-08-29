@@ -14,10 +14,11 @@ import useCurrentProject from '~/hooks/useCurrentProject'
 import { useQuery } from '~/hooks/useQuery'
 
 interface Props {
+  title?: ReactNode
   issues?: Issue[]
   empty: ReactNode
 }
-const IssueList: FC<Props> = ({ issues, empty }) => {
+const IssueList: FC<Props> = ({ title, issues, empty }) => {
   const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
@@ -52,7 +53,7 @@ const IssueList: FC<Props> = ({ issues, empty }) => {
         rounded="lg"
       >
         <Box w="50%">
-          Message
+          {title || 'Message'}
         </Box>
 
         <Box w="48">
