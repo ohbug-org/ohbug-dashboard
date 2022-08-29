@@ -152,8 +152,8 @@ model EventUsersOnIssues {
   issueId     String
   eventUserId String
   assignedAt  DateTime  @default(now())
-  eventUser   EventUser @relation(fields: [eventUserId], references: [id])
-  issue       Issue     @relation(fields: [issueId], references: [id])
+  eventUser   EventUser @relation(fields: [eventUserId], references: [id], onDelete: Cascade)
+  issue       Issue     @relation(fields: [issueId], references: [id], onDelete: Cascade)
 
   @@id([issueId, eventUserId])
 }

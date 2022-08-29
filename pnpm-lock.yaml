@@ -88,8 +88,10 @@ importers:
       '@nestjs/core': ^9.0.11
       '@nestjs/mapped-types': ^1.1.0
       '@nestjs/platform-fastify': ^9.0.11
+      '@nestjs/schedule': ^2.1.0
       '@nestjs/schematics': ^9.0.1
       '@types/bull': ^3.15.9
+      '@types/cron': ^2.0.0
       '@types/express': ^4.17.13
       '@types/markdown-it': ^12.2.3
       '@types/nodemailer': ^6.4.5
@@ -118,8 +120,10 @@ importers:
       '@nestjs/core': 9.0.11_3mdbamkp7cmelffjfexsjo7tau
       '@nestjs/mapped-types': 1.1.0_f7n2wnftp7gwcja4o2nbkzq5xi
       '@nestjs/platform-fastify': 9.0.11_khr6mt6ojlxbw7bo55fknouh34
+      '@nestjs/schedule': 2.1.0_fvppslgepxggj3fnmtlnh4cori
       '@nestjs/schematics': 9.0.1
       '@types/bull': 3.15.9
+      '@types/cron': 2.0.0
       '@types/express': 4.17.13
       '@types/markdown-it': 12.2.3
       '@types/nodemailer': 6.4.5
@@ -2073,6 +2077,20 @@ packages:
       - supports-color
     dev: false
 
+  /@nestjs/schedule/2.1.0_fvppslgepxggj3fnmtlnh4cori:
+    resolution: {integrity: sha512-4Xaw56WiW3VsxEPPnj/iDtfjcO+sUZyYAeRxD0gnF5havncxjAnv52Iw7UH3DuzzUA784xPGgGje3Fq0Gu925g==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
+      '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0
+      reflect-metadata: ^0.1.12
+    dependencies:
+      '@nestjs/common': 9.0.11_allg6cauirbqzgqcmexy2wdnoq
+      '@nestjs/core': 9.0.11_3mdbamkp7cmelffjfexsjo7tau
+      cron: 2.0.0
+      reflect-metadata: 0.1.13
+      uuid: 8.3.2
+    dev: false
+
   /@nestjs/schematics/9.0.1:
     resolution: {integrity: sha512-QU7GbnQvADFXdumcdADmv4vil3bhnYl2IFHWKieRt0MgIhghgBxIB7kDKWhswcuZ0kZztVbyYjo9aCrlf62fcw==}
     peerDependencies:
@@ -2587,6 +2605,13 @@ packages:
       '@types/node': 18.7.6
     dev: false
 
+  /@types/cron/2.0.0:
+    resolution: {integrity: sha512-xZM08fqvwIXgghtPVkSPKNgC+JoMQ2OHazEvyTKnNf7aWu1aB6/4lBbQFrb03Td2cUGG7ITzMv3mFYnMu6xRaQ==}
+    dependencies:
+      '@types/luxon': 3.0.0
+      '@types/node': 18.7.6
+    dev: false
+
   /@types/css-font-loading-module/0.0.7:
     resolution: {integrity: sha512-nl09VhutdjINdWyXxHWN/w9zlNCfr60JUqJbd24YXUuCwgeL0TpFSdElCwb6cxfB6ybE19Gjj4g0jsgkXxKv1Q==}
     dev: false
@@ -2682,6 +2707,10 @@ packages:
 
   /@types/lodash/4.14.183:
     resolution: {integrity: sha512-UXavyuxzXKMqJPEpFPri6Ku5F9af6ZJXUneHhvQJxavrEjuHkFp2YnDWHcxJiG7hk8ZkWqjcyNeW1s/smZv5cw==}
+    dev: false
+
+  /@types/luxon/3.0.0:
+    resolution: {integrity: sha512-Lx+EZoJxUKw4dp8uei9XiUVNlgkYmax5+ovqt6Xf3LzJOnWhlfJw/jLBmqfGVwOP/pDr4HT8bI1WtxK0IChMLw==}
     dev: false
 
   /@types/markdown-it/12.2.3:
@@ -4246,6 +4275,12 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       luxon: 2.5.0
+    dev: false
+
+  /cron/2.0.0:
+    resolution: {integrity: sha512-RPeRunBCFr/WEo7WLp8Jnm45F/ziGJiHVvVQEBSDTSGu6uHW49b2FOP2O14DcXlGJRLhwE7TIoDzHHK4KmlL6g==}
+    dependencies:
+      luxon: 1.28.0
     dev: false
 
   /cross-env/7.0.3:
@@ -7152,6 +7187,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /luxon/1.28.0:
+    resolution: {integrity: sha512-TfTiyvZhwBYM/7QdAVDh+7dBTBA29v4ik0Ce9zda3Mnf8on1S5KJI8P2jKFZ8+5C0jhmr0KwJEO/Wdpm0VeWJQ==}
+    dev: false
 
   /luxon/2.5.0:
     resolution: {integrity: sha512-IDkEPB80Rb6gCAU+FEib0t4FeJ4uVOuX1CQ9GsvU3O+JAGIgu0J7sf1OarXKaKDygTZIoJyU6YdZzTFRu+YR0A==}

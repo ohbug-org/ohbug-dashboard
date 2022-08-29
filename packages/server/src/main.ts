@@ -38,4 +38,9 @@ async function bootstrap() {
   console.warn(`Application is running on: ${await app.getUrl()}`)
 }
 
-Cluster.register(4, bootstrap)
+if (process.env.NODE_ENV === 'production') {
+  Cluster.register(4, bootstrap)
+}
+else {
+  bootstrap()
+}
