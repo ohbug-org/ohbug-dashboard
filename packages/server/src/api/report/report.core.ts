@@ -69,7 +69,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
       }
     case EventTypes.AJAX_ERROR:
       return {
-        agg: [detail.req?.url, detail.req?.method, detail.req?.data],
+        agg: [detail.req?.url, detail.req?.method],
         metadata: {
           type,
           message: detail.req?.url,
@@ -78,7 +78,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
       }
     case EventTypes.FETCH_ERROR:
       return {
-        agg: [detail.req?.url, detail.req?.method, detail.req?.data],
+        agg: [detail.req?.url, detail.req?.method],
         metadata: {
           type,
           message: detail.req?.url,
