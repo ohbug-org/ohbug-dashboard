@@ -43,6 +43,7 @@ export async function serviceGetEventsByIssueId({
     where: { issueId },
     ...pagination({ page, pageSize }),
     include: { user: true },
+    orderBy: { createdAt: 'desc' },
   })
 }
 
@@ -86,6 +87,7 @@ export async function serviceGetEventByProjectId({
     return getPrisma().event.findMany({
       where: { apiKey },
       ...pagination({ page, pageSize }),
+      orderBy: { createdAt: 'desc' },
     })
   }
   return []

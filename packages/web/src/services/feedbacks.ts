@@ -16,6 +16,7 @@ export async function serviceGetFeedbacks({
     where: { apiKey: project.apiKey },
     ...pagination({ page, pageSize }),
     include: { user: true },
+    orderBy: { createdAt: 'desc' },
   })
 }
 

@@ -29,6 +29,7 @@ export function serviceGetAlerts({ page, pageSize, projectId }: ServiceGetAlerts
   return getPrisma().alert.findMany({
     where: { projectId },
     ...pagination({ page, pageSize }),
+    orderBy: { updatedAt: 'desc' },
   })
 }
 
@@ -60,6 +61,7 @@ export function serviceGetAlertEvents(alertId: number) {
       event: true,
       issue: true,
     },
+    orderBy: { createdAt: 'desc' },
   })
 }
 

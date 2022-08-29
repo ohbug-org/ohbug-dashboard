@@ -9,6 +9,7 @@ export function serviceGetReleases({ page, pageSize, projectId }: ServiceGetRele
   return getPrisma().release.findMany({
     where: { projectId },
     ...pagination({ page, pageSize }),
+    orderBy: { updatedAt: 'desc' },
   })
 }
 

@@ -24,7 +24,10 @@ export async function serviceGetProjectWithUsers(projectId: number) {
 
 export async function serviceGetProjects(user: User) {
   if (!user) return []
-  return getPrisma().project.findMany({ where: { users: { some: { userId: user.id } } } })
+  return getPrisma().project.findMany({
+    where: { users: { some: { userId: user.id } } },
+    orderBy: { createdAt: 'desc' },
+  })
 }
 
 export async function serviceGetProjectsWithEventCount(user: User): Promise<ProjectWithEventCount[]> {

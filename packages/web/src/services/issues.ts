@@ -21,6 +21,7 @@ export async function serviceGetIssues({ projectId, query, page = 0, pageSize = 
         },
       },
     },
+    orderBy: { updatedAt: 'desc' },
   }
   if (query) {
     options.where.metadata = { search: query }
