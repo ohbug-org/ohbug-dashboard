@@ -37,10 +37,12 @@
     "fastify-multer": "^2.0.3",
     "markdown-it": "^13.0.1",
     "nanoid": "3.3.4",
-    "nest-winston": "^1.7.0",
+    "nestjs-pino": "^3.1.1",
+    "pino": "^8.4.2",
+    "pino-http": "^8.2.0",
+    "pino-pretty": "^9.1.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.6",
-    "winston": "^3.8.1"
+    "rxjs": "^7.5.6"
   },
   "devDependencies": {
     "source-map-support": "^0.5.21",

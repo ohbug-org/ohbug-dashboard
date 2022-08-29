@@ -1,10 +1,10 @@
 import { join } from 'node:path'
 import { cwd } from 'node:process'
+import { Logger, LoggerErrorInterceptor } from 'nestjs-pino'
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import type { NestFastifyApplication } from '@nestjs/platform-fastify'
 import { FastifyAdapter } from '@nestjs/platform-fastify'
-import { WinstonModule } from 'nest-winston'
 import { contentParser } from 'fastify-multer'
 import dotenv from 'dotenv'
 import { AppModule } from './app.module'
@@ -12,7 +12,6 @@ import { Cluster } from './cluster'
 import {
   AllExceptionsFilter,
   ForbiddenExceptionFilter,
-  LoggerConfig,
   TransformInterceptor,
 } from '~/common'
 
@@ -25,8 +24,10 @@ async function bootstrap() {
       // 50mb
       bodyLimit: 624288000,
     }),
-    { logger: WinstonModule.createLogger(LoggerConfig) },
+    { bufferLogs: true },
   )
+  app.useLogger(app.get(Logger))
+  app.useGlobalInterceptors(new LoggerErrorInterceptor())
   await app.register(contentParser)
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
   app.useGlobalInterceptors(new TransformInterceptor())

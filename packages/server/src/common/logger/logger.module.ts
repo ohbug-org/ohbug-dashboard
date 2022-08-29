@@ -1,28 +1,24 @@
 import { Module } from '@nestjs/common'
-import {
-  WinstonModule,
-  utilities as nestWinstonModuleUtilities,
-} from 'nest-winston'
-import * as winston from 'winston'
+import { LoggerModule as LoggerModuleBase } from 'nestjs-pino'
+import pino from 'pino'
 
-export const LoggerConfig = {
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        nestWinstonModuleUtilities.format.nestLike(),
-      ),
-    }),
-    new winston.transports.File({
-      filename: 'logs/combined.log',
-      level: 'info',
-    }),
-    new winston.transports.File({
-      filename: 'logs/errors.log',
-      level: 'error',
+@Module({
+  imports: [
+    LoggerModuleBase.forRoot({
+      pinoHttp: {
+        name: 'log',
+        level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+        transport: process.env.NODE_ENV !== 'production'
+          ? { target: 'pino-pretty', options: { singleLine: true } }
+          : undefined,
+        stream: pino.destination({
+          dest: './logs.log',
+          minLength: 4096,
+          sync: false,
+        }),
+      },
+      useExisting: true,
     }),
   ],
-}
-
-@Module({ imports: [WinstonModule.forRoot(LoggerConfig)] })
+})
 export class LoggerModule {}
