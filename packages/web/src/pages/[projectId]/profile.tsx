@@ -241,7 +241,10 @@ const Profile: NextPage<Props> = ({ project, trends, views }) => {
       <Title
         rightNodes={
           (
-            <NextLink href={`/${project.id}/settings`}>
+            <NextLink
+              href={`/${project.id}/settings`}
+              passHref
+            >
               <Button
                 leftIcon={
                   <Icon as={RiSettings2Line} />

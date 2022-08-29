@@ -44,7 +44,10 @@ const ReleaseList: FC<Props> = ({ releases }) => {
               >
                 sourceMap files
               </Text>
-              <NextLink href={`/${projectId}/releases/${release.id}/sourceMaps`}>
+              <NextLink
+                href={`/${projectId}/releases/${release.id}/sourceMaps`}
+                passHref
+              >
                 <Link fontWeight="semibold">{(release.sourceMaps as Array<any>)?.length}</Link>
               </NextLink>
             </Flex>

@@ -30,7 +30,10 @@ const EmptyIssues: FC = () => {
         </Link>
       </Box>
       <Box>{t('getApiKey')}</Box>
-      <NextLink href={`/${projectId}/settings`}>
+      <NextLink
+        href={`/${projectId}/settings`}
+        passHref
+      >
         <Button variant="link">Get apiKey</Button>
       </NextLink>
     </Center>

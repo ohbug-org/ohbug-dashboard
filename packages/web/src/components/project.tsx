@@ -54,7 +54,10 @@ const ProjectComponent: FC = () => {
         size="xs"
         src={currentProject?.image ?? ''}
       />
-      <NextLink href={`/${currentProject?.id}/profile`}>
+      <NextLink
+        href={`/${currentProject?.id}/profile`}
+        passHref
+      >
         <Link>{currentProject?.name}</Link>
       </NextLink>
       <Menu>

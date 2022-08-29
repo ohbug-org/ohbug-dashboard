@@ -31,7 +31,10 @@ const Alerts: NextPage = () => {
       <Title
         rightNodes={
           (
-            <NextLink href={`/${projectId}/alerts/create`}>
+            <NextLink
+              href={`/${projectId}/alerts/create`}
+              passHref
+            >
               <Button variant="solid">{t('createAlert')}</Button>
             </NextLink>
           )

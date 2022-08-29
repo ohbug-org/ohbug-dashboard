@@ -42,7 +42,10 @@ const Detail: NextPage<Props> = ({ alert, alertEvents, alertEventTrends }) => {
       <Title
         rightNodes={
           (
-            <NextLink href={`/${projectId}/alerts/${alert.id}/edit`}>
+            <NextLink
+              href={`/${projectId}/alerts/${alert.id}/edit`}
+              passHref
+            >
               <Button variant="solid">Edit Alert</Button>
             </NextLink>
           )

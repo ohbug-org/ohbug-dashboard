@@ -22,7 +22,10 @@ const Breadcrumbs: FC = () => {
 
   return (
     <Flex gap="4">
-      <NextLink href="/">
+      <NextLink
+        href="/"
+        passHref
+      >
         <Logo />
       </NextLink>
 
@@ -42,7 +45,10 @@ const Breadcrumbs: FC = () => {
             .slice(0, breadcrumbs.length - 1)
             .map(v => (
               <BreadcrumbItem key={v.path}>
-                <NextLink href={v.path}>
+                <NextLink
+                  href={v.path}
+                  passHref
+                >
                   <BreadcrumbLink>
                     {v.breadcrumb}
                   </BreadcrumbLink>

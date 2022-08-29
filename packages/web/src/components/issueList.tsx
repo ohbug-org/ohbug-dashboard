@@ -112,6 +112,7 @@ const IssueList: FC<Props> = ({ issues, empty }) => {
                           query: { issueId: issue.id, projectId },
                         }
                       }
+                      passHref
                     >
                       <Link
                         cursor="pointer"

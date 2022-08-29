@@ -24,7 +24,10 @@ const Home: NextPage = () => {
   return (
     <Wrapper>
       <Flex justify="end">
-        <NextLink href="/create-project">
+        <NextLink
+          href="/create-project"
+          passHref
+        >
           <Button
             leftIcon={<RiAddLine />}
           >

@@ -30,7 +30,10 @@ const FeedbacksList: FC<Props> = ({ feedbacks }) => {
               return (
                 <Tr key={feedback.id}>
                   <Td>
-                    <NextLink href={`/${projectId}/feedbacks/${feedback.id}`}>
+                    <NextLink
+                      href={`/${projectId}/feedbacks/${feedback.id}`}
+                      passHref
+                    >
                       <Link>{detail.feedback}</Link>
                     </NextLink>
                   </Td>

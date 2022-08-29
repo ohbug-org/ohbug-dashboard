@@ -56,7 +56,10 @@ const AlertList: FC<Props> = ({ alerts, mutate }) => {
                 align="center"
                 gap="2"
               >
-                <NextLink href={`/${projectId}/alerts/${alert.id}`}>
+                <NextLink
+                  href={`/${projectId}/alerts/${alert.id}`}
+                  passHref
+                >
                   <Link
                     fontSize="lg"
                     fontWeight="semibold"
@@ -92,7 +95,11 @@ const AlertList: FC<Props> = ({ alerts, mutate }) => {
                   />
                   <MenuList>
                     <MenuItem>
-                      <NextLink href={`/${projectId}/alerts/${alert.id}/edit`}>Edit</NextLink>
+                      <NextLink
+                        href={`/${projectId}/alerts/${alert.id}/edit`}
+                        passHref
+                      >Edit
+                      </NextLink>
                     </MenuItem>
                     <MenuItem
                       onClick={

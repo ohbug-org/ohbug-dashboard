@@ -36,7 +36,10 @@ const EventsList: FC<Props> = ({ events }) => {
               <Tr key={event.id}>
                 {/* description */}
                 <Td>
-                  <NextLink href={`/${projectId}/issues/${event.issueId}/?eventId=${event.id}`}>
+                  <NextLink
+                    href={`/${projectId}/issues/${event.issueId}/?eventId=${event.id}`}
+                    passHref
+                  >
                     <Link>{dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}</Link>
                   </NextLink>
                   <div>{event.type}: {renderStringOrJson((event.detail as any).message ?? event.detail)}</div>

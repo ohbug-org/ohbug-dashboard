@@ -24,6 +24,7 @@ const NavContainer: FC<Props> = ({ children, navs }) => {
             <NextLink
               href={nav.href}
               key={nav.href}
+              passHref
             >
               <Button
                 fontWeight={nav.active ? 'bold' : 'normal'}
