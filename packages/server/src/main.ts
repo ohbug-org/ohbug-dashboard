@@ -8,7 +8,6 @@ import { FastifyAdapter } from '@nestjs/platform-fastify'
 import { contentParser } from 'fastify-multer'
 import dotenv from 'dotenv'
 import { AppModule } from './app.module'
-import { Cluster } from './cluster'
 import {
   AllExceptionsFilter,
   ForbiddenExceptionFilter,
@@ -39,9 +38,8 @@ async function bootstrap() {
   console.warn(`Application is running on: ${await app.getUrl()}`)
 }
 
-if (process.env.NODE_ENV === 'production') {
-  Cluster.register(4, bootstrap)
-}
-else {
-  bootstrap()
-}
+bootstrap()
+  .catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })
