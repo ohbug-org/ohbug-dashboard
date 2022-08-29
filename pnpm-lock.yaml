@@ -168,6 +168,7 @@ importers:
       clsx: ^1.2.1
       common: workspace:*
       config: workspace:*
+      copy-to-clipboard: ^3.3.2
       downshift: ^6.1.9
       framer-motion: ^7.2.1
       highcharts: ^10.2.0
@@ -207,6 +208,7 @@ importers:
       clsx: 1.2.1
       common: link:../common
       config: link:../config
+      copy-to-clipboard: 3.3.2
       downshift: 6.1.9_react@18.2.0
       framer-motion: 7.2.1_biqbaboplfbrettd7655fr4n2y
       highcharts: 10.2.0
@@ -4397,6 +4399,12 @@ packages:
 
   /copy-to-clipboard/3.3.1:
     resolution: {integrity: sha512-i13qo6kIHTTpCm8/Wup+0b1mVWETvu2kIMzKoK8FpkLkFxlt0znUAHcMzox+T8sPlqtZXq3CulEjQHsYiGFJUw==}
+    dependencies:
+      toggle-selection: 1.0.6
+    dev: false
+
+  /copy-to-clipboard/3.3.2:
+    resolution: {integrity: sha512-Vme1Z6RUDzrb6xAI7EZlVZ5uvOk2F//GaxKUxajDqm9LhOVM1inxNAD2vy+UZDYsd0uyA9s7b3/FVZPSxqrCfg==}
     dependencies:
       toggle-selection: 1.0.6
     dev: false
@@ -8864,7 +8872,7 @@ packages:
     dependencies:
       '@types/js-cookie': 2.2.7
       '@xobotyi/scrollbar-width': 1.9.5
-      copy-to-clipboard: 3.3.1
+      copy-to-clipboard: 3.3.2
       fast-deep-equal: 3.1.3
       fast-shallow-equal: 1.0.0
       js-cookie: 2.2.1
@@ -9887,7 +9895,7 @@ packages:
       is-number: 7.0.0
 
   /toggle-selection/1.0.6:
-    resolution: {integrity: sha1-bkWxJj8gF/oKzH2J14sVuL932jI=}
+    resolution: {integrity: sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==}
     dev: false
 
   /toidentifier/1.0.1:

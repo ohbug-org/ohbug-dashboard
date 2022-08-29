@@ -2,6 +2,7 @@ import { Box, IconButton, useToast } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import { RiClipboardLine } from 'react-icons/ri'
+import copy from 'copy-to-clipboard'
 import ThemeBox from './themeBox'
 
 interface Props {
@@ -11,16 +12,12 @@ interface Props {
 const Copy: FC<Props> = ({ children }) => {
   const toast = useToast()
   const handleClick = useCallback(() => {
-    navigator.clipboard.writeText(children)
-      .then(() => {
+    copy(children, {
+      format: 'text/plain',
+      onCopy() {
         toast({ title: 'Copied to clipboard!' })
-      })
-      .catch(() => {
-        toast({
-          title: 'Copy to clipboard error!',
-          status: 'error',
-        })
-      })
+      },
+    })
   }, [])
 
   return (

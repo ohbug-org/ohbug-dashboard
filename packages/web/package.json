@@ -24,6 +24,7 @@
     "clsx": "^1.2.1",
     "common": "workspace:*",
     "config": "workspace:*",
+    "copy-to-clipboard": "^3.3.2",
     "downshift": "^6.1.9",
     "framer-motion": "^7.2.1",
     "highcharts": "^10.2.0",
