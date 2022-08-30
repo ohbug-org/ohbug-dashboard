@@ -1,5 +1,24 @@
 
 
+# [0.5.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.4.1...0.5.0) (2022-08-30)
+
+
+### Bug Fixes
+
+* **server:** remove cluster mode ([79ee80e](https://github.com/ohbug-org/ohbug-dashboard/commit/79ee80e153396fadf47817fe7c6270f6d14e25de))
+* **web:** error stack visible problem ([f820135](https://github.com/ohbug-org/ohbug-dashboard/commit/f820135533c00dcd93976451611b808f020923cd))
+* **web:** fix copy error ([c5d1340](https://github.com/ohbug-org/ohbug-dashboard/commit/c5d1340dbb7368cfaa639a193de8e7df52e2b0ce))
+
+
+### Features
+
+* **server:** delete expiration data regularly every day ([ffc77e6](https://github.com/ohbug-org/ohbug-dashboard/commit/ffc77e68a3079574181132f57e334c6bb466207b))
+* **server:** update http error group fields ([e324e5c](https://github.com/ohbug-org/ohbug-dashboard/commit/e324e5cd23146f3890e79cb653142e04cf3d3d66))
+* **server:** use nestjs-pino ([f8d8fb9](https://github.com/ohbug-org/ohbug-dashboard/commit/f8d8fb9e9624036b23a77659d81409ffec9fb6ae))
+* **web:** issue support order ([e452838](https://github.com/ohbug-org/ohbug-dashboard/commit/e452838e68ef9fc1f2ed9b97513cdd030d808da5))
+* **web:** nextLink passHref ([8666d51](https://github.com/ohbug-org/ohbug-dashboard/commit/8666d5187b75d23b21a66031e4c1032156f75a79))
+* **web:** order findMany results ([562a040](https://github.com/ohbug-org/ohbug-dashboard/commit/562a040107fd5107d5b038ba1f346d8a1ae85aea))
+
 ## [0.4.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.4.0...0.4.1) (2022-08-26)
 
 
