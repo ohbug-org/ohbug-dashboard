@@ -72,6 +72,20 @@ export class ReportProcessor {
                 ...event.user,
                 id: userIntro,
                 ipAddress: event.user.ipAddress!,
+                projects: {
+                  connectOrCreate: {
+                    where: {
+                      eventUserId_apiKey: {
+                        apiKey: event.apiKey,
+                        eventUserId: userIntro,
+                      },
+                    },
+                    create: {
+                      apiKey: event.apiKey,
+                      assignedAt: new Date(),
+                    },
+                  },
+                },
               },
             },
           },
@@ -119,6 +133,20 @@ export class ReportProcessor {
                 ...metric.user,
                 id: userIntro,
                 ipAddress: metric.user.ipAddress!,
+                projects: {
+                  connectOrCreate: {
+                    where: {
+                      eventUserId_apiKey: {
+                        apiKey: metric.apiKey,
+                        eventUserId: userIntro,
+                      },
+                    },
+                    create: {
+                      apiKey: metric.apiKey,
+                      assignedAt: new Date(),
+                    },
+                  },
+                },
               },
             },
           },
@@ -151,6 +179,20 @@ export class ReportProcessor {
                 ...feedback.user,
                 id: userIntro,
                 ipAddress: feedback.user.ipAddress!,
+                projects: {
+                  connectOrCreate: {
+                    where: {
+                      eventUserId_apiKey: {
+                        apiKey: feedback.apiKey,
+                        eventUserId: userIntro,
+                      },
+                    },
+                    create: {
+                      apiKey: feedback.apiKey,
+                      assignedAt: new Date(),
+                    },
+                  },
+                },
               },
             },
           },
@@ -182,6 +224,20 @@ export class ReportProcessor {
                 ...view.user,
                 id: userIntro,
                 ipAddress: view.user.ipAddress!,
+                projects: {
+                  connectOrCreate: {
+                    where: {
+                      eventUserId_apiKey: {
+                        apiKey: view.apiKey,
+                        eventUserId: userIntro,
+                      },
+                    },
+                    create: {
+                      apiKey: view.apiKey,
+                      assignedAt: new Date(),
+                    },
+                  },
+                },
               },
             },
           },
@@ -213,6 +269,20 @@ export class ReportProcessor {
                 ...view.user,
                 id: userIntro,
                 ipAddress: view.user.ipAddress!,
+                projects: {
+                  connectOrCreate: {
+                    where: {
+                      eventUserId_apiKey: {
+                        apiKey: view.apiKey,
+                        eventUserId: userIntro,
+                      },
+                    },
+                    create: {
+                      apiKey: view.apiKey,
+                      assignedAt: new Date(),
+                    },
+                  },
+                },
               },
             },
           },

@@ -132,20 +132,21 @@ model Issue {
 }
 
 model EventUser {
-  id        String               @id
+  id        String                 @id
   ipAddress String
   uuid      String?
   email     String?
   name      String?
   metadata  Json?
-  createdAt DateTime             @default(now())
-  updatedAt DateTime             @updatedAt
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
   issues    EventUsersOnIssues[]
   events    Event[]
   metrics   Metric[]
   feedbacks Feedback[]
   pageViews PageView[]
   userViews UserView[]
+  projects  EventUsersOnProjects[]
 }
 
 model EventUsersOnIssues {
@@ -158,18 +159,29 @@ model EventUsersOnIssues {
   @@id([issueId, eventUserId])
 }
 
+model EventUsersOnProjects {
+  eventUserId String
+  apiKey      String
+  assignedAt  DateTime  @default(now())
+  eventUser   EventUser @relation(fields: [eventUserId], references: [id], onDelete: Cascade)
+  project     Project   @relation(fields: [apiKey], references: [apiKey], onDelete: Cascade)
+
+  @@id([eventUserId, apiKey])
+}
+
 model Project {
-  id        Int               @id @default(autoincrement())
-  apiKey    String            @unique
-  name      String            @unique
-  type      String
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
-  default   Boolean           @default(false)
-  image     String?
-  releases  Release[]
-  alerts    Alert[]
-  users     UsersOnProjects[]
+  id         Int                    @id @default(autoincrement())
+  apiKey     String                 @unique
+  name       String                 @unique
+  type       String
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  default    Boolean                @default(false)
+  image      String?
+  releases   Release[]
+  alerts     Alert[]
+  users      UsersOnProjects[]
+  eventUsers EventUsersOnProjects[]
 }
 
 model Release {

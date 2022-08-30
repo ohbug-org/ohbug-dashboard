@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/common'
+import { HttpException, Logger } from '@nestjs/common'
 import { ErrorShowType } from 'common'
 import { status } from '../constants'
 
@@ -6,6 +6,8 @@ export class ForbiddenException extends HttpException {
   public readonly code: number
 
   public readonly showType: ErrorShowType
+
+  private readonly logger = new Logger()
 
   /**
    *
@@ -23,5 +25,6 @@ export class ForbiddenException extends HttpException {
     super(response, 400)
     this.code = code
     this.showType = showType || 2
+    this.logger.error(response)
   }
 }

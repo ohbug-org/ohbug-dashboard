@@ -27,6 +27,11 @@ const NavMenu: FC = () => {
       as: `/${projectId}/issues`,
     },
     {
+      label: 'Users',
+      link: '/[projectId]/users',
+      as: `/${projectId}/users`,
+    },
+    {
       label: 'Metrics',
       link: '/[projectId]/metrics',
       as: `/${projectId}/metrics`,
