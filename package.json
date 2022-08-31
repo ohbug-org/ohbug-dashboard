@@ -43,7 +43,7 @@
     "@ohbug/react": "^2.0.7",
     "@ohbug/types": "^2.1.1",
     "@ohbug/vue": "^2.0.8",
-    "@prisma/client": "^4.2.1",
+    "@prisma/client": "^4.3.0",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^18.7.13",
     "@types/ramda": "^0.28.15",
@@ -51,7 +51,7 @@
     "dayjs": "^1.11.5",
     "js-yaml": "^4.1.0",
     "nodemailer": "^6.7.8",
-    "prisma": "^4.2.1",
+    "prisma": "^4.3.0",
     "ramda": "^0.28.0",
     "rimraf": "^3.0.2",
     "source-map-trace": "^0.2.6",
@@ -60,7 +60,7 @@
     "typescript": "^4.8.2"
   },
   "devDependencies": {
-    "@antfu/ni": "^0.17.2",
+    "@antfu/ni": "^0.18.0",
     "@babel/types": "^7.18.13",
     "@chenyueban/eslint-config": "^1.0.12",
     "@commitlint/cli": "^17.1.2",
@@ -70,7 +70,7 @@
     "eslint": "^8.23.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "release-it": "^15.4.0"
+    "release-it": "^15.4.1"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"

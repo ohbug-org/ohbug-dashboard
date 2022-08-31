@@ -33,7 +33,7 @@
     "class-validator": "^0.13.2",
     "common": "workspace:*",
     "config": "workspace:*",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "fastify-multer": "^2.0.3",
     "markdown-it": "^13.0.1",
     "nanoid": "3.3.4",
