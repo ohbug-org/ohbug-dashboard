@@ -1,5 +1,17 @@
 
 
+# [0.6.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.5.0...0.6.0) (2022-08-31)
+
+
+### Bug Fixes
+
+* **server:** fixed logger problem ([48fadbe](https://github.com/ohbug-org/ohbug-dashboard/commit/48fadbe6f7b3db62eb07e955df2d454820bdb47d))
+
+
+### Features
+
+* add user page ([573ea2d](https://github.com/ohbug-org/ohbug-dashboard/commit/573ea2d96e5e0a276ab4a77e325279e50c8e02b9))
+
 # [0.5.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.4.1...0.5.0) (2022-08-30)
 
 
