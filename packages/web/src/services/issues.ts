@@ -94,3 +94,7 @@ export function serviceGetIssue({ id }: ServiceGetIssueParams) {
     },
   })
 }
+
+export function serviceDeleteIssues(ids: string[]) {
+  return getPrisma().issue.deleteMany({ where: { id: { in: ids } } })
+}

@@ -48,6 +48,7 @@
     "orderByCreatedAt": "First time the issue occurred",
     "orderByEvents": "Number of events",
     "orderByUsers": "Number of users affected",
+    "deleteIssuesConfirm": "Batch deletion is only recommended for junk data",
     "Empty": {
       "gettingStarted": "Haven't integrated the SDK into your project yet? Click the button below to start the integration!",
       "getApiKey": "Need get project apiKey?"
