@@ -1,15 +1,39 @@
 import type { FC } from 'react'
+import { useCallback } from 'react'
 import NextLink from 'next/link'
 import dayjs from 'dayjs'
-import { Box, Flex, Link, Text, Tooltip } from '@chakra-ui/react'
+import { Box, Flex, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useToast } from '@chakra-ui/react'
 import type { Release } from '@prisma/client'
+import { RiMoreLine } from 'react-icons/ri'
 import useCurrentProject from '~/hooks/useCurrentProject'
+import { serviceDeleteRelease } from '~/services/releases'
 
 interface Props {
   releases: Release[]
+  mutate: () => Promise<void>
 }
-const ReleaseList: FC<Props> = ({ releases }) => {
+const ReleaseList: FC<Props> = ({ releases, mutate }) => {
+  const toast = useToast()
   const { projectId } = useCurrentProject()
+
+  const onDelete = useCallback((id: number) => {
+    serviceDeleteRelease({ id })
+      .then(() => {
+        toast({
+          title: 'Release Deleted!',
+          description: 'Your release has been deleted!',
+          status: 'success',
+        })
+        mutate()
+      })
+      .catch((error) => {
+        toast({
+          title: 'Release Delete Error',
+          description: error.message,
+          status: 'error',
+        })
+      })
+  }, [mutate])
 
   return (
     <Box
@@ -54,6 +78,7 @@ const ReleaseList: FC<Props> = ({ releases }) => {
             <Flex
               align="center"
               flex="1"
+              gap="2"
               justify="end"
             >
               <Tooltip label={dayjs(release.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
@@ -64,6 +89,26 @@ const ReleaseList: FC<Props> = ({ releases }) => {
                   {dayjs(release.createdAt).fromNow()}
                 </Text>
               </Tooltip>
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  icon={<RiMoreLine />}
+                  size="sm"
+                  variant="ghost"
+                />
+                <MenuList>
+                  <MenuItem
+                    onClick={
+                      () => {
+                        onDelete(release.id)
+                      }
+                    }
+                    textColor="red"
+                  >
+                    Delete
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Flex>
           </Flex>
         ))

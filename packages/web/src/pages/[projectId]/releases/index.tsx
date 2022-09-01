@@ -15,7 +15,7 @@ import { serviceGetReleases } from '~/services/releases'
 const Releases: NextPage = () => {
   const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
-  const { data, isLoading, size, setSize, isReachingEnd } = useInfinite<Release>(
+  const { data, isLoading, size, setSize, isReachingEnd, mutate } = useInfinite<Release>(
     index => serviceGetReleases({
       page: index + 1,
       projectId: projectId!,
@@ -52,7 +52,8 @@ const Releases: NextPage = () => {
             </Link>
           )
         }
-      >Releases
+      >
+        Releases
       </Title>
 
       <Wrapper
@@ -62,7 +63,14 @@ const Releases: NextPage = () => {
         py="12"
       >
         <Card>
-          {data && <ReleaseList releases={data} />}
+          {
+            data && (
+              <ReleaseList
+                mutate={mutate}
+                releases={data}
+              />
+            )
+          }
           <LoadingMoreButton
             isLoading={isLoading}
             isReachingEnd={isReachingEnd}

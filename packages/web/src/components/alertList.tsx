@@ -27,7 +27,7 @@ const AlertList: FC<Props> = ({ alerts, mutate }) => {
       })
       .catch((error) => {
         toast({
-          title: 'Alert Edit Error',
+          title: 'Alert Delete Error',
           description: error.message,
           status: 'error',
         })
@@ -98,7 +98,8 @@ const AlertList: FC<Props> = ({ alerts, mutate }) => {
                       <NextLink
                         href={`/${projectId}/alerts/${alert.id}/edit`}
                         passHref
-                      >Edit
+                      >
+                        Edit
                       </NextLink>
                     </MenuItem>
                     <MenuItem

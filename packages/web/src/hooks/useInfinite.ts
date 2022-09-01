@@ -34,7 +34,9 @@ export function useInfinite<T = any>(
           ...prevState,
           data: !pagination
             ? prevState.data
-              ? [...prevState.data, ...res]
+              ? res.length
+                ? [...prevState.data, ...res]
+                : res
               : res
             : res,
           result: prevState.result ? [...prevState.result, res] : [res],
