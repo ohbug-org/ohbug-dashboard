@@ -1,5 +1,13 @@
 
 
+# [0.7.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.6.0...0.7.0) (2022-09-01)
+
+
+### Features
+
+* **web:** support delete issues ([b713c46](https://github.com/ohbug-org/ohbug-dashboard/commit/b713c46c26d03d04ce112e23fe5b89ce743c0e93))
+* **web:** support delete release and sourceMaps ([4a42c66](https://github.com/ohbug-org/ohbug-dashboard/commit/4a42c66e6e85c51c907736eda9690d0cbaa77e2f))
+
 # [0.6.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.5.0...0.6.0) (2022-08-31)
 
 
