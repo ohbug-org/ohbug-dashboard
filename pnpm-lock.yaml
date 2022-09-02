@@ -9,7 +9,7 @@ importers:
       '@chenyueban/eslint-config': ^1.0.12
       '@chenyueban/tsconfig': ^2.1.0
       '@commitlint/cli': ^17.1.2
-      '@ohbug/browser': ^2.2.0
+      '@ohbug/browser': ^2.3.0
       '@ohbug/core': ^2.1.1
       '@ohbug/react': ^2.0.7
       '@ohbug/types': ^2.1.1
@@ -38,7 +38,7 @@ importers:
       typescript: ^4.8.2
     dependencies:
       '@chenyueban/tsconfig': 2.1.0_typescript@4.8.2
-      '@ohbug/browser': 2.2.0
+      '@ohbug/browser': 2.3.0
       '@ohbug/core': 2.1.1
       '@ohbug/react': 2.0.7
       '@ohbug/types': 2.1.1
@@ -2544,12 +2544,13 @@ packages:
       '@octokit/openapi-types': 13.5.0
     dev: true
 
-  /@ohbug/browser/2.2.0:
-    resolution: {integrity: sha512-zvLgM+3FhMKJtlne3uL7awFjFtrMDmlCRnAd+uhhN0iO68KyrPmFCmtHEzbSdJUevyy0Ej0VH5f9adBn++FInA==}
+  /@ohbug/browser/2.3.0:
+    resolution: {integrity: sha512-OhRbwwY4c9mbt2zpMfPY9PtnxU7aOyhVvTx7e/CgTc5kdlYcIQWPY/VQbOe4y+uFQZsdoGsG61M8ut+WaT/yNQ==}
     dependencies:
       '@ohbug/core': 2.1.1
       '@ohbug/types': 2.1.1
       '@ohbug/utils': 2.0.6
+      error-stack-parser: 2.1.4
     dev: false
 
   /@ohbug/core/2.1.1:

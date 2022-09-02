@@ -16,15 +16,15 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
   detail: OhbugEventDetail,
 ): AggregationDataAndMetaData {
   switch (type) {
-    case EventTypes.UNCAUGHT_ERROR:
+    case EventTypes.UNCAUGHT_ERROR: {
+      const filename = detail.filename.split('?')[0]
       return {
         agg: [
           detail.name,
           detail.message,
-          detail.filename,
+          filename,
           detail.lineno,
           detail.colno,
-          detail.stack,
         ],
         metadata: {
           type,
@@ -33,14 +33,25 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
           others: detail.stack,
         },
       }
-    case EventTypes.UNHANDLEDREJECTION_ERROR:
+    }
+    case EventTypes.UNHANDLEDREJECTION_ERROR: {
+      const filename = detail.filename.split('?')[0]
       return {
-        agg: [detail.message],
+        agg: [
+          detail.name,
+          detail.message,
+          filename,
+          detail.lineno,
+          detail.colno,
+        ],
         metadata: {
           type,
           message: detail.message,
+          filename: detail.filename,
+          others: detail.stack,
         },
       }
+    }
     case EventTypes.UNKNOWN_ERROR:
       return {
         agg: [detail.message],
