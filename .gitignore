@@ -5,7 +5,6 @@ build
 public/build
 .uploads
 tsconfig.tsbuildinfo
-buildDockerImage.sh
 
 # Logs
 logs
@@ -41,9 +40,6 @@ coverage
 # config
 .env
 ohbug.config.development.yml
-
-# docker
-postgres-data
 
 # vercel
 .vercel

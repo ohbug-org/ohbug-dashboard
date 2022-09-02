@@ -2,15 +2,16 @@
   "git": {
     "commitMessage": "chore: release v${version}"
   },
+  "npm": {
+    "publish": false
+  },
   "plugins": {
     "@release-it/conventional-changelog": {
       "preset": "angular",
       "infile": "CHANGELOG.md"
-    },
-    "./scripts/release-it-deploy.mjs": {}
+    }
   },
   "hooks": {
-    "before:init": ["npm run lint", "npm test"],
-    "after:release": "sh ./scripts/buildDockerImage.sh"
+    "before:init": ["npm run lint", "npm test"]
   }
 }
