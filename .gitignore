@@ -41,6 +41,9 @@ coverage
 .env
 ohbug.config.development.yml
 
+# docker
+postgres-data
+
 # vercel
 .vercel
 

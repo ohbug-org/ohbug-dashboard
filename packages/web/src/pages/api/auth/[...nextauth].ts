@@ -59,7 +59,7 @@ export const getAuthOptions = async(): Promise<NextAuthOptions> => {
     options.providers.push(GithubProvider({
       clientId: config?.oauth?.github?.clientId,
       clientSecret: config?.oauth?.github.clientSecret,
-      httpOptions: { timeout: 30000 },
+      httpOptions: { timeout: 10000 },
     }))
   }
   return options

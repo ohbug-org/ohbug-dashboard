@@ -97,6 +97,7 @@ const theme: Dict = extendTheme({
         panel: { bg: mode('gray.200', 'inherit')(props) },
       }),
     },
+    Tooltip: { baseStyle: { color: 'white' } },
   },
   styles: {
     global: (props: GlobalStyleProps) => ({

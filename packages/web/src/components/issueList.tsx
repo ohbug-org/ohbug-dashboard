@@ -233,7 +233,7 @@ const IssueList: FC<Props> = ({ empty }) => {
                       <NextLink
                         href={
                           {
-                            pathname: '/[projectId]/data/[issueId]',
+                            pathname: '/[projectId]/issues/[issueId]',
                             query: { issueId: issue.id, projectId },
                           }
                         }
