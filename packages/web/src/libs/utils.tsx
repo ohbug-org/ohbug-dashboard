@@ -95,7 +95,6 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
           <>
             <strong>{action.data?.req?.method}</strong>{' '}
             <em>{action.data?.req?.url}</em>{' '}
-            <strong>[{action.data?.res?.status}]</strong>
           </>
         ),
         icon: RiLoader2Fill,
@@ -107,7 +106,6 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
           <>
             <strong>{action.data?.req?.method}</strong>{' '}
             <em>{action.data?.req?.url}</em>{' '}
-            <strong>[{action.data?.res?.status}]</strong>
           </>
         ),
         icon: RiLoader2Fill,

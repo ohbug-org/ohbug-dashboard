@@ -52,7 +52,6 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
     case EventTypes.RESOURCE_ERROR:
       return {
         agg: [
-          detail.outerHTML,
           detail.src,
           detail.tagName,
           detail.id,
@@ -160,16 +159,6 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
           type,
           message: detail.message,
           level: detail.level,
-        },
-      }
-    case EventTypes.FEEDBACK:
-      return {
-        agg: [detail.feedback, detail.selector, detail.outerHTML],
-        metadata: {
-          type,
-          message: detail.feedback,
-          selector: detail.selector,
-          outerHTML: detail.outerHTML,
         },
       }
     default:
