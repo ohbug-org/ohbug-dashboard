@@ -1,5 +1,7 @@
 
 
+## [0.7.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.7.0...0.7.1) (2022-09-02)
+
 # [0.7.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.6.0...0.7.0) (2022-09-01)
 
 
