@@ -292,7 +292,6 @@ export function getAlertContent(
   issueUsersCount: number,
   alert: Alert,
 ) {
-  const platform = (event.device as any).platform
   const url = (event.device as any).url
   const { type, updatedAt } = issue
   const message = (issue.metadata as any).message
@@ -303,7 +302,6 @@ export function getAlertContent(
     eventsCount: issueEventsCount,
     usersCount: issueUsersCount,
     time: updatedAt,
-    platform,
   }
 
   const text = `
@@ -316,7 +314,6 @@ export function getAlertContent(
   总事件数：${statistics.eventsCount}
   总用户数：${statistics.usersCount}
   时间：${dayjs(statistics.time).format('YYYY-MM-DD HH:mm:ss')}
-  平台：${statistics.platform ?? 'unknown'}
 
   ${
   (!!url && url !== 'undefined')
@@ -349,7 +346,6 @@ export function getAlertContent(
   - 总事件数：${statistics.eventsCount}
   - 总用户数：${statistics.usersCount}
   - 时间：${dayjs(statistics.time).format('YYYY-MM-DD HH:mm:ss')}
-  - 平台：${statistics.platform ?? 'unknown'}
 
   ${
   (!!url && url !== 'undefined')

@@ -19,26 +19,32 @@ function switchWebhookTypeAndGetFormatResult(
       '',
     )
   switch (action?.webhookType) {
-    case 'dingtalk':
-      return {
+    case 'dingtalk': {
+      const result: Record<string, any> = {
         msgtype: 'markdown',
         markdown: {
           title,
           text: markdown + atText(false),
         },
-        at: {
+      }
+      if (at) {
+        result.at = {
           atMobiles: at,
           isAtAll: false,
-        },
+        }
       }
-    case 'wechatWork':
-      return {
+      return result
+    }
+    case 'wechatWork': {
+      const result: Record<string, any> = {
         msgtype: 'text',
-        text: {
-          content: text,
-          mentioned_mobile_list: at,
-        },
+        text: { content: text },
       }
+      if (at) {
+        result.text.mentioned_mobile_list = at
+      }
+      return result
+    }
     case 'others':
       return text
     default:
