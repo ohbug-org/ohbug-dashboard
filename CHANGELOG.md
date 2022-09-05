@@ -1,5 +1,15 @@
 
 
+## [0.7.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.7.1...0.7.2) (2022-09-05)
+
+
+### Bug Fixes
+
+* adapter sdk ([4b6554d](https://github.com/ohbug-org/ohbug-dashboard/commit/4b6554d71fbbfac9dea7ec44aa9b411da64faf44))
+* **server:** sourceMap 上传使用队列 解决 release 重复创建 ([645cbec](https://github.com/ohbug-org/ohbug-dashboard/commit/645cbec99c1488001cda11f9511d217602a2a430))
+* **server:** 优化 webhook 内容展示 ([31c44be](https://github.com/ohbug-org/ohbug-dashboard/commit/31c44be45f0bca99fea0dbe1f17e4ccfec82d375))
+* **web:** fix issueList link error ([cefdeff](https://github.com/ohbug-org/ohbug-dashboard/commit/cefdeff79f6bf551664d88f649adaac4a6ad24f2))
+
 ## [0.7.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.7.0...0.7.1) (2022-09-02)
 
 # [0.7.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.6.0...0.7.0) (2022-09-01)
