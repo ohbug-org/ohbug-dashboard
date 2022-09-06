@@ -22,7 +22,19 @@ services:
     image: ohbug/ohbug-ce:latest
     restart: always
     ports:
+      - '3001:3001'
+      - '6661:6661'
+    volumes:
+      - ./ohbug.config.yml:/app/ohbug.config.yml
+
+  nginx:
+    image: nginx:alpine
+    ports:
       - '3000:3000'
       - '6660:6660'
     volumes:
-      - ./ohbug.config.yml:/app/ohbug.config.yml
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./logs:/var/log/nginx
+      - ./secrets:/app/secrets
+    depends_on:
+      - app

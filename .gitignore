@@ -5,6 +5,7 @@ build
 public/build
 .uploads
 tsconfig.tsbuildinfo
+secrets
 
 # Logs
 logs
@@ -43,6 +44,7 @@ ohbug.config.development.yml
 
 # docker
 postgres-data
+logs
 
 # vercel
 .vercel

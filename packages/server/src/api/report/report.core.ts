@@ -17,7 +17,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
 ): AggregationDataAndMetaData {
   switch (type) {
     case EventTypes.UNCAUGHT_ERROR: {
-      const filename = detail.filename.split('?')[0]
+      const filename = detail.filename?.split?.('?')?.[0]
       return {
         agg: [
           detail.name,
@@ -35,7 +35,7 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
       }
     }
     case EventTypes.UNHANDLEDREJECTION_ERROR: {
-      const filename = detail.filename.split('?')[0]
+      const filename = detail.filename?.split?.('?')?.[0]
       return {
         agg: [
           detail.name,

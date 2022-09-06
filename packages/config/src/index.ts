@@ -11,6 +11,10 @@ export interface Config {
   http: {
     url: string
   }
+  https?: {
+    key: string
+    cert: string
+  }
   db: {
     postgres: {
       host: string
@@ -51,9 +55,9 @@ export interface Config {
 const YAML_CONFIG_FILENAME = 'ohbug.config.yml'
 const DEVELOP_YAML_CONFIG_FILENAME = 'ohbug.config.development.yml'
 
-export function getConfig(): Config {
+export function getConfig(rootPath?: string): Config {
   if (!global.__config__) {
-    const configPath = join(cwd(), '../../', process.env.NODE_ENV === 'development' ? DEVELOP_YAML_CONFIG_FILENAME : YAML_CONFIG_FILENAME)
+    const configPath = join(rootPath ?? join(cwd(), '../../'), process.env.NODE_ENV === 'development' ? DEVELOP_YAML_CONFIG_FILENAME : YAML_CONFIG_FILENAME)
     const config = yaml.load(readFileSync(configPath, 'utf8')) as Config
     const postgresUrl = `postgresql://${config.db.postgres.user}:${config.db.postgres.password}@${config.db.postgres.host}:${config.db.postgres.port}/${config.db.postgres.database}`
     config.db.postgres.url = postgresUrl

@@ -34,7 +34,7 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter())
   app.enableCors()
 
-  await app.listen(6660, '0.0.0.0')
+  await app.listen(6661, '0.0.0.0')
   console.warn(`Application is running on: ${await app.getUrl()}`)
 }
 
