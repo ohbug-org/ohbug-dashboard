@@ -1,5 +1,5 @@
 http:
-  url: http://127.0.0.1:3000
+  url: 127.0.0.1
 
 # https:
 #   key: ./secrets/key.pem
@@ -21,10 +21,10 @@ secret:
   apikey: ohbug-apikey-s3cret
   session: ohbug-session-s3cret
 
-oauth:
-  github:
-    clientId: ''
-    clientSecret: ''
+# oauth:
+#   github:
+#     clientId:
+#     clientSecret:
 
 # email:
 #   server:

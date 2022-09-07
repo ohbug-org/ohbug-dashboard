@@ -16,6 +16,8 @@ import {
 
 dotenv.config({ path: join(cwd(), '../../', '.env') })
 
+const port = 6660
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -34,8 +36,8 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter())
   app.enableCors()
 
-  await app.listen(6661, '0.0.0.0')
-  console.warn(`Application is running on: ${await app.getUrl()}`)
+  await app.listen(port, '0.0.0.0')
+  console.warn(`Listening on port ${port}`)
 }
 
 bootstrap()

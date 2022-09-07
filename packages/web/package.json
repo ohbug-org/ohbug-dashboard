@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "cross-env PORT=3001 node server.js",
+    "start": "cross-env PORT=3000 node server.js",
     "lint": "tsc && eslint . --fix"
   },
   "dependencies": {
