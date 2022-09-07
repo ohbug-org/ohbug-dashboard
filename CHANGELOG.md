@@ -1,5 +1,17 @@
 
 
+# [0.8.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.7.2...0.8.0) (2022-09-07)
+
+
+### Bug Fixes
+
+* 完善 https 配置 ([3e985b8](https://github.com/ohbug-org/ohbug-dashboard/commit/3e985b883cb8193ff0394abe1cb236dffe1c6a5e))
+
+
+### Features
+
+* 支持 https ([a2f2bfa](https://github.com/ohbug-org/ohbug-dashboard/commit/a2f2bfae0dd9f46c8dcb7aa9558346e3bcee0f14))
+
 ## [0.7.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.7.1...0.7.2) (2022-09-05)
 
 
