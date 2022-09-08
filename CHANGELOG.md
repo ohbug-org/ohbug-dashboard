@@ -1,5 +1,12 @@
 
 
+## [0.8.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.8.0...0.8.1) (2022-09-08)
+
+
+### Bug Fixes
+
+* 修复 nextAuth 回调地址设置错误 ([0b4935d](https://github.com/ohbug-org/ohbug-dashboard/commit/0b4935d6cbc6952ba52d331f3860952da91e3a03))
+
 # [0.8.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.7.2...0.8.0) (2022-09-07)
 
 
