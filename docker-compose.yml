@@ -32,15 +32,15 @@ services:
       - postgres
       - redis
 
-  nginx:
-    image: nginx:alpine
-    restart: always
-    ports:
-      - '3001:3001'
-      - '6661:6661'
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./logs:/var/log/nginx
-      - ./secrets:/app/secrets
-    depends_on:
-      - app
+  # nginx:
+  #   image: nginx:alpine
+  #   restart: always
+  #   ports:
+  #     - '3001:3001'
+  #     - '6661:6661'
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #     - ./logs:/var/log/nginx
+  #     - ./secrets:/app/secrets
+  #   depends_on:
+  #     - app
