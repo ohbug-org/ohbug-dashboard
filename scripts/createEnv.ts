@@ -8,23 +8,22 @@ import type { Config } from '../packages/config'
 const YAML_CONFIG_FILENAME = 'ohbug.config.yml'
 const DEVELOP_YAML_CONFIG_FILENAME = 'ohbug.config.development.yml'
 const FILE_NAME = '.env'
+const WEB_PORT = 3000
 
 async function main() {
   const rootFilePath = join(cwd(), FILE_NAME)
   const webFilePath = join(cwd(), 'packages/web', FILE_NAME)
   const configPath = join(cwd(), process.env.NODE_ENV === 'development' ? DEVELOP_YAML_CONFIG_FILENAME : YAML_CONFIG_FILENAME)
   const config = yaml.load(await readFile(configPath, 'utf8')) as Config
-  const httpPrefix = config.https ? 'https' : 'http'
-  const port = config.https ? 3001 : 3000
   const fileContents = `NEXT_PUBLIC_VERSION=${pkg.version}
 DB_USER=${config.db.postgres.user}
 DB_PASSWORD=${config.db.postgres.password}
 DB_NAME=${config.db.postgres.database}
 DATABASE_URL="postgresql://${config.db.postgres.user}:${config.db.postgres.password}@${config.db.postgres.host}:${config.db.postgres.port}/${config.db.postgres.database}"
-NEXTAUTH_URL=${httpPrefix}://${config.http.url}:${port}
-NEXTAUTH_URL_INTERNAL=http://localhost:3000
+NEXTAUTH_URL=${config.http.url}
+NEXTAUTH_URL_INTERNAL=http://localhost:${WEB_PORT}
 NEXTAUTH_SECRET=${config.secret?.session ?? 'ohbug-session-s3cret'}
-NEXT_PUBLIC_NEXTAUTH_URL=${httpPrefix}://${config.http.url}:${port}
+NEXT_PUBLIC_NEXTAUTH_URL=${config.http.url}
 `
   await writeFile(rootFilePath, fileContents)
   await writeFile(webFilePath, fileContents)

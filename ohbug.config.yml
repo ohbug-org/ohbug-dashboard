@@ -1,9 +1,5 @@
 http:
-  url: 127.0.0.1
-
-# https:
-#   key: ./secrets/key.pem
-#   cert: ./secrets/cert.pem
+  url: http://localhost:3000
 
 db:
   postgres:

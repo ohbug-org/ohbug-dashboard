@@ -11,10 +11,6 @@ export interface Config {
   http: {
     url: string
   }
-  https?: {
-    key: string
-    cert: string
-  }
   db: {
     postgres: {
       host: string
