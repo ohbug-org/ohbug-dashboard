@@ -96,7 +96,7 @@ async function getUserIntervalCount(
   const count = await prisma.eventUser.count({
     where: {
       createdAt: { gte: dayjs().subtract(getIntervalMs(interval), 'ms').toDate() },
-      AND: { issues: { every: { issueId: issue.id } } },
+      issues: { some: { issueId: issue.id } },
     },
   })
   if (count >= value) {
@@ -147,12 +147,26 @@ async function judgingCondition(event: Event, issue: Issue, alert: Alert, prisma
       }
       case AlertConditionTopic.EventFrequencyCondition: {
         const { value, interval } = condition
-        result.push(await getEventIntervalCount(event, interval as Interval, parseInt(value as string), alert, prisma))
+        const eventIntervalCount = await getEventIntervalCount(
+          event,
+          interval as Interval,
+          parseInt(value as string),
+          alert,
+          prisma,
+        )
+        result.push(eventIntervalCount)
         break
       }
       case AlertConditionTopic.UserFrequencyCondition: {
         const { value, interval } = condition
-        result.push(await getUserIntervalCount(issue, interval as Interval, parseInt(value as string), alert, prisma))
+        const userIntervalCount = await getUserIntervalCount(
+          issue,
+          interval as Interval,
+          parseInt(value as string),
+          alert,
+          prisma,
+        )
+        result.push(userIntervalCount)
         break
       }
     }
