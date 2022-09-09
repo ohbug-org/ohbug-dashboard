@@ -184,6 +184,7 @@ importers:
       react-icons: ^4.4.0
       react-json-view: ^1.21.3
       react-use: ^17.4.0
+      rrweb: 2.0.0-alpha.1
       rrweb-player: 1.0.0-alpha.1
       source-map-trace: ^0.2.6
       superjson: ^1.9.1
@@ -224,6 +225,7 @@ importers:
       react-icons: 4.4.0_react@18.2.0
       react-json-view: 1.21.3_63dfw6rfgd64rl77ptfma4cvt4
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
+      rrweb: 2.0.0-alpha.1
       rrweb-player: 1.0.0-alpha.1
       source-map-trace: 0.2.6
       superjson: 1.9.1

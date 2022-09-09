@@ -3,6 +3,7 @@ import { Box } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useMemo, useRef } from 'react'
 import RrwebPlayer from 'rrweb-player'
+import { unpack } from 'rrweb'
 import { useMount } from 'react-use'
 import ThemeBox from '~/components/themeBox'
 import Wrapper from '~/components/wrapper'
@@ -25,7 +26,7 @@ const IssueRelatedRrweb: FC<Props> = ({ event }) => {
       // eslint-disable-next-line no-new
       new RrwebPlayer({
         target: rootRef.current,
-        props: { events },
+        props: { events, unpackFn: unpack },
       })
     }
   })

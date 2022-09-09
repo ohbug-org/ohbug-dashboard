@@ -22,7 +22,7 @@ model Event {
   detail       Json
   device       Json
   actions      Json?
-  metadata     Json?
+  metadata     String?
   createdAt    DateTime     @default(now()) @db.Timestamp
   userId       String
   user         EventUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
