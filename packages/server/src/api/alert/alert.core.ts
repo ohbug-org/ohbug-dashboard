@@ -168,12 +168,17 @@ async function judgingFilter(
   prisma: PrismaService,
 ) {
   const filters = alert.filters as unknown as FilterOption[]
+  if (filters.length === 0) return true
+  const result = []
   for (const filter of filters) {
     switch (filter.topic) {
       case AlertFilterTopic.IssueOccurrencesFilter: {
         const { value } = filter
         if (issueEventsCount >= value!) {
-          return true
+          result.push({
+            topic: filter.topic,
+            filter: true,
+          })
         }
         break
       }
@@ -185,49 +190,73 @@ async function judgingFilter(
           switch (match) {
             case 'contains': {
               if (attr.includes(v)) {
-                return true
+                result.push({
+                  topic: filter.topic,
+                  filter: true,
+                })
               }
               break
             }
             case 'starts with': {
               if (attr.startsWith(v)) {
-                return true
+                result.push({
+                  topic: filter.topic,
+                  filter: true,
+                })
               }
               break
             }
             case 'ends with': {
               if (attr.endsWith(v)) {
-                return true
+                result.push({
+                  topic: filter.topic,
+                  filter: true,
+                })
               }
               break
             }
             case 'equals': {
               if (attr === value) {
-                return true
+                result.push({
+                  topic: filter.topic,
+                  filter: true,
+                })
               }
               break
             }
             case 'does not contain': {
               if (!attr.includes(v)) {
-                return true
+                result.push({
+                  topic: filter.topic,
+                  filter: true,
+                })
               }
               break
             }
             case 'does not start with': {
               if (!attr.startsWith(v)) {
-                return true
+                result.push({
+                  topic: filter.topic,
+                  filter: true,
+                })
               }
               break
             }
             case 'does not end with': {
               if (!attr.endsWith(v)) {
-                return true
+                result.push({
+                  topic: filter.topic,
+                  filter: true,
+                })
               }
               break
             }
             case 'does not equal': {
               if (attr !== value) {
-                return true
+                result.push({
+                  topic: filter.topic,
+                  filter: true,
+                })
               }
               break
             }
@@ -241,13 +270,22 @@ async function judgingFilter(
           orderBy: { createdAt: 'desc' },
         })
         if (latestIssue.id === issue.id) {
-          return true
+          result.push({
+            topic: filter.topic,
+            filter: true,
+          })
         }
         break
       }
     }
   }
-  return true
+  if (alert.filterMatch === 'every') {
+    return result.some(item => item.filter === true)
+  }
+  else if (alert.filterMatch === 'all') {
+    return result.every(item => item.filter === true)
+  }
+  return false
 }
 
 export async function getAlertStatus(
@@ -270,8 +308,16 @@ export async function getAlertStatus(
     const filtered = await judgingFilter(event, issue, issueEventsCount, alertNew, prisma)
     if (!filtered) continue
 
-    const item = await judgingCondition(event, issue, alertNew, prisma)
-    result = result.concat(item.filter(v => v.condition))
+    const items = await judgingCondition(event, issue, alertNew, prisma)
+
+    if (alert.conditionMatch === 'every') {
+      result = result.concat(items.filter(v => v.condition))
+    }
+    else if (alert.conditionMatch === 'all') {
+      if (items.every(item => item.condition === true)) {
+        result = result.concat(items)
+      }
+    }
   }
   return result
 }
