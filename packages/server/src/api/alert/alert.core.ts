@@ -247,7 +247,7 @@ async function judgingFilter(
       }
     }
   }
-  return false
+  return true
 }
 
 export async function getAlertStatus(
@@ -294,9 +294,10 @@ export function getAlertContent(
 ) {
   const url = (event.device as any).url
   const { type, updatedAt } = issue
-  const message = (issue.metadata as any).message
-  const filename = (issue.metadata as any).filename
-  const others = (issue.metadata as any).others
+  const metadata = JSON.parse(issue.metadata || '{}')
+  const message = metadata.message || 'unknown message'
+  const filename = metadata.filename
+  const others = metadata.others
   const title = `「Ohbug」[问题通知] [${switchLevelAndGetText(alert.level)}] ${type}`
   const statistics = {
     eventsCount: issueEventsCount,
