@@ -27,8 +27,13 @@ const IssueDetailTabs: FC<Props> = ({ event }) => {
         tab: 'events',
       },
     ]
-    if (event.metadata) {
-      Object.keys(event.metadata).forEach((key) => {
+    let metadata = null
+    try {
+      metadata = JSON.parse(event.metadata as unknown as string)
+    }
+    catch (_) {}
+    if (metadata) {
+      Object.keys(metadata).forEach((key) => {
         base.push({
           label: key,
           value: key,
