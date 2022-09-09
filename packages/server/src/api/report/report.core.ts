@@ -189,6 +189,9 @@ export function switchErrorDetailAndGetAggregationDataAndMetaData(
  * @param aggregationData
  */
 export function getMd5FromAggregationData(...aggregationData: any[]): string {
-  const data = aggregationData.join(',')
+  const data = aggregationData.map((item) => {
+    if (typeof item === 'object') return JSON.stringify(item)
+    return item
+  }).join(',')
   return md5(data)
 }
