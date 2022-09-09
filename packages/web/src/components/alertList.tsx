@@ -94,14 +94,14 @@ const AlertList: FC<Props> = ({ alerts, mutate }) => {
                     variant="ghost"
                   />
                   <MenuList>
-                    <MenuItem>
-                      <NextLink
-                        href={`/${projectId}/alerts/${alert.id}/edit`}
-                        passHref
-                      >
+                    <NextLink
+                      href={`/${projectId}/alerts/${alert.id}/edit`}
+                      passHref
+                    >
+                      <MenuItem>
                         Edit
-                      </NextLink>
-                    </MenuItem>
+                      </MenuItem>
+                    </NextLink>
                     <MenuItem
                       onClick={
                         () => {
