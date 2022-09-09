@@ -1,4 +1,5 @@
 version: '3.7'
+
 services:
   postgres:
     image: postgres:alpine
@@ -11,7 +12,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
   redis:
     image: redis:alpine
@@ -44,3 +45,6 @@ services:
   #     - ./secrets:/app/secrets
   #   depends_on:
   #     - app
+
+volumes:
+  pgdata: {}

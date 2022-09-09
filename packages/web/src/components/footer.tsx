@@ -4,6 +4,7 @@ import { RiGithubFill } from 'react-icons/ri'
 import Logo from './logo'
 import Intl from './intl'
 import Theme from './theme'
+import ThemeBox from './themeBox'
 
 const Footer: FC = () => {
   return (
@@ -32,7 +33,12 @@ const Footer: FC = () => {
       >
         <Intl />
         <Theme />
-
+        <ThemeBox
+          color="gray"
+          fontSize="sm"
+        >
+          v{process.env.NEXT_PUBLIC_VERSION}
+        </ThemeBox>
       </Flex>
     </Flex>
   )
