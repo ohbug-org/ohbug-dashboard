@@ -1,5 +1,17 @@
 
 
+## [0.8.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.8.1...0.8.2) (2022-09-09)
+
+
+### Bug Fixes
+
+* **server:** 修复 alert message 为空 ([9ef7094](https://github.com/ohbug-org/ohbug-dashboard/commit/9ef7094e55a0c5e2fc26bbc55d34fb7f4f973da0))
+* **server:** 修复 alert 通知 @ 人不生效 ([67bb1f0](https://github.com/ohbug-org/ohbug-dashboard/commit/67bb1f034808662c25cceba7618b2d60c7076352))
+* **server:** 修复 conditionMatch filterMatch 不生效 ([f625ee7](https://github.com/ohbug-org/ohbug-dashboard/commit/f625ee709b199efcc729fb33f0dda73096f595d6))
+* **server:** 修复聚合生成 md5 Object 导致的一致性问题 ([c5ce04b](https://github.com/ohbug-org/ohbug-dashboard/commit/c5ce04becd4ec47c6e22b1cd8b9814e8f9febbae))
+* **web:** issues 页面默认查询最近的 event 记录 ([67282fd](https://github.com/ohbug-org/ohbug-dashboard/commit/67282fd1301eff50cdb0de670da390e5d13acb8d))
+* **web:** 修复 alert 列表编辑没有反应 ([1da7e7b](https://github.com/ohbug-org/ohbug-dashboard/commit/1da7e7b0582eec7de13ec35d38e70be01d759865))
+
 ## [0.8.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.8.0...0.8.1) (2022-09-08)
 
 
