@@ -1,5 +1,19 @@
 
 
+# [0.9.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.8.2...0.9.0) (2022-09-09)
+
+
+### Bug Fixes
+
+* **server:** 修复 alert UserFrequencyCondition 异常 ([7f85060](https://github.com/ohbug-org/ohbug-dashboard/commit/7f85060cc2ba3b337e41ebb9a17694e72908030c))
+* **web:** 修复 issues tab 栏异常 ([d4dff96](https://github.com/ohbug-org/ohbug-dashboard/commit/d4dff96d2a3ed4070e7195308dfecc032c52b4fc))
+
+
+### Features
+
+* event metadata 使用 string 类型存储 ([1098116](https://github.com/ohbug-org/ohbug-dashboard/commit/109811683dd33de90e32fed2a7a6b87c06e2980a))
+* **web:** feedback 新增详细信息展示 ([b776057](https://github.com/ohbug-org/ohbug-dashboard/commit/b77605724b130240011e272c870be1b65ca5e7ae))
+
 ## [0.8.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.8.1...0.8.2) (2022-09-09)
 
 
