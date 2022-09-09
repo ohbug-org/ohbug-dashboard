@@ -29,7 +29,7 @@ function switchWebhookTypeAndGetFormatResult(
       }
       if (at) {
         result.at = {
-          atMobiles: at,
+          atMobiles: [at],
           isAtAll: false,
         }
       }
@@ -41,7 +41,7 @@ function switchWebhookTypeAndGetFormatResult(
         text: { content: text },
       }
       if (at) {
-        result.text.mentioned_mobile_list = at
+        result.text.mentioned_mobile_list = [at]
       }
       return result
     }
