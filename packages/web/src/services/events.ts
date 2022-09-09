@@ -19,11 +19,13 @@ export async function serviceGetEvent({ id, issueId }: ServiceGetEventParams) {
   }
   if (issueId) {
     const event = (
-      await getPrisma().event.findFirstOrThrow({
+      await getPrisma().event.findMany({
         where: { issueId },
+        orderBy: { createdAt: 'desc' },
+        take: 1,
         include: { user: true },
       })
-    ) as unknown as OhbugEventLike
+    ).at(0) as unknown as OhbugEventLike
     const source = await serviceGetEventSource(event)
     return { ...event, source }
   }
