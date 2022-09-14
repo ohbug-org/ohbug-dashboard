@@ -1,5 +1,12 @@
 
 
+## [0.9.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.9.1...0.9.2) (2022-09-14)
+
+
+### Bug Fixes
+
+* **server:** event 上报修复 user 创建问题 ([d778890](https://github.com/ohbug-org/ohbug-dashboard/commit/d778890b361d9c4e92f5e2de1adea90292516b67))
+
 ## [0.9.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.9.0...0.9.1) (2022-09-14)
 
 
