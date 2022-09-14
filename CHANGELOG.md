@@ -1,5 +1,15 @@
 
 
+## [0.9.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.9.0...0.9.1) (2022-09-14)
+
+
+### Bug Fixes
+
+* **nginx:** 修复 nginx 反代导致无法获取真实 IP ([1d1e471](https://github.com/ohbug-org/ohbug-dashboard/commit/1d1e471b5d39851c9dfc6163bd24da3fd9aa523e))
+* project name 修改为可重复字段 ([4a2d1be](https://github.com/ohbug-org/ohbug-dashboard/commit/4a2d1be2f58768d4f67f00f4a8ded51bb43b3a11))
+* **web:** 修复 issue detail 页 active tab 状态问题 ([408d218](https://github.com/ohbug-org/ohbug-dashboard/commit/408d2184cf21e60bc1559da25b104b899e5534d4))
+* **web:** 新增页面标题 ([6983caf](https://github.com/ohbug-org/ohbug-dashboard/commit/6983cafc2725a5d46cf12c2110efda8a0b7347dc))
+
 # [0.9.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.8.2...0.9.0) (2022-09-09)
 
 
