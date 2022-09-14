@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { handle, redirect } from 'next-runtime'
 import { getConfig } from 'config'
+import Head from 'next/head'
 import type { NextPageWithLayout } from './_app'
 import { serviceCreateProject } from '~/services/projects'
 import { getAuth } from '~/libs/middleware'
@@ -107,6 +108,13 @@ const CreateProject: NextPageWithLayout = () => {
   )
 }
 
-CreateProject.getLayout = page => page
+CreateProject.getLayout = page => (
+  <>
+    <Head>
+      <title>Create Project | Ohbug</title>
+    </Head>
+    {page}
+  </>
+)
 
 export default CreateProject

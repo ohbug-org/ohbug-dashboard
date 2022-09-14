@@ -11,6 +11,7 @@ import { RiGithubFill, RiLoginBoxLine, RiMailLine } from 'react-icons/ri'
 import type { Project, User } from '@prisma/client'
 import { useAtom } from 'jotai'
 import { useMount } from 'react-use'
+import Head from 'next/head'
 import type { NextPageWithLayout } from '../_app'
 import { serviceGetProject } from '~/services/projects'
 import { serviceGetUser } from '~/services/users'
@@ -343,6 +344,13 @@ const SignIn: NextPageWithLayout<Props> = ({ providers, inviter }) => {
   )
 }
 
-SignIn.getLayout = page => page
+SignIn.getLayout = page => (
+  <>
+    <Head>
+      <title>SignIn | Ohbug</title>
+    </Head>
+    {page}
+  </>
+)
 
 export default SignIn
