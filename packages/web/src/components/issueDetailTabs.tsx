@@ -59,7 +59,7 @@ const IssueDetailTabs: FC<Props> = ({ event }) => {
 
   return (
     <Tabs
-      defaultIndex={active}
+      index={active}
       onChange={handleTabChange}
       variant="enclosed-colored"
     >
