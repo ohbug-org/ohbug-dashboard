@@ -3,6 +3,7 @@ import type { Issue, OhbugEventLike } from 'common'
 import { Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
+import dynamic from 'next/dynamic'
 import EventDetailActions from '~/components/eventDetailAction'
 import EventDetailProfile from '~/components/eventDetailProfile'
 import EventDetailStack from '~/components/eventDetailStack'
@@ -13,8 +14,14 @@ import IssueRelatedEvents from '~/components/issueRelatedEvents'
 import { serviceGetEvent } from '~/services/events'
 import type { IssueTrend } from '~/services/issues'
 import { serviceGetIssue, serviceGetIssuesTrends } from '~/services/issues'
-import IssueRelatedRrweb from '~/components/issueRelatedRrweb'
 import IssueRelatedMetadata from '~/components/issueRelatedMetadata'
+
+const IssueRelatedRrweb = dynamic(
+  () => {
+    return import('~/components/issueRelatedRrweb')
+  },
+  { ssr: false },
+)
 
 interface Props {
   issue: Issue

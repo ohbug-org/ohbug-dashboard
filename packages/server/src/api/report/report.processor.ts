@@ -18,7 +18,8 @@ export class ReportProcessor {
     metadata,
   }: CreateEventParams) {
     try {
-      const result = await this.prisma.event.create({
+      const now = new Date()
+      const createEventOperation = this.prisma.event.create({
         data: {
           apiKey: event.apiKey,
           appVersion: event.appVersion,
@@ -40,28 +41,6 @@ export class ReportProcessor {
                 apiKey: event.apiKey,
                 type: event.type,
                 metadata: JSON.stringify(metadata),
-                users: {
-                  connectOrCreate: {
-                    where: {
-                      issueId_eventUserId: {
-                        issueId: issueIntro,
-                        eventUserId: userIntro,
-                      },
-                    },
-                    create: {
-                      eventUser: {
-                        connectOrCreate: {
-                          where: { id: userIntro },
-                          create: {
-                            ...event.user,
-                            id: userIntro,
-                            ipAddress: event.user.ipAddress!,
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
               },
             },
           },
@@ -82,7 +61,7 @@ export class ReportProcessor {
                     },
                     create: {
                       apiKey: event.apiKey,
-                      assignedAt: new Date(),
+                      assignedAt: now,
                     },
                   },
                 },
@@ -92,15 +71,32 @@ export class ReportProcessor {
         },
         include: { issue: true },
       })
-      const now = new Date()
-      await this.prisma.issue.update({
+      const updateIssueOperation = this.prisma.issue.update({
         where: { id: issueIntro },
-        data: { updatedAt: now },
+        data: {
+          updatedAt: now,
+          users: {
+            connectOrCreate: {
+              where: {
+                issueId_eventUserId: {
+                  issueId: issueIntro,
+                  eventUserId: userIntro,
+                },
+              },
+              create: { eventUser: { connect: { id: userIntro } } },
+            },
+          },
+        },
       })
-      await this.prisma.eventUser.update({
+      const updateEventUserOperation = this.prisma.eventUser.update({
         where: { id: userIntro },
         data: { updatedAt: now },
       })
+      const [result] = await this.prisma.$transaction([
+        createEventOperation,
+        updateIssueOperation,
+        updateEventUserOperation,
+      ])
       return result
     }
     catch (error) {
