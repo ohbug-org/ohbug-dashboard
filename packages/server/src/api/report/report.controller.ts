@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Ip, Post } from '@nestjs/common'
+import { Body, Controller, HttpCode, Ip, Post, Req } from '@nestjs/common'
 import type { OhbugEvent } from '@ohbug/types'
 import { ReportService } from './report.service'
 
@@ -19,7 +19,7 @@ export class ReportController {
    */
   @Post()
   @HttpCode(204)
-  async receiveEventFromPost(@Body() event: OhbugEvent<any> | string, @Ip() ip: string) {
-    this.reportService.handleEvent(event, ip)
+  async receiveEventFromPost(@Body() event: OhbugEvent<any> | string, @Ip() ip: string, @Req() req: any) {
+    this.reportService.handleEvent(event, req.headers?.['x-real-ip'] || req.headers?.['x-forwarded-for'] || ip)
   }
 }
