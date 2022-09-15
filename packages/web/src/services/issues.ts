@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import type { Pagination } from 'common'
 import { PAGE_SIZE, pagination } from 'common'
+import type { Prisma } from '@prisma/client'
 import { serviceGetProject } from './projects'
 import { getPrisma } from '~/db'
 
@@ -12,7 +13,7 @@ interface ServiceGetIssuesParams extends Pagination {
 }
 export async function serviceGetIssues({ projectId, query, page = 0, pageSize = PAGE_SIZE, orderBy = 'updatedAt' }: ServiceGetIssuesParams) {
   const project = await serviceGetProject(projectId)
-  const options: any = {
+  const options: Prisma.IssueFindManyArgs = {
     where: { apiKey: project.apiKey },
     ...pagination({ page, pageSize }),
     include: {
@@ -31,7 +32,7 @@ export async function serviceGetIssues({ projectId, query, page = 0, pageSize = 
     options.orderBy = { [orderBy]: { _count: 'desc' } }
   }
   if (query) {
-    options.where.metadata = { search: query }
+    options.where!.metadata = { search: query }
   }
   return getPrisma().issue.findMany(options)
 }

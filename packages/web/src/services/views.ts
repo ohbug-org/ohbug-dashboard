@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client'
 import { getPrisma } from '~/db'
 
 interface serviceGetUserViewParams {
@@ -6,14 +7,14 @@ interface serviceGetUserViewParams {
   startDate?: Date
 }
 export function serviceGetUserView({ apiKey, expirationDate = new Date(), startDate }: serviceGetUserViewParams) {
-  const options: any = {
+  const options: Prisma.UserViewCountArgs = {
     where: {
       apiKey,
       createdAt: { lte: expirationDate },
     },
   }
   if (startDate) {
-    options.where.createdAt.gte = startDate
+    (options.where!.createdAt as Prisma.DateTimeFilter).gte = startDate
   }
   return getPrisma().userView.count(options)
 }
@@ -24,14 +25,14 @@ interface serviceGetPageViewParams {
   startDate?: Date
 }
 export function serviceGetPageView({ apiKey, expirationDate = new Date(), startDate }: serviceGetPageViewParams) {
-  const options: any = {
+  const options: Prisma.PageViewCountArgs = {
     where: {
       apiKey,
       createdAt: { lte: expirationDate },
     },
   }
   if (startDate) {
-    options.where.createdAt.gte = startDate
+    (options.where!.createdAt as Prisma.DateTimeFilter).gte = startDate
   }
   return getPrisma().pageView.count(options)
 }

@@ -99,6 +99,7 @@ const theme: Dict = extendTheme({
     },
     Tooltip: { baseStyle: { color: 'white' } },
     Checkbox: { baseStyle: (props: GlobalStyleProps) => ({ control: { borderColor: mode('gray.200', 'dark.50')(props) } }) },
+    Table: { baseStyle: { table: { mx: '-4' } } },
   },
   styles: {
     global: (props: GlobalStyleProps) => ({

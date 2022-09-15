@@ -51,6 +51,7 @@ export class ReportProcessor {
                 ...event.user,
                 id: userIntro,
                 ipAddress: event.user.ipAddress!,
+                metadata: event.user.metadata ? JSON.stringify(event.user.metadata) : undefined,
                 projects: {
                   connectOrCreate: {
                     where: {
@@ -129,6 +130,7 @@ export class ReportProcessor {
                 ...metric.user,
                 id: userIntro,
                 ipAddress: metric.user.ipAddress!,
+                metadata: metric.user.metadata ? JSON.stringify(metric.user.metadata) : undefined,
                 projects: {
                   connectOrCreate: {
                     where: {
@@ -175,6 +177,7 @@ export class ReportProcessor {
                 ...feedback.user,
                 id: userIntro,
                 ipAddress: feedback.user.ipAddress!,
+                metadata: feedback.user.metadata ? JSON.stringify(feedback.user.metadata) : undefined,
                 projects: {
                   connectOrCreate: {
                     where: {
@@ -220,6 +223,7 @@ export class ReportProcessor {
                 ...view.user,
                 id: userIntro,
                 ipAddress: view.user.ipAddress!,
+                metadata: view.user.metadata ? JSON.stringify(view.user.metadata) : undefined,
                 projects: {
                   connectOrCreate: {
                     where: {
@@ -265,6 +269,7 @@ export class ReportProcessor {
                 ...view.user,
                 id: userIntro,
                 ipAddress: view.user.ipAddress!,
+                metadata: view.user.metadata ? JSON.stringify(view.user.metadata) : undefined,
                 projects: {
                   connectOrCreate: {
                     where: {

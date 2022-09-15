@@ -10,6 +10,8 @@ interface Props extends ThemeBoxProps {
   bottomNodes?: ReactNode
 }
 
+const PADDING = '12'
+
 const Title: FC<Props> = ({ children, rightNodes, bottomNodes, ...props }) => {
   return (
     <ThemeBox
@@ -22,17 +24,28 @@ const Title: FC<Props> = ({ children, rightNodes, bottomNodes, ...props }) => {
         display="flex"
         flexDirection="column"
         justifyContent="space-between"
-        pb={bottomNodes ? '0' : '16'}
-        pt="16"
+        pb={bottomNodes ? '0' : PADDING}
+        pt={PADDING}
       >
         <Flex
           align="center"
           justify="space-between"
         >
-          {typeof children === 'string' ? <Heading>{children}</Heading> : children}
+          {
+            typeof children === 'string'
+              ? (
+                <Heading
+                  fontWeight="semibold"
+                  size="lg"
+                >
+                  {children}
+                </Heading>
+              )
+              : children
+          }
           <Box>{rightNodes}</Box>
         </Flex>
-        <Box mt="6">{bottomNodes}</Box>
+        <Box mt={bottomNodes ? '6' : 0}>{bottomNodes}</Box>
       </Wrapper>
     </ThemeBox>
   )

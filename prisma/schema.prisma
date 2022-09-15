@@ -137,7 +137,7 @@ model EventUser {
   uuid      String?
   email     String?
   name      String?
-  metadata  Json?
+  metadata  String?
   createdAt DateTime               @default(now())
   updatedAt DateTime               @updatedAt
   issues    EventUsersOnIssues[]
@@ -147,6 +147,8 @@ model EventUser {
   pageViews PageView[]
   userViews UserView[]
   projects  EventUsersOnProjects[]
+
+  @@index([ipAddress, uuid, email, name, metadata])
 }
 
 model EventUsersOnIssues {

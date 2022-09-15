@@ -11,7 +11,7 @@ const Wrapper = forwardRef<HTMLDivElement, Props>(({ children, ...props }, ref) 
   return (
     <Container
       maxW="container.xl"
-      p="4"
+      py="4"
       ref={ref}
       {...props}
     >
