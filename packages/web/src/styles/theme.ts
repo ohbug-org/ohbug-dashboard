@@ -98,6 +98,7 @@ const theme: Dict = extendTheme({
       }),
     },
     Tooltip: { baseStyle: { color: 'white' } },
+    Checkbox: { baseStyle: (props: GlobalStyleProps) => ({ control: { borderColor: mode('gray.200', 'dark.50')(props) } }) },
   },
   styles: {
     global: (props: GlobalStyleProps) => ({
