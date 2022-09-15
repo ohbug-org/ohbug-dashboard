@@ -2,16 +2,16 @@ import type { FC, ReactNode } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import NextLink from 'next/link'
 import type { Issue } from 'common'
-import { RiMoreLine, RiTimeLine } from 'react-icons/ri'
+import { RiMoreLine, RiSearchLine, RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Center, Checkbox, CheckboxGroup, Flex, FormControl, FormLabel, HStack, Icon, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Select, Switch, Text, Tooltip, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Center, Checkbox, CheckboxGroup, Flex, FormControl, FormLabel, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Link, Menu, MenuButton, MenuItem, MenuList, Select, Switch, Text, Tooltip, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
-import { useSet } from 'react-use'
+import { useDebounce, useSet } from 'react-use'
 import { useAtom } from 'jotai'
 import TrendChart from './trendChart'
 import ThemeBox from './themeBox'
 import Pagination from './pagination'
-import Loading from './loading'
+import Spinning from './spinning'
 import type { SearchIssuesOrderBy } from '~/services/issues'
 import { serviceDeleteIssues, serviceGetIssues, serviceGetIssuesTrends } from '~/services/issues'
 import { renderStringOrJson } from '~/libs/utils'
@@ -31,19 +31,28 @@ const IssueList: FC<Props> = ({ empty }) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
   const cancelRef = useRef(null)
   const [orderBy, setOrderBy] = useAtom(issueSortAtom)
+  const [query, setQuery] = useState('')
+  const [debouncedQuery, setDebouncedQuery] = useState('')
+  useDebounce(
+    () => {
+      setDebouncedQuery(query)
+    },
+    500,
+    [query],
+  )
   const { data, size, setSize, isLoading, isReachingEnd, mutate } = useInfinite<Issue>(
     index => serviceGetIssues({
       page: index + 1,
       projectId: projectId!,
       orderBy,
+      query: debouncedQuery,
     }),
     {
       enabled: projectId !== undefined,
-      deps: [projectId, orderBy],
+      deps: [projectId, orderBy, debouncedQuery],
       pagination: true,
     },
   )
-
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
   const { data: trends } = useQuery(
     () => serviceGetIssuesTrends({
@@ -92,8 +101,6 @@ const IssueList: FC<Props> = ({ empty }) => {
       .finally(onClose)
   }, [checkedItems])
 
-  if (isLoading) return <Loading />
-
   return (
     <Box
       h="full"
@@ -101,6 +108,29 @@ const IssueList: FC<Props> = ({ empty }) => {
       overflowY="auto"
       w="full"
     >
+      <Box
+        mb="4"
+        w="full"
+      >
+        <InputGroup>
+          <InputLeftElement
+            pointerEvents="none"
+          >
+            {
+              isLoading
+                ? <Spinning />
+                : <RiSearchLine />
+            }
+          </InputLeftElement>
+          <Input
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search..."
+            value={query}
+            variant="filled"
+          />
+        </InputGroup>
+      </Box>
+
       <CheckboxGroup variant="subtle">
         {/* header */}
         <ThemeBox

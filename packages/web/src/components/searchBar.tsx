@@ -1,23 +1,15 @@
 import type { FC } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useCombobox } from 'downshift'
-import { Box, Flex, Icon, Input, InputGroup, InputRightElement, Kbd, useColorModeValue } from '@chakra-ui/react'
-import { RiCloudLine } from 'react-icons/ri'
-import { useRouter } from 'next/router'
+import { Box, Flex, Input, InputGroup, InputRightElement, Kbd, useColorModeValue } from '@chakra-ui/react'
 import { useKey } from 'react-use'
 import ThemeBox from './themeBox'
-import Loading from './loading'
 import { useSearchBarActions } from '~/hooks/useSearchBarActions'
-import { useIssuesSearch } from '~/hooks/useIssuesSearch'
-import useCurrentProject from '~/hooks/useCurrentProject'
 
 const SearchBar: FC = () => {
-  const router = useRouter()
-  const { projectId } = useCurrentProject()
   const highlightedIndexColor = useColorModeValue('gray.200', 'dark.200')
   const { actions } = useSearchBarActions()
   const [items, setItems] = useState(actions)
-  const [query, setQuery] = useState('')
 
   const {
     isOpen,
@@ -31,7 +23,6 @@ const SearchBar: FC = () => {
     closeMenu,
   } = useCombobox({
     onInputValueChange({ inputValue }) {
-      if (inputValue) setQuery(inputValue)
       setItems(actions.filter((item) => {
         return (
           !inputValue
@@ -51,26 +42,6 @@ const SearchBar: FC = () => {
       return item ? item.label : ''
     },
   })
-  const { data: searchedIssues, isLoading: searchedIssuesLoading } = useIssuesSearch(!items.length ? query : '')
-  useEffect(() => {
-    if (Array.isArray(searchedIssues) && searchedIssues.length > 0) {
-      setItems(searchedIssues.map(issue => ({
-        label: issue.type,
-        subtitle: JSON.parse(issue.metadata).message,
-        value: issue.id,
-        section: 'Issue',
-        shortcut: [],
-        keywords: [],
-        icon: <Icon as={RiCloudLine} />,
-        perform: () => {
-          router.push({
-            pathname: '/[projectId]/issues/[issueId]',
-            query: { issueId: issue.id, projectId },
-          })
-        },
-      })))
-    }
-  }, [searchedIssues, projectId])
   const handleInputFocus = useCallback(() => {
     openMenu()
   }, [])
@@ -151,9 +122,6 @@ const SearchBar: FC = () => {
               {highlightedIndex === index ? <Box>Jump to <Kbd>↵</Kbd></Box> : (item.icon || null)}
             </Flex>
           ))
-        }
-        {
-          searchedIssuesLoading && <Box p="3"><Loading /></Box>
         }
       </ThemeBox>
     </Box>

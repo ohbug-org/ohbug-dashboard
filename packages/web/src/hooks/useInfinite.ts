@@ -1,5 +1,6 @@
 import { PAGE_SIZE } from 'common'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 
 interface State<T> {
   isLoading: boolean
@@ -24,10 +25,12 @@ export function useInfinite<T = any>(
   const reset = useCallback(() => set(initialState), [])
   const mutate = useCallback(() => {
     const callId = ++lastCallId.current
-    set(prevState => ({
-      ...prevState,
-      isLoading: true,
-    }))
+    flushSync(() => {
+      set(prevState => ({
+        ...prevState,
+        isLoading: true,
+      }))
+    })
     return keyLoading(state.size)
       .then((res) => {
         callId === lastCallId.current && set(prevState => ({
@@ -58,7 +61,6 @@ export function useInfinite<T = any>(
       mutate()
     }
   }, [enabled, state.size, ...deps])
-  useEffect(() => reset(), deps)
   const isEmpty = useMemo(() => state.result?.[0]?.length === 0, [state.result])
   const isReachingEnd = useMemo(
     () => isEmpty || (state.result && state.result[state.result.length - 1]?.length < PAGE_SIZE),
