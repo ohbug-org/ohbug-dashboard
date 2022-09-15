@@ -110,6 +110,7 @@ const theme: Dict = extendTheme({
       },
     }),
   },
+  config: { useSystemColorMode: true },
 })
 
 export default theme
