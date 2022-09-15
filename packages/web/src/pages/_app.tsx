@@ -30,7 +30,7 @@ export type NextPageWithLayout<T = any> = NextPage<T> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
 
-type AppPropsWithLayout = AppProps & {
+type AppPropsWithLayout = AppProps<any> & {
   Component: NextPageWithLayout
 }
 
