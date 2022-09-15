@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Center, Checkbox, CheckboxGroup, Flex, FormControl, FormLabel, HStack, Icon, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Select, Switch, Text, Tooltip, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
 import { useSet } from 'react-use'
+import { useAtom } from 'jotai'
 import TrendChart from './trendChart'
 import ThemeBox from './themeBox'
 import Pagination from './pagination'
@@ -17,6 +18,7 @@ import { renderStringOrJson } from '~/libs/utils'
 import useCurrentProject from '~/hooks/useCurrentProject'
 import { useQuery } from '~/hooks/useQuery'
 import { useInfinite } from '~/hooks/useInfinite'
+import { issueSortAtom } from '~/atoms/issue'
 
 interface Props {
   empty: ReactNode
@@ -28,7 +30,7 @@ const IssueList: FC<Props> = ({ empty }) => {
   const { projectId } = useCurrentProject()
   const { isOpen, onClose, onOpen } = useDisclosure()
   const cancelRef = useRef(null)
-  const [orderBy, setOrderBy] = useState<SearchIssuesOrderBy>('updatedAt')
+  const [orderBy, setOrderBy] = useAtom(issueSortAtom)
   const { data, size, setSize, isLoading, isReachingEnd, mutate } = useInfinite<Issue>(
     index => serviceGetIssues({
       page: index + 1,
@@ -130,10 +132,10 @@ const IssueList: FC<Props> = ({ empty }) => {
 
           <Box w="50%">
             <HStack spacing="2">
-
               <Select
                 onChange={e => setOrderBy(e.target.value as SearchIssuesOrderBy)}
                 size="sm"
+                value={orderBy}
                 w="40"
               >
                 <option value="updatedAt">{t('orderByUpdatedAt')}</option>
