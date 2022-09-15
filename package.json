@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@chenyueban/tsconfig": "^2.1.0",
-    "@ohbug/browser": "^2.3.0",
+    "@ohbug/browser": "^2.4.0",
     "@ohbug/core": "^2.1.1",
     "@ohbug/react": "^2.0.7",
     "@ohbug/types": "^2.1.1",
@@ -70,7 +70,7 @@
     "eslint": "^8.23.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "release-it": "^15.4.1"
+    "release-it": "^15.4.2"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
