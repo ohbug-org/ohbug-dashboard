@@ -1,5 +1,21 @@
 
 
+# [0.10.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.9.2...0.10.0) (2022-09-15)
+
+
+### Bug Fixes
+
+* **web:** 修复 app 类型 ([561591c](https://github.com/ohbug-org/ohbug-dashboard/commit/561591ccb883fab65a6c18b10e7f361cbfe235ec))
+* **web:** 调整 checkbox 边框色 ([1f2fed2](https://github.com/ohbug-org/ohbug-dashboard/commit/1f2fed29b009f1c8c66368b995971e7c2b0948ee))
+
+
+### Features
+
+* **web:** issue 排序选择状态记入缓存 ([2e4d4f6](https://github.com/ohbug-org/ohbug-dashboard/commit/2e4d4f6276198033042db171c5c7095b5758774f))
+* **web:** issue 支持搜索 ([3f1ce81](https://github.com/ohbug-org/ohbug-dashboard/commit/3f1ce813df9d5643c113cae69b1e6bcdad3724ff))
+* **web:** user 支持搜索 ([14bd30f](https://github.com/ohbug-org/ohbug-dashboard/commit/14bd30f457e128127a29ffa70683fcd2fe1e4c4d))
+* **web:** 优化 footer ([72cea37](https://github.com/ohbug-org/ohbug-dashboard/commit/72cea372ab90302fb0d676cbcb90d2b04afaab0f))
+
 ## [0.9.2](https://github.com/ohbug-org/ohbug-dashboard/compare/0.9.1...0.9.2) (2022-09-14)
 
 
