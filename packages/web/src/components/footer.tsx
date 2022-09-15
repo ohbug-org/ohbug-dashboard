@@ -1,6 +1,6 @@
-import { Box, Flex, Icon, Link } from '@chakra-ui/react'
+import { Flex, HStack, Icon, Link } from '@chakra-ui/react'
 import type { FC } from 'react'
-import { RiGithubFill } from 'react-icons/ri'
+import { RiDiscordFill, RiGithubFill } from 'react-icons/ri'
 import Logo from './logo'
 import Intl from './intl'
 import Theme from './theme'
@@ -12,9 +12,17 @@ const Footer: FC = () => {
       align="center"
       justify="space-between"
     >
-      <Logo />
+      <HStack spacing="4">
+        <Logo />
+        <ThemeBox
+          color="gray"
+          fontSize="sm"
+        >
+          v{process.env.NEXT_PUBLIC_VERSION}
+        </ThemeBox>
+      </HStack>
 
-      <Box>
+      <HStack spacing="4">
         <Link
           href="https://github.com/ohbug-org"
           target="_blank"
@@ -25,21 +33,22 @@ const Footer: FC = () => {
             w="6"
           />
         </Link>
-      </Box>
+        <Link
+          href="https://discord.gg/FmxaBSBumM"
+          target="_blank"
+        >
+          <Icon
+            as={RiDiscordFill}
+            h="6"
+            w="6"
+          />
+        </Link>
+      </HStack>
 
-      <Flex
-        align="center"
-        gap="2"
-      >
+      <HStack spacing="4">
         <Intl />
         <Theme />
-        <ThemeBox
-          color="gray"
-          fontSize="sm"
-        >
-          v{process.env.NEXT_PUBLIC_VERSION}
-        </ThemeBox>
-      </Flex>
+      </HStack>
     </Flex>
   )
 }
