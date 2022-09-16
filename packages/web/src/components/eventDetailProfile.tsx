@@ -19,11 +19,11 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
   const deviceInfo = useMemo(() => getDeviceInfo(event), [event])
   const tagList = useMemo(() => {
     const result = []
-    if (event?.timestamp) {
+    if (event?.createdAt) {
       result.push({
         key: 'time',
-        title: `${t('profileTimestamp')}: ${dayjs(event.timestamp).format('YYYY-MM-DD HH:mm:ss')}`,
-        value: dayjs(event.timestamp).fromNow(),
+        title: `${t('profileTimestamp')}: ${dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}`,
+        value: dayjs(event.createdAt).fromNow(),
         icon: RiTimeLine,
       })
     }

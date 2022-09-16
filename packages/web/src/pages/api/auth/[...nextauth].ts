@@ -6,9 +6,8 @@ import GithubProvider from 'next-auth/providers/github'
 import EmailProvider from 'next-auth/providers/email'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { getConfig } from 'config'
-import type { User } from '@prisma/client'
 import { getPrisma } from '~/db'
-import { serviceLogin } from '~/services/users'
+import { serviceGetUser, serviceLogin } from '~/services/users'
 
 export const getAuthOptions = async(): Promise<NextAuthOptions> => {
   const config = getConfig()
@@ -46,7 +45,14 @@ export const getAuthOptions = async(): Promise<NextAuthOptions> => {
       },
       async session({ session, user, token }) {
         if (user) session.user = user
-        if (token) session.user = token.user as User
+        if (token) {
+          // @ts-expect-error token 有 user
+          const userData = await serviceGetUser(token.user?.id || user?.id)
+          if (!userData) return session
+          session.user = userData
+          // @ts-expect-error user 有 password
+          if ('password' in session.user) delete session.user.password
+        }
         return session
       },
     },

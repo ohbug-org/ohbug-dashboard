@@ -10,14 +10,14 @@ import CardSection from './cardSection'
 import { getMessageAndIconByActionType } from '~/libs/utils'
 
 interface Props {
-  event: OhbugEventLike | any
+  event: OhbugEventLike
 }
 
 const EventDetailActions: FC<Props> = ({ event }) => {
   const actions = useMemo<OhbugAction[]>(() => [
     ...event?.actions ?? [], {
       type: 'exception',
-      timestamp: event.timestamp,
+      timestamp: event.createdAt as unknown as string,
       message: event.detail.message,
       data: event.detail,
     },
