@@ -61,6 +61,9 @@ export function useInfinite<T = any>(
       mutate()
     }
   }, [enabled, state.size, ...deps])
+  useEffect(() => {
+    reset()
+  }, deps)
   const isEmpty = useMemo(() => state.result?.[0]?.length === 0, [state.result])
   const isReachingEnd = useMemo(
     () => isEmpty || (state.result && state.result[state.result.length - 1]?.length < PAGE_SIZE),
