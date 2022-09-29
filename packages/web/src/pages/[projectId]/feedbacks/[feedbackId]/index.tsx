@@ -1,6 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import { Box, Flex, HStack, VStack } from '@chakra-ui/react'
-import type { Feedback } from '@prisma/client'
 import { useMemo } from 'react'
 import EventDetailActions from '~/components/eventDetailAction'
 import EventDetailProfile from '~/components/eventDetailProfile'
@@ -12,7 +11,7 @@ import Wrapper from '~/components/wrapper'
 import Copy from '~/components/copy'
 
 interface Props {
-  feedback: Feedback
+  feedback: any
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
