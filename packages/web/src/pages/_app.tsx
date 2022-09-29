@@ -6,6 +6,8 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { SessionProvider, useSession } from 'next-auth/react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 import { NextIntlProvider } from 'next-intl'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
@@ -25,6 +27,8 @@ const TopProgressBar = dynamic(
   { ssr: false },
 )
 dayjs.extend(relativeTime)
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export type NextPageWithLayout<T = any> = NextPage<T> & {
   getLayout?: (page: ReactElement) => ReactNode

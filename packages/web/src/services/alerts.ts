@@ -80,13 +80,16 @@ export async function serviceGetAlertEventTrends({ id, type }: ServiceGetAlertEv
   const max = dayjs()
   const min = max.subtract(interval, unit)
 
-  const trends = await getPrisma().$queryRawUnsafe<AlertEventTrend[]>(`
+  const trends = (await getPrisma().$queryRawUnsafe<AlertEventTrend[]>(`
     SELECT to_char("AlertEvent"."createdAt", '${format}') AS time, count("AlertEvent".*)::int
     FROM "AlertEvent"
     WHERE "AlertEvent"."alertId" = ${id}
     AND "AlertEvent"."createdAt" BETWEEN '${min.format('YYYY-MM-DD HH:mm:ss')}' AND '${max.format('YYYY-MM-DD HH:mm:ss')}'
     GROUP BY time
-  `)
+  `)).map(v => ({
+    ...v,
+    time: dayjs.utc(v.time).tz(dayjs.tz.guess()).format(format),
+  }))
 
   return Array.from(new Array(interval + 1)).map((_, index) => {
     const time = dayjs(min).add(index, unit).format(format)

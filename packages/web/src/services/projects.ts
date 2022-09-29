@@ -87,13 +87,16 @@ export async function serviceGetProjectTrends({ id, type }: ServiceGetProjectTre
   const max = dayjs()
   const min = max.subtract(interval, unit)
 
-  const trends = await getPrisma().$queryRawUnsafe<ProjectTrend[]>(`
+  const trends = (await getPrisma().$queryRawUnsafe<ProjectTrend[]>(`
     SELECT to_char("Event"."createdAt", '${format}') AS time, count("Event".*)::int
     FROM "Event"
     WHERE "Event"."apiKey" = '${apiKey}'
     AND "Event"."createdAt" BETWEEN '${min.format('YYYY-MM-DD HH:mm:ss')}' AND '${max.format('YYYY-MM-DD HH:mm:ss')}'
     GROUP BY time
-  `)
+  `)).map(v => ({
+    ...v,
+    time: dayjs.utc(v.time).tz(dayjs.tz.guess()).format(format),
+  }))
 
   return Array.from(new Array(interval + 1)).map((_, index) => {
     const time = dayjs(min).add(index, unit).format(format)

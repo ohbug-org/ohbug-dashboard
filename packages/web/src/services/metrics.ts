@@ -21,7 +21,7 @@ export async function serviceGetMetricsTrends({ projectId, type, metric }: Servi
   const max = dayjs()
   const min = max.subtract(interval, unit)
 
-  const trends = await getPrisma().$queryRawUnsafe<MetricsTrend[]>(`
+  const trends = (await getPrisma().$queryRawUnsafe<MetricsTrend[]>(`
     SELECT to_char("Metric"."createdAt", '${format}') AS time, avg("${metric}") as value
     FROM "Metric"
     LEFT JOIN "Project" ON "Project"."apiKey" = "Metric"."apiKey"
@@ -29,7 +29,10 @@ export async function serviceGetMetricsTrends({ projectId, type, metric }: Servi
     AND "Metric"."createdAt" BETWEEN '${min.format('YYYY-MM-DD HH:mm:ss')}' AND '${max.format('YYYY-MM-DD HH:mm:ss')}'
     GROUP BY time
     order by time
-  `)
+  `)).map(v => ({
+    ...v,
+    time: dayjs.utc(v.time).tz(dayjs.tz.guess()).format(format),
+  }))
 
   return Array.from(new Array(interval + 1)).map((_, index) => {
     const time = dayjs(min).add(index, unit).format(format)

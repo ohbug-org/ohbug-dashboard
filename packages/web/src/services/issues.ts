@@ -55,14 +55,17 @@ export async function serviceGetIssuesTrends({ ids, type }: ServiceGetIssuesTren
   const min = max.subtract(interval, unit)
 
   const list = `(${ids.split(',').map(v => `'${v}'`).join(',')})`
-  const trends = await getPrisma().$queryRawUnsafe<IssueTrend[]>(`
+  const trends = (await getPrisma().$queryRawUnsafe<IssueTrend[]>(`
     SELECT "issueId", to_char("Event"."createdAt", '${format}') AS time, count("Event".*)::int
     FROM "Event"
     WHERE "Event"."issueId" IN ${list}
     AND "Event"."createdAt" BETWEEN '${min.format('YYYY-MM-DD HH:mm:ss')}' AND '${max.format('YYYY-MM-DD HH:mm:ss')}'
     GROUP BY time, "issueId"
     order by "issueId"
-  `)
+  `)).map(v => ({
+    ...v,
+    time: dayjs.utc(v.time).tz(dayjs.tz.guess()).format(format),
+  }))
 
   return ids.split(',').reduce<serviceGetIssuesTrendsReturn>((acc, issueId) => {
     acc[issueId] = Array.from(new Array(interval + 1)).map((_, index) => {
