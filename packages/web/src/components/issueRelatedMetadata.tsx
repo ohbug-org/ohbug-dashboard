@@ -1,6 +1,7 @@
 import type { OhbugEventLike } from 'common'
 import dynamic from 'next/dynamic'
 import type { FC } from 'react'
+import { useMemo } from 'react'
 import CardSection from './cardSection'
 import ThemeBox from './themeBox'
 import Wrapper from './wrapper'
@@ -13,11 +14,18 @@ interface Props {
 }
 
 const IssueRelatedMetadata: FC<Props> = ({ event, tab }) => {
+  const metadata = useMemo(() => {
+    if (typeof event.metadata === 'string') {
+      return JSON.parse(event.metadata)
+    }
+    return event.metadata
+  }, [event])
+
   return (
     <ThemeBox bg="gray">
       <Wrapper>
         <CardSection title="Custom Metadata">
-          <DynamicReactJson src={event.metadata?.[tab]} />
+          <DynamicReactJson src={metadata[tab]} />
         </CardSection>
       </Wrapper>
     </ThemeBox>
