@@ -1,5 +1,16 @@
 
 
+## [0.10.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.10.0...0.10.1) (2022-09-29)
+
+
+### Bug Fixes
+
+* fixed eslint error ([0fe1baa](https://github.com/ohbug-org/ohbug-dashboard/commit/0fe1baa3b92b3b0593f57c66465c21e0eb2088cd))
+* **web:** 修复 relatedMetadata 显示数据异常 ([4fa0728](https://github.com/ohbug-org/ohbug-dashboard/commit/4fa072846c04a8f029f48512169b9a55d1d49a79))
+* **web:** 修复 useInfinite ([096b9f5](https://github.com/ohbug-org/ohbug-dashboard/commit/096b9f50dc33e96ad3d4b656ba849ff3f99fa511))
+* **web:** 修复趋势图时区问题 ([28814ce](https://github.com/ohbug-org/ohbug-dashboard/commit/28814cea57f8b91c568373e1218862168b401ba0))
+* **web:** 登录时数据校验 ([dc20853](https://github.com/ohbug-org/ohbug-dashboard/commit/dc2085394a457f1c48b5f772db56e673f6a09eb0))
+
 # [0.10.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.9.2...0.10.0) (2022-09-15)
 
 
