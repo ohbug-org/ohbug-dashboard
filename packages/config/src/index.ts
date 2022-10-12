@@ -47,6 +47,9 @@ export interface Config {
     }
     from: string
   }
+  options?: {
+    dataExpirationTime?: number
+  }
 }
 const YAML_CONFIG_FILENAME = 'ohbug.config.yml'
 const DEVELOP_YAML_CONFIG_FILENAME = 'ohbug.config.development.yml'

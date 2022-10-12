@@ -30,3 +30,6 @@ secret:
 #       user: username
 #       pass: password
 #   from: admin@ohbug.net
+
+options:
+  dataExpirationTime: 7
