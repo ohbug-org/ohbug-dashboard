@@ -20,7 +20,7 @@ const Logo = forwardRef<HTMLDivElement, Props>((props, ref) => {
     >
       <Image
         alt="logo"
-        layout="fill"
+        fill
         priority
         src={colorMode === 'dark' ? '/logo-white.svg' : '/logo.svg'}
       />

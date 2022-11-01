@@ -3,7 +3,6 @@ import { Flex, Link } from '@chakra-ui/react'
 import User from './user'
 import Breadcrumbs from './breadcrumbs'
 import ThemeBox from './themeBox'
-import SearchBar from './searchBar'
 
 interface Props {}
 
@@ -23,7 +22,6 @@ const Nav: FC<Props> = () => {
         align="center"
         gap="4"
       >
-        <SearchBar />
         <Link
           href="https://ohbug.net/"
           target="_blank"
