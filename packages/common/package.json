@@ -19,5 +19,11 @@
     "dev": "tsup src/index.ts --dts --format esm,cjs --watch --env.NODE_ENV development",
     "build": "tsup src/index.ts --dts --format esm,cjs --env.NODE_ENV production",
     "lint": "tsc && eslint . --fix"
+  },
+  "dependencies": {
+    "crypto-js": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.1.1"
   }
 }

@@ -1,4 +1,4 @@
-import crypto from 'node:crypto'
+import crypto from 'crypto-js/md5'
 
 export const PAGE_SIZE = 10
 
@@ -35,5 +35,5 @@ export function formatBytes(bytes: number, decimals = 2) {
 }
 
 export function md5(data: string) {
-  return crypto.createHash('md5').update(data).digest('hex')
+  return crypto(data).toString()
 }

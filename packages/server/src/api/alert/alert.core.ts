@@ -188,7 +188,7 @@ async function judgingFilter(
     switch (filter.topic) {
       case AlertFilterTopic.IssueOccurrencesFilter: {
         const { value } = filter
-        if (issueEventsCount >= value!) {
+        if (issueEventsCount >= parseInt(value as string)) {
           result.push({
             topic: filter.topic,
             filter: true,

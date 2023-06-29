@@ -50,7 +50,6 @@ export const getAuthOptions = async(): Promise<NextAuthOptions> => {
           const userData = await serviceGetUser(token.user?.id || user?.id)
           if (!userData) return session
           session.user = userData
-          // @ts-expect-error user 有 password
           if ('password' in session.user) delete session.user.password
         }
         return session

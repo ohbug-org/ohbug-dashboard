@@ -1,7 +1,7 @@
 {
   "name": "ohbug-dashboard",
   "version": "0.10.1",
-  "packageManager": "pnpm@7.9.0",
+  "packageManager": "pnpm@8.6.5",
   "homepage": "https://github.com/ohbug-org/ohbug-dashboard#readme",
   "bugs": {
     "url": "https://github.com/ohbug-org/ohbug-dashboard/issues"
@@ -19,7 +19,7 @@
   "sideEffects": false,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "update:deps": "pnpm update -i -r --latest",
+    "up": "taze major -Ir",
     "prepare": "husky install",
     "prebuild": "npx prisma generate && tsx scripts/createEnv.ts",
     "build": "cross-env NODE_ENV=production pnpm -r run build",
@@ -43,34 +43,35 @@
     "@ohbug/react": "^2.0.7",
     "@ohbug/types": "^2.1.1",
     "@ohbug/vue": "^2.0.8",
-    "@prisma/client": "^4.5.0",
+    "@prisma/client": "^4.16.1",
     "@types/js-yaml": "^4.0.5",
-    "@types/node": "^18.11.9",
-    "@types/ramda": "^0.28.18",
+    "@types/node": "^20.3.2",
+    "@types/ramda": "^0.29.2",
     "cross-env": "^7.0.3",
-    "dayjs": "^1.11.6",
+    "dayjs": "^1.11.8",
     "js-yaml": "^4.1.0",
-    "nodemailer": "^6.8.0",
-    "prisma": "^4.5.0",
-    "ramda": "^0.28.0",
-    "rimraf": "^3.0.2",
+    "nodemailer": "^6.9.3",
+    "prisma": "^4.16.1",
+    "ramda": "^0.29.0",
+    "rimraf": "^5.0.1",
     "source-map-trace": "^0.2.6",
-    "tsup": "^6.3.0",
-    "tsx": "^3.11.0",
-    "typescript": "^4.8.4"
+    "tsup": "^7.1.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
   },
   "devDependencies": {
-    "@antfu/ni": "^0.18.3",
-    "@babel/types": "^7.20.0",
-    "@chenyueban/eslint-config": "^1.0.12",
-    "@commitlint/cli": "^17.2.0",
+    "@antfu/ni": "^0.21.4",
+    "@babel/types": "^7.22.5",
+    "@chenyueban/eslint-config": "^1.1.0",
+    "@commitlint/cli": "^17.6.6",
     "@release-it/conventional-changelog": "^5.1.1",
-    "commitizen": "^4.2.5",
+    "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.26.0",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
-    "release-it": "^15.5.0"
+    "eslint": "^8.43.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "release-it": "^15.11.0",
+    "taze": "^0.10.3"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"

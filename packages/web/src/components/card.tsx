@@ -4,7 +4,7 @@ import { forwardRef, useMemo } from 'react'
 import type { ThemeBoxProps } from './themeBox'
 import ThemeBox from './themeBox'
 
-interface Props extends ThemeBoxProps {
+interface Props extends Omit<ThemeBoxProps, 'content'> {
   children?: ReactNode
   title?: string
   extra?: ReactNode

@@ -1,6 +1,6 @@
 import type { Session, User } from '@prisma/client'
 import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next'
-import { unstable_getServerSession } from 'next-auth'
+import { getServerSession } from 'next-auth'
 import { getAuthOptions } from '~/pages/api/auth/[...nextauth]'
 
 export async function getAuth<Req, Res>(
@@ -8,7 +8,7 @@ export async function getAuth<Req, Res>(
   res: Res extends NextApiResponse ? Res : GetServerSidePropsContext['res'],
 ) {
   const authOptions = await getAuthOptions()
-  const session = (await unstable_getServerSession(req, res, authOptions)) as unknown as (Session & { user: User })
+  const session = (await getServerSession(req, res, authOptions)) as unknown as (Session & { user: User })
   if (!session) return null
   return session
 }
