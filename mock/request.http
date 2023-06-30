@@ -2,7 +2,7 @@ POST http://localhost:6660
 content-type: application/json
 
 {
-  "apiKey": "6fdc71ad3402cd84bf1153bbb21add518a7eff8491aa90310f636b8334b1dad5",
+  "apiKey": "002180b2825f612f40ae7cda02a6d466ec93adc2e707e8c63cabdedc37bdd130",
   "appVersion": "0.0.0",
   "appType": "react",
   "timestamp": "2022-07-15T01:24:55.606Z",

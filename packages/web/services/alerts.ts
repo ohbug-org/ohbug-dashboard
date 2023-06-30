@@ -88,7 +88,7 @@ export async function serviceGetAlertEventTrends({ id, type }: ServiceGetAlertEv
     GROUP BY time
   `)).map(v => ({
     ...v,
-    time: dayjs.utc(v.time).tz(dayjs.tz.guess()).format(format),
+    time: dayjs(v.time).utc().tz(dayjs.tz.guess()).format(format),
   }))
 
   return Array.from(new Array(interval + 1)).map((_, index) => {

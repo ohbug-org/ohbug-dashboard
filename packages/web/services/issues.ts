@@ -64,7 +64,7 @@ export async function serviceGetIssuesTrends({ ids, type }: ServiceGetIssuesTren
     order by "issueId"
   `)).map(v => ({
     ...v,
-    time: dayjs.utc(v.time).tz(dayjs.tz.guess()).format(format),
+    time: dayjs(v.time).utc().tz(dayjs.tz.guess()).format(format),
   }))
 
   return ids.split(',').reduce<serviceGetIssuesTrendsReturn>((acc, issueId) => {

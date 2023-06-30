@@ -265,12 +265,7 @@ const IssueList: FC<Props> = ({ empty }) => {
                     {/* main */}
                     <Box w="50%">
                       <NextLink
-                        href={
-                          {
-                            pathname: '/[projectId]/issues/[issueId]',
-                            query: { issueId: issue.id, projectId },
-                          }
-                        }
+                        href={`/${projectId}/issues/${issue.id}`}
                         passHref
                       >
                         <Link
