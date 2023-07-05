@@ -25,14 +25,17 @@ interface Props {
 export let client: OhbugClient
 
 export default function Mock({ project }: Props) {
-  const defaultConfig = useMemo<OhbugConfig>(() => ({
-    apiKey: project.apiKey,
-    appVersion: '0.0.1',
-    appType: 'react',
-    endpoint: 'http://localhost:6660',
-    releaseStage: 'mock',
-    maxActions: 10,
-  }), [project])
+  const defaultConfig = useMemo<OhbugConfig>(() => {
+    const location = typeof window !== 'undefined' ? window.location : {} as any
+    return {
+      apiKey: project.apiKey,
+      appVersion: '0.0.1',
+      appType: 'react',
+      endpoint: `${location.protocol}://${location.hostname}:6660`,
+      releaseStage: 'mock',
+      maxActions: 10,
+    }
+  }, [project])
   const [value] = useLocalStorage('MOCK_CONFIG', defaultConfig)
   const config = useMemo<OhbugConfig>(() => ({
     ...defaultConfig,
