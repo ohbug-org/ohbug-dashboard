@@ -1,5 +1,22 @@
 
 
+# [0.11.0](https://github.com/ohbug-org/ohbug-dashboard/compare/0.10.1...0.11.0) (2023-07-05)
+
+
+### Bug Fixes
+
+* fix eslint error ([9ae5eb8](https://github.com/ohbug-org/ohbug-dashboard/commit/9ae5eb805247766dcf096e31cae649de9047b8a7))
+* Update endpoint in defaultConfig to use current location ([e101cfc](https://github.com/ohbug-org/ohbug-dashboard/commit/e101cfc912ad5cfae35b882efff139580731f953))
+* use new link ([baa6c93](https://github.com/ohbug-org/ohbug-dashboard/commit/baa6c93cc84b737ca15ec81dcb1bf216a3395caa))
+* **web:** fix nextjs dayjs utc call exception ([a8c422d](https://github.com/ohbug-org/ohbug-dashboard/commit/a8c422d43cd5da85e1f1aa2586f10a535cc7952f))
+
+
+### Features
+
+* **server:** 数据过期时间修改为默认7天并且支持通过配置文件修改 ([14ea185](https://github.com/ohbug-org/ohbug-dashboard/commit/14ea1851d9eef0ba9bc7a81a52c8227d22358983))
+* web migration to app dir ([e282720](https://github.com/ohbug-org/ohbug-dashboard/commit/e2827200db10b3ca437053930c286868ebd8e089))
+* **web:** add mock page ([e82cca2](https://github.com/ohbug-org/ohbug-dashboard/commit/e82cca238f92bb7da51b027853778a438f16ae93))
+
 ## [0.10.1](https://github.com/ohbug-org/ohbug-dashboard/compare/0.10.0...0.10.1) (2022-09-29)
 
 
