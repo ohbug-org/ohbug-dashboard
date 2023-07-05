@@ -37,19 +37,25 @@ interface Props {
 const View = ({ views }: Props) => {
   const t = useTranslations('Profile')
   const pageViewTrend = useMemo(
-    () => views.pageViewLastDay > 0
-      ? ((views.pageView - views.pageViewLastDay) / views.pageViewLastDay * 100).toFixed(2)
-      : 100,
-    [views.pageView, views.pageViewLastDay],
+    () => {
+      if (!views) return 100
+      return views.pageViewLastDay > 0
+        ? ((views.pageView - views.pageViewLastDay) / views.pageViewLastDay * 100).toFixed(2)
+        : 100
+    },
+    [views?.pageView, views?.pageViewLastDay],
   )
   const userViewTrend = useMemo(
-    () => views.pageViewLastDay > 0
-      ? ((views.userView - views.userViewLastDay) / views.userViewLastDay * 100).toFixed(2)
-      : 100,
-    [views.userView, views.userViewLastDay],
+    () => {
+      if (!views) return 100
+      return views.pageViewLastDay > 0
+        ? ((views.userView - views.userViewLastDay) / views.userViewLastDay * 100).toFixed(2)
+        : 100
+    },
+    [views?.userView, views?.userViewLastDay],
   )
 
-  if (!(views.pageView || views.pageViewLastDay || views.userView || views.userViewLastDay)) return null
+  if (!(views?.pageView || views?.pageViewLastDay || views?.userView || views?.userViewLastDay)) return null
 
   return (
     <>
@@ -58,7 +64,7 @@ const View = ({ views }: Props) => {
           <StatGroup>
             <Stat>
               <StatLabel>{t('pv')}(PV)</StatLabel>
-              <StatNumber>{views.pageView}</StatNumber>
+              <StatNumber>{views?.pageView}</StatNumber>
               <StatHelpText>
                 <StatArrow type="increase" />
                 {pageViewTrend}%
@@ -67,7 +73,7 @@ const View = ({ views }: Props) => {
 
             <Stat>
               <StatLabel>{t('uv')}(UV)</StatLabel>
-              <StatNumber>{views.userView}</StatNumber>
+              <StatNumber>{views?.userView}</StatNumber>
               <StatHelpText>
                 <StatArrow type="increase" />
                 {userViewTrend}%
@@ -76,7 +82,7 @@ const View = ({ views }: Props) => {
 
             <Stat>
               <StatLabel>{t('activeUser')}</StatLabel>
-              <StatNumber>{views.activeUser ?? 0}</StatNumber>
+              <StatNumber>{views?.activeUser ?? 0}</StatNumber>
             </Stat>
           </StatGroup>
         </Card>
@@ -84,10 +90,10 @@ const View = ({ views }: Props) => {
       <Wrapper>
         <Flex gap="8">
           {
-            views.pvPathGroupResult.length > 0 && (
+            views?.pvPathGroupResult.length > 0 && (
               <Card flex="1">
                 <TrendChart
-                  data={views.pvPathGroupResult}
+                  data={views?.pvPathGroupResult}
                   name="number"
                   timeField="value"
                   title={
@@ -104,10 +110,10 @@ const View = ({ views }: Props) => {
             )
           }
           {
-            views.pvReferrerGroupResult.length > 0 && (
+            views?.pvReferrerGroupResult.length > 0 && (
               <Card flex="1">
                 <TrendChart
-                  data={views.pvReferrerGroupResult}
+                  data={views?.pvReferrerGroupResult}
                   name="number"
                   timeField="value"
                   title={
@@ -168,10 +174,10 @@ const Trend = ({ trends }: Props) => {
 }
 const Events = ({ project }: Props) => {
   const { data, size, setSize, isLoading, isReachingEnd } = useInfinite<Event>(
-    index => serviceGetEventByProjectId({ projectId: project.id, page: index + 1 }),
+    index => serviceGetEventByProjectId({ projectId: project!.id, page: index + 1 }),
     {
-      enabled: project.id !== undefined,
-      deps: [project.id],
+      enabled: project?.id !== undefined,
+      deps: [project?.id],
     },
   )
 

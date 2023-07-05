@@ -25,6 +25,7 @@ async function getInviter(userId: string | null, projectId: string | null) {
       }
     }
   }
+  return undefined
 }
 
 export const metadata: Metadata = { title: 'SignIn | Ohbug' }

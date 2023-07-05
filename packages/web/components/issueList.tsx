@@ -366,7 +366,7 @@ const IssueList: FC<Props> = ({ empty }) => {
       </CheckboxGroup>
 
       {
-        data?.length > 0 && (
+        !!data?.length && (
           <Flex
             alignItems="center"
             justifyContent="space-between"

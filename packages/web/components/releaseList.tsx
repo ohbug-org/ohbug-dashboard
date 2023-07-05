@@ -52,7 +52,7 @@ const ReleaseList: FC<Props> = ({ releases, mutate }) => {
               direction="column"
               flex="1"
             >
-              <Link fontWeight="semibold">{release.appVersion}</Link>
+              <Text fontWeight="semibold">{release.appVersion}</Text>
               <Text
                 as="span"
                 color="dimgray"
