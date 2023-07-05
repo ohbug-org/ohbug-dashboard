@@ -51,7 +51,8 @@
     "deleteIssuesConfirm": "批量删除仅建议用于垃圾数据",
     "Empty": {
       "gettingStarted": "还没有集成 SDK 到你的项目？ 点击下面的按钮，开始集成！",
-      "getApiKey": "需要获取 apiKey？"
+      "getApiKey": "需要获取 apiKey？",
+      "needMockData": "需要模拟数据？"
     }
   },
   "Event": {

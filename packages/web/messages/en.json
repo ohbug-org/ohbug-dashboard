@@ -51,7 +51,8 @@
     "deleteIssuesConfirm": "Batch deletion is only recommended for junk data",
     "Empty": {
       "gettingStarted": "Haven't integrated the SDK into your project yet? Click the button below to start the integration!",
-      "getApiKey": "Need get project apiKey?"
+      "getApiKey": "Need get project apiKey?",
+      "needMockData": "Need mock data?"
     }
   },
   "Event": {

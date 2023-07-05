@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Stat, StatGroup, StatLabel, StatNumber } from '@chakra-ui/react'
+import { Badge, Box, Stat, StatGroup, StatLabel, StatNumber } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useMemo } from 'react'
 import type { Issue, OhbugEventLike } from 'common'
@@ -53,9 +53,18 @@ const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
           >
             {issue.type}
           </Box>
-          <code>
+          <Box
+            as="code"
+            mr="2"
+            textColor="gray.400"
+          >
             {renderStringOrJson(metadata.filename ?? metadata.others)}
-          </code>
+          </Box>
+          {
+            issue.releaseStage === 'mock' && (
+              <Badge colorScheme="red">Mock</Badge>
+            )
+          }
         </Box>
         <Box
           noOfLines={[1, 2]}

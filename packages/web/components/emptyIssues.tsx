@@ -1,10 +1,10 @@
 'use client'
 
 import type { FC } from 'react'
-import { Box, Button, Center, Link } from '@chakra-ui/react'
+import { Box, Button, Center } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import { useTranslations } from 'next-intl'
 import { RiExternalLinkLine } from 'react-icons/ri'
-import NextLink from 'next/link'
 import useCurrentProject from '~/hooks/useCurrentProject'
 
 const EmptyIssues: FC = () => {
@@ -32,12 +32,17 @@ const EmptyIssues: FC = () => {
         </Link>
       </Box>
       <Box>{t('getApiKey')}</Box>
-      <NextLink
+      <Link
         href={`/${projectId}/settings`}
-        passHref
       >
-        <Button variant="link">Get apiKey</Button>
-      </NextLink>
+        Get apiKey
+      </Link>
+      <Box>{t('needMockData')}</Box>
+      <Link
+        href={`/${projectId}/mock`}
+      >
+        Mock
+      </Link>
     </Center>
   )
 }

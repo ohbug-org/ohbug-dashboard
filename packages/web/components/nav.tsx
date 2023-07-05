@@ -1,7 +1,8 @@
 'use client'
 
 import type { FC } from 'react'
-import { Flex, Link } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import User from './user'
 import Breadcrumbs from './breadcrumbs'
 import ThemeBox from './themeBox'

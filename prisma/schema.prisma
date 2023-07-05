@@ -117,12 +117,15 @@ model UserView {
 }
 
 model Issue {
-  id        String   @id
-  apiKey    String
-  type      String
-  metadata  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id
+  apiKey       String
+  appVersion   String?
+  appType      String?
+  releaseStage String?
+  type         String
+  metadata     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   events      Event[]
   users       EventUsersOnIssues[]

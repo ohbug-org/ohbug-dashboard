@@ -2,11 +2,11 @@
 
 import type { FC, ReactNode } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import NextLink from 'next/link'
+import { Link } from '@chakra-ui/next-js'
 import type { Issue } from 'common'
 import { RiMoreLine, RiSearchLine, RiTimeLine } from 'react-icons/ri'
 import dayjs from 'dayjs'
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Center, Checkbox, CheckboxGroup, Flex, FormControl, FormLabel, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Link, Menu, MenuButton, MenuItem, MenuList, Select, Switch, Text, Tooltip, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Badge, Box, Button, Center, Checkbox, CheckboxGroup, Flex, FormControl, FormLabel, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Select, Switch, Text, Tooltip, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
 import { useDebounce, useSet } from 'react-use'
 import { useAtom } from 'jotai'
@@ -264,34 +264,36 @@ const IssueList: FC<Props> = ({ empty }) => {
 
                     {/* main */}
                     <Box w="50%">
-                      <NextLink
+                      <Link
+                        cursor="pointer"
+                        display="flex"
                         href={`/${projectId}/issues/${issue.id}`}
-                        passHref
+                        justifyContent="space-between"
+                        noOfLines={1}
+                        w="full"
                       >
-                        <Link
-                          cursor="pointer"
-                          display="flex"
-                          justifyContent="space-between"
-                          noOfLines={1}
-                          w="full"
+                        {/* title */}
+                        <Box
+                          as="span"
+                          fontWeight="semibold"
+                          mr="2"
                         >
-                          {/* title */}
-                          <Box
-                            as="span"
-                            fontWeight="semibold"
-                            mr="2"
-                          >
-                            {issue.type}
-                          </Box>
-                          {/* second description */}
-                          <Box
-                            as="code"
-                            textColor="gray.400"
-                          >
-                            {renderStringOrJson(metadata.filename ?? metadata.others)}
-                          </Box>
-                        </Link>
-                      </NextLink>
+                          {issue.type}
+                        </Box>
+                        {/* second description */}
+                        <Box
+                          as="code"
+                          mr="2"
+                          textColor="gray.400"
+                        >
+                          {renderStringOrJson(metadata.filename ?? metadata.others)}
+                        </Box>
+                        {
+                          issue.releaseStage === 'mock' && (
+                            <Badge colorScheme="red">Mock</Badge>
+                          )
+                        }
+                      </Link>
                       {/* message */}
                       <Text
                         noOfLines={[1, 2]}
@@ -363,12 +365,25 @@ const IssueList: FC<Props> = ({ empty }) => {
         </Box>
       </CheckboxGroup>
 
-      <Pagination
-        isReachingEnd={!!isReachingEnd}
-        mt="6"
-        onChange={page => setSize(page - 1)}
-        page={size + 1}
-      />
+      {
+        data?.length > 0 && (
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            mt="6"
+            w="full"
+          >
+            <Link href={`/${projectId}/mock`}>
+              Mock Data
+            </Link>
+            <Pagination
+              isReachingEnd={!!isReachingEnd}
+              onChange={page => setSize(page - 1)}
+              page={size + 1}
+            />
+          </Flex>
+        )
+      }
 
       <AlertDialog
         isOpen={isOpen}

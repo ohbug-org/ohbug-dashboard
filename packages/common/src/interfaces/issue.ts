@@ -1,3 +1,4 @@
+import type { OhbugReleaseStage } from '@ohbug/types'
 import type { OhbugEventLike } from './event'
 
 export interface MetaData {
@@ -11,6 +12,9 @@ export interface MetaData {
 export interface Issue {
   id: string
   apiKey: string
+  appVersion?: string | null
+  appType?: string | null
+  releaseStage?: OhbugReleaseStage | null
   type: string
   metadata: string
   createdAt: Date

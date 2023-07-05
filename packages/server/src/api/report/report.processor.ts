@@ -39,6 +39,9 @@ export class ReportProcessor {
               create: {
                 id: issueIntro,
                 apiKey: event.apiKey,
+                appVersion: event.appVersion,
+                appType: event.appType,
+                releaseStage: event.releaseStage,
                 type: event.type,
                 metadata: JSON.stringify(metadata),
               },
@@ -101,6 +104,7 @@ export class ReportProcessor {
       return result
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001003, error)
     }
   }
@@ -152,6 +156,7 @@ export class ReportProcessor {
       })
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001004, error)
     }
   }
@@ -199,6 +204,7 @@ export class ReportProcessor {
       })
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001005, error)
     }
   }
@@ -245,6 +251,7 @@ export class ReportProcessor {
       })
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001006, error)
     }
   }
@@ -291,6 +298,7 @@ export class ReportProcessor {
       })
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001007, error)
     }
   }
@@ -334,6 +342,7 @@ export class ReportProcessor {
       }
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001003, error)
     }
   }
@@ -356,6 +365,7 @@ export class ReportProcessor {
       }
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001004, error)
     }
   }
@@ -378,6 +388,7 @@ export class ReportProcessor {
       }
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001005, error)
     }
   }
@@ -400,6 +411,7 @@ export class ReportProcessor {
       }
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001006, error)
     }
   }
@@ -422,6 +434,7 @@ export class ReportProcessor {
       }
     }
     catch (error) {
+      console.error(error)
       throw new ForbiddenException(4001007, error)
     }
   }
