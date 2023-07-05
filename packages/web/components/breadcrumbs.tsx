@@ -3,7 +3,7 @@
 import type { FC } from 'react'
 import { useMemo } from 'react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Center, Flex, useColorModeValue } from '@chakra-ui/react'
-import NextLink from 'next/link'
+import { Link } from '@chakra-ui/next-js'
 import Project from './project'
 import Logo from './logo'
 import useBreadcrumb from '~/hooks/useBreadcrumb'
@@ -24,12 +24,9 @@ const Breadcrumbs: FC = () => {
 
   return (
     <Flex gap="4">
-      <NextLink
-        href="/"
-        passHref
-      >
+      <Link href="/">
         <Logo />
-      </NextLink>
+      </Link>
 
       {Separator}
 
@@ -47,14 +44,11 @@ const Breadcrumbs: FC = () => {
             .slice(0, breadcrumbs.length - 1)
             .map(v => (
               <BreadcrumbItem key={v.path}>
-                <NextLink
-                  href={v.path}
-                  passHref
-                >
+                <Link href={v.path}>
                   <BreadcrumbLink>
                     {v.breadcrumb}
                   </BreadcrumbLink>
-                </NextLink>
+                </Link>
               </BreadcrumbItem>
             ))
         }

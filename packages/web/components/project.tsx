@@ -2,11 +2,11 @@
 
 import type { FC } from 'react'
 import { useCallback, useEffect, useMemo } from 'react'
-import { Avatar, Center, Icon, IconButton, Link, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Text } from '@chakra-ui/react'
+import { Avatar, Center, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Text } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import type { User } from '@prisma/client'
 import { RiAddLine, RiMore2Line } from 'react-icons/ri'
 import { usePathname, useRouter } from 'next-intl/client'
-import NextLink from 'next/link'
 import { useSession } from 'next-auth/react'
 import Loading from './loading'
 import { useStore } from '~/store'
@@ -54,12 +54,9 @@ const ProjectComponent: FC = () => {
         size="xs"
         src={currentProject?.image ?? ''}
       />
-      <NextLink
-        href={`/${currentProject?.id}/profile`}
-        passHref
-      >
-        <Link>{currentProject?.name}</Link>
-      </NextLink>
+      <Link href={`/${currentProject?.id}/profile`}>
+        {currentProject?.name}
+      </Link>
       <Menu>
         <MenuButton
           aria-label="more"

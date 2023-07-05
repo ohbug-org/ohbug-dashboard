@@ -2,9 +2,9 @@
 
 import type { FC } from 'react'
 import { useCallback } from 'react'
-import NextLink from 'next/link'
 import dayjs from 'dayjs'
-import { Box, Flex, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useToast } from '@chakra-ui/react'
+import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useToast } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import type { Release } from '@prisma/client'
 import { RiMoreLine } from 'react-icons/ri'
 import useCurrentProject from '~/hooks/useCurrentProject'
@@ -70,12 +70,12 @@ const ReleaseList: FC<Props> = ({ releases, mutate }) => {
               >
                 sourceMap files
               </Text>
-              <NextLink
+              <Link
+                fontWeight="semibold"
                 href={`/${projectId}/releases/${release.id}/sourceMaps`}
-                passHref
               >
-                <Link fontWeight="semibold">{(release.sourceMaps as Array<any>)?.length}</Link>
-              </NextLink>
+                {(release.sourceMaps as Array<any>)?.length}
+              </Link>
             </Flex>
             <Flex
               align="center"

@@ -1,10 +1,10 @@
 'use client'
 
-import { Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import type { EventUser, Feedback } from '@prisma/client'
-import NextLink from 'next/link'
 import { renderStringOrJson } from '~/libs/utils'
 import useCurrentProject from '~/hooks/useCurrentProject'
 
@@ -32,12 +32,9 @@ const FeedbacksList: FC<Props> = ({ feedbacks }) => {
               return (
                 <Tr key={feedback.id}>
                   <Td>
-                    <NextLink
-                      href={`/${projectId}/feedbacks/${feedback.id}`}
-                      passHref
-                    >
-                      <Link>{detail.feedback}</Link>
-                    </NextLink>
+                    <Link href={`/${projectId}/feedbacks/${feedback.id}`}>
+                      {detail.feedback}
+                    </Link>
                   </Td>
                   <Td>
                     {dayjs(feedback.createdAt).format('YYYY-MM-DD HH:mm:ss')}

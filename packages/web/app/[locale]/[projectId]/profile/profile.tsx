@@ -1,9 +1,9 @@
 'use client'
 
 import { Box, Button, Flex, FormControl, FormLabel, Icon, Stat, StatArrow, StatGroup, StatHelpText, StatLabel, StatNumber, Switch, Text, Tooltip } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import type { Event, Project } from '@prisma/client'
 import { useMemo, useState } from 'react'
-import NextLink from 'next/link'
 import { RiSettings2Line } from 'react-icons/ri'
 import { useTranslations } from 'next-intl'
 import Card from '~/components/card'
@@ -206,10 +206,7 @@ export default function Profile({ project, trends, views }: Props) {
       <Title
         rightNodes={
           (
-            <NextLink
-              href={`/${project?.id}/settings`}
-              passHref
-            >
+            <Link href={`/${project?.id}/settings`}>
               <Button
                 leftIcon={
                   <Icon as={RiSettings2Line} />
@@ -218,7 +215,7 @@ export default function Profile({ project, trends, views }: Props) {
               >
                 Setting
               </Button>
-            </NextLink>
+            </Link>
           )
         }
       >

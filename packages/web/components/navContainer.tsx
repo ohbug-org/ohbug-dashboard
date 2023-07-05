@@ -1,8 +1,8 @@
 'use client'
 
 import { Box, Button, Flex } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import type { FC, ReactNode } from 'react'
-import NextLink from 'next/link'
 
 export interface Nav {
   label: string
@@ -23,10 +23,9 @@ const NavContainer: FC<Props> = ({ children, navs }) => {
       <Box>
         {
           navs.map(nav => (
-            <NextLink
+            <Link
               href={nav.href}
               key={nav.href}
-              passHref
             >
               <Button
                 fontWeight={nav.active ? 'bold' : 'normal'}
@@ -34,7 +33,7 @@ const NavContainer: FC<Props> = ({ children, navs }) => {
               >
                 {nav.label}
               </Button>
-            </NextLink>
+            </Link>
           ))
         }
       </Box>

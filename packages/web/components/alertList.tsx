@@ -3,10 +3,10 @@
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import dayjs from 'dayjs'
-import { Badge, Box, Flex, IconButton, Link, Menu, MenuButton, MenuItem, MenuList, Tag, Text, Tooltip, useToast } from '@chakra-ui/react'
+import { Badge, Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Tag, Text, Tooltip, useToast } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import type { Alert } from '@prisma/client'
 import { RiMoreLine } from 'react-icons/ri'
-import NextLink from 'next/link'
 import useCurrentProject from '~/hooks/useCurrentProject'
 import { serviceDeleteAlert } from '~/services/alerts'
 
@@ -58,17 +58,13 @@ const AlertList: FC<Props> = ({ alerts, mutate }) => {
                 align="center"
                 gap="2"
               >
-                <NextLink
+                <Link
+                  fontSize="lg"
+                  fontWeight="semibold"
                   href={`/${projectId}/alerts/${alert.id}`}
-                  passHref
                 >
-                  <Link
-                    fontSize="lg"
-                    fontWeight="semibold"
-                  >
-                    {alert.name}
-                  </Link>
-                </NextLink>
+                  {alert.name}
+                </Link>
                 <Badge colorScheme={colorScheme}>{alert.level}</Badge>
               </Flex>
 
@@ -96,14 +92,11 @@ const AlertList: FC<Props> = ({ alerts, mutate }) => {
                     variant="ghost"
                   />
                   <MenuList>
-                    <NextLink
-                      href={`/${projectId}/alerts/${alert.id}/edit`}
-                      passHref
-                    >
+                    <Link href={`/${projectId}/alerts/${alert.id}/edit`}>
                       <MenuItem>
                         Edit
                       </MenuItem>
-                    </NextLink>
+                    </Link>
                     <MenuItem
                       onClick={
                         () => {

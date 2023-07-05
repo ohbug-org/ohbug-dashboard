@@ -1,7 +1,7 @@
 'use client'
 
-import NextLink from 'next/link'
 import { Badge, Box, Button, Code, Flex, Tag, Text, Tooltip } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import type { Alert, AlertEvent, Event, Issue } from '@prisma/client'
 import { useMemo } from 'react'
 import type { Action, ConditionOption, FilterOption } from 'common'
@@ -34,12 +34,9 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
       <Title
         rightNodes={
           (
-            <NextLink
-              href={`/${projectId}/alerts/${alert.id}/edit`}
-              passHref
-            >
+            <Link href={`/${projectId}/alerts/${alert.id}/edit`}>
               <Button variant="solid">Edit Alert</Button>
-            </NextLink>
+            </Link>
           )
         }
       >

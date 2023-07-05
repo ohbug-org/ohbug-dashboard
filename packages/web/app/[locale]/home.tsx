@@ -1,8 +1,8 @@
 'use client'
 
 import { Button, Flex, SimpleGrid } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import { RiAddLine } from 'react-icons/ri'
-import NextLink from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
 import type { User } from '@prisma/client'
@@ -25,16 +25,13 @@ export default function Home() {
   return (
     <Wrapper>
       <Flex justify="end">
-        <NextLink
-          href="/create-project"
-          passHref
-        >
+        <Link href="/create-project">
           <Button
             leftIcon={<RiAddLine />}
           >
             {t('createProject')}
           </Button>
-        </NextLink>
+        </Link>
       </Flex>
       <SimpleGrid
         columns={3}

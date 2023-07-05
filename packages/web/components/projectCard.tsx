@@ -1,7 +1,7 @@
 'use client'
 
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react'
-import NextLink from 'next/link'
+import { Link } from '@chakra-ui/next-js'
 import type { FC } from 'react'
 import type { ProjectWithEventCount } from 'common'
 import Loading from './loading'
@@ -24,10 +24,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
   )
 
   return (
-    <NextLink
-      href={`/${project.id}/profile`}
-      passHref
-    >
+    <Link href={`/${project.id}/profile`}>
       <Card
         hover
         minW="sm"
@@ -68,7 +65,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
           }
         </Box>
       </Card>
-    </NextLink>
+    </Link>
   )
 }
 

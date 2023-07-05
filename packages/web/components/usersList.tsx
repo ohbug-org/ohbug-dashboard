@@ -1,9 +1,9 @@
 'use client'
 
-import { Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import type { FC } from 'react'
 import type { EventUser } from '@prisma/client'
-import NextLink from 'next/link'
 import useCurrentProject from '~/hooks/useCurrentProject'
 
 interface Props {
@@ -61,12 +61,9 @@ const UsersList: FC<Props> = ({ users }) => {
               return (
                 <Tr key={user.id}>
                   <Td>
-                    <NextLink
-                      href={`/${projectId}/users/${user.id}`}
-                      passHref
-                    >
-                      <Link>{desc}</Link>
-                    </NextLink>
+                    <Link href={`/${projectId}/users/${user.id}`}>
+                      {desc}
+                    </Link>
                   </Td>
                   <Td>{user._count.issues}</Td>
                   <Td>{user._count.metrics}</Td>

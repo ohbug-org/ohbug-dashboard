@@ -1,8 +1,8 @@
 'use client'
 
-import { Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import dayjs from 'dayjs'
-import NextLink from 'next/link'
 import type { FC } from 'react'
 import type { Event } from '@prisma/client'
 import type { OhbugEventLike } from 'common'
@@ -38,12 +38,9 @@ const EventsList: FC<Props> = ({ events }) => {
               <Tr key={event.id}>
                 {/* description */}
                 <Td>
-                  <NextLink
-                    href={`/${projectId}/issues/${event.issueId}/?eventId=${event.id}`}
-                    passHref
-                  >
-                    <Link>{dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}</Link>
-                  </NextLink>
+                  <Link href={`/${projectId}/issues/${event.issueId}/?eventId=${event.id}`}>
+                    {dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+                  </Link>
                   <div>{event.type}: {renderStringOrJson((event.detail as any).message ?? event.detail)}</div>
                 </Td>
                 {/* appType */}

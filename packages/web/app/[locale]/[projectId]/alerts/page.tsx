@@ -1,8 +1,8 @@
 'use client'
 
 import { Box, Button } from '@chakra-ui/react'
+import { Link } from '@chakra-ui/next-js'
 import type { Alert } from '@prisma/client'
-import NextLink from 'next/link'
 import { useTranslations } from 'next-intl'
 import Card from '~/components/card'
 import AlertsList from '~/components/alertList'
@@ -32,12 +32,9 @@ const Alerts = () => {
       <Title
         rightNodes={
           (
-            <NextLink
-              href={`/${projectId}/alerts/create`}
-              passHref
-            >
+            <Link href={`/${projectId}/alerts/create`}>
               <Button variant="solid">{t('createAlert')}</Button>
-            </NextLink>
+            </Link>
           )
         }
       >
