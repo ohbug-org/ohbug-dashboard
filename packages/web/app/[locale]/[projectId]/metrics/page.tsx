@@ -17,6 +17,7 @@ const CLS_THRESHOLD = [0.1, 0.25]
 const FID_THRESHOLD = [100, 300]
 const LCP_THRESHOLD = [2500, 4000]
 const FCP_THRESHOLD = [1800, 3000]
+const INP_THRESHOLD = [200, 500]
 const TTFB_THRESHOLD = [800, 1800]
 
 export default function MetricsPage() {
@@ -44,6 +45,14 @@ export default function MetricsPage() {
       projectId: projectId!,
       type: '14d',
       metric: 'LCP',
+    }),
+    { enabled: projectId !== undefined },
+  )
+  const { data: INPData } = useQuery(
+    () => serviceGetMetricsTrends({
+      projectId: projectId!,
+      type: '14d',
+      metric: 'INP',
     }),
     { enabled: projectId !== undefined },
   )
@@ -145,6 +154,24 @@ export default function MetricsPage() {
             data={LCPData}
             name="LCP"
             plotValue={LCP_THRESHOLD}
+            timeField="time"
+            type="14d"
+            unit="ms"
+            valueField="value"
+            variant="line"
+          />
+        </IntroduceChart>
+
+        <IntroduceChart
+          description={t('INPDescription')}
+          title="Interaction to Next Paint (INP)"
+          unit="ms"
+          value={average(INPData?.map(v => v.value) ?? [])}
+        >
+          <TrendChart
+            data={INPData}
+            name="INP"
+            plotValue={INP_THRESHOLD}
             timeField="time"
             type="14d"
             unit="ms"

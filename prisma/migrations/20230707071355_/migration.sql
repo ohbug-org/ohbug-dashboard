@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Metric" ADD COLUMN     "INP" DOUBLE PRECISION;

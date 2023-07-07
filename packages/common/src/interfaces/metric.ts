@@ -1,1 +1,1 @@
-export type MetricType = 'CLS' | 'FCP' | 'FID' | 'LCP' | 'TTFB'
+export type MetricType = 'CLS' | 'FCP' | 'FID' | 'LCP' | 'TTFB' | 'INP'

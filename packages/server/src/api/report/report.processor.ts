@@ -127,6 +127,7 @@ export class ReportProcessor {
           FID: metric.detail.FID,
           LCP: metric.detail.LCP,
           TTFB: metric.detail.TTFB,
+          INP: metric.detail.INP,
           user: {
             connectOrCreate: {
               where: { id: userIntro },

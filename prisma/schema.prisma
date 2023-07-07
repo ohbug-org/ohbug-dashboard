@@ -50,6 +50,7 @@ model Metric {
   FID          Float?
   LCP          Float?
   TTFB         Float?
+  INP          Float?
   createdAt    DateTime  @default(now()) @db.Timestamp
   userId       String
   user         EventUser @relation(fields: [userId], references: [id], onDelete: Cascade)

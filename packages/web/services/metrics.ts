@@ -11,7 +11,7 @@ export interface MetricsTrend {
   time: string
   value: number
 }
-const metrics: MetricType[] = ['CLS', 'FID', 'LCP', 'FCP', 'TTFB']
+const metrics: MetricType[] = ['CLS', 'FID', 'LCP', 'INP', 'FCP', 'TTFB']
 export async function serviceGetMetricsTrends({ projectId, type, metric }: ServiceGetMetricsTrendsParams) {
   if (!metrics.includes(metric)) return []
 
