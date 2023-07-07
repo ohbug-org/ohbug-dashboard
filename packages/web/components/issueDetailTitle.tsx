@@ -44,7 +44,7 @@ const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
       <Box>
         <Box
           as="a"
-          noOfLines={1}
+          noOfLines={2}
         >
           <Box
             as="span"
@@ -53,18 +53,22 @@ const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
           >
             {issue.type}
           </Box>
+          {
+            issue.releaseStage === 'mock' && (
+              <Badge
+                colorScheme="red"
+                mr="2"
+              >
+                Mock
+              </Badge>
+            )
+          }
           <Box
             as="code"
-            mr="2"
             textColor="gray.400"
           >
             {renderStringOrJson(metadata.filename ?? metadata.others)}
           </Box>
-          {
-            issue.releaseStage === 'mock' && (
-              <Badge colorScheme="red">Mock</Badge>
-            )
-          }
         </Box>
         <Box
           noOfLines={[1, 2]}

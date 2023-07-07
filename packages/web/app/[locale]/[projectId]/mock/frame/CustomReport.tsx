@@ -1,7 +1,7 @@
 'use client'
 
 import { Button, HStack } from '@chakra-ui/react'
-import { client } from './mock'
+import { client } from './index'
 import Card from '~/components/card'
 
 function CustomReport() {

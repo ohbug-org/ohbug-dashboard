@@ -269,7 +269,7 @@ const IssueList: FC<Props> = ({ empty }) => {
                         display="flex"
                         href={`/${projectId}/issues/${issue.id}`}
                         justifyContent="space-between"
-                        noOfLines={1}
+                        noOfLines={2}
                         w="full"
                       >
                         {/* title */}
@@ -280,19 +280,23 @@ const IssueList: FC<Props> = ({ empty }) => {
                         >
                           {issue.type}
                         </Box>
+                        {
+                          issue.releaseStage === 'mock' && (
+                            <Badge
+                              colorScheme="red"
+                              mr="2"
+                            >
+                              Mock
+                            </Badge>
+                          )
+                        }
                         {/* second description */}
                         <Box
                           as="code"
-                          mr="2"
                           textColor="gray.400"
                         >
                           {renderStringOrJson(metadata.filename ?? metadata.others)}
                         </Box>
-                        {
-                          issue.releaseStage === 'mock' && (
-                            <Badge colorScheme="red">Mock</Badge>
-                          )
-                        }
                       </Link>
                       {/* message */}
                       <Text
