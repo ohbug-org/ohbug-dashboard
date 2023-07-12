@@ -20,7 +20,7 @@
     "@ohbug/extension-uuid": "^2.1.1",
     "@ohbug/extension-view": "^0.1.1",
     "@ohbug/extension-web-vitals": "^0.2.1",
-    "@types/node": "^20.4.0",
+    "@types/node": "^20.4.1",
     "@types/nprogress": "^0.2.0",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
@@ -37,7 +37,7 @@
     "jotai": "^2.2.2",
     "next": "^13.4.9",
     "next-auth": "^4.22.1",
-    "next-intl": "^2.17.4",
+    "next-intl": "^2.17.5",
     "nprogress": "^0.2.0",
     "postcss": "^8.4.25",
     "react": "^18.2.0",
@@ -50,7 +50,7 @@
     "rrweb-player": "^1.0.0-alpha.4",
     "source-map-trace": "^0.2.6",
     "ua-parser-js": "^1.0.35",
-    "web-vitals": "^3.3.2",
+    "web-vitals": "^3.4.0",
     "zustand": "^4.3.9"
   }
 }
