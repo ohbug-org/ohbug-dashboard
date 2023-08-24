@@ -1,12 +1,11 @@
 'use client'
 
-import { Box, Flex, Heading } from '@chakra-ui/react'
-import type { FC, ReactNode } from 'react'
-import type { ThemeBoxProps } from './themeBox'
-import ThemeBox from './themeBox'
+import { type ReactNode } from 'react'
 import Wrapper from './wrapper'
+import { Box } from './ui/box'
+import { type BoxProps } from './ui/box'
 
-interface Props extends ThemeBoxProps {
+interface Props extends BoxProps {
   children: ReactNode
   rightNodes?: ReactNode
   bottomNodes?: ReactNode
@@ -14,43 +13,34 @@ interface Props extends ThemeBoxProps {
 
 const PADDING = '12'
 
-const Title: FC<Props> = ({ children, rightNodes, bottomNodes, ...props }) => {
+export default function Title({ children, rightNodes, bottomNodes, ...props }: Props) {
   return (
-    <ThemeBox
-      bg="current"
-      borderBottom="1px"
-      borderColor="current"
+    <Box
       {...props}
     >
       <Wrapper
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        pb={bottomNodes ? '0' : PADDING}
-        pt={PADDING}
+        className="flex flex-col justify-between"
+        style={
+          {
+            paddingBottom: bottomNodes ? '0' : PADDING,
+            paddingTop: PADDING,
+          }
+        }
       >
-        <Flex
-          align="center"
-          justify="space-between"
-        >
+        <div className="flex items-center justify-between">
           {
             typeof children === 'string'
               ? (
-                <Heading
-                  fontWeight="semibold"
-                  size="lg"
-                >
+                <h2 className="text-2xl font-semibold">
                   {children}
-                </Heading>
+                </h2>
               )
               : children
           }
-          <Box>{rightNodes}</Box>
-        </Flex>
-        <Box mt={bottomNodes ? '6' : 0}>{bottomNodes}</Box>
+          <div>{rightNodes}</div>
+        </div>
+        <div style={{ marginTop: bottomNodes ? 6 : 0 }}>{bottomNodes}</div>
       </Wrapper>
-    </ThemeBox>
+    </Box>
   )
 }
-
-export default Title

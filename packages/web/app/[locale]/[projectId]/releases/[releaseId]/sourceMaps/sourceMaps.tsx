@@ -1,11 +1,11 @@
 'use client'
 
 import { Flex, IconButton, Link, Text } from '@chakra-ui/react'
-import type { Release } from '@prisma/client'
 import { useMemo } from 'react'
 import { formatBytes } from 'common'
 import { RiFileDownloadLine } from 'react-icons/ri'
-import ThemeBox from '~/components/themeBox'
+import { type Release } from '@prisma/client'
+import { Box } from '~/components/ui/box'
 import Wrapper from '~/components/wrapper'
 import Title from '~/components/title'
 import Card from '~/components/card'
@@ -21,7 +21,7 @@ export default function SourceMaps({ release }: Props) {
     <Flex flexDirection="column">
       <Title>SourceMaps</Title>
 
-      <ThemeBox bg="gray">
+      <Box>
         <Wrapper>
           <Card>
             {
@@ -55,7 +55,7 @@ export default function SourceMaps({ release }: Props) {
             }
           </Card>
         </Wrapper>
-      </ThemeBox>
+      </Box>
     </Flex>
   )
 }

@@ -1,16 +1,15 @@
 'use client'
 
-import { Box, Button, Icon, Link } from '@chakra-ui/react'
+import { Button, Card } from '@nextui-org/react'
 import type { Release } from '@prisma/client'
 import { useTranslations } from 'next-intl'
-import { RiQuestionLine } from 'react-icons/ri'
-import Card from '~/components/card'
-import LoadingMoreButton from '~/components/loadMoreButton'
-import ReleaseList from '~/components/releaseList'
+import Link from 'next/link'
+import LoadingMoreButton from '~/components/load-more-button'
+import ReleaseList from '~/components/release-list'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
-import useCurrentProject from '~/hooks/useCurrentProject'
-import { useInfinite } from '~/hooks/useInfinite'
+import useCurrentProject from '~/hooks/use-current-project'
+import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetReleases } from '~/services/releases'
 
 export default function ReleasesPage() {
@@ -28,7 +27,7 @@ export default function ReleasesPage() {
   )
 
   return (
-    <Box>
+    <div>
       <Title
         rightNodes={
           (
@@ -37,13 +36,9 @@ export default function ReleasesPage() {
               target="_blank"
             >
               <Button
-                leftIcon={
+                startContent={
                   (
-                    <Icon
-                      as={RiQuestionLine}
-                      h="5"
-                      w="5"
-                    />
+                    <i className="i-ri-question-line" />
                   )
                 }
                 variant="ghost"
@@ -57,12 +52,7 @@ export default function ReleasesPage() {
         Releases
       </Title>
 
-      <Wrapper
-        display="flex"
-        flexDirection="column"
-        gap="12"
-        py="12"
-      >
+      <Wrapper className="flex flex-col gap-12 py-12">
         <Card>
           {
             data && (
@@ -79,6 +69,6 @@ export default function ReleasesPage() {
           />
         </Card>
       </Wrapper>
-    </Box>
+    </div>
   )
 }

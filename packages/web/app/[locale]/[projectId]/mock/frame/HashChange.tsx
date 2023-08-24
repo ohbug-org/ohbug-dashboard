@@ -1,7 +1,7 @@
 'use client'
 
 import { HStack } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/next-js'
+import Link from 'next/link'
 import Card from '~/components/card'
 
 function HashChange() {

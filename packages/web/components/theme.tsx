@@ -1,28 +1,42 @@
 'use client'
 
-import { Icon, IconButton, useColorMode } from '@chakra-ui/react'
-import type { FC } from 'react'
-import { useCallback } from 'react'
-import { RiMoonLine, RiSunLine } from 'react-icons/ri'
+import { type FC } from 'react'
+import { useTheme } from 'next-themes'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu'
+import { Button } from './ui/button'
 
 const Theme: FC = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
-  const handleToggleTheme = useCallback(() => {
-    toggleColorMode()
-  }, [colorMode])
+  const { setTheme } = useTheme()
 
   return (
-    <IconButton
-      aria-label="toggle theme"
-      cursor="pointer"
-      display="inline-block"
-      h="6"
-      icon={<Icon as={colorMode === 'light' ? RiMoonLine : RiSunLine} />}
-      onClick={handleToggleTheme}
-      textColor={colorMode === 'light' ? 'black' : 'white'}
-      variant="ghost"
-      w="6"
-    />
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          size="icon"
+          variant="outline"
+        >
+          <i className="i-ri-sun-line h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <i className="i-ri-moon-line absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme('light')}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('dark')}>
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('system')}>
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 

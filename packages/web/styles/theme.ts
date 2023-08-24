@@ -1,7 +1,7 @@
-import type { Dict } from '@chakra-ui/utils'
 import { extendTheme } from '@chakra-ui/react'
-import type { GlobalStyleProps } from '@chakra-ui/theme-tools'
 import { mode } from '@chakra-ui/theme-tools'
+import { type Dict } from '@chakra-ui/utils'
+import { type GlobalStyleProps } from '@chakra-ui/theme-tools'
 import { colors } from './colors'
 
 const theme: Dict = extendTheme({
@@ -100,15 +100,6 @@ const theme: Dict = extendTheme({
     Tooltip: { baseStyle: { color: 'white' } },
     Checkbox: { baseStyle: (props: GlobalStyleProps) => ({ control: { borderColor: mode('gray.200', 'dark.50')(props) } }) },
     Table: { baseStyle: { table: { mx: '-4' } } },
-  },
-  styles: {
-    global: (props: GlobalStyleProps) => ({
-      'html, body, #__next': { width: '100%', minHeight: '100vh' },
-      'body': {
-        bg: mode('white', 'dark.800')(props),
-        overflowX: 'hidden',
-      },
-    }),
   },
   config: { useSystemColorMode: true },
 })

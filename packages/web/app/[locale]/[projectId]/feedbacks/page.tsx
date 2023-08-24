@@ -1,15 +1,15 @@
 'use client'
 
 import { Button, Icon, Link } from '@chakra-ui/react'
-import type { EventUser, Feedback } from '@prisma/client'
 import { useTranslations } from 'next-intl'
 import { RiQuestionLine } from 'react-icons/ri'
-import FeedbacksList from '~/components/feedbacksList'
-import ThemeBox from '~/components/themeBox'
+import { type EventUser, type Feedback } from '@prisma/client'
+import FeedbacksList from '~/components/feedbacks-list'
+import { Box } from '~/components/ui/box'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
-import useCurrentProject from '~/hooks/useCurrentProject'
-import { useInfinite } from '~/hooks/useInfinite'
+import useCurrentProject from '~/hooks/use-current-project'
+import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetFeedbacks } from '~/services/feedbacks'
 
 export default function FeedbacksPage() {
@@ -27,7 +27,7 @@ export default function FeedbacksPage() {
   )
 
   return (
-    <ThemeBox bg="current">
+    <Box >
       <Title
         rightNodes={
           (
@@ -75,6 +75,6 @@ export default function FeedbacksPage() {
           }
         </Button>
       </Wrapper>
-    </ThemeBox>
+    </Box>
   )
 }

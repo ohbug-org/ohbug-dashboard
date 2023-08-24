@@ -1,18 +1,18 @@
 'use client'
 
-import EmptyIssues from '~/components/emptyIssues'
-import IssueList from '~/components/issueList'
-import ThemeBox from '~/components/themeBox'
+import EmptyIssues from '~/components/empty-issues'
+import IssueList from '~/components/issue-list'
+import { Box } from '~/components/ui/box'
 import Wrapper from '~/components/wrapper'
 
 export default function IssuesPage() {
   return (
-    <ThemeBox bg="current">
+    <Box>
       <Wrapper>
         <IssueList
           empty={<EmptyIssues />}
         />
       </Wrapper>
-    </ThemeBox>
+    </Box>
   )
 }

@@ -1,9 +1,9 @@
 'use client'
 
-import type { Project } from '@prisma/client'
+import { type Project } from '@prisma/client'
 import Frame from './frame'
 import Wrapper from '~/components/wrapper'
-import ThemeBox from '~/components/themeBox'
+import { Box } from '~/components/ui/box'
 
 interface Props {
   project: Project
@@ -11,10 +11,10 @@ interface Props {
 
 export default function Mock({ project }: Props) {
   return (
-    <ThemeBox bg="current">
+    <Box >
       <Wrapper>
         <Frame project={project} />
       </Wrapper>
-    </ThemeBox>
+    </Box>
   )
 }

@@ -1,21 +1,18 @@
 'use client'
 
-import { Avatar, Box, Button, Flex, FormControl, FormErrorMessage, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Text, useDisclosure, useToast } from '@chakra-ui/react'
 import type { Project } from '@prisma/client'
 import { useTranslations } from 'next-intl'
 import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { ProjectWithMembers } from 'common'
-import { RiAddLine } from 'react-icons/ri'
 import { useSession } from 'next-auth/react'
-import Card from '~/components/card'
-import Copy from '~/components/copy'
-import ThemeBox from '~/components/themeBox'
+import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Skeleton, Snippet, useDisclosure } from '@nextui-org/react'
+import { useToast } from '@chakra-ui/react'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
-import useCurrentProject from '~/hooks/useCurrentProject'
+import useCurrentProject from '~/hooks/use-current-project'
 import { serviceGetProjectWithUsers, serviceUpdateProject } from '~/services/projects'
-import { useQuery } from '~/hooks/useQuery'
+import { useQuery } from '~/hooks/use-query'
 
 interface CommonProps {
   project?: ProjectWithMembers
@@ -52,88 +49,64 @@ const SettingsProjectName = ({ project }: CommonProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card
-        content={
-          (
-            <Box>
-              <Text mb="2">{t('projectDescription')}</Text>
+      <Card>
+        <CardHeader>
+          {t('projectName')}
+        </CardHeader>
+        <CardBody>
+          <div className="mb-2">{t('projectDescription')}</div>
 
-              <FormControl isInvalid={!!errors.name}>
-                <Input
-                  id="name"
-                  placeholder={t('projectName')}
-                  required
-                  type="text"
-                  variant="filled"
-                  {...register('name', { required: ct('thisIsRequired') })}
-                />
-                <FormErrorMessage>
-                  {errors.name && errors.name.message}
-                </FormErrorMessage>
-              </FormControl>
+          <Input
+            errorMessage={errors.name && errors.name.message}
+            id="name"
+            placeholder={t('projectName')}
+            required
+            type="text"
+            validationState={errors.name ? 'invalid' : 'valid'}
+            {...register('name', { required: ct('thisIsRequired') })}
+          />
 
-              {
-                (!!name && name !== project?.name) && (
-                  <ThemeBox
-                    border="1px"
-                    borderColor="current"
-                    mt="2"
-                    p="2"
-                    rounded="sm"
-                  >
-                    {t('yourProjectWillBeRenamedTo')} `
-                    <Box
-                      as="span"
-                      fontWeight="semibold"
-                    >
-                      {name}
-                    </Box>
+          {
+            (!!name && name !== project?.name) && (
+              <div className="mt-2 p-2 rounded">
+                {t('yourProjectWillBeRenamedTo')} `
+                <span className="font-semibold">
+                  {name}
+                </span>
                     `.
-                  </ThemeBox>
-                )
-              }
-            </Box>
-          )
-        }
-        footer={
-          (
-            <Flex
-              align="center"
-              justify="space-between"
-            >
-              <div />
-              <Button
-                disabled={!(!!name && name !== project?.name)}
-                size="sm"
-                type="submit"
-                variant="solid"
-              >
-                {t('save')}
-              </Button>
-            </Flex>
-          )
-        }
-        title={t('projectName')}
-      />
+              </div>
+            )
+          }
+        </CardBody>
+        <CardFooter className="flex items-center justify-between">
+          <div />
+          <Button
+            disabled={!(!!name && name !== project?.name)}
+            size="sm"
+            type="submit"
+            variant="solid"
+          >
+            {t('save')}
+          </Button>
+        </CardFooter>
+      </Card>
     </form>
   )
 }
 
 const SettingsProjectApiKey = ({ project }: CommonProps) => {
   const t = useTranslations('Settings')
-  return (
-    <Card
-      content={
-        (
-          <Box>
-            <Text mb="2">{t('apiKeyDescription')}</Text>
 
-            <Copy>{project?.apiKey ?? ''}</Copy>
-          </Box>
-        )
-      }
-      title={t('projectApiKey')}
-    />
+  return (
+    <Card>
+      <CardHeader>
+        {t('projectApiKey')}
+      </CardHeader>
+      <CardBody>
+        <div className="mb-2">{t('apiKeyDescription')}</div>
+        <Snippet>{project?.apiKey ?? ''}</Snippet>
+      </CardBody>
+    </Card>
   )
 }
 
@@ -151,58 +124,48 @@ const SettingsProjectUsers = ({ project }: CommonProps) => {
 
   return (
     <>
-      <Card
-        content={
-          (
-            <Box>
-              {
-                project?.members?.map(member => (
-                  <Box key={member.id}>
-                    <Flex
-                      gap="4"
-                      py="2"
-                    >
-                      <Avatar
-                        name={member.name ?? ''}
-                        size="sm"
-                        src={member.image ?? ''}
-                      />
-                      <Flex direction="column">
-                        <Box>{member.name}</Box>
-                        <Box>{member.email}</Box>
-                      </Flex>
-                    </Flex>
-                    <Box />
-                    <Box />
-                  </Box>
-                ))
-              }
-            </Box>
-          )
-        }
-        extra={
-          (
-            <Button
-              leftIcon={<RiAddLine />}
-              onClick={onOpen}
-            >
-              {t('inviteMembers')}
-            </Button>
-          )
-        }
-        title={t('projectMembers')}
-      />
+      <Card>
+        <CardHeader className="flex items-center justify-between">
+          {t('projectMembers')}
+          <Button
+            onClick={onOpen}
+            size="sm"
+            startContent={<i className="i-ri-add-line" />}
+          >
+            {t('inviteMembers')}
+          </Button>
+        </CardHeader>
+        <CardBody>
+          <div>
+            {
+              project?.members?.map(member => (
+                <div key={member.id}>
+                  <div className="flex gap-4 py-2">
+                    <Avatar
+                      name={member.name ?? ''}
+                      size="sm"
+                      src={member.image ?? ''}
+                    />
+                    <div className="flex flex-col">
+                      <span>{member.name}</span>
+                      <span>{member.email}</span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </CardBody>
+      </Card>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
       >
-        <ModalOverlay />
         <ModalContent>
           <ModalHeader>{t('inviteMembers')}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <Text mb="2">{t('inviteMembersDescription')}</Text>
-            <Copy>{inviteUrl}</Copy>
+          <ModalBody>
+            <div className="mb-2">{t('inviteMembersDescription')}</div>
+            <Snippet>{inviteUrl}</Snippet>
           </ModalBody>
 
           <ModalFooter>
@@ -226,15 +189,10 @@ export default function SettingsPage() {
   )
 
   return (
-    <Box>
+    <div>
       <Title>{t('projectSettings')}</Title>
 
-      <Wrapper
-        display="flex"
-        flexDirection="column"
-        gap="12"
-        py="12"
-      >
+      <Wrapper className="flex flex-col gap-12 py-12">
         <Skeleton isLoaded={!isLoading}>
           <SettingsProjectName
             project={project}
@@ -253,6 +211,6 @@ export default function SettingsPage() {
           />
         </Skeleton>
       </Wrapper>
-    </Box>
+    </div>
   )
 }

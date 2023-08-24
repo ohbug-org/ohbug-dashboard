@@ -1,21 +1,19 @@
 'use client'
 
-import { Box, Button, Flex, FormControl, FormLabel, Icon, Stat, StatArrow, StatGroup, StatHelpText, StatLabel, StatNumber, Switch, Text, Tooltip } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/next-js'
-import type { Event, Project } from '@prisma/client'
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
-import { RiSettings2Line } from 'react-icons/ri'
 import { useTranslations } from 'next-intl'
-import Card from '~/components/card'
-import ThemeBox from '~/components/themeBox'
-import TrendChart from '~/components/trendChart'
+import { Button, Card, CardBody, Switch, Tooltip } from '@nextui-org/react'
+import { type Event, type Project } from '@prisma/client'
+import { type ProjectTrend } from '~/services/projects'
+import { Box } from '~/components/ui/box'
+import TrendChart from '~/components/trend-chart'
 import Wrapper from '~/components/wrapper'
-import EventsList from '~/components/eventsList'
-import type { ProjectTrend } from '~/services/projects'
+import EventsList from '~/components/events-list'
 import Title from '~/components/title'
-import { useInfinite } from '~/hooks/useInfinite'
+import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetEventByProjectId } from '~/services/events'
-import type { PVGroupResult } from '~/services/views'
+import { type PVGroupResult } from '~/services/views'
 
 interface Props {
   project?: Project
@@ -61,75 +59,81 @@ const View = ({ views }: Props) => {
     <>
       <Wrapper>
         <Card>
-          <StatGroup>
-            <Stat>
-              <StatLabel>{t('pv')}(PV)</StatLabel>
-              <StatNumber>{views?.pageView}</StatNumber>
-              <StatHelpText>
-                <StatArrow type="increase" />
-                {pageViewTrend}%
-              </StatHelpText>
-            </Stat>
+          <CardBody>
+            <div className="flex justify-between gap-4">
+              <div className="flex flex-col">
+                <div className="text-lg">{t('pv')}(PV)</div>
+                <div className="text-xl font-semibold">{views?.pageView}</div>
+                <div>
+                  <i className="i-ri-arrow-up-s" />
+                  {pageViewTrend}%
+                </div>
+              </div>
 
-            <Stat>
-              <StatLabel>{t('uv')}(UV)</StatLabel>
-              <StatNumber>{views?.userView}</StatNumber>
-              <StatHelpText>
-                <StatArrow type="increase" />
-                {userViewTrend}%
-              </StatHelpText>
-            </Stat>
+              <div>
+                <div>{t('uv')}(UV)</div>
+                <div>{views?.userView}</div>
+                <div>
+                  <i className="i-ri-arrow-up-s" />
+                  {userViewTrend}%
+                </div>
+              </div>
 
-            <Stat>
-              <StatLabel>{t('activeUser')}</StatLabel>
-              <StatNumber>{views?.activeUser ?? 0}</StatNumber>
-            </Stat>
-          </StatGroup>
+              <div>
+                <div>{t('activeUser')}</div>
+                <div>{views?.activeUser ?? 0}</div>
+              </div>
+            </div>
+          </CardBody>
         </Card>
       </Wrapper>
       <Wrapper>
-        <Flex gap="8">
+        <div className="flex gap-8">
           {
             views?.pvPathGroupResult.length > 0 && (
-              <Card flex="1">
-                <TrendChart
-                  data={views?.pvPathGroupResult}
-                  name="number"
-                  timeField="value"
-                  title={
-                    (
-                      <Tooltip label={t('pageViewsDesc')}>
-                        {t('pageViews')}
-                      </Tooltip>
-                    )
-                  }
-                  type="14d"
-                  variant="row"
-                />
+              <Card className="flex-1">
+                <CardBody>
+                  <TrendChart
+                    data={views?.pvPathGroupResult}
+                    name="number"
+                    timeField="value"
+                    title={
+                      (
+                        <Tooltip content={t('pageViewsDesc')}>
+                          {t('pageViews')}
+                        </Tooltip>
+                      )
+                    }
+                    type="14d"
+                    variant="row"
+                  />
+                </CardBody>
               </Card>
             )
           }
           {
             views?.pvReferrerGroupResult.length > 0 && (
-              <Card flex="1">
-                <TrendChart
-                  data={views?.pvReferrerGroupResult}
-                  name="number"
-                  timeField="value"
-                  title={
-                    (
-                      <Tooltip label={t('referrersDesc')}>
-                        {t('referrers')}
-                      </Tooltip>
-                    )
-                  }
-                  type="14d"
-                  variant="row"
-                />
+              <Card className="flex-1">
+                <CardBody>
+                  <TrendChart
+                    data={views?.pvReferrerGroupResult}
+                    name="number"
+                    timeField="value"
+                    title={
+                      (
+                        <Tooltip content={t('referrersDesc')}>
+                          {t('referrers')}
+                        </Tooltip>
+                      )
+                    }
+                    type="14d"
+                    variant="row"
+                  />
+                </CardBody>
               </Card>
             )
           }
-        </Flex>
+        </div>
       </Wrapper>
     </>
   )
@@ -137,37 +141,31 @@ const View = ({ views }: Props) => {
 const Trend = ({ trends }: Props) => {
   const [chartType, setChartType] = useState<'24h' | '14d'>('24h')
   const TrendTitle = useMemo(() => (
-    <Flex justify="space-between">
-      <Text fontWeight="semibold">Event Trends</Text>
-      <FormControl
-        alignItems="center"
-        display="flex"
-        w="auto"
-      >
-        <FormLabel
-          htmlFor="trendsType"
-          mb="0"
-        >
-          {chartType === '24h' ? '24小时' : '14天'}
-        </FormLabel>
+    <div className="flex justify-between">
+      <div className="font-semibold">Event Trends</div>
+      <div className="flex items-center">
         <Switch
           id="trendsType"
-          isChecked={chartType === '24h'}
-          onChange={e => setChartType(e.target.checked ? '24h' : '14d')}
-        />
-      </FormControl>
-    </Flex>
+          isSelected={chartType === '24h'}
+          onValueChange={e => setChartType(e ? '24h' : '14d')}
+        >
+          {chartType === '24h' ? '24小时' : '14天'}
+        </Switch>
+      </div>
+    </div>
   ), [chartType])
 
   return (
     <Wrapper>
       <Card>
-        <TrendChart
-          data={trends?.[chartType]}
-          title={TrendTitle}
-          type="14d"
-          variant="detail"
-        />
+        <CardBody>
+          <TrendChart
+            data={trends?.[chartType]}
+            title={TrendTitle}
+            type="14d"
+            variant="detail"
+          />
+        </CardBody>
       </Card>
     </Wrapper>
   )
@@ -182,16 +180,14 @@ const Events = ({ project }: Props) => {
   )
 
   return (
-    <ThemeBox bg="current">
+    <Box>
       <Wrapper>
         <EventsList events={data} />
         <Button
+          className="mt-6 w-full"
           disabled={isLoading || isReachingEnd}
-          mt="6"
           onClick={() => setSize(size + 1)}
           size="sm"
-          variant="outline"
-          w="full"
         >
           {
             isLoading
@@ -202,22 +198,21 @@ const Events = ({ project }: Props) => {
           }
         </Button>
       </Wrapper>
-    </ThemeBox>
+    </Box>
   )
 }
 
 export default function Profile({ project, trends, views }: Props) {
   return (
-    <Box>
+    <div>
       <Title
         rightNodes={
           (
             <Link href={`/${project?.id}/settings`}>
               <Button
-                leftIcon={
-                  <Icon as={RiSettings2Line} />
+                startContent={
+                  <i className="i-ri-settings-2-line" />
                 }
-                variant="solid"
               >
                 Setting
               </Button>
@@ -228,13 +223,13 @@ export default function Profile({ project, trends, views }: Props) {
         {project?.name}
       </Title>
 
-      <Box py="8">
+      <div className="py-8">
         <View views={views} />
 
         <Trend trends={trends} />
-      </Box>
+      </div>
 
       <Events project={project} />
-    </Box>
+    </div>
   )
 }

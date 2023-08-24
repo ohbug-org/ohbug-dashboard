@@ -1,15 +1,15 @@
 'use client'
 
 import { Flex, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/next-js'
-import type { Event, EventUser, Feedback } from '@prisma/client'
+import Link from 'next/link'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
-import EventsList from '~/components/eventsList'
-import ThemeBox from '~/components/themeBox'
+import { type Event, type EventUser, type Feedback } from '@prisma/client'
+import EventsList from '~/components/events-list'
+import { Box } from '~/components/ui/box'
 import Wrapper from '~/components/wrapper'
-import CardSection from '~/components/cardSection'
-import useCurrentProject from '~/hooks/useCurrentProject'
+import CardSection from '~/components/card-section'
+import useCurrentProject from '~/hooks/use-current-project'
 import Title from '~/components/title'
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
@@ -29,7 +29,7 @@ export default function UserId({ user }: Props) {
       flexDirection="column"
       gap="6"
     >
-      <ThemeBox bg="gray">
+      <Box>
         <Title>
 
           <DynamicReactJson
@@ -85,7 +85,7 @@ export default function UserId({ user }: Props) {
             </TableContainer>
           </CardSection>
         </Wrapper>
-      </ThemeBox>
+      </Box>
     </Flex>
   )
 }

@@ -1,18 +1,18 @@
 'use client'
 
 import { Badge, Box, Button, Code, Flex, Tag, Text, Tooltip } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/next-js'
-import type { Alert, AlertEvent, Event, Issue } from '@prisma/client'
+import Link from 'next/link'
 import { useMemo } from 'react'
-import type { Action, ConditionOption, FilterOption } from 'common'
+import { type Action, type ConditionOption, type FilterOption } from 'common'
 import dayjs from 'dayjs'
-import type { AlertEventTrend } from '~/services/alerts'
-import ThemeBox from '~/components/themeBox'
+import { type Alert, type AlertEvent, type Event, type Issue } from '@prisma/client'
+import { type AlertEventTrend } from '~/services/alerts'
+import { Box } from '~/components/ui/box'
 import Wrapper from '~/components/wrapper'
-import CardSection from '~/components/cardSection'
+import CardSection from '~/components/card-section'
 import Title from '~/components/title'
-import useCurrentProject from '~/hooks/useCurrentProject'
-import EventsList from '~/components/eventsList'
+import useCurrentProject from '~/hooks/use-current-project'
+import EventsList from '~/components/events-list'
 import { ConditionOptions, FilterOptions } from '~/components/editAlert'
 import TrendChart from '~/components/trendChart'
 
@@ -43,7 +43,7 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
         {alert.name}
       </Title>
 
-      <ThemeBox bg="gray">
+      <Box>
         <Wrapper
           display="flex"
           flexDirection="column"
@@ -159,7 +159,7 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
             <EventsList events={events} />
           </CardSection>
         </Wrapper>
-      </ThemeBox>
+      </Box>
     </Flex>
   )
 }

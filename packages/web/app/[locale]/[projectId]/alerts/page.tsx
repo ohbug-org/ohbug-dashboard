@@ -1,16 +1,16 @@
 'use client'
 
 import { Box, Button } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/next-js'
-import type { Alert } from '@prisma/client'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import { type Alert } from '@prisma/client'
 import Card from '~/components/card'
-import AlertsList from '~/components/alertList'
+import AlertsList from '~/components/alert-list'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
-import useCurrentProject from '~/hooks/useCurrentProject'
-import { useInfinite } from '~/hooks/useInfinite'
-import LoadingMoreButton from '~/components/loadMoreButton'
+import useCurrentProject from '~/hooks/use-current-project'
+import { useInfinite } from '~/hooks/use-infinite'
+import LoadingMoreButton from '~/components/load-more-button'
 import { serviceGetAlerts } from '~/services/alerts'
 
 const Alerts = () => {

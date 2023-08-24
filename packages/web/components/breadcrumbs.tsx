@@ -1,62 +1,41 @@
 'use client'
 
-import type { FC } from 'react'
-import { useMemo } from 'react'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Center, Flex, useColorModeValue } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/next-js'
+import Link from 'next/link'
+import { Divider } from '@nextui-org/react'
 import Project from './project'
 import Logo from './logo'
-import useBreadcrumb from '~/hooks/useBreadcrumb'
+import useBreadcrumb from '~/hooks/use-breadcrumb'
 
-const Breadcrumbs: FC = () => {
+export default function Breadcrumbs() {
   const [breadcrumbs] = useBreadcrumb()
-  const separatorColor = useColorModeValue('gray.200', 'gray.600')
-
-  const Separator = useMemo(() => (
-    <Center
-      fontSize="24"
-      marginTop="-1"
-      textColor={separatorColor}
-    >
-      /
-    </Center>
-  ), [separatorColor])
 
   return (
-    <Flex gap="4">
-      <Link href="/">
-        <Logo />
-      </Link>
+    <div className="flex gap-4">
+      <Logo />
 
-      {Separator}
+      <Divider orientation="vertical" />
 
       <Project />
 
-      {breadcrumbs.length ? Separator : null}
+      {breadcrumbs.length > 0 ? <Divider orientation="vertical" /> : null}
 
-      <Breadcrumb
-        alignItems="center"
-        display="flex"
-        separator={Separator}
-      >
+      <div className="flex items-center">
         {
           breadcrumbs
-            .slice(0, breadcrumbs.length - 1)
+            .slice(0, - 1)
             .map(v => (
-              <BreadcrumbItem key={v.path}>
+              <div key={v.path}>
                 <Link href={v.path}>
-                  <BreadcrumbLink>
-                    {v.breadcrumb}
-                  </BreadcrumbLink>
+                  {v.breadcrumb}
                 </Link>
-              </BreadcrumbItem>
+              </div>
             ))
         }
-        <BreadcrumbItem><BreadcrumbLink>{breadcrumbs.at(-1)?.breadcrumb}</BreadcrumbLink></BreadcrumbItem>
-      </Breadcrumb>
-    </Flex>
 
+        <Divider orientation="vertical" />
+
+        <div>{breadcrumbs.at(-1)?.breadcrumb}</div>
+      </div>
+    </div>
   )
 }
-
-export default Breadcrumbs

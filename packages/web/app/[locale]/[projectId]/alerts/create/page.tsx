@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl'
 import Card from '~/components/card'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
-import useCurrentProject from '~/hooks/useCurrentProject'
+import useCurrentProject from '~/hooks/use-current-project'
 import EditAlert from '~/components/editAlert'
 import { serviceCreateAlert } from '~/services/alerts'
 

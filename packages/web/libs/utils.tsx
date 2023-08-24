@@ -1,9 +1,11 @@
-import type { ReactNode } from 'react'
-import type { OhbugAction, OhbugEvent } from '@ohbug/types'
 import UA from 'ua-parser-js'
 import { Text } from '@chakra-ui/react'
 import { RiBugFill, RiCursorFill, RiGift2Fill, RiLoader2Fill, RiRouterFill, RiTerminalBoxFill } from 'react-icons/ri'
-import type { IconType } from 'react-icons'
+import { type IconType } from 'react-icons'
+import { type OhbugAction, type OhbugEvent } from '@ohbug/types'
+import { type ReactNode } from 'react'
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export function renderStringOrJson(value?: any) {
   return typeof value === 'string'
@@ -143,4 +145,8 @@ export function scrollWindowTo(to?: number) {
 
 export function average(arr: number[]) {
   return (arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(2)
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
 }

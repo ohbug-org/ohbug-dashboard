@@ -2,9 +2,12 @@ import dayjs from 'dayjs'
 import Profile from './profile'
 import { serviceGetProject, serviceGetProjectTrends } from '~/services/projects'
 import { serviceGetPVPathGroupResult, serviceGetPVReferrerGroupResult, serviceGetPageView, serviceGetUserView } from '~/services/views'
+import { getPrisma } from '~/db'
 
 export default async function ProfilePage({ params }: { params: { projectId: string } }) {
-  const projectId = parseInt(params.projectId)
+  const projectId = parseInt(params.projectId) || (await getPrisma().project.findFirst())?.id
+  if (!projectId) return null
+
   const project = await serviceGetProject(projectId)
   const trends14d = await serviceGetProjectTrends({ id: projectId, type: '14d' })
   const trends24h = await serviceGetProjectTrends({ id: projectId, type: '24h' })

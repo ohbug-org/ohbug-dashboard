@@ -1,23 +1,23 @@
 'use client'
 
-import type { Issue, OhbugEventLike } from 'common'
 import { Flex } from '@chakra-ui/react'
 import { useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
-import EventDetailActions from '~/components/eventDetailAction'
-import EventDetailProfile from '~/components/eventDetailProfile'
-import EventDetailStack from '~/components/eventDetailStack'
-import IssueDetailTitle from '~/components/issueDetailTitle'
-import EventDetailTrend from '~/components/eventDetailTrend'
-import EventDetailUser from '~/components/eventDetailUser'
-import IssueRelatedEvents from '~/components/issueRelatedEvents'
-import type { IssueTrend } from '~/services/issues'
-import IssueRelatedMetadata from '~/components/issueRelatedMetadata'
+import { type Issue, type OhbugEventLike } from 'common'
+import { type IssueTrend } from '~/services/issues'
+import EventDetailActions from '~/components/event-detail-action'
+import EventDetailProfile from '~/components/event-detail-profile'
+import EventDetailStack from '~/components/event-detail-stack'
+import IssueDetailTitle from '~/components/issue-detail-title'
+import EventDetailTrend from '~/components/event-detail-trend'
+import EventDetailUser from '~/components/event-detail-user'
+import IssueRelatedEvents from '~/components/issue-related-events'
+import IssueRelatedMetadata from '~/components/issue-related-metadata'
 
 const IssueRelatedRrweb = dynamic(
   () => {
-    return import('~/components/issueRelatedRrweb')
+    return import('~/components/issue-related-rrweb')
   },
   { ssr: false },
 )

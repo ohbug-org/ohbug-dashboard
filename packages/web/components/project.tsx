@@ -11,7 +11,7 @@ import { useSession } from 'next-auth/react'
 import Loading from './loading'
 import { useStore } from '~/store'
 import { serviceGetProjectsWithEventCount } from '~/services/projects'
-import { useQuery } from '~/hooks/useQuery'
+import { useQuery } from '~/hooks/use-query'
 
 const ProjectComponent: FC = () => {
   const router = useRouter()

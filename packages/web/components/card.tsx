@@ -1,12 +1,12 @@
 'use client'
 
-import { Flex, Heading, useColorModeValue } from '@chakra-ui/react'
-import type { ReactNode } from 'react'
 import { forwardRef, useMemo } from 'react'
-import type { ThemeBoxProps } from './themeBox'
-import ThemeBox from './themeBox'
+import { useColorModeValue } from '@chakra-ui/react'
+import { type ReactNode } from 'react'
+import { Box } from './ui'
+import { type BoxProps } from './ui'
 
-interface Props extends Omit<ThemeBoxProps, 'content'> {
+interface Props extends Omit<BoxProps, 'content'> {
   children?: ReactNode
   title?: string
   extra?: ReactNode
@@ -22,35 +22,32 @@ const Card = forwardRef<HTMLDivElement, Props>(({ children, title, extra, conten
       <>
         {
           title && (
-            <Heading
-              display="flex"
-              justifyContent="space-between"
-              mb="4"
-              size="md"
+            <h2
+              className="flex justify-between mb-4 text-md"
             >
               {title}
               {extra}
-            </Heading>
+            </h2>
           )
         }
         {
           content && (
-            <Flex mb="4">
+            <div className="flex mb-4">
               {content}
-            </Flex>
+            </div>
           )
         }
         {
           footer && (
-            <ThemeBox
-              bg="gray"
+            <Box
+
               m="-4"
               mt="0"
               px="4"
               py="3"
             >
               {footer}
-            </ThemeBox>
+            </Box>
           )
         }
       </>
@@ -59,7 +56,7 @@ const Card = forwardRef<HTMLDivElement, Props>(({ children, title, extra, conten
   const hoverBorderColor = useColorModeValue('dark.50', 'gray.200')
 
   return (
-    <ThemeBox
+    <Box
       _hover={
         hover
           ? {
@@ -68,7 +65,7 @@ const Card = forwardRef<HTMLDivElement, Props>(({ children, title, extra, conten
           }
           : {}
       }
-      bg="current"
+
       border={variant === 'default' ? '1px' : '0'}
       borderColor={variant === 'default' ? 'current' : 'transparent'}
       boxShadow={variant === 'shadow' ? 'md' : 'none'}
@@ -81,7 +78,7 @@ const Card = forwardRef<HTMLDivElement, Props>(({ children, title, extra, conten
       {...props}
     >
       {node}
-    </ThemeBox>
+    </Box>
   )
 })
 Card.displayName = 'Card'

@@ -1,15 +1,14 @@
 'use client'
 
-import { Button, Flex, SimpleGrid } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/next-js'
-import { RiAddLine } from 'react-icons/ri'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useSession } from 'next-auth/react'
-import type { User } from '@prisma/client'
-import ProjectCard from '~/components/projectCard'
+import { type User } from '@prisma/client'
+import { Button } from '~/components/ui/button'
+import ProjectCard from '~/components/project-card'
 import Wrapper from '~/components/wrapper'
-import { useInviteMember } from '~/hooks/useInviteMember'
-import { useQuery } from '~/hooks/useQuery'
+import { useInviteMember } from '~/hooks/use-invite-member'
+import { useQuery } from '~/hooks/use-query'
 import { serviceGetProjectsWithEventCount } from '~/services/projects'
 
 export default function Home() {
@@ -24,20 +23,16 @@ export default function Home() {
 
   return (
     <Wrapper>
-      <Flex justify="end">
+      <div className="flex justify-end">
         <Link href="/create-project">
           <Button
-            leftIcon={<RiAddLine />}
+            startContent={<i className="i-ri-add-line" />}
           >
             {t('createProject')}
           </Button>
         </Link>
-      </Flex>
-      <SimpleGrid
-        columns={3}
-        mt="4"
-        spacing="8"
-      >
+      </div>
+      <div className="grid grid-cols-3 gap-2 mt-4">
         {
           projects?.map(project => (
             <ProjectCard
@@ -46,7 +41,7 @@ export default function Home() {
             />
           ))
         }
-      </SimpleGrid>
+      </div>
     </Wrapper>
   )
 }

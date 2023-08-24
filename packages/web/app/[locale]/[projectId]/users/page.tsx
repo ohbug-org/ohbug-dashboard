@@ -1,17 +1,15 @@
 'use client'
 
-import { Box, Button, Heading, Input, InputGroup, InputLeftElement, VStack } from '@chakra-ui/react'
-import type { EventUser } from '@prisma/client'
 import { useTranslations } from 'next-intl'
-import { RiSearchLine } from 'react-icons/ri'
 import { useState } from 'react'
 import { useDebounce } from 'react-use'
-import UsersList from '~/components/usersList'
-import ThemeBox from '~/components/themeBox'
+import { Button, Input } from '@nextui-org/react'
+import { type EventUser } from '@prisma/client'
+import UsersList from '~/components/users-list'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
-import useCurrentProject from '~/hooks/useCurrentProject'
-import { useInfinite } from '~/hooks/useInfinite'
+import useCurrentProject from '~/hooks/use-current-project'
+import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetEventUsers } from '~/services/eventUsers'
 
 export default function UsersPage() {
@@ -48,46 +46,29 @@ export default function UsersPage() {
     )
 
   return (
-    <ThemeBox bg="current">
+    <div>
       <Title>
-        <VStack
-          spacing="4"
-          w="full"
-        >
-          <Heading
-            fontWeight="semibold"
-            size="lg"
-            w="full"
-          >
+        <div className="flex gap-4 w-full">
+          <h2 className="font-semibold text-lg w-full">
             Users
-          </Heading>
-          <Box w="full">
-            <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-              >
-                <RiSearchLine />
-              </InputLeftElement>
-              <Input
-                onChange={e => setQuery(e.target.value)}
-                placeholder="Search for users ipAddress uuid email name and metadata"
-                value={query}
-                variant="filled"
-              />
-            </InputGroup>
-          </Box>
-        </VStack>
+          </h2>
+          <div className="w-full">
+            <Input
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Search for users ipAddress uuid email name and metadata"
+              startContent={<i className="i-ri-search-line" />}
+              value={query}
+            />
+          </div>
+        </div>
       </Title>
 
       <Wrapper>
         <UsersList users={eventUsers} />
         <Button
+          className="w-full mt-6"
           disabled={isLoading || isReachingEnd}
-          mt="6"
           onClick={() => setSize(size + 1)}
-          size="sm"
-          variant="outline"
-          w="full"
         >
           {
             isLoading
@@ -98,6 +79,6 @@ export default function UsersPage() {
           }
         </Button>
       </Wrapper>
-    </ThemeBox>
+    </div>
   )
 }

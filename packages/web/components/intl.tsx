@@ -2,7 +2,6 @@
 
 import type { ChangeEvent } from 'react'
 import { useCallback, useTransition } from 'react'
-import { Select } from '@chakra-ui/react'
 import { usePathname } from 'next-intl/client'
 import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
@@ -32,13 +31,11 @@ export default function Intl() {
   }, [pathname])
 
   return (
-    <Select
+    <select
+      className="w-24"
       disabled={isPending}
       onChange={handleChange}
-      size="xs"
       value={locale}
-      variant="filled"
-      w="24"
     >
       {
         options.map(({ label, value }) => (
@@ -50,6 +47,6 @@ export default function Intl() {
           </option>
         ))
       }
-    </Select>
+    </select>
   )
 }

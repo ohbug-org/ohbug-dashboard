@@ -1,30 +1,17 @@
 'use client'
 
-import type { FC } from 'react'
-import { Flex } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/next-js'
+import Link from 'next/link'
 import User from './user'
 import Breadcrumbs from './breadcrumbs'
-import ThemeBox from './themeBox'
 
-interface Props {}
-
-const Nav: FC<Props> = () => {
+export default function Nav() {
   return (
-    <ThemeBox
-      alignItems="center"
-      bg="current"
-      display="flex"
-      h="full"
-      justifyContent="space-between"
-      w="full"
+    <div
+      className="flex items-center justify-between w-full h-full"
     >
       <Breadcrumbs />
 
-      <Flex
-        align="center"
-        gap="4"
-      >
+      <div className="flex items-center gap-4">
         <Link
           href="https://ohbug.net/"
           target="_blank"
@@ -32,9 +19,7 @@ const Nav: FC<Props> = () => {
           Docs
         </Link>
         <User />
-      </Flex>
-    </ThemeBox>
+      </div>
+    </div>
   )
 }
-
-export default Nav

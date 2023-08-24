@@ -3,15 +3,15 @@
 import { Button, Icon, Link } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
 import { RiQuestionLine } from 'react-icons/ri'
-import IntroduceChart from '~/components/introduceChart'
-import ThemeBox from '~/components/themeBox'
+import IntroduceChart from '~/components/introduce-chart'
+import { Box } from '~/components/ui/box'
 import Title from '~/components/title'
-import TrendChart from '~/components/trendChart'
+import TrendChart from '~/components/trend-chart'
 import Wrapper from '~/components/wrapper'
-import useCurrentProject from '~/hooks/useCurrentProject'
+import useCurrentProject from '~/hooks/use-current-project'
 import { average } from '~/libs/utils'
 import { serviceGetMetricsTrends } from '~/services/metrics'
-import { useQuery } from '~/hooks/useQuery'
+import { useQuery } from '~/hooks/use-query'
 
 const CLS_THRESHOLD = [0.1, 0.25]
 const FID_THRESHOLD = [100, 300]
@@ -74,7 +74,7 @@ export default function MetricsPage() {
   )
 
   return (
-    <ThemeBox bg="current">
+    <Box >
       <Title
         rightNodes={
           (
@@ -216,6 +216,6 @@ export default function MetricsPage() {
           />
         </IntroduceChart>
       </Wrapper>
-    </ThemeBox>
+    </Box>
   )
 }

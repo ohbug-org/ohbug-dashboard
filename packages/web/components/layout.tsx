@@ -1,15 +1,16 @@
 'use client'
 
-import { Box, Container, Flex } from '@chakra-ui/react'
-import type { FC, ReactNode } from 'react'
 import { useState } from 'react'
 import { useIsomorphicLayoutEffect, useWindowScroll } from 'react-use'
+import { twMerge } from 'tailwind-merge'
+import { type FC, type ReactNode } from 'react'
 import Nav from './nav'
-import NavMenu from './navMenu'
+import NavMenu from './nav-menu'
 import User from './user'
-import ThemeBox from './themeBox'
 import Logo from './logo'
 import Footer from './footer'
+import { Box } from './ui/box'
+import Wrapper from './wrapper'
 import { scrollWindowTo } from '~/libs/utils'
 
 const HeadHeight = 64
@@ -29,90 +30,84 @@ const Layout: FC<Props> = ({ children }) => {
 
   return (
     <>
-      <ThemeBox
-        as="main"
-        bg="current"
-        minH="full"
-        w="full"
-      >
+      <div className="min-h-screen w-full">
         {/* nav */}
-        <Container
-          as="nav"
-          h={`${HeadHeight}px`}
-          maxW="container.xl"
+        <Box
+          className="container mx-auto"
+          style={{ height: HeadHeight }}
         >
           <Nav />
-        </Container>
+        </Box>
         {/* navMenu */}
-        <ThemeBox
-          acrylic
-          bg="current"
-          boxShadow="inset 0 -1px 0 0 rgba(0,0,0,.1)"
-          h={`${NavHeight}px`}
-          position={scrollNavVisible ? 'sticky' : 'relative'}
-          top={scrollNavVisible ? 0 : ''}
-          w="full"
-          zIndex={scrollNavVisible ? 'sticky' : ''}
+        <Box
+          className={
+            twMerge(
+              'backdrop-blur shadow-sm w-full',
+              scrollNavVisible ? 'sticky' : 'relative',
+              scrollNavVisible && 'top-0',
+              scrollNavVisible && 'z-10',
+            )
+          }
+          style={{ height: NavHeight }}
         >
-          <Container
-            alignItems="center"
-            as="nav"
-            display="flex"
-            h="full"
-            justifyContent="space-between"
-            maxW="container.xl"
+          <nav
+            className=" h-full flex items-center justify-between container mx-auto"
           >
-            <Flex position="relative">
+            <div className="flex relative">
               <Logo
-                h={`${NavHeight}px`}
+                className={
+                  twMerge(
+                    'relative transition-all',
+                    scrollNavVisible ? 'opacity-100' : 'opacity-0',
+                    scrollNavVisible ? 'visible' : 'invisible',
+                  )
+                }
                 onClick={() => scrollWindowTo()}
-                opacity={scrollNavVisible ? 1 : 0}
-                position="relative"
-                transform={scrollNavVisible ? 'translateZ(0)' : `translate3d(0,-${NavHeight}px,0)`}
-                transition="all 250ms ease"
-                visibility={scrollNavVisible ? 'visible' : 'hidden'}
-                w={`${NavHeight}px`}
+                style={{ height: NavHeight, width: NavHeight, transform: scrollNavVisible ? 'translateZ(0)' : `translate3d(0,-${NavHeight}px,0)` }}
               />
 
-              <Box
-                transform={scrollNavVisible ? 'translate3d(24px,0,0)' : `translate3d(-${NavHeight + 12}px,0,0)`}
-                transition="all 250ms ease"
+              <div
+                className="transition-transform"
+                style={
+                  { transform: scrollNavVisible ? 'translate3d(24px,0,0)' : `translate3d(-${NavHeight + 12}px,0,0)` }
+                }
               >
                 <NavMenu />
-              </Box>
-            </Flex>
+              </div>
+            </div>
 
-            <Box
-              opacity={scrollNavVisible ? 1 : 0}
-              transform={scrollNavVisible ? 'translateZ(0)' : `translate3d(0,-${NavHeight}px,0)`}
-              transition="all 250ms ease"
-              visibility={scrollNavVisible ? 'visible' : 'hidden'}
+            <div
+              className={
+                twMerge(
+                  'transition-all',
+                  scrollNavVisible ? 'opacity-100' : 'opacity-0',
+                  scrollNavVisible ? 'visible' : 'invisible',
+                )
+              }
+              style={
+                { transform: scrollNavVisible ? 'translateZ(0)' : `translate3d(0,-${NavHeight}px,0)` }
+              }
             >
               <User />
-            </Box>
-          </Container>
-        </ThemeBox>
+            </div>
+          </nav>
+        </Box>
         {/* main */}
-        <ThemeBox
-          bg="gray"
-          borderBottom="1px"
-          borderColor="current"
-          minH={`calc(100vh - ${HeadHeight + NavHeight}px)`}
-          w="full"
+        <div
+          className="w-full border-b border-stone"
+          style={
+            { minHeight: `calc(100vh - ${HeadHeight + NavHeight}px)` }
+          }
         >
-          <Box>{children}</Box>
-        </ThemeBox>
+          <div>{children}</div>
+        </div>
         {/* footer */}
-        <ThemeBox>
-          <Container
-            as="footer"
-            maxW="container.xl"
-            py="8"
-          >
+        <Box className="py-8">
+          <Wrapper>
             <Footer />
-          </Container>
-        </ThemeBox>
-      </ThemeBox>
+          </Wrapper>
+        </Box>
+      </div>
     </>
   )
 }

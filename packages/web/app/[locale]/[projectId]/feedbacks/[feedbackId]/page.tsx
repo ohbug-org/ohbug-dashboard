@@ -1,4 +1,4 @@
-import FeedbackId from './feedbackId'
+import FeedbackId from './feedback-id'
 import { serviceGetFeedback } from '~/services/feedbacks'
 
 export default async function FeedbackIdPage({ params }: { params: { feedbackId: string } }) {

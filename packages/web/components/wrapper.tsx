@@ -1,24 +1,25 @@
 'use client'
 
-import type { ContainerProps } from '@chakra-ui/react'
-import { Container } from '@chakra-ui/react'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { forwardRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 
-interface Props extends ContainerProps {
+interface Props {
   children: ReactNode
+  className?: string
+  style?: CSSProperties
 }
 
-const Wrapper = forwardRef<HTMLDivElement, Props>(({ children, ...props }, ref) => {
+const Wrapper = forwardRef<HTMLDivElement, Props>(({ children, className, style, ...props }, ref) => {
   return (
-    <Container
-      maxW="container.xl"
-      py="4"
+    <div
+      className={twMerge('container mx-auto py-4', className)}
       ref={ref}
+      style={style}
       {...props}
     >
       {children}
-    </Container>
+    </div>
   )
 })
 Wrapper.displayName = 'Wrapper'
