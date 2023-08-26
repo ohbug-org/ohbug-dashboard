@@ -19,6 +19,7 @@ import theme from '~/styles/theme'
 import { serviceGetProjects } from '~/services/projects'
 import { useQuery } from '~/hooks/use-query'
 import '~/styles/nprogress.css'
+import { Toaster } from '~/components/ui/toaster'
 
 const TopProgressBar = dynamic(
   () => {
@@ -45,10 +46,10 @@ function Controller({ children }: { children: ReactElement }) {
     }
   }, [pathname, session])
   useEffect(() => {
-    if (projects && projects.length === 0) {
+    if (session.status === 'authenticated' && projects && projects.length === 0) {
       router.replace('/create-project')
     }
-  }, [projects])
+  }, [session, projects])
 
   return children
 }
@@ -65,6 +66,7 @@ export function Providers({ children, session }: Props) {
         <CacheProvider>
           <NextUIProvider>
             <ChakraProvider theme={theme}>
+              <Toaster />
               <ColorModeScript />
               <TopProgressBar />
               <Layout>

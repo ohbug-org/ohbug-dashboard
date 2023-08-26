@@ -1,3 +1,3 @@
-import status from './status.json'
+import status from './status'
 
 export { status }

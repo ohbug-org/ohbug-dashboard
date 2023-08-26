@@ -25,10 +25,8 @@ export default function Home() {
     <Wrapper>
       <div className="flex justify-end">
         <Link href="/create-project">
-          <Button
-            startContent={<i className="i-ri-add-line" />}
-          >
-            {t('createProject')}
+          <Button>
+            <i className="i-ri-add-line mr-2" /> {t('createProject')}
           </Button>
         </Link>
       </div>

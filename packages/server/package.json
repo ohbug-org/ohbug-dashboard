@@ -14,7 +14,7 @@
   "dependencies": {
     "@nestjs/axios": "^3.0.0",
     "@nestjs/bull": "^10.0.1",
-    "@nestjs/cli": "^10.1.14",
+    "@nestjs/cli": "^10.1.16",
     "@nestjs/common": "^10.2.1",
     "@nestjs/core": "^10.2.1",
     "@nestjs/mapped-types": "^2.0.2",
@@ -33,6 +33,7 @@
     "class-validator": "^0.14.0",
     "common": "workspace:*",
     "config": "workspace:*",
+    "cron": "^2.4.1",
     "dotenv": "^16.3.1",
     "fastify-multer": "^2.0.3",
     "markdown-it": "^13.0.1",

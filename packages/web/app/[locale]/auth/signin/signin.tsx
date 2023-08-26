@@ -1,6 +1,5 @@
 'use client'
 
-import { Avatar, Button, Center, Divider, FormControl, FormErrorMessage, Heading, Icon, Input, Stack, useToast } from '@chakra-ui/react'
 import type { SignInResponse } from 'next-auth/react'
 import { getSession, signIn } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
@@ -8,11 +7,18 @@ import { useRouter } from 'next-intl/client'
 import type { Dispatch, FC, SetStateAction } from 'react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { RiGithubFill, RiLoginBoxLine, RiMailLine } from 'react-icons/ri'
 import type { Project, User } from '@prisma/client'
 import { useAtom } from 'jotai'
 import { useMount } from 'react-use'
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import { inviteAtom } from '~/atoms/invite'
+import { Button } from '~/components/ui/button'
+import { Input } from '~/components/ui/input'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { useToast } from '~/components/ui/use-toast'
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
 
 type ProviderType = 'email' | 'github' | 'credentials'
 
@@ -36,69 +42,53 @@ interface EmailSignInData {
   email: string
 }
 
+
+
 const EmailSignIn: FC<{
   setStep: Dispatch<SetStateAction<number>>
   onSignIn: (type: string, options: Record<string, any>) => void
 }> = ({ setStep, onSignIn }) => {
   const ct = useTranslations('Common')
-  const { handleSubmit, register, formState: { errors } } = useForm<EmailSignInData>()
+  const formSchema = z.object({
+    email: z.string().email().min(2, {
+      message: ct('mustBeTheCorrectEmailAddress'),
+    }),
+  })
+  const form = useForm<z.infer<typeof formSchema>>({resolver: zodResolver(formSchema)})
   const onSubmit = useCallback((data: EmailSignInData) => {
     onSignIn('email', { callbackUrl: '/', email: data.email })
   }, [])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing="6">
-        <Center
-          display="flex"
-          flexDirection="column"
-          gap="4"
-        >
-          <FormControl
-            isInvalid={!!errors.email}
-            w="300px"
-          >
-            <Input
-              id="email"
-              placeholder="Email Address"
-              type="email"
-              {...register('email', {
-                required: ct('thisIsRequired'),
-                pattern: {
-                  value: /\S+@\S+\.\S+/,
-                  message: ct('mustBeTheCorrectEmailAddress'),
-                },
-              })}
-            />
-            <FormErrorMessage w="full">
-              {errors.email && errors.email.message}
-            </FormErrorMessage>
-          </FormControl>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Email Address" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button
-            leftIcon={
-              (
-                <Icon
-                  as={RiMailLine}
-                  h="5"
-                  w="5"
-                />
-              )
-            }
             type="submit"
-            variant="solid"
-            w="300px"
+            className='w-full'
           >
-            Sign in with Email
+            <i className='i-ri-mail-line mr-2'></i> Sign in with Email
           </Button>
-        </Center>
-        <Button
-          onClick={() => { setStep(s => s - 1) }}
-          variant="link"
-        >
-          ← Other Login Options
-        </Button>
-      </Stack>
-    </form>
+          <Button
+            onClick={() => { setStep(s => s - 1) }}
+            variant="link"
+          >
+            ← Other Login Options
+          </Button>
+        </form>
+      </Form>
   )
 }
 
@@ -111,20 +101,10 @@ const GithubSignIn: FC<Props & {
 
   return (
     <Button
-      leftIcon={
-        (
-          <Icon
-            as={RiGithubFill}
-            h="5"
-            w="5"
-          />
-        )
-      }
       onClick={handleSignInGithub}
-      variant="solid"
-      w="300px"
+      variant="outline"
     >
-      Sign in with {providers.github.name}
+      <i className='i-ri-github-fill mr-2'></i> {providers.github.name}
     </Button>
   )
 }
@@ -138,8 +118,14 @@ const AccountSignIn: FC<{
 }> = ({ onSignIn }) => {
   const ct = useTranslations('Common')
   const router = useRouter()
-  const { handleSubmit, register, formState: { errors } } = useForm<AccountSignInData>()
-  const toast = useToast()
+  const formSchema = z.object({
+    email: z.string().email().min(2, {
+      message: ct('mustBeTheCorrectEmailAddress'),
+    }),
+    password: z.string().max(24).min(8)
+  })
+  const form = useForm<z.infer<typeof formSchema>>({resolver: zodResolver(formSchema)})
+  const {toast} = useToast()
   const onSubmit = useCallback(async(data: AccountSignInData) => {
     const res = await onSignIn('credentials', { redirect: false, ...data })
     if (res?.ok) {
@@ -149,83 +135,48 @@ const AccountSignIn: FC<{
       toast({
         title: 'SignIn Error',
         description: ct('signInError'),
-        status: 'error',
-        isClosable: true,
+        variant: 'destructive',
       })
     }
   }, [])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing="6">
-        <Center
-          display="flex"
-          flexDirection="column"
-          gap="4"
-        >
-          <FormControl
-            isInvalid={!!errors.email}
-            w="300px"
-          >
-            <Input
-              id="email"
-              placeholder="Email Address"
-              type="email"
-              {...register('email', {
-                required: ct('thisIsRequired'),
-                pattern: {
-                  value: /\S+@\S+\.\S+/,
-                  message: ct('mustBeTheCorrectEmailAddress'),
-                },
-              })}
-            />
-            <FormErrorMessage w="full">
-              {errors.email && errors.email.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl
-            isInvalid={!!errors.password}
-            w="300px"
-          >
-            <Input
-              id="password"
-              placeholder="Password"
-              type="password"
-              {...register('password', {
-                required: ct('thisIsRequired'),
-                maxLength: {
-                  value: 24,
-                  message: 'Max length 24',
-                },
-                minLength: {
-                  value: 8,
-                  message: 'Min length 8',
-                },
-              })}
-            />
-            <FormErrorMessage w="full">
-              {errors.password && errors.password.message}
-            </FormErrorMessage>
-          </FormControl>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Email Address" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="Password" type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button
-            leftIcon={
-              (
-                <Icon
-                  as={RiLoginBoxLine}
-                  h="5"
-                  w="5"
-                />
-              )
-            }
             type="submit"
-            variant="solid"
-            w="300px"
+            className='w-full'
           >
-            Sign in
+            <i className='i-ri-login-box-line mr-2'></i> Sign in
           </Button>
-        </Center>
-      </Stack>
-    </form>
+        </form>
+      </Form>
   )
 }
 
@@ -240,18 +191,18 @@ export default function SignIn({ providers, inviter }: Props) {
   const [step, setStep] = useState(1)
   const title = useMemo(() => {
     if (inviter && inviter.project && inviter.user) {
+      const name = inviter.user.name || inviter.user.email || ''
       return (
-        <Heading mb="4">
-          <Avatar
-            name={inviter.user.name || inviter.user.email || ''}
-            size="sm"
-            src={inviter.user?.image ?? ''}
-          />
+        <h2 className='font-bold text-3xl'>
+          <Avatar>
+            <AvatarImage src={inviter.user?.image ?? ''} alt={name} />
+            <AvatarFallback>{name}</AvatarFallback>
+          </Avatar>
           {`${inviter.user.name || inviter.user.email || ''} invited you to join the ${inviter.project.name}`}
-        </Heading>
+        </h2>
       )
     }
-    return <Heading mb="4">Sign in to Ohbug</Heading>
+    return <h2 className='font-bold text-3xl'>Sign in to Ohbug</h2>
   }, [inviter])
   const [, setInviteValue] = useAtom(inviteAtom)
   useEffect(() => {
@@ -264,44 +215,67 @@ export default function SignIn({ providers, inviter }: Props) {
   }, [router])
 
   return (
-    <Center h="100vh">
-      <Stack spacing="6">
-        {title}
-        <Center
-          display="flex"
-          flexDirection="column"
-          gap="4"
-        >
+    <section className='h-screen flex items-center justify-center'>
+      <Card className='w-[450px]'>
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl">{title}</CardTitle>
+          <CardDescription>
+          Choose a way to log in to your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4">
           {
-            (providers.credentials && step === 1) && (
-              <AccountSignIn
-                onSignIn={signIn}
-              />
+            step === 1 && (
+              <>
+                <div className="grid grid-cols-2 gap-6">
+                  {
+                    (providers.github) && (
+                      <GithubSignIn
+                        onSignIn={signIn}
+                        providers={providers}
+                      />
+                    )
+                  }
+                  {
+                    (providers.email) && (
+                      <Button
+                        onClick={() => setStep(s => s + 1)}
+                        variant="outline"
+                      >
+                        <i className='i-ri-mail-line mr-2'></i> Email
+                      </Button>
+                    )
+                  }
+                </div>
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                      Or continue with
+                    </span>
+                  </div>
+                </div>
+              </>
             )
           }
-          <Divider />
-          {
-            (providers.github && step === 1) && (
-              <GithubSignIn
-                onSignIn={signIn}
-                providers={providers}
-              />
-            )
-          }
-        </Center>
+        {
+          step === 1 && (
+            <>
+              {
+                (providers.credentials) && (
+                  <AccountSignIn
+                    onSignIn={signIn}
+                  />
+                )
+              }
+            </>
+          )
+        }
         {
           providers.email && (
             <>
-              {
-                step === 1 && (
-                  <Button
-                    onClick={() => setStep(s => s + 1)}
-                    variant="link"
-                  >
-                    Continue with Email →
-                  </Button>
-                )
-              }
               {
                 (step === 2) && (
                   <EmailSignIn
@@ -313,7 +287,8 @@ export default function SignIn({ providers, inviter }: Props) {
             </>
           )
         }
-      </Stack>
-    </Center>
+        </CardContent>
+      </Card>
+    </section>
   )
 }

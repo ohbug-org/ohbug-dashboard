@@ -1,4 +1,4 @@
-{
+export default {
   "4001000": "preprocessing event failed",
   "4001001": "event an error occurred during aggregation",
   "4001002": "event an error occurred during task scheduling",

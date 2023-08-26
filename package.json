@@ -52,20 +52,20 @@
   },
   "devDependencies": {
     "@antfu/ni": "^0.21.6",
-    "@babel/types": "^7.22.10",
+    "@babel/types": "^7.22.11",
     "@chenyueban/eslint-config": "^3.0.5",
     "@chenyueban/tsconfig": "^3.0.5",
     "@commitlint/cli": "^17.7.1",
     "@release-it/conventional-changelog": "^7.0.0",
     "@swc/cli": "^0.1.62",
-    "@swc/core": "^1.3.78",
+    "@swc/core": "^1.3.80",
     "@types/js-yaml": "^4.0.5",
-    "@types/node": "^20.5.4",
+    "@types/node": "^20.5.6",
     "@types/ramda": "^0.29.3",
     "commitizen": "^4.3.0",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.47.0",
+    "eslint": "^8.48.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prisma": "^5.2.0",
@@ -74,7 +74,7 @@
     "taze": "^0.11.2",
     "tsup": "^7.2.0",
     "tsx": "^3.12.7",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
