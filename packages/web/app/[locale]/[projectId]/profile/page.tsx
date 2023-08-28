@@ -26,7 +26,6 @@ export default async function ProfilePage({ params }: { params: { projectId: str
         {
           '14d': trends14d,
           '24h': trends24h,
-
         }
       }
       views={

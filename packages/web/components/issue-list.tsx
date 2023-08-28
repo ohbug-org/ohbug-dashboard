@@ -7,31 +7,6 @@ import dayjs from 'dayjs'
 import { useTranslations } from 'next-intl'
 import { useDebounce, useSet } from 'react-use'
 import { useAtom } from 'jotai'
-import {
-  Badge,
-  Button,
-  Checkbox,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-  Tooltip,
-  useDisclosure,
-} from '@nextui-org/react'
-import { useToast } from '@chakra-ui/react'
 import { type Key, type ReactNode } from 'react'
 import TrendChart from './trend-chart'
 import Pagination from './pagination'
@@ -47,8 +22,21 @@ import useCurrentProject from '~/hooks/use-current-project'
 import { useQuery } from '~/hooks/use-query'
 import { useInfinite } from '~/hooks/use-infinite'
 import { issueSortAtom } from '~/atoms/issue'
+import { useToast } from '~/components/ui/use-toast'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu'
+import { Button } from '~/components/ui/button'
+import { Switch } from '~/components/ui/switch'
+import { Label } from '~/components/ui/label'
+import { Badge } from '~/components/ui/badge'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
+import { Input } from '~/components/ui/input'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '~/components/ui/dialog'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
+import { Checkbox } from '~/components/ui/checkbox'
 
 const columns = [
+  { name: 'SELECT', key: 'select' },
   { name: 'TITLE', key: 'title' },
   { name: 'TRENDS', key: 'trends' },
   { name: 'EVENTSCOUNT', key: 'eventsCount' },
@@ -60,11 +48,11 @@ interface Props {
 }
 
 export default function IssueList({ empty }: Props) {
-  const toast = useToast()
+  const {toast} = useToast()
   const t = useTranslations('Issues')
   const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
-  const { isOpen, onClose, onOpen } = useDisclosure()
+  const [open, setOpen] = useState(false)
   const cancelRef = useRef(null)
   const [orderBy, setOrderBy] = useAtom(issueSortAtom)
   const [query, setQuery] = useState('')
@@ -113,11 +101,6 @@ export default function IssueList({ empty }: Props) {
       && Array.from(checkedItems ?? []).every(v => (data?.findIndex(issue => issue.id === v) ?? -1) > -1),
     [checkedItems, data],
   )
-  const isIndeterminate = useMemo(
-    () =>
-      Array.from(checkedItems ?? []).some(v => (data?.findIndex(issue => issue.id === v) ?? -1) > -1) && !allChecked,
-    [checkedItems, data, allChecked],
-  )
   const handleDeleteIssue = useCallback(() => {
     const issueIds = Array.from(checkedItems)
     serviceDeleteIssues(issueIds)
@@ -125,7 +108,6 @@ export default function IssueList({ empty }: Props) {
         toast({
           title: 'Issue Deleted!',
           description: 'Your issues has been deleted!',
-          status: 'success',
         })
         mutate()
       })
@@ -133,90 +115,114 @@ export default function IssueList({ empty }: Props) {
         toast({
           title: 'Alert Delete Error',
           description: error.message,
-          status: 'error',
+          variant: 'destructive',
         })
       })
-      .finally(onClose)
+      .finally(()=>setOpen(false))
   }, [checkedItems])
 
-  const renderTitleCell = useCallback((columnKey: Key) => {
+  const renderTitleCell = useCallback((columnKey: string) => {
     switch (columnKey) {
+      case 'select':
+        return (
+          <Checkbox
+            checked={allChecked}
+            onCheckedChange={(value) => {
+              if (value) {
+                data?.forEach(issue => checkedItemsActions.add(issue.id))
+              }
+              else {
+                checkedItemsActions.reset()
+              }
+            }}
+            className="translate-y-[2px]"
+          />
+        )
       case 'title':
         return (
-          <div className="w-1/2">
+          <div>
             <div className="flex gap-2">
-              <select
-                className="w-40"
-                onChange={
-                  e =>
-                    setOrderBy(e.target.value as SearchIssuesOrderBy)
+              <Select
+                onValueChange={
+                  e => setOrderBy(e as SearchIssuesOrderBy)
                 }
                 value={orderBy}
               >
-                <option value="updatedAt">{t('orderByUpdatedAt')}</option>
-                <option value="createdAt">{t('orderByCreatedAt')}</option>
-                <option value="events">{t('orderByEvents')}</option>
-                <option value="users">{t('orderByUsers')}</option>
-              </select>
+                <SelectTrigger className="w-40">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="updatedAt">{t('orderByUpdatedAt')}</SelectItem>
+                  <SelectItem value="createdAt">{t('orderByCreatedAt')}</SelectItem>
+                  <SelectItem value="events">{t('orderByEvents')}</SelectItem>
+                  <SelectItem value="users">{t('orderByUsers')}</SelectItem>
+                </SelectContent>
+              </Select>
 
-              <Dropdown>
-                <DropdownTrigger>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
                   <Button
                     disabled={checkedItems.size <= 0}
-                    isIconOnly
-                    size="sm"
-                    variant="light"
+                    size="icon"
+                    variant="outline"
                   >
                     <i className="i-ri-more-line" />
                   </Button>
-                </DropdownTrigger>
-                <DropdownMenu>
-                  <DropdownItem
-                    color="danger"
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className='w-56'>
+                  <DropdownMenuItem
                     key="delete"
-                    onClick={onOpen}
+                    onClick={()=>setOpen(true)}
                   >
                     Delete
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         )
       case 'trends':
         return (
-          <div className="w-48">
+          <div className="flex items-center gap-2">
             <Switch
               id="trendsType"
-              isDisabled={!trends || !data?.length}
-              isSelected={chartType === '24h'}
-              onChange={e => setChartType(e ? '24h' : '14d')}
+              disabled={!trends || !data?.length}
+              checked={chartType === '24h'}
+              onCheckedChange={e => setChartType(e ? '24h' : '14d')}
             >
-              {chartType === '24h' ? ct('24h') : ct('14d')}
             </Switch>
+            <Label htmlFor="trendsType">{chartType === '24h' ? ct('24h') : ct('14d')}</Label>
           </div>
         )
       case 'eventsCount':
         return (
-          <div className="w-20 flex items-center justify-center">Events</div>
+          <div className="flex items-center justify-center">Events</div>
         )
       case 'usersCount':
         return (
-          <div className="w-20 flex items-center justify-center">Users</div>
+          <div className="flex items-center justify-center">Users</div>
         )
       default:
         return null
     }
-  }, [])
-  const renderCell = useCallback((issue: Issue, columnKey: Key) => {
+  }, [data, allChecked, checkedItems, trends, data, chartType])
+  const renderCell = useCallback((issue: Issue, columnKey: string) => {
     const metadata = JSON.parse(issue.metadata) || {}
 
     switch (columnKey) {
+      case 'select':
+        return (
+          <Checkbox
+            checked={checkedItems.has(issue.id)}
+            onCheckedChange={(value) => checkedItemsActions[value ? 'add' : 'remove'](issue.id)}
+            className="translate-y-[2px]"
+          />
+        )
       case 'title':
         return (
-          <div className="w-1/2">
+          <div>
             <Link
-              className="cursor-pointer flex justify-between w-full line-clamp-2"
+              className="cursor-pointer flex items-center w-full line-clamp-2"
               href={`/${projectId}/issues/${issue.id}`}
             >
               {/* title */}
@@ -225,9 +231,9 @@ export default function IssueList({ empty }: Props) {
                 issue.releaseStage === 'mock' && (
                   <Badge
                     className="mr-2"
-                    color="danger"
+                    variant="outline"
                   >
-                  Mock
+                    Mock
                   </Badge>
                 )
               }
@@ -250,24 +256,24 @@ export default function IssueList({ empty }: Props) {
               {/* time */}
               <div className="flex items-center text-xs">
                 <i className="i-ri-time-line mr-2" />
-                <Tooltip
-                  aria-label="A tooltip"
-                  content={
-                    `${ct('lastSeen')} ${dayjs(issue.updatedAt).format('YYYY-MM-DD HH:mm:ss')}`
-                  }
-                >
-                  <span>{dayjs(issue.updatedAt).fromNow()}</span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span>{dayjs(issue.updatedAt).fromNow()}</span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>{ct('lastSeen')} {dayjs(issue.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  </TooltipContent>
                 </Tooltip>
 
                 <div className="mx-1">|</div>
 
-                <Tooltip
-                  aria-label="A tooltip"
-                  content={
-                    `${ct('firstSeen')} ${dayjs(issue.createdAt).format('YYYY-MM-DD HH:mm:ss')}`
-                  }
-                >
-                  <span>{dayjs(issue.createdAt).fromNow()}</span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span>{dayjs(issue.createdAt).fromNow()}</span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>{ct('firstSeen')} {dayjs(issue.createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  </TooltipContent>
                 </Tooltip>
               </div>
             </div>
@@ -275,7 +281,7 @@ export default function IssueList({ empty }: Props) {
         )
       case 'trends':
         return (
-          <div className="w-48">
+          <div>
             <TrendChart
               data={trends?.[issue.id]}
               type={chartType}
@@ -284,109 +290,112 @@ export default function IssueList({ empty }: Props) {
         )
       case 'eventsCount':
         return (
-          <div className="flex items-center justify-center w-20">
+          <div className="flex items-center justify-center">
             {issue._count?.events}
           </div>
         )
       case 'usersCount':
         return (
-          <div className="flex items-center justify-center w-20">
+          <div className="flex items-center justify-center">
             {issue._count?.users}
           </div>
         )
       default:
         return null
     }
-  }, [])
+  }, [checkedItems, projectId, trends, chartType])
 
   return (
-    <div className="h-full overflow-x-hidden overflow-y-auto w-full">
-      <div className="mb-4 w-full">
-        <Input
-          onChange={e => setQuery(e.target.value)}
-          placeholder="Search..."
-          startContent={
-            isLoading ? <Spinning /> : <i className="i-ri-search-line" />
-          }
-          value={query}
-        />
-      </div>
+    <div className="h-full overflow-x-hidden overflow-y-auto space-y-4">
+      <Input
+        onChange={e => setQuery(e.target.value)}
+        placeholder="Search..."
+        value={query}
+      />
 
-      <Table aria-label="Issues Table">
-        <TableHeader columns={columns}>
+      <Table className='rounded-md border'>
+        <TableCaption>
           {
-            column => (
-              <TableColumn
-                align="start"
-                key={column.key}
-              >
-                {renderTitleCell(column.key)}
-              </TableColumn>
+            !!data?.length && (
+              <div className="flex items-center justify-between w-full">
+                <Link href={`/${projectId}/mock`}>Mock Data</Link>
+                <Pagination
+                  isReachingEnd={!!isReachingEnd}
+                  onChange={page => setSize(page - 1)}
+                  page={size + 1}
+                />
+              </div>
             )
           }
+        </TableCaption>
+        <TableHeader>
+          <TableRow>
+            {
+              columns.map(column => (
+                <TableHead
+                  key={column.key}
+                  className='text-left'
+                >
+                  {renderTitleCell(column.key)}
+                </TableHead>
+              ))
+            }
+          </TableRow>
         </TableHeader>
-        <TableBody
-          emptyContent="No rows to display."
-          items={data}
-        >
+        <TableBody>
           {
             data
-              ? item => (
-                <TableRow key={item.id}>
+            ? data.map(issue => (
+                <TableRow key={issue.id}>
                   {
-                    columnKey => (
-                      <TableCell>{renderCell(item, columnKey)}</TableCell>
-                    )
+                    columns.map(column => (
+                      <TableCell>{renderCell(issue, column.key)}</TableCell>
+                    ))
                   }
                 </TableRow>
-              )
-              : []
+            ))
+            : (
+              <TableRow>
+                <TableCell colSpan={columns.length}>
+                  {isLoading ? <Spinning /> : empty}
+                </TableCell>
+              </TableRow>
+            )
           }
         </TableBody>
       </Table>
 
-      {
-        !!data?.length && (
-          <div className="flex items-center justify-between mt-6 w-full">
-            <Link href={`/${projectId}/mock`}>Mock Data</Link>
-            <Pagination
-              isReachingEnd={!!isReachingEnd}
-              onChange={page => setSize(page - 1)}
-              page={size + 1}
-            />
-          </div>
-        )
-      }
 
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
+
+      <Dialog
+        open={open}
+        onOpenChange={setOpen}
       >
-        <>
-          <ModalHeader className="text-lg font-bold">
-            Are you sure you want to delete this {checkedItems.size} issue?
-          </ModalHeader>
-          <ModalContent>
-            <ModalBody>{t('deleteIssuesConfirm')}</ModalBody>
-          </ModalContent>
-          <ModalFooter>
+        <DialogContent>
+          <DialogHeader className="text-lg font-bold">
+            <DialogTitle>
+              Are you sure you want to delete this {checkedItems.size} issue?
+            </DialogTitle>
+          </DialogHeader>
+          <div>{t('deleteIssuesConfirm')}</div>
+          <DialogFooter>
             <Button
-              onClick={onClose}
+              onClick={()=>setOpen(false)}
               ref={cancelRef}
-              variant="light"
+              variant="outline"
             >
               Cancel
             </Button>
             <Button
               className="ml-3"
-              color="danger"
+              variant="destructive"
               onClick={handleDeleteIssue}
             >
               Delete
             </Button>
-          </ModalFooter>
-        </>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

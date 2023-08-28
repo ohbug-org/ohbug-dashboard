@@ -1,14 +1,28 @@
 'use client'
 
-import { Badge, Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, IconButton, Input, Menu, MenuButton, MenuItemOption, MenuList, MenuOptionGroup, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Text, Tooltip } from '@chakra-ui/react'
 import { useCallback } from 'react'
+import { type FC } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { RiCustomerService2Fill, RiDeleteBinLine, RiDingdingFill, RiWechatFill } from 'react-icons/ri'
 import { AlertConditionTopic, AlertFilterTopic } from 'common'
 import { useTranslations } from 'next-intl'
-import { type FC } from 'react'
 import { type Action, type ConditionOption, type FilterMatch, type FilterOption, type Interval, type OmitAlert } from 'common'
-import { Box } from '~/components/ui/box'
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+import { Badge } from '~/components/ui/badge'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form"
+import { Input, Input } from "~/components/ui/input"
+import { Select } from './ui/select'
+import { Button } from './ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 export const ActionOptions = ['email', 'webhook']
 export const ConditionOptions: ConditionOption[] = [
@@ -52,15 +66,21 @@ export const AlertLevel = {
   default: 'default',
 }
 
+const formSchema = z.object({
+  conditionMatch: z.enum(['all', 'every']),
+
+})
+
 interface Props {
   alert?: OmitAlert
-  onSubmit: (data: OmitAlert) => void
+  onSubmit: (value: z.infer<typeof formSchema>) => void
 }
 
 const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
   const ct = useTranslations('Common')
   const t = useTranslations('Alerts')
-  const { handleSubmit, register, control, formState: { errors } } = useForm<OmitAlert>({
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: alert
       ? {
         name: alert.name,
@@ -99,29 +119,19 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
   }, [])
 
   return (
-    <Flex
-      as="form"
-      direction="column"
-      gap="6"
-      onSubmit={handleSubmit(onSubmit)}
+    <form
+      className='flex flex-col gap-6'
+      onSubmit={form.handleSubmit(onSubmit)}
     >
-      <Box>
+      <div>
         <FormControl>
           <FormLabel>{t('alertConditions')}</FormLabel>
-          <Flex
-            align="center"
-            gap="2"
-            mb="2"
-          >
-            <Badge
-              textAlign="center"
-              variant="solid"
-              w="14"
-            >
+          <div className="flex items-center mb-2">
+            <Badge>
               WHEN
             </Badge>
-            <Flex gap="2">
-              <Text>an event is captured by Ohbug and</Text>
+            <div className='space-x-2'>
+              <span>an event is captured by Ohbug and</span>
               <FormControl
                 isInvalid={!!errors.conditionMatch}
                 w="auto"
@@ -135,27 +145,14 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                   <option value="every">every</option>
                 </Select>
               </FormControl>
-              <Text>of the following happens</Text>
-            </Flex>
-          </Flex>
+              <span>of the following happens</span>
+            </div>
+          </div>
           {
             conditionsFields.map((item, index) => {
               return (
-                <Box
-                  alignItems="center"
-
-                  display="flex"
-                  gap="2"
-                  key={item.id}
-                  mb="2"
-                  px="2"
-                  py="1"
-                  rounded="md"
-                >
-                  <Flex
-                    flex="1"
-                    gap="2"
-                  >
+                <div className='flex items-center gap-2 mb-2 px-2 py-1 rounded-md'>
+                  <div className='space-x-2 flex-1'>
                     {
                       item.topic === AlertConditionTopic.EventCapturedCondition && (
                         <>An event is captured</>
@@ -169,32 +166,21 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                     {
                       item.topic === AlertConditionTopic.EventFrequencyCondition && (
                         <>
-                          <Text>The issue is seen more than </Text>
+                          <span>The issue is seen more than </span>
                           <FormControl
                             isInvalid={!!errors.conditions?.[index]?.value}
                             w="auto"
                           >
-                            <NumberInput
-                              min={1}
-                              size="xs"
-                              variant="filled"
-                              width="24"
-                            >
-                              <NumberInputField
-                                id="interval"
+                            <Input
+                            id="interval"
                                 {...register(`conditions.${index}.value`, {
                                   required: ct('thisIsRequired'),
                                   min: 1,
                                   valueAsNumber: true,
-                                })}
-                              />
-                              <NumberInputStepper>
-                                <NumberIncrementStepper />
-                                <NumberDecrementStepper />
-                              </NumberInputStepper>
-                            </NumberInput>
+                                })}>
+                            </Input>
                           </FormControl>
-                          <Text>times in</Text>
+                          <span>times in</span>
                           <FormControl
                             isInvalid={!!errors.conditions?.[index]?.interval}
                             w="auto"
@@ -222,32 +208,21 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                     {
                       item.topic === AlertConditionTopic.UserFrequencyCondition && (
                         <>
-                          <Text>The issue is seen by more than </Text>
+                          <span>The issue is seen by more than </span>
                           <FormControl
                             isInvalid={!!errors.conditions?.[index]?.value}
                             w="auto"
                           >
-                            <NumberInput
-                              min={1}
-                              size="xs"
-                              variant="filled"
-                              width="24"
-                            >
-                              <NumberInputField
-                                id="interval"
-                                {...register(`conditions.${index}.value`, {
-                                  required: ct('thisIsRequired'),
-                                  min: 1,
-                                  valueAsNumber: true,
-                                })}
-                              />
-                              <NumberInputStepper>
-                                <NumberIncrementStepper />
-                                <NumberDecrementStepper />
-                              </NumberInputStepper>
-                            </NumberInput>
+                            <Input
+                              id="interval"
+                              {...register(`conditions.${index}.value`, {
+                                required: ct('thisIsRequired'),
+                                min: 1,
+                                valueAsNumber: true,
+                              })}
+                            />
                           </FormControl>
-                          <Text>users in</Text>
+                          <span>users in</span>
                           <FormControl
                             isInvalid={!!errors.conditions?.[index]?.interval}
                             w="auto"
@@ -272,64 +247,55 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                         </>
                       )
                     }
-                  </Flex>
-                  <IconButton
-                    aria-label="delete action"
-                    icon={<RiDeleteBinLine />}
+                  </div>
+                  <Button
                     onClick={() => conditionsRemove(index)}
-                    size="sm"
-                    type="button"
-                    variant="ghost"
-                  />
-                </Box>
+                    size="icon"
+                    variant="outline"
+                  >
+                    <i className='i-ri-delete-bin-line'></i>
+                  </Button>
+                </div>
               )
             })
           }
         </FormControl>
-        <Menu>
-          <MenuButton
-            as={Button}
-            size="sm"
-            variant="outline"
-          >
-            {t('addCondition')}
-          </MenuButton>
-          <MenuList>
-            <MenuOptionGroup
-              onChange={value => handleAddCondition(value as ConditionOption['topic'])}
-              value=""
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button
+              size="sm"
+              variant="outline"
             >
+              {t('addCondition')}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuGroup>
               {
                 ConditionOptions.map(item => (
-                  <MenuItemOption
+                  <DropdownMenuItem
                     key={item.topic}
-                    value={item.topic}
+                    onClick={()=>{
+                      handleAddCondition(item.topic)
+                    }}
                   >
                     {item.name}
-                  </MenuItemOption>
+                  </DropdownMenuItem>
                 ))
               }
-            </MenuOptionGroup>
-          </MenuList>
-        </Menu>
-      </Box>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
-      <Box>
+      <div>
         <FormControl>
           <FormLabel>{t('alertFilters')}</FormLabel>
-          <Flex
-            align="center"
-            gap="2"
-            mb="2"
-          >
-            <Badge
-              textAlign="center"
-              variant="solid"
-              w="14"
-            >
+          <div className='flex items-center gap-2 mb-2'>
+            <Badge>
               IF
             </Badge>
-            <Flex gap="2">
+            <div className='space-x-2'>
               <FormControl
                 isInvalid={!!errors.filters}
                 w="auto"
@@ -343,63 +309,40 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                   <option value="every">every</option>
                 </Select>
               </FormControl>
-              <Text>of these filters match</Text>
-            </Flex>
-          </Flex>
+              <span>of these filters match</span>
+            </div>
+          </div>
           {
             filtersFields.map((item, index) => {
               return (
-                <Box
-                  alignItems="center"
+                <div className='flex items-center mb-2 px-2 py-1 rounded-md'>
 
-                  display="flex"
-                  key={item.id}
-                  mb="2"
-                  px="2"
-                  py="1"
-                  rounded="md"
-                >
-
-                  <Flex
-                    flex="1"
-                    gap="2"
-                  >
+                  <div className='space-x-2 flex-1'>
                     {
                       item.topic === AlertFilterTopic.IssueOccurrencesFilter && (
                         <>
-                          <Text>The issue has happened at least</Text>
+                          <span>The issue has happened at least</span>
                           <FormControl
                             isInvalid={!!errors.filters?.[index]?.value}
                             w="auto"
                           >
-                            <NumberInput
-                              min={1}
-                              size="xs"
-                              variant="filled"
-                              width="24"
-                            >
-                              <NumberInputField
-                                id="interval"
-                                {...register(`filters.${index}.value`, {
-                                  required: ct('thisIsRequired'),
-                                  min: 1,
-                                  valueAsNumber: true,
-                                })}
-                              />
-                              <NumberInputStepper>
-                                <NumberIncrementStepper />
-                                <NumberDecrementStepper />
-                              </NumberInputStepper>
-                            </NumberInput>
+                            <Input
+                              id="interval"
+                              {...register(`filters.${index}.value`, {
+                                required: ct('thisIsRequired'),
+                                min: 1,
+                                valueAsNumber: true,
+                              })}
+                            />
                           </FormControl>
-                          <Text>times</Text>
+                          <span>times</span>
                         </>
                       )
                     }
                     {
                       item.topic === AlertFilterTopic.EventAttributeFilter && (
                         <>
-                          <Text>The events </Text>
+                          <span>The events </span>
                           <FormControl
                             isInvalid={!!errors.filters?.[index]?.attribute}
                             w="auto"
@@ -421,7 +364,7 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                               }
                             </Select>
                           </FormControl>
-                          <Text> value </Text>
+                          <span> value </span>
                           <FormControl
                             isInvalid={!!errors.filters?.[index]?.match}
                             w="auto"
@@ -462,47 +405,46 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                         <>The event is from the latest release</>
                       )
                     }
-                  </Flex>
-                  <IconButton
-                    aria-label="delete action"
-                    icon={<RiDeleteBinLine />}
+                  </div>
+                  <Button
                     onClick={() => filtersRemove(index)}
-                    size="sm"
-                    type="button"
-                    variant="ghost"
-                  />
-                </Box>
+                    size="icon"
+                    variant="outline"
+                  >
+                    <i className='i-ri-delete-bin-line'></i>
+                  </Button>
+                </div>
               )
             })
           }
         </FormControl>
-        <Menu>
-          <MenuButton
-            as={Button}
-            size="sm"
-            variant="outline"
-          >
-            {t('addFilter')}
-          </MenuButton>
-          <MenuList>
-            <MenuOptionGroup
-              onChange={value => handleAddFilter(value as FilterOption['topic'])}
-              value=""
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button
+              size="sm"
+              variant="outline"
             >
+              {t('addFilter')}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuGroup>
               {
                 FilterOptions.map(item => (
-                  <MenuItemOption
+                  <DropdownMenuItem
                     key={item.topic}
-                    value={item.topic}
+                    onClick={()=>{
+                      handleAddFilter(item.topic)
+                    }}
                   >
                     {item.name}
-                  </MenuItemOption>
+                  </DropdownMenuItem>
                 ))
               }
-            </MenuOptionGroup>
-          </MenuList>
-        </Menu>
-      </Box>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
       <FormControl isInvalid={!!errors.interval}>
         <FormLabel htmlFor="interval">{t('alertInterval')}</FormLabel>
@@ -550,48 +492,43 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
         </FormErrorMessage>
       </FormControl>
 
-      <Box>
+      <div>
         <FormControl isInvalid={!!errors.actions}>
           <FormLabel>{t('alertActions')}</FormLabel>
           {
             actionsFields.map((item, index) => {
               return (
-                <Box
-                  alignItems="center"
-                  display="flex"
-                  flexDirection="column"
+                <div
+                  className='flex items-center flex-col mb-2 rounded-md w-full'
                   key={item.id}
-                  mb="2"
-                  rounded="md"
-                  w="full"
                 >
-                  <Flex
-                    align="center"
-                    flex="1"
-                    gap="2"
-                    w="full"
-                  >
+                  <div className='flex items-center gap-2 flex-1 w-full'>
                     {
                       item.type === 'webhook' && (
                         <Select
                           w="72"
                           {...register(`actions.${index}.webhookType`, { required: ct('thisIsRequired') })}
                         >
-                          <option value="dingtalk"><RiDingdingFill />{t('dingtalk')}</option>
-                          <option value="wechatWork"><RiWechatFill />{t('wechatWork')}</option>
-                          <option value="others"><RiCustomerService2Fill />{t('others')}</option>
+                          <option value="dingtalk"><i className='i-ri-dingding-fill'></i>{t('dingtalk')}</option>
+                          <option value="wechatWork"><i className='i-ri-wechat-fill'>{t('wechatWork')}</option>
+                          <option value="others"><i className='i-ri-customer-service-2-fill'>{t('others')}</option>
                         </Select>
                       )
                     }
                     {
                       item.type === 'webhook' && (
-                        <Tooltip label={t('webhookTooltip')}>
-                          <Input
-                            placeholder={t('webhookContact')}
-                            variant="filled"
-                            w="96"
-                            {...register(`actions.${index}.at`)}
-                          />
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Input
+                              placeholder={t('webhookContact')}
+                              variant="filled"
+                              w="96"
+                              {...register(`actions.${index}.at`)}
+                            />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <span>{t('webhookTooltip')}</span>
+                          </TooltipContent>
                         </Tooltip>
                       )
                     }
@@ -607,49 +544,49 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                       })}
                       placeholder={item.type === 'email' ? t('inputEmailAddress') : t('inputWebhookURL')}
                     />
-                    <IconButton
-                      aria-label="delete action"
-                      icon={<RiDeleteBinLine />}
+                    <Button
                       onClick={() => actionsRemove(index)}
-                      type="button"
-                      variant="ghost"
-                    />
-                  </Flex>
+                      size="icon"
+                      variant="outline"
+                    >
+                      <i className='i-ri-delete-bin-line'></i>
+                    </Button>
+                  </div>
                   <FormErrorMessage w="full">
                     {errors.actions && errors.actions?.[index]?.uri?.message}
                   </FormErrorMessage>
-                </Box>
+                </div>
               )
             })
           }
         </FormControl>
-        <Menu>
-          <MenuButton
-            as={Button}
-            size="sm"
-            variant="outline"
-          >
-            {t('addAction')}
-          </MenuButton>
-          <MenuList>
-            <MenuOptionGroup
-              onChange={value => handleAddAction(value as Action['type'])}
-              value=""
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button
+              size="sm"
+              variant="outline"
             >
+              {t('addAction')}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuGroup>
               {
                 ActionOptions.map(item => (
-                  <MenuItemOption
+                  <DropdownMenuItem
                     key={item}
-                    value={item}
+                    onClick={()=>{
+                      handleAddAction(item)
+                    }}
                   >
                     {item}
-                  </MenuItemOption>
+                  </DropdownMenuItem>
                 ))
               }
-            </MenuOptionGroup>
-          </MenuList>
-        </Menu>
-      </Box>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
       <FormControl isInvalid={!!errors.name}>
         <FormLabel htmlFor="name">{t('alertName')}</FormLabel>
@@ -665,17 +602,17 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
         </FormErrorMessage>
       </FormControl>
 
-      <Box mt="6">
+      <div className='mt-6'>
         <Button
           type="submit"
-          w="full"
+          className='w-full'
         >
           {
             alert ? t('updateAlert') : t('createAlert')
           }
         </Button>
-      </Box>
-    </Flex>
+      </div>
+    </form>
   )
 }
 

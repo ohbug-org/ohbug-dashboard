@@ -1,7 +1,7 @@
 'use client'
 
-import { Button, HStack } from '@chakra-ui/react'
 import Card from '~/components/card'
+import { Button } from '~/components/ui/button'
 
 function History() {
   const pushState = () => {
@@ -15,10 +15,10 @@ function History() {
     <Card
       content={
         (
-          <HStack>
+          <div className='flex'>
             <Button onClick={() => pushState()}>pushState</Button>
             <Button onClick={() => replaceState()}>replaceState</Button>
-          </HStack>
+          </div>
         )
       }
       title="History"

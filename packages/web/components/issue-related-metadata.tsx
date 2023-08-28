@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { type OhbugEventLike } from 'common'
 import { type FC } from 'react'
 import CardSection from './card-section'
-import { Box } from './ui'
+import { Box } from '~/components/ui/box'
 import Wrapper from './wrapper'
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })

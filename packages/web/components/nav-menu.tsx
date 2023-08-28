@@ -2,9 +2,9 @@
 
 import { useCallback, useMemo } from 'react'
 import { usePathname, useRouter } from 'next-intl/client'
-import { Tab, Tabs } from '@nextui-org/react'
 import { type FC, type Key } from 'react'
 import useCurrentProject from '~/hooks/use-current-project'
+import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs'
 
 interface NavMenuItem {
   label: string
@@ -72,23 +72,22 @@ const NavMenu: FC = () => {
   return (
     <Tabs
       className="flex items-center gap-4 h-full w-full"
-      onSelectionChange={handleSelectionChange}
-      selectedKey={active?.link}
-      size="lg"
-      variant="light"
+      onValueChange={handleSelectionChange}
+      value={active?.link}
     >
-      {
-        navMenuList.map((item) => {
-          return (
-            <Tab
-              className="flex items-center h-full"
-              key={item.link}
-              title={item.label}
-            />
-          )
-        })
-      }
-
+      <TabsList>
+        {
+          navMenuList.map((item) => {
+            return (
+              <TabsTrigger
+                value={item.link}
+              >
+                {item.label}
+              </TabsTrigger>
+            )
+          })
+        }
+      </TabsList>
     </Tabs>
   )
 }

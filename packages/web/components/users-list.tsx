@@ -1,11 +1,11 @@
 'use client'
 
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react'
 import Link from 'next/link'
 import { useCallback } from 'react'
 import { type Key } from 'react'
 import { type EventUser } from '@prisma/client'
 import useCurrentProject from '~/hooks/use-current-project'
+import { Table, TableBody, TableCell, TableHeader, TableHead, TableRow } from '~/components/ui/table'
 
 type User = EventUser & {
   _count: {
@@ -94,21 +94,20 @@ export default function UsersList({ users }: Props) {
   }, [projectId])
 
   return (
-    <Table>
-      <TableHeader columns={columns}>
-        {column => <TableColumn key={column.key}>{column.label}</TableColumn>}
+    <Table className='rounded-md border'>
+      <TableHeader>
+        <TableRow>
+          {columns.map(column => <TableHead key={column.key}>{column.label}</TableHead>)}
+        </TableRow>
       </TableHeader>
-      <TableBody
-        emptyContent="No rows to display."
-        items={users}
-      >
+      <TableBody>
         {
           users
-            ? item => (
-              <TableRow key={item.id}>
-                {columnKey => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+            ? users.map(user => (
+              <TableRow key={user.id}>
+                {columns.map(column => <TableCell>{renderCell(user, column.key)}</TableCell>)}
               </TableRow>
-            )
+            ))
             :[]
         }
       </TableBody>

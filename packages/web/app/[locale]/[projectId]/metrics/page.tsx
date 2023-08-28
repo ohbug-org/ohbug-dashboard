@@ -1,10 +1,7 @@
 'use client'
 
-import { Button, Icon, Link } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
-import { RiQuestionLine } from 'react-icons/ri'
 import IntroduceChart from '~/components/introduce-chart'
-import { Box } from '~/components/ui/box'
 import Title from '~/components/title'
 import TrendChart from '~/components/trend-chart'
 import Wrapper from '~/components/wrapper'
@@ -12,6 +9,8 @@ import useCurrentProject from '~/hooks/use-current-project'
 import { average } from '~/libs/utils'
 import { serviceGetMetricsTrends } from '~/services/metrics'
 import { useQuery } from '~/hooks/use-query'
+import Link from 'next/link'
+import { Button } from '~/components/ui/button'
 
 const CLS_THRESHOLD = [0.1, 0.25]
 const FID_THRESHOLD = [100, 300]
@@ -74,7 +73,7 @@ export default function MetricsPage() {
   )
 
   return (
-    <Box >
+    <div>
       <Title
         rightNodes={
           (
@@ -82,19 +81,8 @@ export default function MetricsPage() {
               href="https://ohbug.net/guide/metrics.html"
               target="_blank"
             >
-              <Button
-                leftIcon={
-                  (
-                    <Icon
-                      as={RiQuestionLine}
-                      h="5"
-                      w="5"
-                    />
-                  )
-                }
-                variant="ghost"
-              >
-                {ct('integration')}
+              <Button variant="outline">
+                <i className='i-ri-question-line'></i> {ct('integration')}
               </Button>
             </Link>
           )
@@ -103,11 +91,7 @@ export default function MetricsPage() {
         Metrics
       </Title>
 
-      <Wrapper
-        display="flex"
-        flexDirection="column"
-        gap="24"
-      >
+      <Wrapper className='flex flex-col gap-24'>
         <IntroduceChart
           description={t('CLSDescription')}
           title="Cumulative Layout Shift (CLS)"
@@ -216,6 +200,6 @@ export default function MetricsPage() {
           />
         </IntroduceChart>
       </Wrapper>
-    </Box>
+    </div>
   )
 }

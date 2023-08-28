@@ -3,19 +3,22 @@
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import dayjs from 'dayjs'
-import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useToast } from '@chakra-ui/react'
 import Link from 'next/link'
 import type { Release } from '@prisma/client'
-import { RiMoreLine } from 'react-icons/ri'
 import useCurrentProject from '~/hooks/use-current-project'
 import { serviceDeleteRelease } from '~/services/releases'
+import { useToast } from '~/components/ui/use-toast'
+import { Box } from '~/components/ui/box'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu'
+import { Button } from '~/components/ui/button'
 
 interface Props {
   releases: Release[]
   mutate: () => Promise<void>
 }
 const ReleaseList: FC<Props> = ({ releases, mutate }) => {
-  const toast = useToast()
+  const {toast} = useToast()
   const { projectId } = useCurrentProject()
 
   const onDelete = useCallback((id: number) => {
@@ -24,7 +27,6 @@ const ReleaseList: FC<Props> = ({ releases, mutate }) => {
         toast({
           title: 'Release Deleted!',
           description: 'Your release has been deleted!',
-          status: 'success',
         })
         mutate()
       })
@@ -32,87 +34,63 @@ const ReleaseList: FC<Props> = ({ releases, mutate }) => {
         toast({
           title: 'Release Delete Error',
           description: error.message,
-          status: 'error',
+          variant: 'destructive',
         })
       })
   }, [mutate])
 
   return (
-    <Box
-      h="full"
-      overflowX="hidden"
-      overflowY="auto"
-      rounded="lg"
-      w="full"
-    >
+    <Box className='h-full w-full overflow-x-hidden overflow-y-auto rounded-lg'>
       {
         releases.map(release => (
-          <Flex key={release.id}>
-            <Flex
-              direction="column"
-              flex="1"
-            >
-              <Text fontWeight="semibold">{release.appVersion}</Text>
-              <Text
-                as="span"
-                color="dimgray"
-              >
+          <div key={release.id}>
+            <div className='flex flex-col flex-1'>
+              <span className='font-semibold'>{release.appVersion}</span>
+              <span>
                 {release.appType}
-              </Text>
-            </Flex>
-            <Flex
-              direction="column"
-              flex="1"
-            >
-              <Text
-                as="span"
-                fontWeight="semibold"
-              >
-                sourceMap files
-              </Text>
+              </span>
+            </div>
+            <div className='flex flex-col flex-1'>
+              <span className='font-semibold'>sourceMap files</span>
               <Link
-                fontWeight="semibold"
+                className='font-semibold'
                 href={`/${projectId}/releases/${release.id}/sourceMaps`}
               >
                 {(release.sourceMaps as Array<any>)?.length}
               </Link>
-            </Flex>
-            <Flex
-              align="center"
-              flex="1"
-              gap="2"
-              justify="end"
-            >
-              <Tooltip label={dayjs(release.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
-                <Text
-                  as="span"
-                  color="gray"
-                >
-                  {dayjs(release.createdAt).fromNow()}
-                </Text>
+            </div>
+            <div className='flex items-center justify-end gap-2 flex-1'>
+              <Tooltip>
+                <TooltipTrigger>
+                  <span className='text-stone-500'>
+                    {dayjs(release.createdAt).fromNow()}
+                  </span></TooltipTrigger>
+                <TooltipContent>
+                  <span>{dayjs(release.createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                </TooltipContent>
               </Tooltip>
-              <Menu>
-                <MenuButton
-                  as={IconButton}
-                  icon={<RiMoreLine />}
-                  size="sm"
-                  variant="ghost"
-                />
-                <MenuList>
-                  <MenuItem
-                    onClick={
-                      () => {
-                        onDelete(release.id)
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="icon" variant="outline">
+                    <i className="i-ri-more-line" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem
+                      onClick={
+                        () => {
+                          onDelete(release.id)
+                        }
                       }
-                    }
-                    textColor="red"
-                  >
-                    Delete
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Flex>
-          </Flex>
+                    >
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
         ))
       }
     </Box>

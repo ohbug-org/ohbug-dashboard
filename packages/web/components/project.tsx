@@ -1,17 +1,21 @@
 'use client'
 
 import type { FC } from 'react'
-import { useCallback, useEffect, useMemo } from 'react'
-import { Avatar, Center, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Text } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/next-js'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import type { User } from '@prisma/client'
-import { RiAddLine, RiMore2Line } from 'react-icons/ri'
 import { usePathname, useRouter } from 'next-intl/client'
 import { useSession } from 'next-auth/react'
 import Loading from './loading'
 import { useStore } from '~/store'
 import { serviceGetProjectsWithEventCount } from '~/services/projects'
 import { useQuery } from '~/hooks/use-query'
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuSeparator, DropdownMenuShortcut } from '~/components/ui/dropdown-menu'
+import { Button } from '~/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '~/components/ui/command'
+import { cn } from '~/libs/utils'
 
 const ProjectComponent: FC = () => {
   const router = useRouter()
@@ -24,6 +28,7 @@ const ProjectComponent: FC = () => {
   const currentProject = useStore(state => state.project)
   const setCurrentProject = useStore(state => state.setProject)
   const loading = useMemo(() => !projects, [projects])
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const target = projects?.find(project => project.default) ?? projects?.[0]
@@ -48,61 +53,65 @@ const ProjectComponent: FC = () => {
   }
 
   return (
-    <Center gap="2">
-      <Avatar
-        name={currentProject?.name}
-        size="xs"
-        src={currentProject?.image ?? ''}
-      />
-      <Link href={`/${currentProject?.id}/profile`}>
-        {currentProject?.name}
-      </Link>
-      <Menu>
-        <MenuButton
-          aria-label="more"
-          as={IconButton}
-          icon={<RiMore2Line />}
-          variant="ghost"
-        />
-
-        <MenuList>
-          <MenuOptionGroup
-            onChange={handleSelectProject}
-            value={currentProject?.id.toString()}
+    <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            aria-label="Select a team"
+            className="w-[200px] justify-between"
           >
-            {
-              projects?.map(project => (
-                <MenuItemOption
-                  key={project.id}
-                  value={project.id.toString()}
-                >
-                  <Text>{project.name}</Text>
-                </MenuItemOption>
-              ))
-            }
-          </MenuOptionGroup>
-
-          <MenuDivider />
-
-          <MenuGroup>
-            <MenuItem
-              icon={
-                (
-                  <Icon
-                    as={RiAddLine}
-                    h="6"
-                    w="6"
-                  />
-                )
-              }
-              onClick={handleCreateProject}
-            >
-              Create Project
-            </MenuItem>
-          </MenuGroup>
-        </MenuList>
-      </Menu>
-    </Center>
+            <Avatar className="mr-2 h-5 w-5">
+              <AvatarImage src={currentProject?.image ?? ''} alt={currentProject?.name} />
+              <AvatarFallback>{currentProject?.name}</AvatarFallback>
+            </Avatar>
+            {currentProject?.name}
+            <i className='i-ri-expand-up-down-line ml-auto h-4 w-4 shrink-0 opacity-50'></i>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[200px] p-0">
+          <Command>
+            <CommandList>
+              <CommandInput placeholder="Search team..." />
+              <CommandEmpty>No team found.</CommandEmpty>
+              <CommandGroup>
+                {projects?.map((project) => (
+                  <CommandItem
+                    key={project.id}
+                    onSelect={() => {
+                      setOpen(false)
+                      handleSelectProject(project.id.toString())
+                    }}
+                    className="text-sm"
+                  >
+                    <Avatar className="mr-2 h-5 w-5">
+                      <AvatarImage src={project.image ?? ''} alt={project.name} />
+                      <AvatarFallback>{project.name}</AvatarFallback>
+                    </Avatar>
+                    {project.name}
+                    <i className={cn(
+                        "'i-ri-check-line' ml-auto h-4 w-4",
+                        project.id.toString() === currentProject?.id.toString()
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}></i>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+            <CommandSeparator />
+            <CommandList>
+              <CommandGroup>
+                <CommandItem onClick={handleCreateProject}>
+                  <i className='i-ri-add-line mr-2'></i>
+                  Create Project
+                </CommandItem>
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
   )
 }
 

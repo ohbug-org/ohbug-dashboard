@@ -1,11 +1,24 @@
 'use client'
 
-import { Button, FormControl, FormLabel, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from '@chakra-ui/react'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslations } from 'next-intl'
 import type { OhbugConfig } from '@ohbug/types'
 import { useLocalStorage } from 'react-use'
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { Input } from '~/components/ui/input'
+import { Button } from '~/components/ui/button'
+
+const formSchema = z.object({
+  apiKey: z.string(),
+  appVersion: z.string(),
+  appType: z.string(),
+  endpoint: z.string(),
+  releaseStage: z.string(),
+  maxActions: z.number().min(1),
+})
 
 interface Props {
   defaultConfig: OhbugConfig
@@ -13,10 +26,13 @@ interface Props {
 
 function Config({ defaultConfig }: Props) {
   const ct = useTranslations('Common')
-  const { handleSubmit, register } = useForm<OhbugConfig>({ defaultValues: defaultConfig })
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: defaultConfig,
+  })
   const [, setValue, remove] = useLocalStorage('MOCK_CONFIG', defaultConfig)
-  const onSubmit = useCallback((data: OhbugConfig) => {
-    setValue(data)
+  const onSubmit = useCallback((values: z.infer<typeof formSchema>) => {
+    setValue(values)
   }, [])
   const handleReset = useCallback(() => {
     remove()
@@ -24,73 +40,96 @@ function Config({ defaultConfig }: Props) {
   }, [])
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <FormControl>
-        <FormLabel>apiKey: </FormLabel>
-        <Input
-          {...register('apiKey', { required: ct('thisIsRequired') })}
-          disabled
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
           name="apiKey"
-          size="sm"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>apiKey</FormLabel>
+              <FormControl>
+                <Input {...field} disabled />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </FormControl>
 
-      <FormControl>
-        <FormLabel>appVersion: </FormLabel>
-        <Input
-          {...register('appVersion', { required: ct('thisIsRequired') })}
+        <FormField
+          control={form.control}
           name="appVersion"
-          size="sm"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>appVersion</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </FormControl>
 
-      <FormControl>
-        <FormLabel>appType: </FormLabel>
-        <Input
-          {...register('appType', { required: ct('thisIsRequired') })}
+        <FormField
+          control={form.control}
           name="appType"
-          size="sm"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>appType</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </FormControl>
 
-      <FormControl>
-        <FormLabel>endpoint: </FormLabel>
-        <Input
-          {...register('endpoint', { required: ct('thisIsRequired') })}
+        <FormField
+          control={form.control}
           name="endpoint"
-          size="sm"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>endpoint</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </FormControl>
 
-      <FormControl>
-        <FormLabel>releaseStage: </FormLabel>
-        <Input
-          {...register('releaseStage')}
-          disabled
+        <FormField
+          control={form.control}
           name="releaseStage"
-          size="sm"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>releaseStage</FormLabel>
+              <FormControl>
+                <Input {...field} disabled />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </FormControl>
 
-      <FormControl>
-        <FormLabel>maxActions: </FormLabel>
-        <NumberInput min={1}>
-          <NumberInputField
-            {...register('maxActions')}
-            name="maxActions"
-          />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </FormControl>
+        <FormField
+          control={form.control}
+          name="maxActions"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>maxActions</FormLabel>
+              <FormControl>
+                <Input {...field} type="number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <FormControl mt="4">
         <Button
-          mr="2"
+          className='mr-2'
           size="sm"
           type="submit"
         >
@@ -99,13 +138,12 @@ function Config({ defaultConfig }: Props) {
         <Button
           onClick={handleReset}
           size="sm"
-          variant="ghost"
+          variant="outline"
         >
           Reset
         </Button>
-      </FormControl>
-
-    </form>
+      </form>
+    </Form>
   )
 }
 

@@ -7,7 +7,7 @@ import { Icon, Link, Stat, StatGroup, StatHelpText, StatLabel, Tag, Tooltip, Wra
 import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 import { type OhbugEventLike } from 'common'
-import { Box } from './ui'
+import { Box } from '~/components/ui/box'
 import Wrapper from './wrapper'
 import CardSection from './card-section'
 import { getDeviceInfo } from '~/libs/utils'

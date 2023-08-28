@@ -1,7 +1,6 @@
-import { Box, Wrap } from '@chakra-ui/react'
+import { useMemo, useRef } from 'react'
 import Ohbug from '@ohbug/browser'
 import OhbugExtensionFeedback from '@ohbug/extension-feedback'
-import { useMemo, useRef } from 'react'
 import type { OhbugClient, OhbugConfig } from '@ohbug/types'
 import { useLocalStorage, useMount } from 'react-use'
 import type { Project } from '@prisma/client'
@@ -48,10 +47,10 @@ export default function Frame({ project }: Props) {
   })
 
   return (
-    <Box>
+    <div>
       <Config defaultConfig={config} />
-      <Wrap mt={4}>
-        <Box ref={feedbackRef} />
+      <div className='mt-4 flex flex-wrap'>
+        <div ref={feedbackRef} />
         <Error />
         <Ajax />
         <HashChange />
@@ -59,7 +58,7 @@ export default function Frame({ project }: Props) {
         <InsertRes />
         <CustomReport />
         <PromiseError />
-      </Wrap>
-    </Box>
+      </div>
+    </div>
   )
 }

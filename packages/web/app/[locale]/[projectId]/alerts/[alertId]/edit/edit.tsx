@@ -1,15 +1,14 @@
 'use client'
 
-import { Box, useToast } from '@chakra-ui/react'
 import { useCallback } from 'react'
 import type { OmitAlert } from 'common'
 import { useRouter } from 'next-intl/client'
 import { useSearchParams } from 'next/navigation'
-import Card from '~/components/card'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
-import EditAlert from '~/components/editAlert'
+import EditAlert from '~/components/edit-alert'
 import { serviceUpdateAlert } from '~/services/alerts'
+import { useToast } from '~/components/ui/use-toast'
 
 interface Props {
   alert: OmitAlert
@@ -19,14 +18,13 @@ export default function Edit({ alert }: Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const alertId = searchParams.get('alertId')
-  const toast = useToast()
+  const {toast} = useToast()
   const onSubmit = useCallback((value: OmitAlert) => {
     serviceUpdateAlert(parseInt(alertId as string), value)
       .then(() => {
         toast({
           title: 'Alert Edited!',
           description: 'Your alert has been edited!',
-          status: 'success',
         })
         router.back()
       })
@@ -34,28 +32,21 @@ export default function Edit({ alert }: Props) {
         toast({
           title: 'Alert Edit Error',
           description: error.message,
-          status: 'error',
+          variant: 'destructive',
         })
       })
   }, [alertId])
 
   return (
-    <Box>
+    <div>
       <Title>Edit Alerts</Title>
 
-      <Wrapper
-        display="flex"
-        flexDirection="column"
-        gap="12"
-        py="12"
-      >
-        <Card>
-          <EditAlert
-            alert={alert}
-            onSubmit={onSubmit}
-          />
-        </Card>
+      <Wrapper>
+        <EditAlert
+          alert={alert}
+          onSubmit={onSubmit}
+        />
       </Wrapper>
-    </Box>
+    </div>
   )
 }

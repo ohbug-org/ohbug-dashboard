@@ -2,17 +2,21 @@
 
 import type { Project } from '@prisma/client'
 import { useTranslations } from 'next-intl'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import type { ProjectWithMembers } from 'common'
 import { useSession } from 'next-auth/react'
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Skeleton, Snippet, useDisclosure } from '@nextui-org/react'
-import { useToast } from '@chakra-ui/react'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
 import { serviceGetProjectWithUsers, serviceUpdateProject } from '~/services/projects'
 import { useQuery } from '~/hooks/use-query'
+import { useToast } from '~/components/ui/use-toast'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card'
+import { Input } from '~/components/ui/input'
+import { Button } from '~/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '~/components/ui/dialog'
 
 interface CommonProps {
   project?: ProjectWithMembers
@@ -23,11 +27,10 @@ const SettingsProjectName = ({ project }: CommonProps) => {
   const t = useTranslations('Settings')
   const {
     register,
-    formState: { errors },
     watch,
     handleSubmit,
   } = useForm<Project>({ defaultValues: { name: project?.name } })
-  const toast = useToast()
+  const {toast} = useToast()
   const name = watch('name')
   const onSubmit = useCallback((value: Project) => {
     serviceUpdateProject(project!.id, value)
@@ -35,14 +38,13 @@ const SettingsProjectName = ({ project }: CommonProps) => {
         toast({
           title: 'Project Updated!',
           description: 'Your project name has been updated!',
-          status: 'success',
         })
       })
       .catch((error) => {
         toast({
           title: 'Project Update Failed!',
           description: error.message,
-          status: 'error',
+          variant: 'destructive',
         })
       })
   }, [project])
@@ -51,18 +53,14 @@ const SettingsProjectName = ({ project }: CommonProps) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card>
         <CardHeader>
-          {t('projectName')}
+          <CardTitle>{t('projectName')}</CardTitle>
+          <CardDescription>{t('projectDescription')}</CardDescription>
         </CardHeader>
-        <CardBody>
-          <div className="mb-2">{t('projectDescription')}</div>
-
+        <CardContent>
           <Input
-            errorMessage={errors.name && errors.name.message}
             id="name"
             placeholder={t('projectName')}
             required
-            type="text"
-            validationState={errors.name ? 'invalid' : 'valid'}
             {...register('name', { required: ct('thisIsRequired') })}
           />
 
@@ -77,14 +75,14 @@ const SettingsProjectName = ({ project }: CommonProps) => {
               </div>
             )
           }
-        </CardBody>
+        </CardContent>
         <CardFooter className="flex items-center justify-between">
           <div />
           <Button
             disabled={!(!!name && name !== project?.name)}
             size="sm"
             type="submit"
-            variant="solid"
+            variant="outline"
           >
             {t('save')}
           </Button>
@@ -100,12 +98,12 @@ const SettingsProjectApiKey = ({ project }: CommonProps) => {
   return (
     <Card>
       <CardHeader>
-        {t('projectApiKey')}
+        <CardTitle>{t('projectApiKey')}</CardTitle>
+        <CardDescription>{t('apiKeyDescription')}</CardDescription>
       </CardHeader>
-      <CardBody>
-        <div className="mb-2">{t('apiKeyDescription')}</div>
-        <Snippet>{project?.apiKey ?? ''}</Snippet>
-      </CardBody>
+      <CardContent>
+        <code>{project?.apiKey ?? ''}</code>
+      </CardContent>
     </Card>
   )
 }
@@ -120,32 +118,32 @@ const SettingsProjectUsers = ({ project }: CommonProps) => {
   }, [data, project])
 
   const t = useTranslations('Settings')
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [open, setOpen] = useState(false)
 
   return (
     <>
       <Card>
-        <CardHeader className="flex items-center justify-between">
-          {t('projectMembers')}
-          <Button
-            onClick={onOpen}
-            size="sm"
-            startContent={<i className="i-ri-add-line" />}
-          >
-            {t('inviteMembers')}
-          </Button>
+        <CardHeader>
+          <CardTitle className='flex justify-between'>
+            {t('projectMembers')}
+            <Button
+              onClick={()=>setOpen(true)}
+              size="sm"
+            >
+              <i className="i-ri-add-line mr-2" /> {t('inviteMembers')}
+            </Button>
+          </CardTitle>
         </CardHeader>
-        <CardBody>
+        <CardContent>
           <div>
             {
               project?.members?.map(member => (
                 <div key={member.id}>
                   <div className="flex gap-4 py-2">
-                    <Avatar
-                      name={member.name ?? ''}
-                      size="sm"
-                      src={member.image ?? ''}
-                    />
+                    <Avatar>
+                      <AvatarImage src={member.image ?? ''} alt={member.name ?? ''} />
+                      <AvatarFallback>{member.name ?? ''}</AvatarFallback>
+                    </Avatar>
                     <div className="flex flex-col">
                       <span>{member.name}</span>
                       <span>{member.email}</span>
@@ -155,24 +153,27 @@ const SettingsProjectUsers = ({ project }: CommonProps) => {
               ))
             }
           </div>
-        </CardBody>
+        </CardContent>
       </Card>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
+      <Dialog
+        open={open}
+        onOpenChange={setOpen}
       >
-        <ModalContent>
-          <ModalHeader>{t('inviteMembers')}</ModalHeader>
-          <ModalBody>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t('inviteMembers')}
+            </DialogTitle>
+          </DialogHeader>
+          <div>
             <div className="mb-2">{t('inviteMembersDescription')}</div>
-            <Snippet>{inviteUrl}</Snippet>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button onClick={onClose}>Ok</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            <code>{inviteUrl}</code>
+          </div>
+          <DialogFooter>
+            <Button onClick={()=>setOpen(false)}>Ok</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
@@ -180,7 +181,7 @@ const SettingsProjectUsers = ({ project }: CommonProps) => {
 export default function SettingsPage() {
   const t = useTranslations('Settings')
   const { projectId } = useCurrentProject()
-  const { data: project, isLoading } = useQuery(
+  const { data: project } = useQuery(
     () => serviceGetProjectWithUsers(projectId!),
     {
       enabled: !!projectId,
@@ -193,23 +194,17 @@ export default function SettingsPage() {
       <Title>{t('projectSettings')}</Title>
 
       <Wrapper className="flex flex-col gap-12 py-12">
-        <Skeleton isLoaded={!isLoading}>
-          <SettingsProjectName
-            project={project}
-          />
-        </Skeleton>
+        <SettingsProjectName
+          project={project}
+        />
 
-        <Skeleton isLoaded={!isLoading}>
-          <SettingsProjectApiKey
-            project={project}
-          />
-        </Skeleton>
+        <SettingsProjectApiKey
+          project={project}
+        />
 
-        <Skeleton isLoaded={!isLoading}>
-          <SettingsProjectUsers
-            project={project}
-          />
-        </Skeleton>
+        <SettingsProjectUsers
+          project={project}
+        />
       </Wrapper>
     </div>
   )

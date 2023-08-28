@@ -1,8 +1,6 @@
 'use client'
 
-import { Flex, HStack, VStack } from '@chakra-ui/react'
 import { useMemo } from 'react'
-import { Snippet } from '@nextui-org/react'
 import EventDetailActions from '~/components/event-detail-action'
 import EventDetailProfile from '~/components/event-detail-profile'
 import EventDetailUser from '~/components/event-detail-user'
@@ -18,10 +16,7 @@ export default function FeedbackId({ feedback }: Props) {
   const detail = useMemo(() => feedback.detail as any ?? {}, [feedback])
 
   return (
-    <Flex
-      flexDirection="column"
-      gap="6"
-    >
+    <div className='flex flex-col gap-6'>
       <EventDetailProfile event={feedback} />
 
       <Box>
@@ -29,11 +24,11 @@ export default function FeedbackId({ feedback }: Props) {
           <CardSection
             title="Event Detail"
           >
-            <VStack>
-              {detail.feedback && <HStack w="full"><Box w="24">Feedback:</Box><Snippet>{detail.feedback}</Snippet></HStack>}
-              {detail.selector && <HStack w="full"><Box w="24">Selector:</Box><Snippet>{detail.selector}</Snippet></HStack>}
-              {detail.outerHTML && <HStack w="full"><Box w="24">outerHTML:</Box><Snippet>{detail.outerHTML}</Snippet></HStack>}
-            </VStack>
+            <div className='flex flex-col'>
+              {detail.feedback && <div className='w-full'><Box className='w-24'>Feedback:</Box><code>{detail.feedback}</code></div>}
+              {detail.selector && <div className='w-full'><Box className='w-24'>Selector:</Box><code>{detail.selector}</code></div>}
+              {detail.outerHTML && <div className='w-full'><Box className='w-24'>outerHTML:</Box><code>{detail.outerHTML}</code></div>}
+            </div>
           </CardSection>
         </Wrapper>
       </Box>
@@ -41,6 +36,6 @@ export default function FeedbackId({ feedback }: Props) {
       <EventDetailActions event={feedback} />
 
       <EventDetailUser event={feedback} />
-    </Flex>
+    </div>
   )
 }

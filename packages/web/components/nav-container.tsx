@@ -29,7 +29,7 @@ const NavContainer: FC<Props> = ({ children, navs }) => {
             >
               <Button
                 fontWeight={nav.active ? 'bold' : 'normal'}
-                variant="ghost"
+                variant="outline"
               >
                 {nav.label}
               </Button>

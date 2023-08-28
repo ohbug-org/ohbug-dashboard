@@ -1,8 +1,6 @@
 'use client'
 
-import { Button, Icon, Link } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
-import { RiQuestionLine } from 'react-icons/ri'
 import { type EventUser, type Feedback } from '@prisma/client'
 import FeedbacksList from '~/components/feedbacks-list'
 import { Box } from '~/components/ui/box'
@@ -11,6 +9,8 @@ import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
 import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetFeedbacks } from '~/services/feedbacks'
+import Link from 'next/link'
+import { Button } from '~/components/ui/button'
 
 export default function FeedbacksPage() {
   const ct = useTranslations('Common')
@@ -27,7 +27,7 @@ export default function FeedbacksPage() {
   )
 
   return (
-    <Box >
+    <Box>
       <Title
         rightNodes={
           (
@@ -36,18 +36,9 @@ export default function FeedbacksPage() {
               target="_blank"
             >
               <Button
-                leftIcon={
-                  (
-                    <Icon
-                      as={RiQuestionLine}
-                      h="5"
-                      w="5"
-                    />
-                  )
-                }
-                variant="ghost"
+                variant="outline"
               >
-                {ct('integration')}
+                <i className='i-ri-question-line mr-2'></i> {ct('integration')}
               </Button>
             </Link>
           )
@@ -59,12 +50,11 @@ export default function FeedbacksPage() {
       <Wrapper>
         <FeedbacksList feedbacks={feedbacks} />
         <Button
+          className='w-full mt-6'
           disabled={isLoading || isReachingEnd}
-          mt="6"
           onClick={() => setSize(size + 1)}
           size="sm"
           variant="outline"
-          w="full"
         >
           {
             isLoading

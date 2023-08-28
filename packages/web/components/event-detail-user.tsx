@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic'
 import { type FC } from 'react'
 import { type OhbugEventLike } from 'common'
-import { Box } from './ui'
+import { Box } from '~/components/ui/box'
 import Wrapper from './wrapper'
 import CardSection from './card-section'
 

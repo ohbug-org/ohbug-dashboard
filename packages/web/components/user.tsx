@@ -1,10 +1,12 @@
 'use client'
 
-import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, User } from '@nextui-org/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import Theme from './theme'
 import Intl from './intl'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut } from '~/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
+import { Button } from '~/components/ui/button'
 
 export default function UserComponent() {
   const t = useTranslations('Header.User')
@@ -12,55 +14,44 @@ export default function UserComponent() {
 
   if (session) {
     return (
-      <Dropdown backdrop="blur">
-        <DropdownTrigger>
-          <Avatar
-            as="button"
-            className="transition-transform"
-            name={session.user?.name ?? ''}
-            size="sm"
-            src={session.user?.image ?? ''}
-          />
-        </DropdownTrigger>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="relative h-8 w-8 rounded-full">
+            <Avatar className="h-8 w-8">
+              <AvatarImage src={session.user?.image ?? ''} alt={session.user?.name ?? ''} />
+              <AvatarFallback>{session.user?.name ?? ''}</AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
 
-        <DropdownMenu>
-          <DropdownSection
-            showDivider
-          >
-            <DropdownItem>
-              <User
-                avatarProps={
-                  { src: session.user?.image ?? '' }
-                }
-                description={session.user?.email}
-                name={session.user?.name ?? ''}
-              />
-            </DropdownItem>
-          </DropdownSection>
+        <DropdownMenuContent className='w-56'>
+          <DropdownMenuLabel>
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">{session.user?.name ?? ''}</p>
+              <p className="text-xs leading-none text-muted-foreground">
+                {session.user?.email}
+              </p>
+            </div>
+          </DropdownMenuLabel>
 
-          <DropdownSection showDivider>
-            <DropdownItem
-              endContent={<Theme />}
-              isReadOnly
-            >
+          <DropdownMenuSeparator />
+
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
               {t('theme')}
-            </DropdownItem>
-          </DropdownSection>
-
-          <DropdownSection>
-            <DropdownItem
-              endContent={<Intl />}
-              isReadOnly
-            >
+              <DropdownMenuShortcut><Theme /></DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
               {t('language')}
-            </DropdownItem>
-          </DropdownSection>
-
-          <DropdownSection>
-            <DropdownItem onPress={() => signOut()}>{t('logout')}</DropdownItem>
-          </DropdownSection>
-        </DropdownMenu>
-      </Dropdown>
+              <DropdownMenuShortcut><Intl /></DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => signOut()}>
+              {t('logout')}
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     )
   }
   return (

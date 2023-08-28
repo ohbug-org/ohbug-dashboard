@@ -1,29 +1,27 @@
 'use client'
 
-import { Box, useToast } from '@chakra-ui/react'
 import { useCallback } from 'react'
 import type { OmitAlert } from 'common'
 import { useRouter } from 'next-intl/client'
 import { useTranslations } from 'next-intl'
-import Card from '~/components/card'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
-import EditAlert from '~/components/editAlert'
+import EditAlert from '~/components/edit-alert'
 import { serviceCreateAlert } from '~/services/alerts'
+import { useToast } from '~/components/ui/use-toast'
 
 export default function CreatePage() {
   const t = useTranslations('Alerts')
   const router = useRouter()
   const { projectId } = useCurrentProject()
-  const toast = useToast()
+  const {toast} = useToast()
   const onSubmit = useCallback((value: OmitAlert) => {
     serviceCreateAlert({ ...value, projectId: projectId! })
       .then(() => {
         toast({
           title: 'Alert Created!',
           description: 'Your alert has been created!',
-          status: 'success',
         })
         router.back()
       })
@@ -31,25 +29,18 @@ export default function CreatePage() {
         toast({
           title: 'Alert Create Error',
           description: error.message,
-          status: 'error',
+          variant: 'destructive',
         })
       })
   }, [projectId])
 
   return (
-    <Box>
+    <div>
       <Title>{t('createAlert')}</Title>
 
-      <Wrapper
-        display="flex"
-        flexDirection="column"
-        gap="12"
-        py="12"
-      >
-        <Card>
-          <EditAlert onSubmit={onSubmit} />
-        </Card>
+      <Wrapper>
+        <EditAlert onSubmit={onSubmit} />
       </Wrapper>
-    </Box>
+    </div>
   )
 }

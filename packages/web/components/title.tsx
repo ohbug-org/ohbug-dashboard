@@ -2,8 +2,8 @@
 
 import { type ReactNode } from 'react'
 import Wrapper from './wrapper'
-import { Box } from './ui/box'
-import { type BoxProps } from './ui/box'
+import { Box } from '~/components/ui/box'
+import { type BoxProps } from '~/components/ui/box'
 
 interface Props extends BoxProps {
   children: ReactNode

@@ -3,7 +3,7 @@
 import { type FC } from 'react'
 import { type OhbugEventLike } from 'common'
 import StackInfo from './stack-info'
-import { Box } from './ui'
+import { Box } from '~/components/ui/box'
 import Wrapper from './wrapper'
 import CardSection from './card-section'
 import { renderStringOrJson } from '~/libs/utils'

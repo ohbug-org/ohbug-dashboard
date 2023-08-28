@@ -1,10 +1,10 @@
 'use client'
 
-import type { ChangeEvent } from 'react'
 import { useCallback, useTransition } from 'react'
 import { usePathname } from 'next-intl/client'
-import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
+import { useRouter } from 'next/navigation'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 const options = [
   {
     label: '中文',
@@ -22,31 +22,31 @@ export default function Intl() {
   const [isPending, startTransition] = useTransition()
   const locale = useLocale()
 
-  const handleChange = useCallback(async(e: ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault()
-    const value = e.target.value
+  const handleChange = useCallback(async(value: string) => {
     startTransition(() => {
       router.replace(`/${value}${pathname}`)
     })
   }, [pathname])
 
   return (
-    <select
-      className="w-24"
-      disabled={isPending}
-      onChange={handleChange}
-      value={locale}
-    >
-      {
-        options.map(({ label, value }) => (
-          <option
-            key={value}
-            value={value}
-          >
-            {label}
-          </option>
-        ))
-      }
-    </select>
+    <Select disabled={isPending} onValueChange={handleChange} value={locale}>
+      <SelectTrigger className="w-24">
+        <SelectValue placeholder="Select a fruit" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {
+            options.map(({ label, value }) => (
+              <SelectItem
+                key={value}
+                value={value}
+              >
+                {label}
+              </SelectItem>
+            ))
+          }
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   )
 }

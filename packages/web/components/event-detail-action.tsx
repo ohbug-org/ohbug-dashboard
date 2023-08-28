@@ -1,15 +1,15 @@
 'use client'
 
-import { Flex, Tag, TagLabel, TagLeftIcon, Tooltip, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
 import { type OhbugEventLike } from 'common'
 import { type FC } from 'react'
 import { type OhbugAction } from '@ohbug/types'
-import { Box } from './ui'
 import Wrapper from './wrapper'
 import CardSection from './card-section'
 import { getMessageAndIconByActionType } from '~/libs/utils'
+import { Badge } from '~/components/ui/badge'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 
 interface Props {
   event: OhbugEventLike
@@ -25,80 +25,50 @@ const EventDetailActions: FC<Props> = ({ event }) => {
     },
   ], [event])
   return (
-    <Box>
-      <Wrapper>
-        <CardSection title="Event Actions">
-          <VStack
-            maxH="xl"
-            overflowY="auto"
-            spacing="4"
-          >
-            {
-              actions.map((action, index) => {
-                const { message, icon, color } = getMessageAndIconByActionType(action)
-                return (
-                  <Flex
-                    align="center"
-                    gap="2"
-                    justify="space-between"
-                    key={action.timestamp + action.data}
-                    w="full"
-                  >
-                    <Box
-                      position="relative"
-                      w="36"
-                    >
-                      <Tag colorScheme={color}>
-                        <TagLeftIcon as={icon} />
-                        <TagLabel
-                          fontWeight="semibold"
-                        >
-                          {action.type}
-                        </TagLabel>
-                      </Tag>
-                      {
-                        index !== actions.length - 1 && (
-                          <Box
-                            border="1px"
-                            borderColor="current"
-                            borderLeft="0"
-                            borderY="0"
-                            h="full"
-                            left="4"
-                            position="absolute"
-                            w="0"
-                          />
-                        )
-                      }
-                    </Box>
+    <Wrapper>
+      <CardSection title="Event Actions">
+        <div className='flex flex-col gap-4 max-h-56 overflow-y-auto'>
+          {
+            actions.map((action, index) => {
+              const { message, icon, color } = getMessageAndIconByActionType(action)
+              return (
+                <div
+                  className='flex items-center justify-between gap-2 w-full'
+                  key={action.timestamp + action.data}
+                >
+                  <div className='relative w-36'>
+                    <Badge style={{backgroundColor: color}}>
+                      {icon}
+                      <span className='font-semibold'>{action.type}</span>
+                    </Badge>
+                    {
+                      index !== actions.length - 1 && (
+                        <div className='border-r absolute left-4 h-full w-full' />
+                      )
+                    }
+                  </div>
 
-                    <Box flex="1">
-                      <Box
-                        fontSize="sm"
-                        textColor="gray"
-                      >
-                        {message}
-                      </Box>
-                    </Box>
+                  <div className='flex-1'>
+                    <span className='text-sm text-stone-500'>{message}</span>
+                  </div>
 
-                    <Tooltip
-                      label={dayjs(action.timestamp).format('YYYY-MM-DD HH:mm:ss')}
-                    >
-                      <Box
-                        fontSize="sm"
-                        textColor="gray"
-                      >
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <span className='text-sm text-stone-500'>
                         {dayjs(action.timestamp).format('HH:mm:ss')}
-                      </Box>
-                    </Tooltip>
-                  </Flex>
-                )
-              })
-            }
-          </VStack>
-        </CardSection>
-      </Wrapper>
-    </Box>
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                    <span>{dayjs(action.timestamp).format('YYYY-MM-DD HH:mm:ss')}</span>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              )
+            })
+          }
+        </div>
+      </CardSection>
+    </Wrapper>
   )
 }
 

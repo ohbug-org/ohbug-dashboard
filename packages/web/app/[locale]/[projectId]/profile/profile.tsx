@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button, Card, CardBody, Switch, Tooltip } from '@nextui-org/react'
 import { type Event, type Project } from '@prisma/client'
 import { type ProjectTrend } from '~/services/projects'
 import { Box } from '~/components/ui/box'
@@ -14,6 +13,11 @@ import Title from '~/components/title'
 import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetEventByProjectId } from '~/services/events'
 import { type PVGroupResult } from '~/services/views'
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
+import { Button } from '~/components/ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
+import { Switch } from '~/components/ui/switch'
+import { Label } from '~/components/ui/label'
 
 interface Props {
   project?: Project
@@ -57,79 +61,102 @@ const View = ({ views }: Props) => {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper className='grid gap-4 grid-cols-3'>
         <Card>
-          <CardBody>
-            <div className="flex justify-between gap-4">
-              <div className="flex flex-col">
-                <div className="text-lg">{t('pv')}(PV)</div>
-                <div className="text-xl font-semibold">{views?.pageView}</div>
-                <div>
-                  <i className="i-ri-arrow-up-s" />
-                  {pageViewTrend}%
-                </div>
-              </div>
-
-              <div>
-                <div>{t('uv')}(UV)</div>
-                <div>{views?.userView}</div>
-                <div>
-                  <i className="i-ri-arrow-up-s" />
-                  {userViewTrend}%
-                </div>
-              </div>
-
-              <div>
-                <div>{t('activeUser')}</div>
-                <div>{views?.activeUser ?? 0}</div>
-              </div>
-            </div>
-          </CardBody>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              {t('pv')}(PV)
+            </CardTitle>
+            <i className='i-ri-bell-line text-stone-500 scale-90'></i>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{views?.pageView}</div>
+            <p className="text-xs text-muted-foreground">
+              <i className="i-ri-arrow-up-s" />
+              {pageViewTrend}%
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              {t('uv')}(UV)
+            </CardTitle>
+            <i className='i-ri-user-voice-line text-stone-500 scale-90'></i>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{views?.userView}</div>
+            <p className="text-xs text-muted-foreground">
+              <i className="i-ri-arrow-up-s" />
+              {userViewTrend}%
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              {t('activeUser')}
+            </CardTitle>
+            <i className='i-ri-pulse-line text-stone-500 scale-90'></i>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{views?.activeUser ?? 0}</div>
+          </CardContent>
         </Card>
       </Wrapper>
       <Wrapper>
-        <div className="flex gap-8">
+        <div className="grid grid-cols-2 gap-8">
           {
             views?.pvPathGroupResult.length > 0 && (
-              <Card className="flex-1">
-                <CardBody>
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="text-base">{t('pageViews')}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <span>{t('pageViewsDesc')}</span>
+                      </TooltipContent>
+                    </Tooltip>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
                   <TrendChart
                     data={views?.pvPathGroupResult}
                     name="number"
                     timeField="value"
-                    title={
-                      (
-                        <Tooltip content={t('pageViewsDesc')}>
-                          {t('pageViews')}
-                        </Tooltip>
-                      )
-                    }
                     type="14d"
                     variant="row"
                   />
-                </CardBody>
+                </CardContent>
               </Card>
             )
           }
           {
             views?.pvReferrerGroupResult.length > 0 && (
-              <Card className="flex-1">
-                <CardBody>
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="text-base">{t('referrers')}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <span>{t('referrersDesc')}</span>
+                      </TooltipContent>
+                    </Tooltip>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
                   <TrendChart
                     data={views?.pvReferrerGroupResult}
                     name="number"
                     timeField="value"
-                    title={
-                      (
-                        <Tooltip content={t('referrersDesc')}>
-                          {t('referrers')}
-                        </Tooltip>
-                      )
-                    }
                     type="14d"
                     variant="row"
                   />
-                </CardBody>
+                </CardContent>
               </Card>
             )
           }
@@ -143,14 +170,13 @@ const Trend = ({ trends }: Props) => {
   const TrendTitle = useMemo(() => (
     <div className="flex justify-between">
       <div className="font-semibold">Event Trends</div>
-      <div className="flex items-center">
+      <div className="flex items-center gap-2">
         <Switch
           id="trendsType"
-          isSelected={chartType === '24h'}
-          onValueChange={e => setChartType(e ? '24h' : '14d')}
-        >
-          {chartType === '24h' ? '24小时' : '14天'}
-        </Switch>
+          checked={chartType === '24h'}
+          onCheckedChange={e => setChartType(e ? '24h' : '14d')}
+        />
+        <Label htmlFor="trendsType">{chartType === '24h' ? '24小时' : '14天'}</Label>
       </div>
     </div>
   ), [chartType])
@@ -158,14 +184,18 @@ const Trend = ({ trends }: Props) => {
   return (
     <Wrapper>
       <Card>
-        <CardBody>
+        <CardHeader>
+          <CardTitle>
+            {TrendTitle}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
           <TrendChart
             data={trends?.[chartType]}
-            title={TrendTitle}
             type="14d"
             variant="detail"
           />
-        </CardBody>
+        </CardContent>
       </Card>
     </Wrapper>
   )
@@ -209,12 +239,8 @@ export default function Profile({ project, trends, views }: Props) {
         rightNodes={
           (
             <Link href={`/${project?.id}/settings`}>
-              <Button
-                startContent={
-                  <i className="i-ri-settings-2-line" />
-                }
-              >
-                Setting
+              <Button>
+                <i className="i-ri-settings-2-line mr-2" /> Setting
               </Button>
             </Link>
           )

@@ -9,7 +9,7 @@ import NavMenu from './nav-menu'
 import User from './user'
 import Logo from './logo'
 import Footer from './footer'
-import { Box } from './ui/box'
+import { Box } from '~/components/ui/box'
 import Wrapper from './wrapper'
 import { scrollWindowTo } from '~/libs/utils'
 

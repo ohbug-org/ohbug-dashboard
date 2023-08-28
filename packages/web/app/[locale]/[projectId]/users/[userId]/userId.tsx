@@ -1,6 +1,5 @@
 'use client'
 
-import { Flex, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import Link from 'next/link'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
@@ -11,6 +10,15 @@ import Wrapper from '~/components/wrapper'
 import CardSection from '~/components/card-section'
 import useCurrentProject from '~/hooks/use-current-project'
 import Title from '~/components/title'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table"
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
 
@@ -25,11 +33,8 @@ export default function UserId({ user }: Props) {
   const { projectId } = useCurrentProject()
 
   return (
-    <Flex
-      flexDirection="column"
-      gap="6"
-    >
-      <Box>
+    <div className='flex flex-col gap-6'>
+      <div>
         <Title>
 
           <DynamicReactJson
@@ -54,38 +59,36 @@ export default function UserId({ user }: Props) {
         </Wrapper>
         <Wrapper>
           <CardSection title="Related Feedbacks">
-            <TableContainer>
-              <Table className="w-full table table-compact">
-                <Thead>
-                  <Tr>
-                    <Th>feedback</Th>
-                    <Th>createdAt</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {
-                    user.feedbacks?.map((feedback) => {
-                      const detail = feedback.detail as any
-                      return (
-                        <Tr key={feedback.id}>
-                          <Td>
-                            <Link href={`/${projectId}/feedbacks/${feedback.id}`}>
-                              {detail.feedback}
-                            </Link>
-                          </Td>
-                          <Td>
-                            {dayjs(feedback.createdAt).format('YYYY-MM-DD HH:mm:ss')}
-                          </Td>
-                        </Tr>
-                      )
-                    })
-                  }
-                </Tbody>
-              </Table>
-            </TableContainer>
+            <Table className='rounded-md border'>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>feedback</TableHead>
+                  <TableHead>createdAt</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {
+                  user.feedbacks?.map((feedback) => {
+                    const detail = feedback.detail as any
+                    return (
+                      <TableRow key={feedback.id}>
+                        <TableCell>
+                          <Link href={`/${projectId}/feedbacks/${feedback.id}`}>
+                            {detail.feedback}
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          {dayjs(feedback.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })
+                }
+              </TableBody>
+            </Table>
           </CardSection>
         </Wrapper>
-      </Box>
-    </Flex>
+      </div>
+    </div>
   )
 }

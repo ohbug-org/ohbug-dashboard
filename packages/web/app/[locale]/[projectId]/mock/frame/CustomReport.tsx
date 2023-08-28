@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, HStack } from '@chakra-ui/react'
+import { Button } from '~/components/ui/button'
 import { client } from './index'
 import Card from '~/components/card'
 
@@ -25,9 +25,9 @@ function CustomReport() {
     <Card
       content={
         (
-          <HStack>
+          <div>
             <Button onClick={() => handleError()}>custom report</Button>
-          </HStack>
+          </div>
         )
       }
       title="CustomReport"

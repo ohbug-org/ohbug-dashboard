@@ -1,6 +1,5 @@
 'use client'
 
-import { Flex } from '@chakra-ui/react'
 import { useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
@@ -73,16 +72,13 @@ export default function IssueId({ issue, event, trends }: Props) {
   }, [tab, event, issue, trends])
 
   return (
-    <Flex
-      flexDirection="column"
-      gap="6"
-    >
+    <div className="flex flex-col gap-6">
       <IssueDetailTitle
         event={event}
         issue={issue}
       />
 
       {nodes}
-    </Flex>
+    </div>
   )
 }

@@ -7,8 +7,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu'
-import { Button } from './ui/button'
+} from '~/components/ui/dropdown-menu'
+import { Button } from '~/components/ui/button'
 
 const Theme: FC = () => {
   const { setTheme } = useTheme()

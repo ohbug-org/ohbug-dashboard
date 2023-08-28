@@ -1,18 +1,15 @@
 'use client'
 
-import type { FlexProps } from '@chakra-ui/react'
-import { ButtonGroup, Flex, IconButton } from '@chakra-ui/react'
-import type { FC } from 'react'
 import { useCallback } from 'react'
-import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri'
+import { Button } from '~/components/ui/button'
 
-interface Props extends Omit<FlexProps, 'onChange'> {
+interface Props {
   page: number
   onChange: (page: number) => void
   isReachingEnd: boolean
 }
 
-const Pagination: FC<Props> = ({ page = 1, onChange, isReachingEnd, ...props }) => {
+export default function Pagination({ page = 1, onChange, isReachingEnd, ...props }: Props) {
   const handlePrev = useCallback(() => {
     const _page = page - 1
     const value = _page > 0 ? _page : 1
@@ -25,34 +22,28 @@ const Pagination: FC<Props> = ({ page = 1, onChange, isReachingEnd, ...props }) 
   }, [page])
 
   return (
-    <Flex
-      align="center"
-      gap="4"
-      justify="end"
+    <div
+      className='flex items-center justify-end gap-2'
       {...props}
     >
-      <ButtonGroup
-        isAttached
-        size="sm"
+      <Button
         variant="outline"
+        className="h-8 w-8 p-0"
+        onClick={handlePrev}
+        disabled={page <= 1}
       >
-        <IconButton
-          aria-label="left"
-          cursor="pointer"
-          disabled={page <= 1}
-          icon={<RiArrowLeftSLine />}
-          onClick={handlePrev}
-        />
-        <IconButton
-          aria-label="right"
-          cursor="pointer"
-          disabled={isReachingEnd}
-          icon={<RiArrowRightSLine />}
-          onClick={handleNext}
-        />
-      </ButtonGroup>
-    </Flex>
+        <span className="sr-only">Go to previous page</span>
+        <i className="i-ri-arrow-left-s-line" />
+      </Button>
+      <Button
+        variant="outline"
+        className="h-8 w-8 p-0"
+        disabled={isReachingEnd}
+        onClick={handleNext}
+    >
+        <span className="sr-only">Go to next page</span>
+        <i className="i-ri-arrow-right-s-line" />
+      </Button>
+    </div>
   )
 }
-
-export default Pagination

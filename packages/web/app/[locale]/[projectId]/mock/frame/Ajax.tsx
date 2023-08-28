@@ -1,7 +1,7 @@
 'use client'
 
-import { Button, HStack } from '@chakra-ui/react'
 import Card from '~/components/card'
+import { Button } from '~/components/ui/button'
 
 function Ajax() {
   const handleError = () => {
@@ -23,10 +23,10 @@ function Ajax() {
     <Card
       content={
         (
-          <HStack>
+          <div className='flex'>
             <Button onClick={() => handleError()}>500 error</Button>
             <Button onClick={() => handleTimeOut()}>timeout error</Button>
-          </HStack>
+          </div>
         )
       }
       title="AJAX"

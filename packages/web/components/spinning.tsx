@@ -4,11 +4,7 @@ import type { FC } from 'react'
 
 const Spinning: FC = () => {
   return (
-    <div
-      className="animate-spin"
-    >
-      <i className="i-ri-loader-2-line" />
-    </div>
+    <i className="i-ri-loader-2-line w-6 h-6 animate-spin" />
   )
 }
 

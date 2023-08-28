@@ -1,7 +1,7 @@
 'use client'
 
-import { Button, HStack } from '@chakra-ui/react'
 import Card from '~/components/card'
+import { Button } from '~/components/ui/button'
 
 function randomString(length: number) {
   const str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -31,10 +31,10 @@ function Error() {
     <Card
       content={
         (
-          <HStack>
+          <div className='flex'>
             <Button onClick={() => handleError()}>undefined error</Button>
             <Button onClick={() => handleError1()}>random error</Button>
-          </HStack>
+          </div>
         )
       }
       title="Error"

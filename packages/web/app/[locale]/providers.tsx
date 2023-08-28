@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect } from 'react'
-import { NextUIProvider } from '@nextui-org/react'
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import { SessionProvider, useSession } from 'next-auth/react'
 import dayjs from 'dayjs'
@@ -20,6 +19,8 @@ import { serviceGetProjects } from '~/services/projects'
 import { useQuery } from '~/hooks/use-query'
 import '~/styles/nprogress.css'
 import { Toaster } from '~/components/ui/toaster'
+import { ThemeProvider } from '~/components/ui/theme-provider'
+import { TooltipProvider } from '~/components/ui/tooltip'
 
 const TopProgressBar = dynamic(
   () => {
@@ -64,16 +65,18 @@ export function Providers({ children, session }: Props) {
     <SessionProvider session={session}>
       <Controller>
         <CacheProvider>
-          <NextUIProvider>
-            <ChakraProvider theme={theme}>
-              <Toaster />
-              <ColorModeScript />
-              <TopProgressBar />
-              <Layout>
-                {children}
-              </Layout>
-            </ChakraProvider>
-          </NextUIProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <TooltipProvider>
+              <ChakraProvider theme={theme}>
+                <Toaster />
+                <ColorModeScript />
+                <TopProgressBar />
+                <Layout>
+                  {children}
+                </Layout>
+              </ChakraProvider>
+            </TooltipProvider>
+          </ThemeProvider>
         </CacheProvider>
       </Controller>
     </SessionProvider>

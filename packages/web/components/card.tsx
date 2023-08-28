@@ -3,8 +3,8 @@
 import { forwardRef, useMemo } from 'react'
 import { useColorModeValue } from '@chakra-ui/react'
 import { type ReactNode } from 'react'
-import { Box } from './ui'
-import { type BoxProps } from './ui'
+import { Box } from '~/components/ui/box'
+import { type BoxProps } from '~/components/ui/box'
 
 interface Props extends Omit<BoxProps, 'content'> {
   children?: ReactNode
@@ -40,7 +40,6 @@ const Card = forwardRef<HTMLDivElement, Props>(({ children, title, extra, conten
         {
           footer && (
             <Box
-
               m="-4"
               mt="0"
               px="4"

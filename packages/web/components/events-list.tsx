@@ -5,9 +5,9 @@ import dayjs from 'dayjs'
 import { type FC, useCallback } from 'react'
 import { type Event } from '@prisma/client'
 import { type OhbugEventLike } from 'common'
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react'
 import { renderStringOrJson } from '~/libs/utils'
 import useCurrentProject from '~/hooks/use-current-project'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 
 const columns = [
   { name: 'TITLE', key: 'description' },
@@ -28,7 +28,7 @@ interface Props {
 const EventsList: FC<Props> = ({ events }) => {
   const { projectId } = useCurrentProject()
 
-  const renderCell = useCallback((event: Event, columnKey: Key) => {
+  const renderCell = useCallback((event: Event | OhbugEventLike, columnKey: string) => {
     switch (columnKey) {
       case 'description':
         return (
@@ -77,35 +77,39 @@ const EventsList: FC<Props> = ({ events }) => {
   }, [])
 
   return (
-    <Table className="w-full overflow-x-auto">
-      <TableHeader columns={columns}>
+    <Table className='rounded-lg border'>
+      <TableHeader>
         {
-          column => (
-            <TableColumn
-              align="start"
+          columns.map(column => (
+            <TableHead
+              className='text-left'
               key={column.key}
             >
               {column.name}
-            </TableColumn>
-          )
+            </TableHead>
+          ))
         }
       </TableHeader>
-      <TableBody
-        emptyContent="No rows to display."
-        items={events}
-      >
+      <TableBody>
         {
           events
-            ? item => (
-              <TableRow key={item.id}>
+            ? events.map(event => (
+              <TableRow key={event.id}>
                 {
-                  columnKey => (
-                    <TableCell>{renderCell(item, columnKey)}</TableCell>
-                  )
+                  Object.keys(event).map(columnKey => (
+                    <TableCell>{renderCell(event, columnKey)}</TableCell>
+                  ))
                 }
               </TableRow>
-            )
-            : []
+            ))
+            : (<TableRow>
+            <TableCell
+              colSpan={columns.length}
+              className="h-24 text-center"
+            >
+              No results.
+            </TableCell>
+          </TableRow>)
         }
       </TableBody>
     </Table>

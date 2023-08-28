@@ -1,7 +1,7 @@
 'use client'
 
-import { Button, HStack } from '@chakra-ui/react'
 import Card from '~/components/card'
+import { Button } from '~/components/ui/button'
 
 function PromiseError() {
   const handlePromise = () => {
@@ -11,9 +11,9 @@ function PromiseError() {
     <Card
       content={
         (
-          <HStack>
+          <div>
             <Button onClick={() => handlePromise()}>unhandledrejection error</Button>
-          </HStack>
+          </div>
         )
       }
       title="Promise"

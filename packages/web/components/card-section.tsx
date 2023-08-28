@@ -1,10 +1,14 @@
 'use client'
 
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Heading, Text } from '@chakra-ui/react'
-import { type FC, type ReactNode } from 'react'
-import Card from './card'
-import { type BoxProps } from './ui'
-import { Box } from './ui'
+import { type ReactNode } from 'react'
+import { type BoxProps, Box } from '~/components/ui/box'
+import { Card, CardHeader, CardTitle } from '~/components/ui/card'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion"
 
 interface Props extends BoxProps {
   title?: string
@@ -14,56 +18,43 @@ interface Props extends BoxProps {
   children?: ReactNode
 }
 
-const CardSection: FC<Props> = ({ title, head, collapse, collapseTitle, children, ...props }) => {
+export default function CardSection({ title, head, collapse, collapseTitle, children, ...props }: Props) {
   return (
-    <div {...props}>
+    <Box {...props}>
       <h2 className="font-semibold">
         {title}
       </h2>
-      <Card
-        mt="4"
-        variant="shadow"
-      >
+      <Card className='mt-4'>
         {
           head && (
-            <Box
-              fontWeight="semibold"
-              pb="4"
-            >
-              {head}
-            </Box>
+            <CardHeader>
+              <CardTitle className="font-semibold">
+                {head}
+              </CardTitle>
+            </CardHeader>
           )
         }
         {
           collapse && (
             <Accordion
-              allowToggle
-              mx="-6"
+              type="single"
+              collapsible
             >
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Text
-                      flex="1"
-                      fontWeight="semibold"
-                      textAlign="left"
-                    >
-                      {collapseTitle}
-                    </Text>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
+              <AccordionItem value='item-1'>
+                <AccordionTrigger>
+                  <span className='flex-1 font-semibold text-left'>
+                    {collapseTitle}
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
                   {collapse}
-                </AccordionPanel>
+                </AccordionContent>
               </AccordionItem>
             </Accordion>
           )
         }
         {children}
       </Card>
-    </div>
+    </Box>
   )
 }
-
-export default CardSection

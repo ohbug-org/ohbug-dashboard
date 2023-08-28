@@ -3,9 +3,9 @@
 import type { CSSProperties } from 'react'
 import { forwardRef } from 'react'
 import Link from 'next/link'
-import { useColorMode } from '@chakra-ui/react'
 import Image from 'next/image'
 import { twMerge } from 'tailwind-merge'
+import { useTheme } from 'next-themes'
 
 interface Props {
   className?: string
@@ -14,7 +14,8 @@ interface Props {
 }
 
 const Logo = forwardRef<HTMLAnchorElement, Props>((props, ref) => {
-  const { colorMode } = useColorMode()
+  const { theme } = useTheme()
+
   return (
     <Link
       href="/"
@@ -26,7 +27,7 @@ const Logo = forwardRef<HTMLAnchorElement, Props>((props, ref) => {
         alt="logo"
         fill
         priority
-        src={colorMode === 'dark' ? '/logo-white.svg' : '/logo.svg'}
+        src={theme === 'dark' ? '/logo-white.svg' : '/logo.svg'}
       />
     </Link>
   )

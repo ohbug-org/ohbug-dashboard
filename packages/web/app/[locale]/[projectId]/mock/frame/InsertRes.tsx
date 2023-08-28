@@ -1,7 +1,7 @@
 'use client'
 
-import { Button, HStack } from '@chakra-ui/react'
 import Card from '~/components/card'
+import { Button } from '~/components/ui/button'
 
 export default function InsertRes() {
   const handle = () => {
@@ -16,9 +16,9 @@ export default function InsertRes() {
     <Card
       content={
         (
-          <HStack>
+          <div>
             <Button onClick={() => handle()}>insert script</Button>
-          </HStack>
+          </div>
         )
       }
       title="InsertRes"

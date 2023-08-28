@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { useDebounce } from 'react-use'
-import { Button, Input } from '@nextui-org/react'
 import { type EventUser } from '@prisma/client'
 import UsersList from '~/components/users-list'
 import Title from '~/components/title'
@@ -11,6 +10,8 @@ import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
 import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetEventUsers } from '~/services/eventUsers'
+import { Input } from '~/components/ui/input'
+import { Button } from '~/components/ui/button'
 
 export default function UsersPage() {
   const ct = useTranslations('Common')
@@ -56,7 +57,6 @@ export default function UsersPage() {
             <Input
               onChange={e => setQuery(e.target.value)}
               placeholder="Search for users ipAddress uuid email name and metadata"
-              startContent={<i className="i-ri-search-line" />}
               value={query}
             />
           </div>
@@ -69,6 +69,7 @@ export default function UsersPage() {
           className="w-full mt-6"
           disabled={isLoading || isReachingEnd}
           onClick={() => setSize(size + 1)}
+          variant="outline"
         >
           {
             isLoading
