@@ -77,13 +77,13 @@ const EventsList: FC<Props> = ({ events }) => {
   }, [])
 
   return (
-    <Table className='rounded-lg border'>
+    <Table className="rounded-lg border">
       <TableHeader>
         {
           columns.map(column => (
             <TableHead
-              className='text-left'
               key={column.key}
+              className="text-left"
             >
               {column.name}
             </TableHead>
@@ -102,14 +102,16 @@ const EventsList: FC<Props> = ({ events }) => {
                 }
               </TableRow>
             ))
-            : (<TableRow>
-            <TableCell
-              colSpan={columns.length}
-              className="h-24 text-center"
-            >
-              No results.
-            </TableCell>
-          </TableRow>)
+            : (
+              <TableRow>
+                <TableCell
+                  className="h-24 text-center"
+                  colSpan={columns.length}
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+              )
         }
       </TableBody>
     </Table>

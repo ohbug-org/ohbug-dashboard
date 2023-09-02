@@ -4,6 +4,7 @@ import { ReportController } from './report.controller'
 import { ReportService } from './report.service'
 import { ReportProcessor } from './report.processor'
 import { PrismaService } from '~/common'
+
 @Module({
   imports: [
     BullModule.registerQueue({ name: 'document' }),

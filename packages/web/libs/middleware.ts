@@ -1,6 +1,6 @@
-import type { User } from '@prisma/client'
-import type { Session } from 'next-auth'
 import { getServerSession } from 'next-auth'
+import { type User } from '@prisma/client'
+import { type Session } from 'next-auth'
 import { getAuthOptions } from '~/auth'
 
 export async function getAuth() {

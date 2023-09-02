@@ -1,13 +1,14 @@
 import { OnQueueError, Process, Processor } from '@nestjs/bull'
-import type { Job } from 'bull'
-import { Action } from 'common'
-import { HttpService } from '@nestjs/axios'
 import { getConfig } from 'config'
-import { GetAlertStatusParams } from '../report/report.interface'
+import { type Job } from 'bull'
+import { type Action } from 'common'
+import { type HttpService } from '@nestjs/axios'
+import { type GetAlertStatusParams } from '../report/report.interface'
 import { getAlertContent, getAlertStatus } from './alert.core'
 import email from './email'
 import webhook from './webhook'
-import { ForbiddenException, PrismaService } from '~/common'
+import { type PrismaService } from '~/common'
+import { ForbiddenException } from '~/common'
 
 @Processor('alert')
 export class AlertProcessor {
@@ -29,7 +30,7 @@ export class AlertProcessor {
         })).users.length
         const status = await getAlertStatus(data.event, data.issue, issueEventsCount, data.alerts, this.prisma)
 
-        if (status.length) {
+        if (status.length > 0) {
           for (const item of status) {
             if (item.alert) {
               const alertContent = getAlertContent(

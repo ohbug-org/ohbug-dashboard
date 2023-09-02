@@ -1,18 +1,20 @@
 'use client'
 
-import type { ReactNode } from 'react'
 import { memo, useEffect, useMemo, useRef } from 'react'
-import type { Options } from 'highcharts'
 import Highcharts from 'highcharts'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 import dayjs from 'dayjs'
+import { useTheme } from 'next-themes'
+import { type Options } from 'highcharts'
+import { type ReactNode } from 'react'
 import Loading from './loading'
 import { theme as chartTheme } from '~/styles/chart.theme'
 import { colors } from '~/styles/colors'
-import { useTheme } from 'next-themes'
 
-if (typeof Highcharts === 'object') { HighchartsExporting(Highcharts) }
+if (typeof Highcharts === 'object') {
+  HighchartsExporting(Highcharts)
+}
 
 interface MiniChartProps {
   type: '24h' | '14d'
@@ -33,11 +35,15 @@ const TrendChart = memo<MiniChartProps>(({ type, data, title, variant = 'mini', 
   const { theme } = useTheme()
 
   useEffect(() => {
-    if (typeof Highcharts === 'object') { Highcharts.setOptions(chartTheme) }
+    if (typeof Highcharts === 'object') {
+      Highcharts.setOptions(chartTheme)
+    }
   }, [])
   useEffect(() => {
     ref.current.chart.showLoading()
-    if (data) { ref.current.chart.hideLoading() }
+    if (data) {
+      ref.current.chart.hideLoading()
+    }
   }, [data])
 
   const options = useMemo<Options>(
@@ -167,9 +173,13 @@ const TrendChart = memo<MiniChartProps>(({ type, data, title, variant = 'mini', 
               headerFormat: '',
               pointFormatter() {
                 const { name, y } = this
-                if (type === '24h') { return `<div style="text-align: center"><span>${dayjs(name).format('YYYY-MM-DD')}<br />${dayjs(name).format('h:00 A → h:59 A')}</span><br /><b>${y} ${unit}</b></div>` }
+                if (type === '24h') {
+                  return `<div style="text-align: center"><span>${dayjs(name).format('YYYY-MM-DD')}<br />${dayjs(name).format('h:00 A → h:59 A')}</span><br /><b>${y} ${unit}</b></div>`
+                }
 
-                if (type === '14d') { return `<div style="text-align: center"><span>${dayjs(name).format('YYYY-MM-DD')}</span><br /><b>${y} ${unit}</b></div>` }
+                if (type === '14d') {
+                  return `<div style="text-align: center"><span>${dayjs(name).format('YYYY-MM-DD')}</span><br /><b>${y} ${unit}</b></div>`
+                }
 
                 return ''
               },
@@ -186,9 +196,9 @@ const TrendChart = memo<MiniChartProps>(({ type, data, title, variant = 'mini', 
     <div>
       {title}
       <HighchartsReact
+        ref={ref}
         highcharts={Highcharts}
         options={options}
-        ref={ref}
       />
     </div>
   )

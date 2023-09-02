@@ -35,7 +35,7 @@ const Alerts = () => {
             <Link href={`/${projectId}/alerts/create`}>
               <Button>{t('createAlert')}</Button>
             </Link>
-          )
+        )
         }
       >
         Alerts
@@ -43,12 +43,14 @@ const Alerts = () => {
 
       <Wrapper>
         {
-          data && (
-            <AlertsList
-              alerts={data}
-              mutate={mutate}
-            />
-          )
+          data
+            ? (
+              <AlertsList
+                alerts={data}
+                mutate={mutate}
+              />
+              )
+            : null
         }
         <LoadingMoreButton
           isLoading={isLoading}

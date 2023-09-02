@@ -4,7 +4,7 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import Theme from './theme'
 import Intl from './intl'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut } from '~/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from '~/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import { Button } from '~/components/ui/button'
 
@@ -16,15 +16,21 @@ export default function UserComponent() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="relative h-8 w-8 rounded-full">
+          <Button
+            className="relative h-8 w-8 rounded-full"
+            variant="outline"
+          >
             <Avatar className="h-8 w-8">
-              <AvatarImage src={session.user?.image ?? ''} alt={session.user?.name ?? ''} />
+              <AvatarImage
+                alt={session.user?.name ?? ''}
+                src={session.user?.image ?? ''}
+              />
               <AvatarFallback>{session.user?.name ?? ''}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className='w-56'>
+        <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">{session.user?.name ?? ''}</p>

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { type Metadata } from 'next'
 import CreateProject from './create-project'
 
 export const metadata: Metadata = { title: 'Create Project | Ohbug' }

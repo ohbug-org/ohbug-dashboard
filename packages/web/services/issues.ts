@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
-import type { Pagination } from 'common'
 import { PAGE_SIZE, pagination } from 'common'
-import type { Prisma } from '@prisma/client'
+import { type Prisma } from '@prisma/client'
+import { type Pagination } from 'common'
 import { serviceGetProject } from './projects'
 import { getPrisma } from '~/db'
 
@@ -68,7 +68,7 @@ export async function serviceGetIssuesTrends({ ids, type }: ServiceGetIssuesTren
   }))
 
   return ids.split(',').reduce<serviceGetIssuesTrendsReturn>((acc, issueId) => {
-    acc[issueId] = Array.from(new Array(interval + 1)).map((_, index) => {
+    acc[issueId] = Array.from(Array.from({ length: interval + 1 })).map((_, index) => {
       const time = dayjs(min).add(index, unit).format(format)
       const match = trends.find(v => (v.time === time) && (v.issueId === issueId))
       if (match) return match

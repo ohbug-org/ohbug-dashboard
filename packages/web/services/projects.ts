@@ -1,6 +1,6 @@
-import type { Project, User } from '@prisma/client'
 import dayjs from 'dayjs'
-import type { ProjectWithEventCount, ProjectWithMembers } from 'common'
+import { type ProjectWithEventCount, type ProjectWithMembers } from 'common'
+import { type Project, type User } from '@prisma/client'
 import { getPrisma } from '~/db'
 
 export async function serviceGetProject(id: number) {
@@ -38,7 +38,7 @@ export async function serviceGetProjectsWithEventCount(user: User): Promise<Proj
     try {
       eventCount = await getPrisma().event.count({ where: { apiKey: project.apiKey } })
     }
-    catch (_) {}
+    catch {}
     projectWithEventCounts.push({
       ...project,
       eventCount,
@@ -55,7 +55,7 @@ interface ServiceCreateProjectData {
 export async function serviceCreateProject(data: ServiceCreateProjectData, user: User) {
   let isDefault = false
   const projects = await serviceGetProjects(user)
-  if (!projects.length) isDefault = true
+  if (projects.length === 0) isDefault = true
 
   const userId = user.id ?? (await getPrisma().user.findUnique({ where: { email: user.email! } }))?.id
   return getPrisma().project.create({
@@ -103,7 +103,7 @@ export async function serviceGetProjectTrends({ id, type }: ServiceGetProjectTre
     time: dayjs(v.time).utc().tz(dayjs.tz.guess()).format(format),
   }))
 
-  return Array.from(new Array(interval + 1)).map((_, index) => {
+  return Array.from(Array.from({ length: interval + 1 })).map((_, index) => {
     const time = dayjs(min).add(index, unit).format(format)
     const match = trends.find(v => (v.time === time))
     if (match) return match

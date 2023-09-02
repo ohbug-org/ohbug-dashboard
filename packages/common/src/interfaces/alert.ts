@@ -1,5 +1,5 @@
-import type { Alert } from '@prisma/client'
-import type { AlertConditionTopic, AlertFilterTopic, FilterMatch } from '../topic'
+import { type Alert } from '@prisma/client'
+import { type AlertConditionTopic, type AlertFilterTopic, type FilterMatch } from '../topic'
 
 export interface Action {
   type: 'email' | 'webhook'

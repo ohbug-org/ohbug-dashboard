@@ -37,7 +37,7 @@ export function useInfinite<T = any>(
           ...prevState,
           data: !pagination
             ? prevState.data
-              ? res.length
+              ? res.length > 0
                 ? [...prevState.data, ...res]
                 : res
               : res
@@ -47,13 +47,13 @@ export function useInfinite<T = any>(
         }))
         return res
       })
-      .catch((err) => {
+      .catch((error) => {
         callId === lastCallId.current && set(prevState => ({
           ...prevState,
-          error: err,
+          error,
           isLoading: false,
         }))
-        return err
+        return error
       })
   }, [keyLoading, state.size, pagination, ...deps])
   useEffect(() => {
@@ -66,7 +66,7 @@ export function useInfinite<T = any>(
   }, deps)
   const isEmpty = useMemo(() => state.result?.[0]?.length === 0, [state.result])
   const isReachingEnd = useMemo(
-    () => isEmpty || (state.result && state.result[state.result.length - 1]?.length < PAGE_SIZE),
+    () => isEmpty || (state.result && (state.result.at(-1)?.length ?? 0) < PAGE_SIZE),
     [isEmpty, state.result],
   )
   const setSize = useCallback((value: number) => {

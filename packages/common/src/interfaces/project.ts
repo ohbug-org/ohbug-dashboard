@@ -1,4 +1,4 @@
-import type { Project, User } from '@prisma/client'
+import { type Project, type User } from '@prisma/client'
 
 export interface ProjectWithEventCount extends Project {
   eventCount: number

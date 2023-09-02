@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { getConfig } from 'config'
 import dayjs from 'dayjs'
-import { PrismaService } from '~/common'
+import { type PrismaService } from '~/common'
 
 @Injectable()
 export class TasksService {

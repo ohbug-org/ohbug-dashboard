@@ -9,7 +9,7 @@ import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
 import { useInfinite } from '~/hooks/use-infinite'
-import { serviceGetEventUsers } from '~/services/eventUsers'
+import { serviceGetEventUsers } from '~/services/event-users'
 import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'
 
@@ -26,15 +26,15 @@ export default function UsersPage() {
     [query],
   )
   const { data: eventUsers, isLoading, size, setSize, isReachingEnd } = useInfinite<(
-  EventUser & {
-    _count: {
-      issues: number
-      metrics: number
-      feedbacks: number
-      pageViews: number
-      userViews: number
-    }
-  })>(
+    EventUser & {
+      _count: {
+        issues: number
+        metrics: number
+        feedbacks: number
+        pageViews: number
+        userViews: number
+      }
+    })>(
     index => serviceGetEventUsers({
       page: index + 1,
       projectId: projectId!,
@@ -55,9 +55,9 @@ export default function UsersPage() {
           </h2>
           <div className="w-full">
             <Input
-              onChange={e => setQuery(e.target.value)}
               placeholder="Search for users ipAddress uuid email name and metadata"
               value={query}
+              onChange={e => setQuery(e.target.value)}
             />
           </div>
         </div>
@@ -68,8 +68,8 @@ export default function UsersPage() {
         <Button
           className="w-full mt-6"
           disabled={isLoading || isReachingEnd}
-          onClick={() => setSize(size + 1)}
           variant="outline"
+          onClick={() => setSize(size + 1)}
         >
           {
             isLoading

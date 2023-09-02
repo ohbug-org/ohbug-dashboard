@@ -1,6 +1,6 @@
 'use client'
 
-import type { MouseEventHandler } from 'react'
+import { type MouseEventHandler } from 'react'
 import { Button } from '~/components/ui/button'
 
 interface Props {
@@ -14,9 +14,9 @@ export default function LoadingMoreButton({ isLoading, isReachingEnd, onClick }:
     <Button
       className="w-full mt-6"
       disabled={isLoading || isReachingEnd}
-      onClick={onClick}
       size="sm"
       variant="outline"
+      onClick={onClick}
     >
       {
         isLoading

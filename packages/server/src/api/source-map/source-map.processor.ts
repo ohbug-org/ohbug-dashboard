@@ -1,12 +1,13 @@
 import { unlink } from 'node:fs/promises'
 import { Process, Processor } from '@nestjs/bull'
-import type { Job } from 'bull'
-import type { Prisma, Project, Release } from '@prisma/client'
-import { ReceiveSourceMapFile, SourceMapData } from 'common'
 import { nanoid } from 'nanoid'
-import { maxSourceMap } from '../sourceMap/sourceMap.constant'
-import { ReceiveSourceMapDto } from '../sourceMap/sourceMap.dto'
-import { ForbiddenException, PrismaService } from '~/common'
+import { type Job } from 'bull'
+import { type Prisma, type Project, type Release } from '@prisma/client'
+import { type ReceiveSourceMapFile, type SourceMapData } from 'common'
+import { maxSourceMap } from '../source-map/source-map.constant'
+import { type ReceiveSourceMapDto } from '../source-map/source-map.dto'
+import { type PrismaService } from '~/common'
+import { ForbiddenException } from '~/common'
 
 @Processor('sourceMap')
 export class SourceMapProcessor {
@@ -50,7 +51,7 @@ export class SourceMapProcessor {
           id: nanoid(),
         }
         // 没有 release
-        if (!project.releases.length) return this.createRelease([sourceMap], data.body, project)
+        if (project.releases.length === 0) return this.createRelease([sourceMap], data.body, project)
 
         const { appVersion } = data.body || {}
         // 看是否达到上限

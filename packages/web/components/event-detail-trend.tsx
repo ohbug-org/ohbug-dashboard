@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { type Issue } from 'common'
 import TrendChart from './trend-chart'
 import Wrapper from './wrapper'
-import AccordionSection from './card-section'
+import AccordionSection from './accordion-section'
 import { type IssueTrend } from '~/services/issues'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 
@@ -22,10 +22,11 @@ export default function EventDetailTrend({ issue, trends }: Props) {
   return (
     <Wrapper>
       <AccordionSection
+        title="Event Trends"
         head={
           (
-            <div className='flex flex-wrap'>
-              <div className='flex flex-col'>
+            <div className="flex flex-wrap">
+              <div className="flex flex-col">
                 <div>{ct('firstSeen')}</div>
                 <Tooltip>
                   <TooltipTrigger>
@@ -38,7 +39,7 @@ export default function EventDetailTrend({ issue, trends }: Props) {
                   </TooltipContent>
                 </Tooltip>
               </div>
-              <div className='flex flex-col'>
+              <div className="flex flex-col">
                 <div>{ct('lastSeen')}</div>
                 <Tooltip>
                   <TooltipTrigger>
@@ -52,32 +53,35 @@ export default function EventDetailTrend({ issue, trends }: Props) {
                 </Tooltip>
               </div>
             </div>
-          )
+        )
         }
-        title="Event Trends"
       >
-        <div className='mb-12'>
+        <div className="mb-12">
           {
-            trends['14d'] && (
-              <TrendChart
-                data={trends['14d']}
-                title={ct('14d')}
-                type="14d"
-                variant="detail"
-              />
-            )
+            trends['14d']
+              ? (
+                <TrendChart
+                  data={trends['14d']}
+                  title={ct('14d')}
+                  type="14d"
+                  variant="detail"
+                />
+                )
+              : null
           }
         </div>
         <div>
           {
-            trends['24h'] && (
-              <TrendChart
-                data={trends['24h']}
-                title={ct('24h')}
-                type="24h"
-                variant="detail"
-              />
-            )
+            trends['24h']
+              ? (
+                <TrendChart
+                  data={trends['24h']}
+                  title={ct('24h')}
+                  type="24h"
+                  variant="detail"
+                />
+                )
+              : null
           }
         </div>
       </AccordionSection>

@@ -2,11 +2,11 @@
 
 import Link from 'next/link'
 import dayjs from 'dayjs'
-import type { FC } from 'react'
-import type { EventUser, Feedback } from '@prisma/client'
+import { type FC } from 'react'
+import { type EventUser, type Feedback } from '@prisma/client'
 import { renderStringOrJson } from '~/libs/utils'
 import useCurrentProject from '~/hooks/use-current-project'
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '~/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 
 interface Props {
   feedbacks?: (Feedback & { user: EventUser })[]

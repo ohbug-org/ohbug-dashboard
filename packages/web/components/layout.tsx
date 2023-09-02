@@ -2,16 +2,14 @@
 
 import { useState } from 'react'
 import { useIsomorphicLayoutEffect, useWindowScroll } from 'react-use'
-import { twMerge } from 'tailwind-merge'
 import { type FC, type ReactNode } from 'react'
 import Nav from './nav'
 import NavMenu from './nav-menu'
 import User from './user'
 import Logo from './logo'
 import Footer from './footer'
-
 import Wrapper from './wrapper'
-import { scrollWindowTo } from '~/libs/utils'
+import { cn, scrollWindowTo } from '~/libs/utils'
 
 const HeadHeight = 64
 const NavHeight = 48
@@ -40,34 +38,30 @@ const Layout: FC<Props> = ({ children }) => {
         </div>
         {/* navMenu */}
         <div
-          className={
-            twMerge(
-              'backdrop-blur shadow-sm w-full',
-              scrollNavVisible ? 'sticky' : 'relative',
-              scrollNavVisible && 'top-0',
-              scrollNavVisible && 'z-10',
-            )
-          }
           style={{ height: NavHeight }}
+          className={cn(
+            'backdrop-blur shadow-sm w-full',
+            scrollNavVisible ? 'sticky' : 'relative',
+            scrollNavVisible && 'top-0',
+            scrollNavVisible && 'z-10',
+          )}
         >
           <nav
             className=" h-full flex items-center justify-between container mx-auto"
           >
             <div className="flex relative">
               <Logo
-                className={
-                  twMerge(
-                    'relative transition-all',
-                    scrollNavVisible ? 'opacity-100' : 'opacity-0',
-                    scrollNavVisible ? 'visible' : 'invisible',
-                  )
-                }
-                onClick={() => scrollWindowTo()}
                 style={{ height: NavHeight, width: NavHeight, transform: scrollNavVisible ? 'translateZ(0)' : `translate3d(0,-${NavHeight}px,0)` }}
+                className={cn(
+                  'relative transition-all',
+                  scrollNavVisible ? 'opacity-100' : 'opacity-0',
+                  scrollNavVisible ? 'visible' : 'invisible',
+                )}
+                onClick={() => scrollWindowTo()}
               />
 
               <div
-                className="transition-transform"
+                className="transition-transform flex items-center"
                 style={
                   { transform: scrollNavVisible ? 'translate3d(24px,0,0)' : `translate3d(-${NavHeight + 12}px,0,0)` }
                 }
@@ -77,13 +71,11 @@ const Layout: FC<Props> = ({ children }) => {
             </div>
 
             <div
-              className={
-                twMerge(
-                  'transition-all',
-                  scrollNavVisible ? 'opacity-100' : 'opacity-0',
-                  scrollNavVisible ? 'visible' : 'invisible',
-                )
-              }
+              className={cn(
+                'transition-all',
+                scrollNavVisible ? 'opacity-100' : 'opacity-0',
+                scrollNavVisible ? 'visible' : 'invisible',
+              )}
               style={
                 { transform: scrollNavVisible ? 'translateZ(0)' : `translate3d(0,-${NavHeight}px,0)` }
               }

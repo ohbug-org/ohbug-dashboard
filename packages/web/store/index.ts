@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import type { ProjectSlice } from './project'
 import { createProjectSlice } from './project'
+import { type ProjectSlice } from './project'
 
 type StoreState = ProjectSlice
 

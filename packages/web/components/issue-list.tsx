@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 import { useTranslations } from 'next-intl'
 import { useDebounce, useSet } from 'react-use'
 import { useAtom } from 'jotai'
-import { type Key, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import TrendChart from './trend-chart'
 import Pagination from './pagination'
 import Spinning from './spinning'
@@ -44,11 +44,11 @@ const columns = [
 ]
 
 interface Props {
-  empty: ReactNode;
+  empty: ReactNode
 }
 
 export default function IssueList({ empty }: Props) {
-  const {toast} = useToast()
+  const { toast } = useToast()
   const t = useTranslations('Issues')
   const ct = useTranslations('Common')
   const { projectId } = useCurrentProject()
@@ -118,7 +118,7 @@ export default function IssueList({ empty }: Props) {
           variant: 'destructive',
         })
       })
-      .finally(()=>setOpen(false))
+      .finally(() => setOpen(false))
   }, [checkedItems])
 
   const renderTitleCell = useCallback((columnKey: string) => {
@@ -127,6 +127,7 @@ export default function IssueList({ empty }: Props) {
         return (
           <Checkbox
             checked={allChecked}
+            className="translate-y-[2px]"
             onCheckedChange={(value) => {
               if (value) {
                 data?.forEach(issue => checkedItemsActions.add(issue.id))
@@ -135,7 +136,6 @@ export default function IssueList({ empty }: Props) {
                 checkedItemsActions.reset()
               }
             }}
-            className="translate-y-[2px]"
           />
         )
       case 'title':
@@ -143,10 +143,10 @@ export default function IssueList({ empty }: Props) {
           <div>
             <div className="flex gap-2">
               <Select
+                value={orderBy}
                 onValueChange={
                   e => setOrderBy(e as SearchIssuesOrderBy)
                 }
-                value={orderBy}
               >
                 <SelectTrigger className="w-40">
                   <SelectValue />
@@ -169,10 +169,10 @@ export default function IssueList({ empty }: Props) {
                     <i className="i-ri-more-line" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className='w-56'>
+                <DropdownMenuContent className="w-56">
                   <DropdownMenuItem
                     key="delete"
-                    onClick={()=>setOpen(true)}
+                    onClick={() => setOpen(true)}
                   >
                     Delete
                   </DropdownMenuItem>
@@ -185,12 +185,11 @@ export default function IssueList({ empty }: Props) {
         return (
           <div className="flex items-center gap-2">
             <Switch
-              id="trendsType"
-              disabled={!trends || !data?.length}
               checked={chartType === '24h'}
+              disabled={!trends || !data?.length}
+              id="trendsType"
               onCheckedChange={e => setChartType(e ? '24h' : '14d')}
-            >
-            </Switch>
+            />
             <Label htmlFor="trendsType">{chartType === '24h' ? ct('24h') : ct('14d')}</Label>
           </div>
         )
@@ -214,8 +213,8 @@ export default function IssueList({ empty }: Props) {
         return (
           <Checkbox
             checked={checkedItems.has(issue.id)}
-            onCheckedChange={(value) => checkedItemsActions[value ? 'add' : 'remove'](issue.id)}
             className="translate-y-[2px]"
+            onCheckedChange={value => checkedItemsActions[value ? 'add' : 'remove'](issue.id)}
           />
         )
       case 'title':
@@ -245,9 +244,7 @@ export default function IssueList({ empty }: Props) {
             {/* message */}
             <div className="text-stone-500 line-clamp-2">
               {
-                metadata.message && (
-                  <code>{renderStringOrJson(metadata.message)}</code>
-                )
+                metadata.message ? <code>{renderStringOrJson(metadata.message)}</code> : null
               }
             </div>
             {/* other message (time/appType/...) */}
@@ -308,12 +305,12 @@ export default function IssueList({ empty }: Props) {
   return (
     <div className="h-full overflow-x-hidden overflow-y-auto space-y-4">
       <Input
-        onChange={e => setQuery(e.target.value)}
         placeholder="Search..."
         value={query}
+        onChange={e => setQuery(e.target.value)}
       />
 
-      <Table className='rounded-md border'>
+      <Table className="rounded-md border">
         <TableCaption>
           {
             !!data?.length && (
@@ -321,8 +318,8 @@ export default function IssueList({ empty }: Props) {
                 <Link href={`/${projectId}/mock`}>Mock Data</Link>
                 <Pagination
                   isReachingEnd={!!isReachingEnd}
-                  onChange={page => setSize(page - 1)}
                   page={size + 1}
+                  onChange={page => setSize(page - 1)}
                 />
               </div>
             )
@@ -334,7 +331,7 @@ export default function IssueList({ empty }: Props) {
               columns.map(column => (
                 <TableHead
                   key={column.key}
-                  className='text-left'
+                  className="text-left"
                 >
                   {renderTitleCell(column.key)}
                 </TableHead>
@@ -345,7 +342,7 @@ export default function IssueList({ empty }: Props) {
         <TableBody>
           {
             data
-            ? data.map(issue => (
+              ? data.map(issue => (
                 <TableRow key={issue.id}>
                   {
                     columns.map(column => (
@@ -353,19 +350,17 @@ export default function IssueList({ empty }: Props) {
                     ))
                   }
                 </TableRow>
-            ))
-            : (
-              <TableRow>
-                <TableCell colSpan={columns.length}>
-                  {isLoading ? <Spinning /> : empty}
-                </TableCell>
-              </TableRow>
-            )
+              ))
+              : (
+                <TableRow>
+                  <TableCell colSpan={columns.length}>
+                    {isLoading ? <Spinning /> : empty}
+                  </TableCell>
+                </TableRow>
+                )
           }
         </TableBody>
       </Table>
-
-
 
       <Dialog
         open={open}
@@ -380,9 +375,9 @@ export default function IssueList({ empty }: Props) {
           <div>{t('deleteIssuesConfirm')}</div>
           <DialogFooter>
             <Button
-              onClick={()=>setOpen(false)}
               ref={cancelRef}
               variant="outline"
+              onClick={() => setOpen(false)}
             >
               Cancel
             </Button>

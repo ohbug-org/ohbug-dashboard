@@ -18,48 +18,53 @@ export default function IssueDetailTitle({ issue, event }: Props) {
   const metadata = useMemo(() => JSON.parse(issue.metadata) || {}, [issue])
   return (
     <Title
-      className='sticky top-12 z-50'
+      className="sticky top-12 z-50"
       bottomNodes={
         <IssueDetailTabs event={event} />
       }
       rightNodes={
         (
-          <div className='flex'>
-            <div className='flex flex-col'>
+          <div className="flex">
+            <div className="flex flex-col">
               <div>{t('titleEvents')}</div>
               <div>{issue._count?.events}</div>
             </div>
-            <div className='flex flex-col'>
+            <div className="flex flex-col">
               <div>{t('titleUsers')}</div>
               <div>{issue._count?.users}</div>
             </div>
           </div>
-        )
+      )
       }
     >
       <div>
-        <a className='line-clamp-2'>
-          <span className='font-semibold mr-2'>
+        <a className="line-clamp-2">
+          <span className="font-semibold mr-2">
             {issue.type}
           </span>
           {
             issue.releaseStage === 'mock' && (
-              <Badge variant="destructive" className='mr-2'>
+              <Badge
+                className="mr-2"
+                variant="destructive"
+              >
                 Mock
               </Badge>
             )
           }
-          <code className='text-stone-500'>
+          <code className="text-stone-500">
             {renderStringOrJson(metadata.filename ?? metadata.others)}
           </code>
         </a>
-        <div className='line-clamp-2 text-stone-500'>
+        <div className="line-clamp-2 text-stone-500">
           {
-            metadata.message && (
-              <code>
-                {renderStringOrJson(metadata.message)}
-              </code>
-            )
+            metadata.message
+              ? (
+                <code>
+                  {renderStringOrJson(metadata.message)}
+                </code>
+                )
+              : null
           }
         </div>
       </div>

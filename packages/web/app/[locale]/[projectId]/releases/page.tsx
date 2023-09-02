@@ -1,13 +1,12 @@
 'use client'
 
-import type { Release } from '@prisma/client'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
+import { type Release } from '@prisma/client'
 import LoadingMoreButton from '~/components/load-more-button'
 import ReleaseList from '~/components/release-list'
 import Title from '~/components/title'
 import { Button } from '~/components/ui/button'
-import { Card } from '~/components/ui/card'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
 import { useInfinite } from '~/hooks/use-infinite'
@@ -40,7 +39,7 @@ export default function ReleasesPage() {
                 <i className="i-ri-question-line mr-2" /> {ct('integration')}
               </Button>
             </Link>
-          )
+        )
         }
       >
         Releases
@@ -48,12 +47,14 @@ export default function ReleasesPage() {
 
       <Wrapper>
         {
-          data && (
-            <ReleaseList
-              mutate={mutate}
-              releases={data}
-            />
-          )
+          data
+            ? (
+              <ReleaseList
+                mutate={mutate}
+                releases={data}
+              />
+              )
+            : null
         }
         <LoadingMoreButton
           isLoading={isLoading}

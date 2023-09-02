@@ -29,11 +29,9 @@ const IssueRelatedRrweb: FC<Props> = ({ event }) => {
     }
   })
   return (
-    <div>
-      <Wrapper>
-        <div ref={rootRef} />
-      </Wrapper>
-    </div>
+    <Wrapper>
+      <div ref={rootRef} />
+    </Wrapper>
   )
 }
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 import IntroduceChart from '~/components/introduce-chart'
 import Title from '~/components/title'
 import TrendChart from '~/components/trend-chart'
@@ -9,7 +10,6 @@ import useCurrentProject from '~/hooks/use-current-project'
 import { average } from '~/libs/utils'
 import { serviceGetMetricsTrends } from '~/services/metrics'
 import { useQuery } from '~/hooks/use-query'
-import Link from 'next/link'
 import { Button } from '~/components/ui/button'
 
 const CLS_THRESHOLD = [0.1, 0.25]
@@ -82,16 +82,16 @@ export default function MetricsPage() {
               target="_blank"
             >
               <Button variant="outline">
-                <i className='i-ri-question-line'></i> {ct('integration')}
+                <i className="i-ri-question-line" /> {ct('integration')}
               </Button>
             </Link>
-          )
+        )
         }
       >
         Metrics
       </Title>
 
-      <Wrapper className='flex flex-col gap-24'>
+      <Wrapper className="flex flex-col gap-24">
         <IntroduceChart
           description={t('CLSDescription')}
           title="Cumulative Layout Shift (CLS)"

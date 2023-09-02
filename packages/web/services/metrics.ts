@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import type { MetricType } from 'common'
+import { type MetricType } from 'common'
 import { getPrisma } from '~/db'
 
 interface ServiceGetMetricsTrendsParams {
@@ -34,7 +34,7 @@ export async function serviceGetMetricsTrends({ projectId, type, metric }: Servi
     time: dayjs(v.time).utc().tz(dayjs.tz.guess()).format(format),
   }))
 
-  return Array.from(new Array(interval + 1)).map((_, index) => {
+  return Array.from(Array.from({ length: interval + 1 })).map((_, index) => {
     const time = dayjs(min).add(index, unit).format(format)
     const match = trends.find(v => (v.time === time))
     if (match) return match

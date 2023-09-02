@@ -1,5 +1,5 @@
-import type { Pagination } from 'common'
 import { PAGE_SIZE, pagination } from 'common'
+import { type Pagination } from 'common'
 import { getPrisma } from '~/db'
 
 interface ServiceGetEventUsersParams extends Pagination {

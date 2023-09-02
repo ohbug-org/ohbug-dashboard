@@ -1,8 +1,8 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-const schema = z.object({
+const formSchema = z.object({
   name: z.string().min(2).max(50),
-  type: z.enum(['javascript'] as const)
+  type: z.enum(['javascript'] as const),
 })
 
-export default schema
+export default formSchema

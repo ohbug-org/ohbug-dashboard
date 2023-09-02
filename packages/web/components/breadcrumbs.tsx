@@ -13,11 +13,21 @@ export default function Breadcrumbs() {
     <div className="flex items-center gap-2">
       <Logo />
 
-      <Separator orientation="vertical" className='h-5 rotate-[26deg] mx-2' />
+      <Separator
+        className="h-5 rotate-[26deg] mx-2"
+        orientation="vertical"
+      />
 
       <Project />
 
-      {breadcrumbs.slice(0, -1).length > 0 ? <Separator orientation="vertical" className='h-5 rotate-[26deg] mx-2' /> : null}
+      {breadcrumbs.slice(0, -1).length > 0
+        ? (
+          <Separator
+            className="h-5 rotate-[26deg] mx-2"
+            orientation="vertical"
+          />
+          )
+        : null}
 
       <div className="flex items-center">
         {
@@ -32,9 +42,12 @@ export default function Breadcrumbs() {
             ))
         }
 
-        <Separator orientation="vertical" className='h-5 rotate-[26deg] mx-2' />
+        <Separator
+          className="h-5 rotate-[26deg] mx-2"
+          orientation="vertical"
+        />
 
-        <div>{breadcrumbs.at(-1)?.breadcrumb}</div>
+        <div className="ml-1 text-stone-500">{breadcrumbs.at(-1)?.breadcrumb}</div>
       </div>
     </div>
   )

@@ -7,18 +7,17 @@ import { type Event, type EventUser, type Feedback } from '@prisma/client'
 import EventsList from '~/components/events-list'
 
 import Wrapper from '~/components/wrapper'
-import AccordionSection from '~/components/ui/accordion-section'
+import AccordionSection from '~/components/accordion-section'
 import useCurrentProject from '~/hooks/use-current-project'
 import Title from '~/components/title'
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "~/components/ui/table"
+} from '~/components/ui/table'
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
 
@@ -33,22 +32,20 @@ export default function UserId({ user }: Props) {
   const { projectId } = useCurrentProject()
 
   return (
-    <div className='flex flex-col gap-6'>
+    <div className="flex flex-col gap-6">
       <div>
         <Title>
 
           <DynamicReactJson
-            src={
-              {
-                ipAddress: user.ipAddress,
-                uuid: user.uuid,
-                email: user.email,
-                name: user.name,
-                metadata: user.metadata,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt,
-              }
-            }
+            src={{
+              ipAddress: user.ipAddress,
+              uuid: user.uuid,
+              email: user.email,
+              name: user.name,
+              metadata: user.metadata,
+              createdAt: user.createdAt,
+              updatedAt: user.updatedAt,
+            }}
           />
         </Title>
 
@@ -59,7 +56,7 @@ export default function UserId({ user }: Props) {
         </Wrapper>
         <Wrapper>
           <AccordionSection title="Related Feedbacks">
-            <Table className='rounded-md border'>
+            <Table className="rounded-md border">
               <TableHeader>
                 <TableRow>
                   <TableHead>feedback</TableHead>

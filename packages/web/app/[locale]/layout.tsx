@@ -36,9 +36,9 @@ export default async function Layout({ children, params: { locale } }: {
 
       <body>
         <ThemeProvider
+          enableSystem
           attribute="class"
           defaultTheme="system"
-          enableSystem
         >
           <NextIntlClientProvider
             locale={locale}

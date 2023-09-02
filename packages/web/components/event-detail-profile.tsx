@@ -5,10 +5,10 @@ import { useMemo } from 'react'
 import { useTranslations } from 'next-intl'
 import { type FC } from 'react'
 import { type OhbugEventLike } from 'common'
-import Wrapper from './wrapper'
-import AccordionSection from './card-section'
-import { getDeviceInfo } from '~/libs/utils'
 import Link from 'next/link'
+import Wrapper from './wrapper'
+import AccordionSection from './accordion-section'
+import { getDeviceInfo } from '~/libs/utils'
 import { Badge } from '~/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 
@@ -26,7 +26,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'time',
         title: `${t('profileTimestamp')}: ${dayjs(event.createdAt).format('YYYY-MM-DD HH:mm:ss')}`,
         value: dayjs(event.createdAt).fromNow(),
-        icon: <i className='i-ri-time-line'></i>,
+        icon: <i className="i-ri-time-line" />,
       })
     }
     if (event?.user?.uuid) {
@@ -34,7 +34,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'uuid',
         title: `UUID: ${event?.user?.uuid}`,
         value: event?.user?.uuid,
-        icon: <i className='i-ri-fingerprint-line'></i>,
+        icon: <i className="i-ri-fingerprint-line" />,
       })
     }
     if (event?.user?.ipAddress) {
@@ -42,7 +42,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'ip',
         title: `IP: ${event?.user?.ipAddress}`,
         value: event?.user?.ipAddress,
-        icon: <i className='i-ri-links-line'></i>,
+        icon: <i className="i-ri-links-line" />,
       })
     }
     if (event?.device?.title) {
@@ -50,7 +50,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'title',
         title: `${t('profileTitle')}: ${event.device.title}`,
         value: event.device.title,
-        icon: <i className='i-ri-heading'></i>,
+        icon: <i className="i-ri-heading" />,
       })
     }
     if (event?.device?.url) {
@@ -58,7 +58,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'url',
         title: `URL: ${event.device.url}`,
         value: event.device.url,
-        icon: <i className='i-ri-linkedin-line'></i>,
+        icon: <i className="i-ri-linkedin-line" />,
       })
     }
     if (event?.device?.language) {
@@ -66,7 +66,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'language',
         title: `${t('profileLanguage')}: ${event.device.language}`,
         value: event.device.language,
-        icon: <i className='i-ri-earth-line'></i>,
+        icon: <i className="i-ri-earth-line" />,
       })
     }
     if (event?.appVersion) {
@@ -74,7 +74,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'appVersion',
         title: `AppVersion: ${event.appVersion}`,
         value: event.appVersion,
-        icon: <i className='i-ri-cake-line'></i>,
+        icon: <i className="i-ri-cake-line" />,
       })
     }
     if (event?.appType) {
@@ -82,7 +82,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'appType',
         title: `AppType: ${event.appType}`,
         value: event.appType,
-        icon: <i className='i-ri-cake-2-line'></i>,
+        icon: <i className="i-ri-cake-2-line" />,
       })
     }
     if (event?.releaseStage) {
@@ -90,7 +90,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'releaseStage',
         title: `ReleaseStage: ${event.releaseStage}`,
         value: event.releaseStage,
-        icon: <i className='i-ri-cake-3-line'></i>,
+        icon: <i className="i-ri-cake-3-line" />,
       })
     }
     if (
@@ -102,7 +102,7 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
         key: 'dpi',
         title: `${t('profileDPI')}: ${event?.device?.device?.screenWidth} × ${event?.device?.device?.screenHeight} @ ${event?.device?.device?.pixelRatio}x`,
         value: `${event?.device?.device?.screenWidth} × ${event?.device?.device?.screenHeight} @ ${event?.device?.device?.pixelRatio}x`,
-        icon: <i className='i-ri-computer-line'></i>,
+        icon: <i className="i-ri-computer-line" />,
       })
     }
 
@@ -110,10 +110,10 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
   }, [event])
 
   return (
-    <div>
-      <Wrapper>
-        <AccordionSection
-          head={
+    <Wrapper>
+      <AccordionSection
+        title="Event Environment"
+        head={
             event.category === 'error'
               ? (
                 <Link
@@ -121,74 +121,85 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
                 >
                   JSON Raw {event.id}
                 </Link>
-              )
+                )
               : null
           }
-          title="Event Environment"
-        >
-          <div className='flex flex-wrap mt-6'>
-            {/* 浏览器 */}
-            {
-              deviceInfo?.browser && (
-                <div className='flex flex-col'>
-                  <div>{deviceInfo?.browser?.name ?? ''}</div>
-                  <div>{deviceInfo?.browser?.version ?? ''}</div>
-                </div>
-              )
+      >
+        <div className="flex flex-wrap mt-6">
+          {/* 浏览器 */}
+          {
+              deviceInfo?.browser
+                ? (
+                  <div className="flex flex-col">
+                    <div>{deviceInfo?.browser?.name ?? ''}</div>
+                    <div>{deviceInfo?.browser?.version ?? ''}</div>
+                  </div>
+                  )
+                : null
             }
-            {/* 系统 */}
-            {
-              deviceInfo?.os && (
-                <div className='flex flex-col'>
-                  <div>{deviceInfo?.os?.name ?? ''}</div>
-                  <div>{deviceInfo?.os?.version ?? ''}</div>
-                </div>
-              )
+          {/* 系统 */}
+          {
+              deviceInfo?.os
+                ? (
+                  <div className="flex flex-col">
+                    <div>{deviceInfo?.os?.name ?? ''}</div>
+                    <div>{deviceInfo?.os?.version ?? ''}</div>
+                  </div>
+                  )
+                : null
             }
-            {/* App */}
-            {
-              deviceInfo?.app && (
-                <div className='flex flex-col'>
-                  <div>{deviceInfo?.app ?? ''}</div>
-                  <div>{`${deviceInfo?.version} / ${deviceInfo?.SDKVersion}`}</div>
-                </div>
-              )
+          {/* App */}
+          {
+              deviceInfo?.app
+                ? (
+                  <div className="flex flex-col">
+                    <div>{deviceInfo?.app ?? ''}</div>
+                    <div>{`${deviceInfo?.version} / ${deviceInfo?.SDKVersion}`}</div>
+                  </div>
+                  )
+                : null
             }
-            {/* 品牌 */}
-            {
-              (deviceInfo?.device && deviceInfo?.device?.brand) && (
-                <div>
-                  <div>{deviceInfo?.device?.brand ?? ''}</div>
-                  <div>{deviceInfo?.device?.model ?? ''}</div>
-                </div>
-              )
+          {/* 品牌 */}
+          {
+              (deviceInfo?.device && deviceInfo?.device?.brand)
+                ? (
+                  <div>
+                    <div>{deviceInfo?.device?.brand ?? ''}</div>
+                    <div>{deviceInfo?.device?.model ?? ''}</div>
+                  </div>
+                  )
+                : null
             }
-            {/* 平台 */}
-            {
-              deviceInfo?.platform && (
-                <div className='flex flex-col'>
-                  <div>{deviceInfo?.platform ?? ''}</div>
-                  <div>{deviceInfo?.system ?? ''}</div>
-                </div>
-              )
+          {/* 平台 */}
+          {
+              deviceInfo?.platform
+                ? (
+                  <div className="flex flex-col">
+                    <div>{deviceInfo?.platform ?? ''}</div>
+                    <div>{deviceInfo?.system ?? ''}</div>
+                  </div>
+                  )
+                : null
             }
-            {/* SDK */}
-            {
-              deviceInfo?.sdk && (
-                <div className='flex flex-col'>
-                  <div>{deviceInfo?.sdk.platform ?? ''}</div>
-                  <div>{deviceInfo?.sdk.version ?? ''}</div>
-                </div>
-              )
+          {/* SDK */}
+          {
+              deviceInfo?.sdk
+                ? (
+                  <div className="flex flex-col">
+                    <div>{deviceInfo?.sdk.platform ?? ''}</div>
+                    <div>{deviceInfo?.sdk.version ?? ''}</div>
+                  </div>
+                  )
+                : null
             }
-          </div>
+        </div>
 
-          <div className="flex flex-wrap mt-6">
-            {
+        <div className="flex flex-wrap mt-6">
+          {
               tagList.map(tag => (
                 <Tooltip key={tag.key}>
                   <TooltipTrigger>
-                    <Badge className='space-x-2'>
+                    <Badge className="space-x-2">
                       {tag.icon}
                       {tag.value}
                     </Badge>
@@ -199,10 +210,9 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
                 </Tooltip>
               ))
             }
-          </div>
-        </AccordionSection>
-      </Wrapper>
-    </div>
+        </div>
+      </AccordionSection>
+    </Wrapper>
   )
 }
 

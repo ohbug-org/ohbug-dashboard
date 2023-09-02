@@ -2,8 +2,10 @@
 
 import { type ReactNode } from 'react'
 import Wrapper from './wrapper'
+import { cn } from '~/libs/utils'
 
 interface Props {
+  className?: string
   children: ReactNode
   rightNodes?: ReactNode
   bottomNodes?: ReactNode
@@ -11,34 +13,29 @@ interface Props {
 
 const PADDING = '12'
 
-export default function Title({ children, rightNodes, bottomNodes, ...props }: Props) {
+export default function Title({ className, children, rightNodes, bottomNodes, ...props }: Props) {
   return (
-    <div
+    <Wrapper
+      className={cn('flex flex-col justify-between', className)}
+      style={{
+        paddingBottom: bottomNodes ? '0' : PADDING,
+        paddingTop: PADDING,
+      }}
       {...props}
     >
-      <Wrapper
-        className="flex flex-col justify-between"
-        style={
-          {
-            paddingBottom: bottomNodes ? '0' : PADDING,
-            paddingTop: PADDING,
-          }
-        }
-      >
-        <div className="flex items-center justify-between">
-          {
+      <div className="flex items-center justify-between">
+        {
             typeof children === 'string'
               ? (
                 <h2 className="text-2xl font-semibold">
                   {children}
                 </h2>
-              )
+                )
               : children
           }
-          <div>{rightNodes}</div>
-        </div>
-        <div style={{ marginTop: bottomNodes ? 6 : 0 }}>{bottomNodes}</div>
-      </Wrapper>
-    </div>
+        <div>{rightNodes}</div>
+      </div>
+      <div style={{ marginTop: bottomNodes ? 6 : 0 }}>{bottomNodes}</div>
+    </Wrapper>
   )
 }

@@ -1,5 +1,5 @@
 import { HttpException, Logger } from '@nestjs/common'
-import { ErrorShowType } from 'common'
+import { type ErrorShowType } from 'common'
 import { status } from '../constants'
 
 export class ForbiddenException extends HttpException {

@@ -23,24 +23,24 @@ export default function Pagination({ page = 1, onChange, isReachingEnd, ...props
 
   return (
     <div
-      className='flex items-center justify-end gap-2'
+      className="flex items-center justify-end gap-2"
       {...props}
     >
       <Button
-        variant="outline"
         className="h-8 w-8 p-0"
-        onClick={handlePrev}
         disabled={page <= 1}
+        variant="outline"
+        onClick={handlePrev}
       >
         <span className="sr-only">Go to previous page</span>
         <i className="i-ri-arrow-left-s-line" />
       </Button>
       <Button
-        variant="outline"
         className="h-8 w-8 p-0"
         disabled={isReachingEnd}
+        variant="outline"
         onClick={handleNext}
-    >
+      >
         <span className="sr-only">Go to next page</span>
         <i className="i-ri-arrow-right-s-line" />
       </Button>

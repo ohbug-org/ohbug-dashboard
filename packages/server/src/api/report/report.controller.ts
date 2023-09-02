@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, Ip, Post, Req } from '@nestjs/common'
-import type { OhbugEvent } from '@ohbug/types'
-import { ReportService } from './report.service'
+import { type OhbugEvent } from '@ohbug/types'
+import { type ReportService } from './report.service'
 
 /**
  * 用于接收上报数据

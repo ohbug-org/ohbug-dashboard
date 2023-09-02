@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  experimental: {
-    serverActions: true,
-  },
+  experimental: { serverActions: true },
   webpack: (config) => {
     config.resolve.fallback = {
       'node:fs': false,

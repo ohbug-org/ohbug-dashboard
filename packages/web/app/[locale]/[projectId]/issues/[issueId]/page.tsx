@@ -1,5 +1,5 @@
-import type { Issue } from 'common'
-import IssueId from './issueId'
+import { type Issue } from 'common'
+import IssueId from './issue-id'
 import { serviceGetEvent } from '~/services/events'
 import { serviceGetIssue, serviceGetIssuesTrends } from '~/services/issues'
 
@@ -15,12 +15,10 @@ export default async function IssueIdPage({ params }: { params: { issueId: strin
     <IssueId
       event={event}
       issue={issue}
-      trends={
-        {
-          '14d': trends14d[issueId],
-          '24h': trends24h[issueId],
-        }
-      }
+      trends={{
+        '14d': trends14d[issueId],
+        '24h': trends24h[issueId],
+      }}
     />
   )
 }

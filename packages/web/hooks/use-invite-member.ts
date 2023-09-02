@@ -7,7 +7,7 @@ import { serviceBindProjectMembers } from '~/services/users'
 export function useInviteMember() {
   const [inviteValue, setInviteValue] = useAtom(inviteAtom)
   useEffectOnce(() => {
-    (async() => {
+    (async () => {
       if (inviteValue) {
         const user = (await getSession())?.user
         // @ts-expect-error next-auth types are wrong

@@ -45,12 +45,12 @@ const methods = [
   'mkdtemp', 'writeFile', 'appendFile',
   'readFile', 'watch',
 ]
-function createProxy<T extends Object>(target: T, tempLink: any[] = []): T {
+function createProxy<T extends object>(target: T, tempLink: any[] = []): T {
   return new Proxy(target, {
     get(_target, prop: string) {
       if (methods.includes(prop)) {
         tempLink.push(prop)
-        return async(...args: any[]) => {
+        return async (...args: any[]) => {
           tempLink.push(args)
           const result = await handleFetch(tempLink)
           tempLink.length = 0
@@ -64,10 +64,11 @@ function createProxy<T extends Object>(target: T, tempLink: any[] = []): T {
 
 export function getFs() {
   if (typeof window === 'undefined') {
-    if (!global.__fs__) {
-      global.__fs__ = require('node:fs/promises')
+    if (!globalThis.__fs__) {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      globalThis.__fs__ = require('node:fs/promises')
     }
-    return global.__fs__
+    return globalThis.__fs__
   }
   const tempLink: any[] = []
   return createProxy({} as typeof import('node:fs/promises'), tempLink)

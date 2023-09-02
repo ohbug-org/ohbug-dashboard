@@ -3,11 +3,10 @@
 import { useCallback, useMemo } from 'react'
 import { usePathname, useRouter } from 'next-intl/client'
 import { useSearchParams } from 'next/navigation'
-import type { OhbugEventLike } from 'common'
 import { useTranslations } from 'next-intl'
+import { type OhbugEventLike } from 'common'
 import useCurrentProject from '~/hooks/use-current-project'
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs'
-import Link from 'next/link'
 
 interface Props {
   event: OhbugEventLike
@@ -37,7 +36,7 @@ export default function IssueDetailTabs({ event }: Props) {
     try {
       metadata = JSON.parse(event.metadata as unknown as string)
     }
-    catch (_) {}
+    catch {}
     if (metadata) {
       Object.keys(metadata).forEach((key) => {
         base.push({
@@ -54,7 +53,7 @@ export default function IssueDetailTabs({ event }: Props) {
     return value
   }, [list, tab])
   const handleTabChange = useCallback((value: string) => {
-    const item = list.find(v=>v.value===value)
+    const item = list.find(v => v.value === value)
     if (item) {
       router.push(`${pathname}?tab=${item.tab}`)
     }

@@ -6,10 +6,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@webundsoehne/nest-fastify-file-upload'
-import { ReceiveSourceMapFile } from 'common'
-import { SourceMapService } from './sourceMap.service'
-import { ReceiveSourceMapDto } from './sourceMap.dto'
-import { UPLOAD_DEST } from './sourceMap.constant'
+import { type ReceiveSourceMapFile } from 'common'
+import { UPLOAD_DEST } from './source-map.constant'
+import { type SourceMapService } from './source-map.service'
+import { type ReceiveSourceMapDto } from './source-map.dto'
 
 /**
  * 用于接受上报 SourceMap，经过处理后入库

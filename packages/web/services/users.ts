@@ -23,9 +23,7 @@ export async function serviceLogin({ email, password }: ServiceCreateUserParams)
   const pass = md5(md5(password))
   const user = await getPrisma().user.findUnique({ where: { email } })
   if (user) {
-    if (user.password) {
-      if (user.password === pass) return user
-    }
+    if (user.password && user.password === pass) return user
     throw new Error('Login failed email or password error')
   }
   return serviceCreateUser({ email, password })

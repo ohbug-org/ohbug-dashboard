@@ -1,7 +1,7 @@
 import { Catch, HttpException, HttpStatus, Logger } from '@nestjs/common'
-import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common'
-import type { ResponseStructure } from 'common'
-import { ForbiddenException } from '../exceptions'
+import { type ArgumentsHost, type ExceptionFilter } from '@nestjs/common'
+import { type ResponseStructure } from 'common'
+import { type ForbiddenException } from '../exceptions'
 
 @Catch(HttpException)
 export class ForbiddenExceptionFilter implements ExceptionFilter {

@@ -1,5 +1,5 @@
-import type { OhbugReleaseStage } from '@ohbug/types'
-import type { OhbugEventLike } from './event'
+import { type OhbugReleaseStage } from '@ohbug/types'
+import { type OhbugEventLike } from './event'
 
 export interface MetaData {
   type: string

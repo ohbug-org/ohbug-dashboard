@@ -1,7 +1,7 @@
-import type { Prisma } from '@prisma/client'
-import type { OmitAlert, Pagination } from 'common'
 import { pagination } from 'common'
 import dayjs from 'dayjs'
+import { type Prisma } from '@prisma/client'
+import { type OmitAlert, type Pagination } from 'common'
 import { getPrisma } from '~/db'
 
 export function serviceCreateAlert({ projectId, ...alert }: OmitAlert) {
@@ -91,7 +91,7 @@ export async function serviceGetAlertEventTrends({ id, type }: ServiceGetAlertEv
     time: dayjs(v.time).utc().tz(dayjs.tz.guess()).format(format),
   }))
 
-  return Array.from(new Array(interval + 1)).map((_, index) => {
+  return Array.from(Array.from({ length: interval + 1 })).map((_, index) => {
     const time = dayjs(min).add(index, unit).format(format)
     const match = trends.find(v => (v.time === time))
     if (match) return match

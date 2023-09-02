@@ -1,5 +1,5 @@
-import type { Metadata } from 'next'
 import { getProviders } from 'next-auth/react'
+import { type Metadata } from 'next'
 import SignIn from './signin'
 import { serviceGetProject } from '~/services/projects'
 import { serviceGetUser } from '~/services/users'
@@ -16,7 +16,7 @@ interface Provider {
 
 async function getInviter(userId: string | null, projectId: string | null) {
   if (userId && projectId) {
-    const project = await serviceGetProject(parseInt(projectId))
+    const project = await serviceGetProject(Number.parseInt(projectId))
     const user = await serviceGetUser(userId)
     if (project && user) {
       return {

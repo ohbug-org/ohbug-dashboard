@@ -2,11 +2,10 @@
 
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import { useTranslations } from 'next-intl'
-import type { OhbugConfig } from '@ohbug/types'
 import { useLocalStorage } from 'react-use'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { type OhbugConfig } from '@ohbug/types'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'
@@ -25,7 +24,6 @@ interface Props {
 }
 
 function Config({ defaultConfig }: Props) {
-  const ct = useTranslations('Common')
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultConfig,
@@ -51,7 +49,10 @@ function Config({ defaultConfig }: Props) {
             <FormItem>
               <FormLabel>apiKey</FormLabel>
               <FormControl>
-                <Input {...field} disabled />
+                <Input
+                  {...field}
+                  disabled
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -107,7 +108,10 @@ function Config({ defaultConfig }: Props) {
             <FormItem>
               <FormLabel>releaseStage</FormLabel>
               <FormControl>
-                <Input {...field} disabled />
+                <Input
+                  {...field}
+                  disabled
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,7 +125,10 @@ function Config({ defaultConfig }: Props) {
             <FormItem>
               <FormLabel>maxActions</FormLabel>
               <FormControl>
-                <Input {...field} type="number" />
+                <Input
+                  {...field}
+                  type="number"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,16 +136,16 @@ function Config({ defaultConfig }: Props) {
         />
 
         <Button
-          className='mr-2'
+          className="mr-2"
           size="sm"
           type="submit"
         >
           Save
         </Button>
         <Button
-          onClick={handleReset}
           size="sm"
           variant="outline"
+          onClick={handleReset}
         >
           Reset
         </Button>

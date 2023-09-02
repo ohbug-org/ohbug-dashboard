@@ -11,8 +11,6 @@ import dynamic from 'next/dynamic'
 import { type ReactElement, type ReactNode } from 'react'
 import { type Session } from 'next-auth'
 import { type User } from '@prisma/client'
-import Layout from '~/components/layout'
-import theme from '~/styles/theme'
 import { serviceGetProjects } from '~/services/projects'
 import { useQuery } from '~/hooks/use-query'
 import '~/styles/nprogress.css'
@@ -62,7 +60,11 @@ export function Providers({ children, session }: Props) {
   return (
     <SessionProvider session={session}>
       <Controller>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider
+          enableSystem
+          attribute="class"
+          defaultTheme="system"
+        >
           <TooltipProvider>
             <Toaster />
             <TopProgressBar />

@@ -1,6 +1,6 @@
-import type { Pagination } from 'common'
 import { pagination } from 'common'
-import type { Prisma } from '@prisma/client'
+import { type Prisma } from '@prisma/client'
+import { type Pagination } from 'common'
 import { getPrisma } from '~/db'
 import { getFs } from '~/fs'
 
@@ -34,6 +34,6 @@ export async function serviceDeleteRelease({ id }: ServiceGetReleaseParams) {
       }
     }
   }
-  catch (e) {}
+  catch {}
   return getPrisma().release.delete({ where: { id } })
 }

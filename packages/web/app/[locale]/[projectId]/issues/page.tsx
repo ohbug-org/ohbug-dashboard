@@ -7,12 +7,10 @@ import Wrapper from '~/components/wrapper'
 
 export default function IssuesPage() {
   return (
-    <div>
-      <Wrapper>
-        <IssueList
-          empty={<EmptyIssues />}
-        />
-      </Wrapper>
-    </div>
+    <Wrapper>
+      <IssueList
+        empty={<EmptyIssues />}
+      />
+    </Wrapper>
   )
 }

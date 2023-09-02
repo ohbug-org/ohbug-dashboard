@@ -1,9 +1,10 @@
-import { Alert, AlertLevel, Event, Issue } from '@prisma/client'
-import { AlertConditionTopic, AlertFilterTopic, ConditionOption, FilterOption, Interval } from 'common'
+import { AlertConditionTopic, AlertFilterTopic } from 'common'
 import dayjs from 'dayjs'
 import markdownIt from 'markdown-it'
-import { GetAlertStatusParams } from '../report/report.interface'
-import { PrismaService } from '~/common'
+import { type ConditionOption, type FilterOption, type Interval } from 'common'
+import { type Alert, type AlertLevel, type Event, type Issue } from '@prisma/client'
+import { type GetAlertStatusParams } from '../report/report.interface'
+import { type PrismaService } from '~/common'
 
 function getIntervalMs(interval: Interval) {
   switch ((interval)) {
@@ -150,7 +151,7 @@ async function judgingCondition(event: Event, issue: Issue, alert: Alert, prisma
         const eventIntervalCount = await getEventIntervalCount(
           event,
           interval as Interval,
-          parseInt(value as string),
+          Number.parseInt(value as string),
           alert,
           prisma,
         )
@@ -162,7 +163,7 @@ async function judgingCondition(event: Event, issue: Issue, alert: Alert, prisma
         const userIntervalCount = await getUserIntervalCount(
           issue,
           interval as Interval,
-          parseInt(value as string),
+          Number.parseInt(value as string),
           alert,
           prisma,
         )
@@ -188,7 +189,7 @@ async function judgingFilter(
     switch (filter.topic) {
       case AlertFilterTopic.IssueOccurrencesFilter: {
         const { value } = filter
-        if (issueEventsCount >= parseInt(value as string)) {
+        if (issueEventsCount >= Number.parseInt(value as string)) {
           result.push({
             topic: filter.topic,
             filter: true,
@@ -327,10 +328,8 @@ export async function getAlertStatus(
     if (alert.conditionMatch === 'every') {
       result = result.concat(items.filter(v => v.condition))
     }
-    else if (alert.conditionMatch === 'all') {
-      if (items.every(item => item.condition === true)) {
-        result = result.concat(items)
-      }
+    else if (alert.conditionMatch === 'all' && items.every(item => item.condition === true)) {
+      result = result.concat(items)
     }
   }
   return result

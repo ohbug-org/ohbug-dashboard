@@ -63,7 +63,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
       if (action.data?.selector) {
         return {
           message: action.data?.selector,
-          icon: <i className="i-ri-cursor-fill"></i>,
+          icon: <i className="i-ri-cursor-fill" />,
           color: 'gray',
         }
       }
@@ -71,10 +71,10 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
         message: (
           <>
             <span>{action.message}</span>{' '}
-            <span className='text-stone-500'>{renderStringOrJson(action.data)}</span>
+            <span className="text-stone-500">{renderStringOrJson(action.data)}</span>
           </>
         ),
-        icon: <i className="i-ri-cursor-fill"></i>,
+        icon: <i className="i-ri-cursor-fill" />,
         color: 'gray',
       }
     case 'navigation':
@@ -85,7 +85,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
             <strong>To:</strong> <em>{action.data?.to}</em>
           </>
         ),
-        icon: <i className="i-ri-router-fill"></i>,
+        icon: <i className="i-ri-router-fill" />,
         color: 'gray',
       }
     case 'ajax':
@@ -96,7 +96,7 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
             <em>{action.data?.req?.url}</em>{' '}
           </>
         ),
-        icon: <i className="i-ri-loader-2-fill"></i>,
+        icon: <i className="i-ri-loader-2-fill" />,
         color: 'gray',
       }
     case 'fetch':
@@ -107,19 +107,19 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
             <em>{action.data?.req?.url}</em>{' '}
           </>
         ),
-        icon: <i className="i-ri-loader-2-fill"></i>,
+        icon: <i className="i-ri-loader-2-fill" />,
         color: 'gray',
       }
     case 'console':
       return {
         message: `[${action.message}] ${JSON.stringify(action.data)}`,
-        icon: <i className="i-ri-terminal-box-fill"></i>,
+        icon: <i className="i-ri-terminal-box-fill" />,
         color: 'gray',
       }
     case 'exception':
       return {
         message: renderStringOrJson(action.message),
-        icon: <i className="i-ri-bug-fill"></i>,
+        icon: <i className="i-ri-bug-fill" />,
         color: 'red',
       }
     default:
@@ -127,10 +127,10 @@ export function getMessageAndIconByActionType(action: OhbugAction): {
         message: (
           <>
             <span>{action.message}</span>{' '}
-            <span className='text-stone-500'>{renderStringOrJson(action.data)}</span>
+            <span className="text-stone-500">{renderStringOrJson(action.data)}</span>
           </>
         ),
-        icon: <i className="i-ri-gift-2-fill"></i>,
+        icon: <i className="i-ri-gift-2-fill" />,
         color: 'gray',
       }
   }

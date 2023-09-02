@@ -1,9 +1,9 @@
 import { useMemo, useRef } from 'react'
 import Ohbug from '@ohbug/browser'
 import OhbugExtensionFeedback from '@ohbug/extension-feedback'
-import type { OhbugClient, OhbugConfig } from '@ohbug/types'
 import { useLocalStorage, useMount } from 'react-use'
-import type { Project } from '@prisma/client'
+import { type OhbugClient, type OhbugConfig } from '@ohbug/types'
+import { type Project } from '@prisma/client'
 import Config from './Config'
 import Ajax from './Ajax'
 import Error from './Error'
@@ -49,7 +49,7 @@ export default function Frame({ project }: Props) {
   return (
     <div>
       <Config defaultConfig={config} />
-      <div className='mt-4 flex flex-wrap'>
+      <div className="mt-4 flex flex-wrap">
         <div ref={feedbackRef} />
         <Error />
         <Ajax />

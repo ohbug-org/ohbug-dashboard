@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { ReceiveSourceMapFile } from 'common'
 import { InjectQueue } from '@nestjs/bull'
-import { Queue } from 'bull'
-import { ReceiveSourceMapDto } from './sourceMap.dto'
+import { type Queue } from 'bull'
+import { type ReceiveSourceMapFile } from 'common'
+import { type ReceiveSourceMapDto } from './source-map.dto'
 
 @Injectable()
 export class SourceMapService {

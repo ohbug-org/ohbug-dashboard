@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import type { FC } from 'react'
+import { type FC } from 'react'
 import Logo from './logo'
 import Intl from './intl'
 import Theme from './theme'

@@ -1,10 +1,9 @@
 'use client'
 
-import { useCallback, useMemo } from 'react'
-import { usePathname, useRouter } from 'next-intl/client'
-import { type FC, type Key } from 'react'
+import { useMemo } from 'react'
+import Link from 'next/link'
 import useCurrentProject from '~/hooks/use-current-project'
-import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs'
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from '~/components/ui/navigation-menu'
 
 interface NavMenuItem {
   label: string
@@ -12,9 +11,7 @@ interface NavMenuItem {
   as: string
 }
 
-const NavMenu: FC = () => {
-  const router = useRouter()
-  const pathname = usePathname()
+export default function NavMenu() {
   const { projectId } = useCurrentProject()
   const navMenuList = useMemo<NavMenuItem[]>(() => [
     {
@@ -59,37 +56,27 @@ const NavMenu: FC = () => {
     },
   ], [projectId])
 
-  const active = useMemo(() => {
-    return navMenuList.find(item => pathname.includes(item.as))
-  }, [navMenuList, pathname])
-  const handleSelectionChange = useCallback((key: Key) => {
-    const item = navMenuList.find(item => item.link === key)
-    if (item) {
-      router.push(item.as)
-    }
-  }, [navMenuList])
-
   return (
-    <Tabs
-      className="flex items-center gap-4 h-full w-full"
-      onValueChange={handleSelectionChange}
-      value={active?.link}
-    >
-      <TabsList>
+    <NavigationMenu>
+      <NavigationMenuList>
         {
           navMenuList.map((item) => {
             return (
-              <TabsTrigger
-                value={item.link}
-              >
-                {item.label}
-              </TabsTrigger>
+              <NavigationMenuItem key={item.link}>
+                <Link
+                  legacyBehavior
+                  passHref
+                  href={item.as}
+                >
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    {item.label}
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
             )
           })
         }
-      </TabsList>
-    </Tabs>
+      </NavigationMenuList>
+    </NavigationMenu>
   )
 }
-
-export default NavMenu

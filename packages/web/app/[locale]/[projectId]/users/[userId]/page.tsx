@@ -1,5 +1,5 @@
-import UserId from './userId'
-import { serviceGetEventUser } from '~/services/eventUsers'
+import UserId from './user-id'
+import { serviceGetEventUser } from '~/services/event-users'
 
 export default async function UserIdPage({ params }: { params: { userId: string } }) {
   const userId = params.userId

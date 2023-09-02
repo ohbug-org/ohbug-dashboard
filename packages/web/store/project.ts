@@ -1,5 +1,5 @@
-import type { Project } from '@prisma/client'
-import type { StateCreator } from 'zustand'
+import { type Project } from '@prisma/client'
+import { type StateCreator } from 'zustand'
 
 export interface ProjectSlice {
   project?: Project

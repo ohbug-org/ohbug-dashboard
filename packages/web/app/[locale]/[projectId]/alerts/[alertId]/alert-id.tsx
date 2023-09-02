@@ -5,13 +5,13 @@ import { useMemo } from 'react'
 import { type Action, type ConditionOption, type FilterOption } from 'common'
 import dayjs from 'dayjs'
 import { type Alert, type AlertEvent, type Event, type Issue } from '@prisma/client'
+import { ConditionOptions, FilterOptions } from '../edit-alert'
 import { type AlertEventTrend } from '~/services/alerts'
 import Wrapper from '~/components/wrapper'
 import AccordionSection from '~/components/accordion-section'
 import Title from '~/components/title'
 import useCurrentProject from '~/hooks/use-current-project'
 import EventsList from '~/components/events-list'
-import { ConditionOptions, FilterOptions } from '~/components/edit-alert'
 import TrendChart from '~/components/trend-chart'
 import { Button } from '~/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
@@ -31,37 +31,45 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
   const events = useMemo(() => alertEvents.map(item => item.event), [alertEvents])
 
   return (
-    <div className='flex flex-col'>
+    <div className="flex flex-col">
       <Title
         rightNodes={
           (
             <Link href={`/${projectId}/alerts/${alert.id}/edit`}>
               <Button variant="outline">Edit Alert</Button>
             </Link>
-          )
+        )
         }
       >
         {alert.name}
       </Title>
 
       <div>
-        <Wrapper className='flex flex-col gap-12'>
-          <AccordionSection title="Conditions" className='space-y-4'>
+        <Wrapper className="flex flex-col gap-12">
+          <AccordionSection
+            className="space-y-4"
+            title="Conditions"
+          >
             {
-              alert.recentlyAt && (
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Badge variant="outline">{dayjs(alert.recentlyAt).fromNow()}</Badge>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <span>{dayjs(alert.recentlyAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                  </TooltipContent>
-                </Tooltip>
-              )
+              alert.recentlyAt
+                ? (
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Badge variant="outline">{dayjs(alert.recentlyAt).fromNow()}</Badge>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <span>{dayjs(alert.recentlyAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                    </TooltipContent>
+                  </Tooltip>
+                  )
+                : null
             }
             <div>
-              <div className='flex items-center gap-2 mb-2'>
-                <Badge className='flex text-center w-14' variant="outline">
+              <div className="flex items-center gap-2 mb-2">
+                <Badge
+                  className="flex text-center w-14"
+                  variant="outline"
+                >
                   WHEN
                 </Badge>
                 <span>an event is captured by Ohbug and {alert.conditionMatch} of the following happens</span>
@@ -79,8 +87,11 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
               }
             </div>
             <div>
-              <div className='flex items-center gap-2 mb-2'>
-                <Badge className='flex text-center w-14' variant="outline">
+              <div className="flex items-center gap-2 mb-2">
+                <Badge
+                  className="flex text-center w-14"
+                  variant="outline"
+                >
                   IF
                 </Badge>
                 <span>{alert.filterMatch} of these filters match</span>
@@ -98,8 +109,11 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
               }
             </div>
             <div>
-              <div className='flex items-center gap-2 mb-2'>
-                <Badge className='flex text-center w-14' variant="outline">
+              <div className="flex items-center gap-2 mb-2">
+                <Badge
+                  className="flex text-center w-14"
+                  variant="outline"
+                >
                   THEN
                 </Badge>
                 <span>{alert.filterMatch} of these filters match</span>
@@ -116,7 +130,7 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
                 })
               }
             </div>
-            <div className='space-x-2'>
+            <div className="space-x-2">
               <Badge variant="outline">{alert.level}</Badge>
               <Badge variant="outline">interval: {alert.interval}</Badge>
             </div>

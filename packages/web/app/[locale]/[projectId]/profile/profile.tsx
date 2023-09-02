@@ -61,13 +61,13 @@ const View = ({ views }: Props) => {
 
   return (
     <>
-      <Wrapper className='grid gap-4 grid-cols-3'>
+      <Wrapper className="grid gap-4 grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               {t('pv')}(PV)
             </CardTitle>
-            <i className='i-ri-bell-line text-stone-500 scale-90'></i>
+            <i className="i-ri-bell-line text-stone-500 scale-90" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{views?.pageView}</div>
@@ -82,7 +82,7 @@ const View = ({ views }: Props) => {
             <CardTitle className="text-sm font-medium">
               {t('uv')}(UV)
             </CardTitle>
-            <i className='i-ri-user-voice-line text-stone-500 scale-90'></i>
+            <i className="i-ri-user-voice-line text-stone-500 scale-90" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{views?.userView}</div>
@@ -97,7 +97,7 @@ const View = ({ views }: Props) => {
             <CardTitle className="text-sm font-medium">
               {t('activeUser')}
             </CardTitle>
-            <i className='i-ri-pulse-line text-stone-500 scale-90'></i>
+            <i className="i-ri-pulse-line text-stone-500 scale-90" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{views?.activeUser ?? 0}</div>
@@ -172,8 +172,8 @@ const Trend = ({ trends }: Props) => {
       <div className="font-semibold">Event Trends</div>
       <div className="flex items-center gap-2">
         <Switch
-          id="trendsType"
           checked={chartType === '24h'}
+          id="trendsType"
           onCheckedChange={e => setChartType(e ? '24h' : '14d')}
         />
         <Label htmlFor="trendsType">{chartType === '24h' ? '24小时' : '14天'}</Label>
@@ -210,25 +210,23 @@ const Events = ({ project }: Props) => {
   )
 
   return (
-    <div>
-      <Wrapper>
-        <EventsList events={data} />
-        <Button
-          className="mt-6 w-full"
-          disabled={isLoading || isReachingEnd}
-          onClick={() => setSize(size + 1)}
-          size="sm"
-        >
-          {
+    <Wrapper>
+      <EventsList events={data} />
+      <Button
+        className="mt-6 w-full"
+        disabled={isLoading || isReachingEnd}
+        size="sm"
+        onClick={() => setSize(size + 1)}
+      >
+        {
             isLoading
               ? 'Loading...'
               : isReachingEnd
                 ? 'No More Events'
                 : 'Load More'
           }
-        </Button>
-      </Wrapper>
-    </div>
+      </Button>
+    </Wrapper>
   )
 }
 
@@ -243,7 +241,7 @@ export default function Profile({ project, trends, views }: Props) {
                 <i className="i-ri-settings-2-line mr-2" /> Setting
               </Button>
             </Link>
-          )
+        )
         }
       >
         {project?.name}

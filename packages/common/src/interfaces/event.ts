@@ -1,5 +1,5 @@
-import type { OhbugEvent, OhbugUser } from '@ohbug/types'
-import type { Result } from 'source-map-trace'
+import { type OhbugEvent, type OhbugUser } from '@ohbug/types'
+import { type Result } from 'source-map-trace'
 
 export interface OhbugEventLike extends Omit<OhbugEvent<any>, 'user'> {
   id?: string

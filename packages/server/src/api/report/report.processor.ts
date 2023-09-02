@@ -1,8 +1,9 @@
 import { InjectQueue, OnQueueError, Process, Processor } from '@nestjs/bull'
-import type { Job, Queue } from 'bull'
-import type { Prisma } from '@prisma/client'
-import type { CreateEventParams, CreateFeedbackParams, CreateMetricParams, CreateViewParams, GetAlertStatusParams } from './report.interface'
-import { ForbiddenException, PrismaService } from '~/common'
+import { type Job, type Queue } from 'bull'
+import { type Prisma } from '@prisma/client'
+import { type CreateEventParams, type CreateFeedbackParams, type CreateMetricParams, type CreateViewParams, type GetAlertStatusParams } from './report.interface'
+import { type PrismaService } from '~/common'
+import { ForbiddenException } from '~/common'
 
 @Processor('document')
 export class ReportProcessor {
@@ -323,7 +324,7 @@ export class ReportProcessor {
 
           // 3. 拿到对应的 alert 配置
           const alerts = project.alerts
-          if (event && event.issue && alerts.length) {
+          if (event && event.issue && alerts.length > 0) {
             const getAlertStatusParams: GetAlertStatusParams = {
               event,
               issue: event.issue,

@@ -26,19 +26,22 @@ export default function ProjectCard({ project }: Props) {
   return (
     <Link href={`/${project.id}/profile`}>
       <Card>
-        <CardHeader></CardHeader>
+        <CardHeader />
         <CardContent>
           <div className="flex gap-6">
             <Avatar>
-              <AvatarImage src={project.image ?? ''} alt={project.name}></AvatarImage>
+              <AvatarImage
+                alt={project.name}
+                src={project.image ?? ''}
+              />
               <AvatarFallback>{project.name}</AvatarFallback>
             </Avatar>
-            <div className='space-x-6'>
-              <span className='cursor-pointer font-semibold'>
+            <div className="space-x-6">
+              <span className="cursor-pointer font-semibold">
                 {project.name}
               </span>
 
-              <span className='text-xs text-stone-500'>
+              <span className="text-xs text-stone-500">
                 Events: {project.eventCount ?? 0}
               </span>
             </div>
@@ -53,7 +56,7 @@ export default function ProjectCard({ project }: Props) {
                     data={trends}
                     type="14d"
                   />
-                )
+                  )
             }
           </div>
         </CardContent>

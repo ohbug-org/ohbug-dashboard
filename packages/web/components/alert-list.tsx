@@ -3,7 +3,7 @@
 import { useCallback } from 'react'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import type { Alert } from '@prisma/client'
+import { type Alert } from '@prisma/client'
 import useCurrentProject from '~/hooks/use-current-project'
 import { serviceDeleteAlert } from '~/services/alerts'
 import { useToast } from '~/components/ui/use-toast'
@@ -19,7 +19,7 @@ interface Props {
 
 export default function AlertList({ alerts, mutate }: Props) {
   const { projectId } = useCurrentProject()
-  const {toast} = useToast()
+  const { toast } = useToast()
   const onDelete = useCallback((id: number) => {
     serviceDeleteAlert({ id })
       .then(() => {
@@ -47,8 +47,8 @@ export default function AlertList({ alerts, mutate }: Props) {
           if (alert.level === 'warning') variant = 'default'
           return (
             <div
-              className="mb-2"
               key={alert.id}
+              className="mb-2"
             >
               <div className="flex items-center gap-2">
                 <Link
@@ -64,7 +64,11 @@ export default function AlertList({ alerts, mutate }: Props) {
                 <div className="flex gap-2">
                   {
                     (alert.actions as Array<any>)?.map(action => (
-                      <Badge key={action.uri} variant="outline">{action.type}</Badge>
+                      <Badge
+                        key={action.uri}
+                        variant="outline"
+                      >{action.type}
+                      </Badge>
                     ))
                   }
                 </div>
@@ -86,7 +90,7 @@ export default function AlertList({ alerts, mutate }: Props) {
                       <i className="i-ri-more-line" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className='w-56'>
+                  <DropdownMenuContent className="w-56">
                     <DropdownMenuGroup>
                       <DropdownMenuItem>
                         <Link href={`/${projectId}/alerts/${alert.id}/edit`}>
@@ -94,11 +98,9 @@ export default function AlertList({ alerts, mutate }: Props) {
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        onClick={
-                          () => {
-                            onDelete(alert.id)
-                          }
-                        }
+                        onClick={() => {
+                          onDelete(alert.id)
+                        }}
                       >
                         Delete
                       </DropdownMenuItem>

@@ -19,7 +19,9 @@ function createClient() {
 
   if (!isLocalHost) {
     databaseUrl.host = `${databaseUrl.host}`
-    if (!isReadReplicaRegion) { databaseUrl.port = '5432' }
+    if (!isReadReplicaRegion) {
+      databaseUrl.port = '5432'
+    }
   }
 
   console.warn(`🔌 setting up prisma client to ${databaseUrl.host}`)
@@ -112,14 +114,14 @@ const methods = [
   '$queryRaw',
   '$queryRawUnsafe',
 ]
-function createProxy<T extends Object>(target: T, tempLink: any[] = []): T {
+function createProxy<T extends object>(target: T, tempLink: any[] = []): T {
   return new Proxy(target, {
     get(_target, prop: string) {
       if (!prop.includes('$')) {
         tempLink.push(prop)
       }
       if (operates.includes(prop)) {
-        return async(args: any) => {
+        return async (args: any) => {
           tempLink.push(args)
           const result = await handleFetch(tempLink)
           tempLink.length = 0
@@ -128,7 +130,7 @@ function createProxy<T extends Object>(target: T, tempLink: any[] = []): T {
       }
       if (methods.includes(prop)) {
         tempLink.push(prop)
-        return async(args: any) => {
+        return async (args: any) => {
           tempLink.push(args)
           const result = await handleFetch(tempLink)
           tempLink.length = 0
@@ -142,10 +144,10 @@ function createProxy<T extends Object>(target: T, tempLink: any[] = []): T {
 
 export function getPrisma() {
   if (typeof window === 'undefined') {
-    if (!global.__db__) {
-      global.__db__ = createClient()
+    if (!globalThis.__db__) {
+      globalThis.__db__ = createClient()
     }
-    return global.__db__
+    return globalThis.__db__
   }
   const tempLink: any[] = []
   return createProxy({} as PrismaClient, tempLink)

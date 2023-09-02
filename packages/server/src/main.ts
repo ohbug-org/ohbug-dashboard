@@ -3,10 +3,10 @@ import { cwd } from 'node:process'
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino'
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import type { NestFastifyApplication } from '@nestjs/platform-fastify'
 import { FastifyAdapter } from '@nestjs/platform-fastify'
 import { contentParser } from 'fastify-multer'
 import dotenv from 'dotenv'
+import { type NestFastifyApplication } from '@nestjs/platform-fastify'
 import { AppModule } from './app.module'
 import {
   AllExceptionsFilter,
@@ -41,6 +41,7 @@ async function bootstrap() {
 }
 
 bootstrap()
+  // eslint-disable-next-line unicorn/prefer-top-level-await
   .catch((error) => {
     console.error(error)
     process.exit(1)

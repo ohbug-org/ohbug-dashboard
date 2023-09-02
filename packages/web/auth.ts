@@ -1,9 +1,9 @@
-import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GithubProvider from 'next-auth/providers/github'
 import EmailProvider from 'next-auth/providers/email'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { getConfig } from 'config'
+import { type NextAuthOptions } from 'next-auth'
 import { getPrisma } from '~/db'
 import { serviceGetUser, serviceLogin } from '~/services/users'
 
@@ -37,7 +37,7 @@ export const getAuthOptions = (): NextAuthOptions => {
       }),
     ],
     callbacks: {
-      jwt: async({ token, user }) => {
+      jwt: async ({ token, user }) => {
         if (user) token.user = user
         return token
       },

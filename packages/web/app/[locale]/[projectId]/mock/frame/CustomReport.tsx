@@ -1,7 +1,7 @@
 'use client'
 
 import { client } from './index'
-import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 
 function CustomReport() {
@@ -9,13 +9,13 @@ function CustomReport() {
     try {
       throw new Error('test custom report')
     }
-    catch (e: any) {
+    catch (error: any) {
       const event = client.createEvent({
         category: 'error',
         type: 'message',
         detail: {
-          message: e.message,
-          stack: e.stack,
+          message: error.message,
+          stack: error.stack,
         },
       })
       client?.notify(event)
@@ -29,7 +29,7 @@ function CustomReport() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className='flex'>
+        <div className="flex">
           <Button onClick={() => handleError()}>custom report</Button>
         </div>
       </CardContent>

@@ -1,7 +1,7 @@
 'use client'
 
-import type { ReactNode } from 'react'
 import Link from 'next/link'
+import { type ReactNode } from 'react'
 import { Button } from '~/components/ui/button'
 import { cn } from '~/libs/utils'
 
@@ -15,15 +15,15 @@ interface Props {
   navs: Nav[]
 }
 
-export default function NavContainer({ children, navs }:Props) {
+export default function NavContainer({ children, navs }: Props) {
   return (
-    <div className='flex justify-between'>
+    <div className="flex justify-between">
       <div>
         {
           navs.map(nav => (
             <Link
-              href={nav.href}
               key={nav.href}
+              href={nav.href}
             >
               <Button
                 className={cn(nav.active ? 'font-bold' : 'font-normal')}

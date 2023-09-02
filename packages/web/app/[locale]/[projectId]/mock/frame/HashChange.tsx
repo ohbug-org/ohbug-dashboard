@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 
 function HashChange() {
   return (
@@ -12,7 +12,7 @@ function HashChange() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className='flex'>
+        <div className="flex">
           <div>
             <Link href="#app">hash:/#app</Link>
           </div>

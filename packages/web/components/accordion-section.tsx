@@ -7,7 +7,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "~/components/ui/accordion"
+} from '~/components/ui/accordion'
 
 interface Props {
   className?: string
@@ -24,34 +24,38 @@ export default function AccordionSection({ title, head, collapse, collapseTitle,
       <h2 className="font-semibold">
         {title}
       </h2>
-      <Card className='mt-4'>
+      <Card className="mt-4">
         {
-          head && (
-            <CardHeader>
-              <CardTitle className="font-semibold">
-                {head}
-              </CardTitle>
-            </CardHeader>
-          )
+          head
+            ? (
+              <CardHeader>
+                <CardTitle className="font-semibold">
+                  {head}
+                </CardTitle>
+              </CardHeader>
+              )
+            : null
         }
         {
-          collapse && (
-            <Accordion
-              type="single"
-              collapsible
-            >
-              <AccordionItem value='item-1'>
-                <AccordionTrigger>
-                  <span className='flex-1 font-semibold text-left'>
-                    {collapseTitle}
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  {collapse}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          )
+          collapse
+            ? (
+              <Accordion
+                collapsible
+                type="single"
+              >
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>
+                    <span className="flex-1 font-semibold text-left">
+                      {collapseTitle}
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    {collapse}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+              )
+            : null
         }
         {children}
       </Card>

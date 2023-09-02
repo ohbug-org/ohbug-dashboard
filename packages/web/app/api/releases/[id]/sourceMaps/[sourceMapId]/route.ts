@@ -8,7 +8,7 @@ export async function GET(_: Request, { params }: { params: { id: string; source
   if (!auth) return NextResponse.next()
 
   const sourceMapId = params.sourceMapId
-  const releaseId = parseInt(params.id as string)
+  const releaseId = Number.parseInt(params.id as string)
 
   const release = await serviceGetRelease({ id: releaseId })
   const sourceMaps = release.sourceMaps as Array<any>

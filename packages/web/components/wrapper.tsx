@@ -1,8 +1,8 @@
 'use client'
 
-import type { CSSProperties, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { twMerge } from 'tailwind-merge'
+import { type CSSProperties, type ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
@@ -13,8 +13,8 @@ interface Props {
 const Wrapper = forwardRef<HTMLDivElement, Props>(({ children, className, style, ...props }, ref) => {
   return (
     <div
-      className={twMerge('container mx-auto py-4', className)}
       ref={ref}
+      className={twMerge('container mx-auto py-4', className)}
       style={style}
       {...props}
     >

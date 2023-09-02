@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import { type EventUser, type Feedback } from '@prisma/client'
+import Link from 'next/link'
 import FeedbacksList from '~/components/feedbacks-list'
 
 import Title from '~/components/title'
@@ -9,7 +10,6 @@ import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
 import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetFeedbacks } from '~/services/feedbacks'
-import Link from 'next/link'
 import { Button } from '~/components/ui/button'
 
 export default function FeedbacksPage() {
@@ -38,10 +38,10 @@ export default function FeedbacksPage() {
               <Button
                 variant="outline"
               >
-                <i className='i-ri-question-line mr-2'></i> {ct('integration')}
+                <i className="i-ri-question-line mr-2" /> {ct('integration')}
               </Button>
             </Link>
-          )
+        )
         }
       >
         Feedbacks
@@ -50,11 +50,11 @@ export default function FeedbacksPage() {
       <Wrapper>
         <FeedbacksList feedbacks={feedbacks} />
         <Button
-          className='w-full mt-6'
+          className="w-full mt-6"
           disabled={isLoading || isReachingEnd}
-          onClick={() => setSize(size + 1)}
           size="sm"
           variant="outline"
+          onClick={() => setSize(size + 1)}
         >
           {
             isLoading

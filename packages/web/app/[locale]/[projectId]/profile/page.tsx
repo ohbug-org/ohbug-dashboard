@@ -5,7 +5,7 @@ import { serviceGetPVPathGroupResult, serviceGetPVReferrerGroupResult, serviceGe
 import { getPrisma } from '~/db'
 
 export default async function ProfilePage({ params }: { params: { projectId: string } }) {
-  const projectId = parseInt(params.projectId) || (await getPrisma().project.findFirst())?.id
+  const projectId = Number.parseInt(params.projectId) || (await getPrisma().project.findFirst())?.id
   if (!projectId) return null
 
   const project = await serviceGetProject(projectId)
@@ -22,23 +22,19 @@ export default async function ProfilePage({ params }: { params: { projectId: str
   return (
     <Profile
       project={project}
-      trends={
-        {
-          '14d': trends14d,
-          '24h': trends24h,
-        }
-      }
-      views={
-        {
-          pageView,
-          pageViewLastDay,
-          userView,
-          userViewLastDay,
-          activeUser,
-          pvPathGroupResult,
-          pvReferrerGroupResult,
-        }
-      }
+      trends={{
+        '14d': trends14d,
+        '24h': trends24h,
+      }}
+      views={{
+        pageView,
+        pageViewLastDay,
+        userView,
+        userViewLastDay,
+        activeUser,
+        pvPathGroupResult,
+        pvReferrerGroupResult,
+      }}
     />
   )
 }

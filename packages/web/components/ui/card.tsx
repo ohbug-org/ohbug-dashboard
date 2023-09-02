@@ -7,13 +7,11 @@ const Card = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
-    className={
-      cn(
-        'rounded-lg border bg-card text-card-foreground shadow-sm',
-        className,
-      )
-    }
     ref={ref}
+    className={cn(
+      'rounded-lg border bg-card text-card-foreground shadow-sm',
+      className,
+    )}
     {...props}
   />
 ))
@@ -24,8 +22,8 @@ const CardHeader = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
-    className={cn('flex flex-col space-y-1.5 p-6', className)}
     ref={ref}
+    className={cn('flex flex-col space-y-1.5 p-6', className)}
     {...props}
   />
 ))
@@ -36,13 +34,11 @@ const CardTitle = React.forwardRef<
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
   <h3
-    className={
-      cn(
-        'text-2xl font-semibold leading-none tracking-tight',
-        className,
-      )
-    }
     ref={ref}
+    className={cn(
+      'text-2xl font-semibold leading-none tracking-tight',
+      className,
+    )}
     {...props}
   />
 ))
@@ -53,8 +49,8 @@ const CardDescription = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
   <p
-    className={cn('text-sm text-muted-foreground', className)}
     ref={ref}
+    className={cn('text-sm text-muted-foreground', className)}
     {...props}
   />
 ))
@@ -65,8 +61,8 @@ const CardContent = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
-    className={cn('p-6 pt-0', className)}
     ref={ref}
+    className={cn('p-6 pt-0', className)}
     {...props}
   />
 ))
@@ -77,8 +73,8 @@ const CardFooter = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
-    className={cn('flex items-center p-6 pt-0', className)}
     ref={ref}
+    className={cn('flex items-center p-6 pt-0', className)}
     {...props}
   />
 ))

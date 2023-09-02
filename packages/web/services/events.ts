@@ -1,6 +1,6 @@
 import { getStackFrame, getTheSourceByError } from 'source-map-trace'
-import type { OhbugEventLike, Pagination, ReceiveSourceMapFile } from 'common'
 import { PAGE_SIZE, pagination } from 'common'
+import { type OhbugEventLike, type Pagination, type ReceiveSourceMapFile } from 'common'
 import { serviceGetProject } from './projects'
 import { getPrisma } from '~/db'
 
@@ -65,12 +65,14 @@ export async function serviceGetEventSource(event: OhbugEventLike) {
           const sourceFileName = originalname.split('.map')[0]
           return stackFrame.fileName?.includes(sourceFileName)
         })
-        if (sourceMapTarget) { return getTheSourceByError(sourceMapTarget.path, event.detail) }
+        if (sourceMapTarget) {
+          return getTheSourceByError(sourceMapTarget.path, event.detail)
+        }
       }
     }
     return undefined
   }
-  catch (_) {
+  catch {
     return undefined
   }
 }

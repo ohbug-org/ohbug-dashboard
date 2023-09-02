@@ -1,11 +1,11 @@
 'use client'
 
-import type { Project } from '@prisma/client'
 import { useTranslations } from 'next-intl'
 import { useCallback, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import type { ProjectWithMembers } from 'common'
 import { useSession } from 'next-auth/react'
+import { type Project } from '@prisma/client'
+import { type ProjectWithMembers } from 'common'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
@@ -30,7 +30,7 @@ const SettingsProjectName = ({ project }: CommonProps) => {
     watch,
     handleSubmit,
   } = useForm<Project>({ defaultValues: { name: project?.name } })
-  const {toast} = useToast()
+  const { toast } = useToast()
   const name = watch('name')
   const onSubmit = useCallback((value: Project) => {
     serviceUpdateProject(project!.id, value)
@@ -58,9 +58,9 @@ const SettingsProjectName = ({ project }: CommonProps) => {
         </CardHeader>
         <CardContent>
           <Input
+            required
             id="name"
             placeholder={t('projectName')}
-            required
             {...register('name', { required: ct('thisIsRequired') })}
           />
 
@@ -71,7 +71,7 @@ const SettingsProjectName = ({ project }: CommonProps) => {
                 <span className="font-semibold">
                   {name}
                 </span>
-                    `.
+                `.
               </div>
             )
           }
@@ -124,11 +124,11 @@ const SettingsProjectUsers = ({ project }: CommonProps) => {
     <>
       <Card>
         <CardHeader>
-          <CardTitle className='flex justify-between'>
+          <CardTitle className="flex justify-between">
             {t('projectMembers')}
             <Button
-              onClick={()=>setOpen(true)}
               size="sm"
+              onClick={() => setOpen(true)}
             >
               <i className="i-ri-add-line mr-2" /> {t('inviteMembers')}
             </Button>
@@ -141,7 +141,10 @@ const SettingsProjectUsers = ({ project }: CommonProps) => {
                 <div key={member.id}>
                   <div className="flex gap-4 py-2">
                     <Avatar>
-                      <AvatarImage src={member.image ?? ''} alt={member.name ?? ''} />
+                      <AvatarImage
+                        alt={member.name ?? ''}
+                        src={member.image ?? ''}
+                      />
                       <AvatarFallback>{member.name ?? ''}</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
@@ -170,7 +173,7 @@ const SettingsProjectUsers = ({ project }: CommonProps) => {
             <code>{inviteUrl}</code>
           </div>
           <DialogFooter>
-            <Button onClick={()=>setOpen(false)}>Ok</Button>
+            <Button onClick={() => setOpen(false)}>Ok</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

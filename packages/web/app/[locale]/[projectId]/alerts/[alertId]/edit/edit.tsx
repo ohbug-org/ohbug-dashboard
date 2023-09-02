@@ -1,12 +1,14 @@
 'use client'
 
 import { useCallback } from 'react'
-import type { OmitAlert } from 'common'
 import { useRouter } from 'next-intl/client'
 import { useSearchParams } from 'next/navigation'
+import { type OmitAlert } from 'common'
+import { type z } from 'zod'
+import EditAlert from '../../edit-alert'
+import { type formSchema } from '../../edit-alert'
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
-import EditAlert from '~/components/edit-alert'
 import { serviceUpdateAlert } from '~/services/alerts'
 import { useToast } from '~/components/ui/use-toast'
 
@@ -18,9 +20,9 @@ export default function Edit({ alert }: Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const alertId = searchParams.get('alertId')
-  const {toast} = useToast()
-  const onSubmit = useCallback((value: OmitAlert) => {
-    serviceUpdateAlert(parseInt(alertId as string), value)
+  const { toast } = useToast()
+  const onSubmit = useCallback((value: z.infer<typeof formSchema>) => {
+    serviceUpdateAlert(Number.parseInt(alertId as string), value)
       .then(() => {
         toast({
           title: 'Alert Edited!',

@@ -1,16 +1,16 @@
-import type {
-  AjaxErrorDetail,
-  FetchErrorDetail,
-  ResourceErrorDetail,
-  UncaughtErrorDetail,
-  UnhandledrejectionErrorDetail,
-  UnknownErrorDetail,
-  WebsocketErrorDetail,
+import {
+  type AjaxErrorDetail,
+  type FetchErrorDetail,
+  type ResourceErrorDetail,
+  type UncaughtErrorDetail,
+  type UnhandledrejectionErrorDetail,
+  type UnknownErrorDetail,
+  type WebsocketErrorDetail,
 } from '@ohbug/browser'
-import type { ReactErrorDetail } from '@ohbug/react'
-import type { VueErrorDetail } from '@ohbug/vue'
-import { Alert, Event, Issue, Prisma } from '@prisma/client'
-import { OhbugEventLike } from 'common'
+import { type ReactErrorDetail } from '@ohbug/react'
+import { type VueErrorDetail } from '@ohbug/vue'
+import { type OhbugEventLike } from 'common'
+import { type Alert, type Event, type Issue, type Prisma } from '@prisma/client'
 
 export type OhbugEventDetail = UncaughtErrorDetail &
 UnhandledrejectionErrorDetail &

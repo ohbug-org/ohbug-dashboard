@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { type OhbugEventLike } from 'common'
 import { type FC } from 'react'
-import AccordionSection from './card-section'
+import AccordionSection from './accordion-section'
 
 import Wrapper from './wrapper'
 
@@ -24,13 +24,11 @@ const IssueRelatedMetadata: FC<Props> = ({ event, tab }) => {
   }, [event])
 
   return (
-    <div>
-      <Wrapper>
-        <AccordionSection title="Custom Metadata">
-          <DynamicReactJson src={metadata[tab]} />
-        </AccordionSection>
-      </Wrapper>
-    </div>
+    <Wrapper>
+      <AccordionSection title="Custom Metadata">
+        <DynamicReactJson src={metadata[tab]} />
+      </AccordionSection>
+    </Wrapper>
   )
 }
 

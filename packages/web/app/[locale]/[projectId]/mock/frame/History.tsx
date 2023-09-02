@@ -1,6 +1,6 @@
 'use client'
 
-import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 
 function History() {
@@ -19,7 +19,7 @@ function History() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className='flex'>
+        <div className="flex">
           <Button onClick={() => pushState()}>pushState</Button>
           <Button onClick={() => replaceState()}>replaceState</Button>
         </div>

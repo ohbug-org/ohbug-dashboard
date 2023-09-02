@@ -2,8 +2,10 @@
 
 import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import schema from './schema'
+import submit from './action'
+import type * as z from 'zod'
 import {
   Form,
   FormControl,
@@ -11,13 +13,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form"
+} from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
-import schema from './schema'
-import submit from './action'
 
 const projectTypes = [
   {
@@ -32,8 +32,8 @@ export default function CreateProject() {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: "",
-      type: "javascript"
+      name: '',
+      type: 'javascript',
     },
   })
   async function onSubmit(values: z.infer<typeof schema>) {
@@ -41,15 +41,18 @@ export default function CreateProject() {
   }
 
   return (
-    <div className='flex items-center justify-center h-screen'>
-      <Card className='w-80'>
+    <div className="flex items-center justify-center h-screen">
+      <Card className="w-80">
         <CardHeader>
           <CardTitle>{t('createProject')}</CardTitle>
           <CardDescription>{t('createProjectDescription')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              className="space-y-6"
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
               <FormField
                 control={form.control}
                 name="name"
@@ -57,7 +60,10 @@ export default function CreateProject() {
                   <FormItem>
                     <FormLabel>{t('projectName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('projectNamePlaceholder')} {...field} />
+                      <Input
+                        placeholder={t('projectNamePlaceholder')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -69,7 +75,10 @@ export default function CreateProject() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t('projectType')}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a verified email to display" />
@@ -93,7 +102,7 @@ export default function CreateProject() {
                 )}
               />
               <Button
-                className='w-full'
+                className="w-full"
                 type="submit"
               >
                 {t('createProject')}

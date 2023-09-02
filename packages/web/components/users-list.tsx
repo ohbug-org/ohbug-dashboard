@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 import { type Key } from 'react'
 import { type EventUser } from '@prisma/client'
 import useCurrentProject from '~/hooks/use-current-project'
-import { Table, TableBody, TableCell, TableHeader, TableHead, TableRow } from '~/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 
 type User = EventUser & {
   _count: {
@@ -94,7 +94,7 @@ export default function UsersList({ users }: Props) {
   }, [projectId])
 
   return (
-    <Table className='rounded-md border'>
+    <Table className="rounded-md border">
       <TableHeader>
         <TableRow>
           {columns.map(column => <TableHead key={column.key}>{column.label}</TableHead>)}
@@ -108,7 +108,7 @@ export default function UsersList({ users }: Props) {
                 {columns.map(column => <TableCell>{renderCell(user, column.key)}</TableCell>)}
               </TableRow>
             ))
-            :[]
+            : []
         }
       </TableBody>
     </Table>

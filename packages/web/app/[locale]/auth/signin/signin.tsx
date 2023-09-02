@@ -1,17 +1,17 @@
 'use client'
 
-import type { SignInResponse } from 'next-auth/react'
 import { getSession, signIn } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next-intl/client'
-import type { Dispatch, FC, SetStateAction } from 'react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import type { Project, User } from '@prisma/client'
 import { useAtom } from 'jotai'
 import { useMount } from 'react-use'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { type SignInResponse } from 'next-auth/react'
+import { type Project, type User } from '@prisma/client'
+import { type Dispatch, type FC, type SetStateAction } from 'react'
 import { inviteAtom } from '~/atoms/invite'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
@@ -42,53 +42,53 @@ interface EmailSignInData {
   email: string
 }
 
-
-
 const EmailSignIn: FC<{
   setStep: Dispatch<SetStateAction<number>>
   onSignIn: (type: string, options: Record<string, any>) => void
 }> = ({ setStep, onSignIn }) => {
   const ct = useTranslations('Common')
-  const formSchema = z.object({
-    email: z.string().email().min(2, {
-      message: ct('mustBeTheCorrectEmailAddress'),
-    }),
-  })
-  const form = useForm<z.infer<typeof formSchema>>({resolver: zodResolver(formSchema)})
+  const formSchema = z.object({ email: z.string().email().min(2, { message: ct('mustBeTheCorrectEmailAddress') }) })
+  const form = useForm<z.infer<typeof formSchema>>({ resolver: zodResolver(formSchema) })
   const onSubmit = useCallback((data: EmailSignInData) => {
     onSignIn('email', { callbackUrl: '/', email: data.email })
   }, [])
 
   return (
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Email Address" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            className='w-full'
-          >
-            <i className='i-ri-mail-line mr-2'></i> Sign in with Email
-          </Button>
-          <Button
-            onClick={() => { setStep(s => s - 1) }}
-            variant="link"
-          >
-            ← Other Login Options
-          </Button>
-        </form>
-      </Form>
+    <Form {...form}>
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Email Address"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          className="w-full"
+          type="submit"
+        >
+          <i className="i-ri-mail-line mr-2" /> Sign in with Email
+        </Button>
+        <Button
+          variant="link"
+          onClick={() => { setStep(s => s - 1) }}
+        >
+          ← Other Login Options
+        </Button>
+      </form>
+    </Form>
   )
 }
 
@@ -101,10 +101,10 @@ const GithubSignIn: FC<Props & {
 
   return (
     <Button
-      onClick={handleSignInGithub}
       variant="outline"
+      onClick={handleSignInGithub}
     >
-      <i className='i-ri-github-fill mr-2'></i> {providers.github.name}
+      <i className="i-ri-github-fill mr-2" /> {providers.github.name}
     </Button>
   )
 }
@@ -119,14 +119,12 @@ const AccountSignIn: FC<{
   const ct = useTranslations('Common')
   const router = useRouter()
   const formSchema = z.object({
-    email: z.string().email().min(2, {
-      message: ct('mustBeTheCorrectEmailAddress'),
-    }),
-    password: z.string().max(24).min(8)
+    email: z.string().email().min(2, { message: ct('mustBeTheCorrectEmailAddress') }),
+    password: z.string().max(24).min(8),
   })
-  const form = useForm<z.infer<typeof formSchema>>({resolver: zodResolver(formSchema)})
-  const {toast} = useToast()
-  const onSubmit = useCallback(async(data: AccountSignInData) => {
+  const form = useForm<z.infer<typeof formSchema>>({ resolver: zodResolver(formSchema) })
+  const { toast } = useToast()
+  const onSubmit = useCallback(async (data: AccountSignInData) => {
     const res = await onSignIn('credentials', { redirect: false, ...data })
     if (res?.ok) {
       router.push('/')
@@ -141,48 +139,58 @@ const AccountSignIn: FC<{
   }, [])
 
   return (
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Email Address" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input placeholder="Password" type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            className='w-full'
-          >
-            <i className='i-ri-login-box-line mr-2'></i> Sign in
-          </Button>
-        </form>
-      </Form>
+    <Form {...form}>
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Email Address"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Password"
+                  type="password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          className="w-full"
+          type="submit"
+        >
+          <i className="i-ri-login-box-line mr-2" /> Sign in
+        </Button>
+      </form>
+    </Form>
   )
 }
 
 export default function SignIn({ providers, inviter }: Props) {
   const router = useRouter()
-  useMount(async() => {
+  useMount(async () => {
     const user = (await getSession())?.user
     if (user) {
       router.push('/')
@@ -193,16 +201,19 @@ export default function SignIn({ providers, inviter }: Props) {
     if (inviter && inviter.project && inviter.user) {
       const name = inviter.user.name || inviter.user.email || ''
       return (
-        <h2 className='font-bold text-3xl'>
+        <h2 className="font-bold text-3xl">
           <Avatar>
-            <AvatarImage src={inviter.user?.image ?? ''} alt={name} />
+            <AvatarImage
+              alt={name}
+              src={inviter.user?.image ?? ''}
+            />
             <AvatarFallback>{name}</AvatarFallback>
           </Avatar>
           {`${inviter.user.name || inviter.user.email || ''} invited you to join the ${inviter.project.name}`}
         </h2>
       )
     }
-    return <h2 className='font-bold text-3xl'>Sign in to Ohbug</h2>
+    return <h2 className="font-bold text-3xl">Sign in to Ohbug</h2>
   }, [inviter])
   const [, setInviteValue] = useAtom(inviteAtom)
   useEffect(() => {
@@ -215,8 +226,8 @@ export default function SignIn({ providers, inviter }: Props) {
   }, [router])
 
   return (
-    <section className='h-screen flex items-center justify-center'>
-      <Card className='w-[450px]'>
+    <section className="h-screen flex items-center justify-center">
+      <Card className="w-[450px]">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">{title}</CardTitle>
           <CardDescription>
@@ -229,22 +240,26 @@ export default function SignIn({ providers, inviter }: Props) {
               <>
                 <div className="grid grid-cols-2 gap-6">
                   {
-                    (providers.github) && (
-                      <GithubSignIn
-                        onSignIn={signIn}
-                        providers={providers}
-                      />
-                    )
+                    (providers.github)
+                      ? (
+                        <GithubSignIn
+                          providers={providers}
+                          onSignIn={signIn}
+                        />
+                        )
+                      : null
                   }
                   {
-                    (providers.email) && (
-                      <Button
-                        onClick={() => setStep(s => s + 1)}
-                        variant="outline"
-                      >
-                        <i className='i-ri-mail-line mr-2'></i> Email
-                      </Button>
-                    )
+                    (providers.email)
+                      ? (
+                        <Button
+                          variant="outline"
+                          onClick={() => setStep(s => s + 1)}
+                        >
+                          <i className="i-ri-mail-line mr-2" /> Email
+                        </Button>
+                        )
+                      : null
                   }
                 </div>
                 <div className="relative">
@@ -260,32 +275,36 @@ export default function SignIn({ providers, inviter }: Props) {
               </>
             )
           }
-        {
+          {
           step === 1 && (
             <>
               {
-                (providers.credentials) && (
-                  <AccountSignIn
-                    onSignIn={signIn}
-                  />
-                )
+                (providers.credentials)
+                  ? (
+                    <AccountSignIn
+                      onSignIn={signIn}
+                    />
+                    )
+                  : null
               }
             </>
           )
         }
-        {
-          providers.email && (
-            <>
-              {
+          {
+          providers.email
+            ? (
+              <>
+                {
                 (step === 2) && (
                   <EmailSignIn
-                    onSignIn={signIn}
                     setStep={setStep}
+                    onSignIn={signIn}
                   />
                 )
               }
-            </>
-          )
+              </>
+              )
+            : null
         }
         </CardContent>
       </Card>

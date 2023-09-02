@@ -1,6 +1,6 @@
 'use client'
 
-import type { FC } from 'react'
+import { type FC } from 'react'
 import Spinning from './spinning'
 
 const Loading: FC = () => {

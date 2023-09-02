@@ -1,5 +1,5 @@
-import type { Pagination } from 'common'
 import { PAGE_SIZE, pagination } from 'common'
+import { type Pagination } from 'common'
 import { serviceGetProject } from './projects'
 import { getPrisma } from '~/db'
 
