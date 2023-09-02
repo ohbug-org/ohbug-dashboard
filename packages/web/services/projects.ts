@@ -47,7 +47,12 @@ export async function serviceGetProjectsWithEventCount(user: User): Promise<Proj
   return projectWithEventCounts
 }
 
-export async function serviceCreateProject(data: Project, user: User) {
+interface ServiceCreateProjectData {
+  name: Project['name']
+  type: Project['type']
+  apiKey: Project['apiKey']
+}
+export async function serviceCreateProject(data: ServiceCreateProjectData, user: User) {
   let isDefault = false
   const projects = await serviceGetProjects(user)
   if (!projects.length) isDefault = true

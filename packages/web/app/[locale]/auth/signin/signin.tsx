@@ -11,7 +11,7 @@ import type { Project, User } from '@prisma/client'
 import { useAtom } from 'jotai'
 import { useMount } from 'react-use'
 import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { z } from "zod"
 import { inviteAtom } from '~/atoms/invite'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
@@ -220,7 +220,7 @@ export default function SignIn({ providers, inviter }: Props) {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">{title}</CardTitle>
           <CardDescription>
-          Choose a way to log in to your account
+            Choose a way to log in to your account
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">

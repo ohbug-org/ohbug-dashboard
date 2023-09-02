@@ -8,7 +8,6 @@ import { Separator } from '~/components/ui/separator'
 
 export default function Breadcrumbs() {
   const [breadcrumbs] = useBreadcrumb()
-  console.log('breadcrumbs: ', breadcrumbs.slice(0, -1));
 
   return (
     <div className="flex items-center gap-2">

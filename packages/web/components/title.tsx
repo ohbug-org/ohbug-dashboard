@@ -2,10 +2,8 @@
 
 import { type ReactNode } from 'react'
 import Wrapper from './wrapper'
-import { Box } from '~/components/ui/box'
-import { type BoxProps } from '~/components/ui/box'
 
-interface Props extends BoxProps {
+interface Props {
   children: ReactNode
   rightNodes?: ReactNode
   bottomNodes?: ReactNode
@@ -15,7 +13,7 @@ const PADDING = '12'
 
 export default function Title({ children, rightNodes, bottomNodes, ...props }: Props) {
   return (
-    <Box
+    <div
       {...props}
     >
       <Wrapper
@@ -41,6 +39,6 @@ export default function Title({ children, rightNodes, bottomNodes, ...props }: P
         </div>
         <div style={{ marginTop: bottomNodes ? 6 : 0 }}>{bottomNodes}</div>
       </Wrapper>
-    </Box>
+    </div>
   )
 }

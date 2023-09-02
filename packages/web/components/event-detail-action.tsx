@@ -6,7 +6,7 @@ import { type OhbugEventLike } from 'common'
 import { type FC } from 'react'
 import { type OhbugAction } from '@ohbug/types'
 import Wrapper from './wrapper'
-import CardSection from './card-section'
+import AccordionSection from './card-section'
 import { getMessageAndIconByActionType } from '~/libs/utils'
 import { Badge } from '~/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
@@ -26,7 +26,7 @@ const EventDetailActions: FC<Props> = ({ event }) => {
   ], [event])
   return (
     <Wrapper>
-      <CardSection title="Event Actions">
+      <AccordionSection title="Event Actions">
         <div className='flex flex-col gap-4 max-h-56 overflow-y-auto'>
           {
             actions.map((action, index) => {
@@ -67,7 +67,7 @@ const EventDetailActions: FC<Props> = ({ event }) => {
             })
           }
         </div>
-      </CardSection>
+      </AccordionSection>
     </Wrapper>
   )
 }

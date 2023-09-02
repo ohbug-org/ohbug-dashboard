@@ -1,7 +1,6 @@
 'use client'
 
 import { type ReactNode } from 'react'
-import { type BoxProps, Box } from '~/components/ui/box'
 import { Card, CardHeader, CardTitle } from '~/components/ui/card'
 import {
   Accordion,
@@ -10,7 +9,8 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion"
 
-interface Props extends BoxProps {
+interface Props {
+  className?: string
   title?: string
   head?: ReactNode
   collapse?: ReactNode
@@ -18,9 +18,9 @@ interface Props extends BoxProps {
   children?: ReactNode
 }
 
-export default function CardSection({ title, head, collapse, collapseTitle, children, ...props }: Props) {
+export default function AccordionSection({ title, head, collapse, collapseTitle, children, ...props }: Props) {
   return (
-    <Box {...props}>
+    <div {...props}>
       <h2 className="font-semibold">
         {title}
       </h2>
@@ -55,6 +55,6 @@ export default function CardSection({ title, head, collapse, collapseTitle, chil
         }
         {children}
       </Card>
-    </Box>
+    </div>
   )
 }

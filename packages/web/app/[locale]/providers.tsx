@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect } from 'react'
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import { SessionProvider, useSession } from 'next-auth/react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -9,7 +8,6 @@ import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import { usePathname, useRouter } from 'next-intl/client'
 import dynamic from 'next/dynamic'
-import { CacheProvider } from '@chakra-ui/next-js'
 import { type ReactElement, type ReactNode } from 'react'
 import { type Session } from 'next-auth'
 import { type User } from '@prisma/client'
@@ -64,20 +62,13 @@ export function Providers({ children, session }: Props) {
   return (
     <SessionProvider session={session}>
       <Controller>
-        <CacheProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <TooltipProvider>
-              <ChakraProvider theme={theme}>
-                <Toaster />
-                <ColorModeScript />
-                <TopProgressBar />
-                <Layout>
-                  {children}
-                </Layout>
-              </ChakraProvider>
-            </TooltipProvider>
-          </ThemeProvider>
-        </CacheProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <TooltipProvider>
+            <Toaster />
+            <TopProgressBar />
+            {children}
+          </TooltipProvider>
+        </ThemeProvider>
       </Controller>
     </SessionProvider>
   )

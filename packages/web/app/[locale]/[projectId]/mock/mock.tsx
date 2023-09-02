@@ -3,7 +3,7 @@
 import { type Project } from '@prisma/client'
 import Frame from './frame'
 import Wrapper from '~/components/wrapper'
-import { Box } from '~/components/ui/box'
+
 
 interface Props {
   project: Project
@@ -11,10 +11,10 @@ interface Props {
 
 export default function Mock({ project }: Props) {
   return (
-    <Box >
+    <div >
       <Wrapper>
         <Frame project={project} />
       </Wrapper>
-    </Box>
+    </div>
   )
 }

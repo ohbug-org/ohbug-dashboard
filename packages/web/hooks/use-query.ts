@@ -1,5 +1,5 @@
-import { useToast } from '@chakra-ui/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import {useToast} from '~/components/ui/use-toast'
 
 interface State<T> {
   isLoading: boolean
@@ -15,7 +15,7 @@ export function useQuery<T = any>(
   fn: () => (Promise<T>),
   options?: Options,
 ) {
-  const toast = useToast()
+  const {toast} = useToast()
   const { enabled = true, deps = [] } = options ?? {}
   const lastCallId = useRef(0)
   const [state, set] = useState<State<T>>({ isLoading: false })

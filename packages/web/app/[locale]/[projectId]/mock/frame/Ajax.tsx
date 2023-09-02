@@ -1,6 +1,6 @@
 'use client'
 
-import Card from '~/components/card'
+import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 
 function Ajax() {
@@ -20,17 +20,19 @@ function Ajax() {
   }
 
   return (
-    <Card
-      content={
-        (
-          <div className='flex'>
-            <Button onClick={() => handleError()}>500 error</Button>
-            <Button onClick={() => handleTimeOut()}>timeout error</Button>
-          </div>
-        )
-      }
-      title="AJAX"
-    />
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          AJAX
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className='flex'>
+          <Button onClick={() => handleError()}>500 error</Button>
+          <Button onClick={() => handleTimeOut()}>timeout error</Button>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

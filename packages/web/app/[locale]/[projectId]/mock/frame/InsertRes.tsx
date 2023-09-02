@@ -1,6 +1,6 @@
 'use client'
 
-import Card from '~/components/card'
+import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 
 export default function InsertRes() {
@@ -13,15 +13,17 @@ export default function InsertRes() {
   }
 
   return (
-    <Card
-      content={
-        (
-          <div>
-            <Button onClick={() => handle()}>insert script</Button>
-          </div>
-        )
-      }
-      title="InsertRes"
-    />
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          InsertRes
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className='flex'>
+          <Button onClick={() => handle()}>insert script</Button>
+        </div>
+      </CardContent>
+    </Card>
   )
 }

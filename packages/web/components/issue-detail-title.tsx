@@ -1,79 +1,59 @@
 'use client'
 
-import { Badge, Box, Stat, StatGroup, StatLabel, StatNumber } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { useTranslations } from 'next-intl'
-import { type FC } from 'react'
 import { type Issue, type OhbugEventLike } from 'common'
 import Title from './title'
 import IssueDetailTabs from './issue-detail-tabs'
 import { renderStringOrJson } from '~/libs/utils'
+import { Badge } from '~/components/ui/badge'
 
 interface Props {
   issue: Issue
   event: OhbugEventLike
 }
 
-const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
+export default function IssueDetailTitle({ issue, event }: Props) {
   const t = useTranslations('Event')
   const metadata = useMemo(() => JSON.parse(issue.metadata) || {}, [issue])
   return (
     <Title
-
+      className='sticky top-12 z-50'
       bottomNodes={
         <IssueDetailTabs event={event} />
       }
-      position="sticky"
       rightNodes={
         (
-          <StatGroup w="xs">
-            <Stat>
-              <StatLabel>{t('titleEvents')}</StatLabel>
-              <StatNumber>{issue._count?.events}</StatNumber>
-            </Stat>
-            <Stat>
-              <StatLabel>{t('titleUsers')}</StatLabel>
-              <StatNumber>{issue._count?.users}</StatNumber>
-            </Stat>
-          </StatGroup>
+          <div className='flex'>
+            <div className='flex flex-col'>
+              <div>{t('titleEvents')}</div>
+              <div>{issue._count?.events}</div>
+            </div>
+            <div className='flex flex-col'>
+              <div>{t('titleUsers')}</div>
+              <div>{issue._count?.users}</div>
+            </div>
+          </div>
         )
       }
-      top="48px"
-      zIndex="docked"
     >
-      <Box>
-        <Box
-          as="a"
-          noOfLines={2}
-        >
-          <Box
-            as="span"
-            fontWeight="semibold"
-            mr="2"
-          >
+      <div>
+        <a className='line-clamp-2'>
+          <span className='font-semibold mr-2'>
             {issue.type}
-          </Box>
+          </span>
           {
             issue.releaseStage === 'mock' && (
-              <Badge
-                colorScheme="red"
-                mr="2"
-              >
+              <Badge variant="destructive" className='mr-2'>
                 Mock
               </Badge>
             )
           }
-          <Box
-            as="code"
-            textColor="gray.400"
-          >
+          <code className='text-stone-500'>
             {renderStringOrJson(metadata.filename ?? metadata.others)}
-          </Box>
-        </Box>
-        <Box
-          noOfLines={[1, 2]}
-          textColor="gray.400"
-        >
+          </code>
+        </a>
+        <div className='line-clamp-2 text-stone-500'>
           {
             metadata.message && (
               <code>
@@ -81,10 +61,8 @@ const IssueDetailTitle: FC<Props> = ({ issue, event }) => {
               </code>
             )
           }
-        </Box>
-      </Box>
+        </div>
+      </div>
     </Title>
   )
 }
-
-export default IssueDetailTitle

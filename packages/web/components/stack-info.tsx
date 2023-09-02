@@ -1,100 +1,61 @@
 'use client'
 
-import type { FC, ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import { useMemo } from 'react'
 import type { Result } from 'source-map-trace'
-import { Box, Text } from '@chakra-ui/react'
+import { cn } from '~/libs/utils'
 
 interface Props {
   source?: Result
 }
 
-const StackInfo: FC<Props> = ({ source }) => {
+export default function StackInfo({ source }: Props) {
   const title = useMemo(
     () => (
-      <Box>
-        <Text
-          as="code"
-          fontWeight="semibold"
-          mx="1"
-        >
+      <div className='space-x-1'>
+        <code className='font-semibold'>
           {source?.parsed?.source}
-        </Text>
-        <Text
-          display="inline-block"
-          m="0"
-          mx="1"
-          opacity="0.6"
-        >
+        </code>
+        <span className='inline-block m-0 opacity-60'>
           in
-        </Text>
-        <Text
-          as="code"
-          fontWeight="semibold"
-          mx="1"
-        >
+        </span>
+        <code className='font-semibold'>
           {source?.parsed?.name}
-        </Text>
-        <Text
-          display="inline-block"
-          m="0"
-          mx="1"
-          opacity="0.6"
-        >
+        </code>
+        <span className='inline-block m-0 opacity-60'>
           at line
-        </Text>
-        <Text
-          as="code"
-          fontWeight="semibold"
-          mx="1"
-        >
+        </span>
+        <code className='font-semibold'>
           {source?.parsed?.line}:
-        </Text>
-        <Text
-          as="code"
-          fontWeight="semibold"
-          mx="1"
-        >
+        </code>
+        <code className='font-semibold'>
           {source?.parsed?.column}
-        </Text>
-      </Box>
+        </code>
+      </div>
     ),
     [source],
   )
 
   return (
-    <Box
-      as="pre"
-      mt="4"
-      wordBreak="break-word"
-    >
-      <Box>{title}</Box>
-      <Box
-        as="ol"
-        listStylePosition="inside"
-        listStyleType="decimal"
-        m="0"
-        py="2"
+    <pre className='mt-4 break-word'>
+      <div>{title}</div>
+      <ol
+        className='list-inside list-decimal m-0 py-2'
         start={source?.code?.[0].number}
       >
         {
           source?.code?.map(({ code, number, highlight }): ReactElement => {
             return (
-              <Box
-                as="li"
-                bg={highlight ? 'red.500' : 'inherit'}
+              <li
+                className={cn('pl-6', highlight ? 'bg-red-500' : 'bg-inherit', highlight ? 'text-white' : 'text-inherit')}
                 key={number}
-                pl="6"
-                textColor={highlight ? 'white' : 'inherit'}
               >
                 <span>{code}</span>
-              </Box>
+              </li>
             )
           })
         }
-      </Box>
-    </Box>
+      </ol>
+    </pre>
   )
 }
-
-export default StackInfo

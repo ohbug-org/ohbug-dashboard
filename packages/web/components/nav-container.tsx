@@ -1,8 +1,9 @@
 'use client'
 
-import { Box, Button, Flex } from '@chakra-ui/react'
+import type { ReactNode } from 'react'
 import Link from 'next/link'
-import type { FC, ReactNode } from 'react'
+import { Button } from '~/components/ui/button'
+import { cn } from '~/libs/utils'
 
 export interface Nav {
   label: string
@@ -14,13 +15,10 @@ interface Props {
   navs: Nav[]
 }
 
-const NavContainer: FC<Props> = ({ children, navs }) => {
+export default function NavContainer({ children, navs }:Props) {
   return (
-    <Flex
-      display="flex"
-      justifyContent="space-between"
-    >
-      <Box>
+    <div className='flex justify-between'>
+      <div>
         {
           navs.map(nav => (
             <Link
@@ -28,7 +26,7 @@ const NavContainer: FC<Props> = ({ children, navs }) => {
               key={nav.href}
             >
               <Button
-                fontWeight={nav.active ? 'bold' : 'normal'}
+                className={cn(nav.active ? 'font-bold' : 'font-normal')}
                 variant="outline"
               >
                 {nav.label}
@@ -36,10 +34,8 @@ const NavContainer: FC<Props> = ({ children, navs }) => {
             </Link>
           ))
         }
-      </Box>
-      <Box>{children}</Box>
-    </Flex>
+      </div>
+      <div>{children}</div>
+    </div>
   )
 }
-
-export default NavContainer

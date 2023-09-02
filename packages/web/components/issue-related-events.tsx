@@ -1,22 +1,20 @@
 'use client'
 
-import { Button } from '@chakra-ui/react'
 import { type Event } from '@prisma/client'
-import { type FC } from 'react'
 import { useTranslations } from 'next-intl'
 import { type Issue } from 'common'
 import EventsList from '~/components/events-list'
-import { Box } from '~/components/ui/box'
 import Wrapper from '~/components/wrapper'
-import CardSection from '~/components/card-section'
+import AccordionSection from '~/components/ui/accordion-section'
 import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetEventsByIssueId } from '~/services/events'
+import { Button } from '~/components/ui/button'
 
 interface Props {
   issue: Issue
 }
 
-const IssueRelatedEvents: FC<Props> = ({ issue }) => {
+export default function IssueRelatedEvents({ issue }:Props) {
   const ct = useTranslations('Common')
   const { data: events, isLoading, size, setSize, isReachingEnd } = useInfinite<Event>(
     index => serviceGetEventsByIssueId({ issueId: issue.id, page: index + 1 }),
@@ -27,30 +25,25 @@ const IssueRelatedEvents: FC<Props> = ({ issue }) => {
   )
 
   return (
-    <Box>
-      <Wrapper>
-        <CardSection title="Events">
-          <EventsList events={events} />
-          <Button
-            disabled={isLoading || isReachingEnd}
-            mt="6"
-            onClick={() => setSize(size + 1)}
-            size="sm"
-            variant="outline"
-            w="full"
-          >
-            {
-              isLoading
-                ? `${ct('loading')}...`
-                : isReachingEnd
-                  ? ct('noMoreData')
-                  : ct('loadMore')
-            }
-          </Button>
-        </CardSection>
-      </Wrapper>
-    </Box>
+    <Wrapper>
+      <AccordionSection title="Events">
+        <EventsList events={events} />
+        <Button
+          className='mt-6 w-full'
+          disabled={isLoading || isReachingEnd}
+          onClick={() => setSize(size + 1)}
+          size="sm"
+          variant="outline"
+        >
+          {
+            isLoading
+              ? `${ct('loading')}...`
+              : isReachingEnd
+                ? ct('noMoreData')
+                : ct('loadMore')
+          }
+        </Button>
+      </AccordionSection>
+    </Wrapper>
   )
 }
-
-export default IssueRelatedEvents

@@ -1,49 +1,40 @@
 'use client'
 
 import type { FC } from 'react'
-import { Box, Button, Center } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { RiExternalLinkLine } from 'react-icons/ri'
 import useCurrentProject from '~/hooks/use-current-project'
+import { Button } from '~/components/ui/button'
 
 const EmptyIssues: FC = () => {
   const { projectId } = useCurrentProject()
   const t = useTranslations('Issues.Empty')
   return (
-    <Center
-      flexDirection="column"
-      gap="4"
-      p="6"
-    >
-      <Box>{t('gettingStarted')}</Box>
-      <Box>
+    <div className='flex flex-col gap-4 p-6'>
+      <div>{t('gettingStarted')}</div>
+      <div>
         <Link
           href="https://ohbug.net/guide/getting-started.html"
           target="_blank"
         >
-          <Button
-            rightIcon={
-              <RiExternalLinkLine/>
-            }
-          >
-            Getting Started
+          <Button>
+            <i className='i-ri-external-link-line mr-2'></i> Getting Started
           </Button>
         </Link>
-      </Box>
-      <Box>{t('getApiKey')}</Box>
+      </div>
+      <div>{t('getApiKey')}</div>
       <Link
         href={`/${projectId}/settings`}
       >
         Get apiKey
       </Link>
-      <Box>{t('needMockData')}</Box>
+      <div>{t('needMockData')}</div>
       <Link
         href={`/${projectId}/mock`}
       >
         Mock
       </Link>
-    </Center>
+    </div>
   )
 }
 

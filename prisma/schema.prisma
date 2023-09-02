@@ -207,6 +207,10 @@ enum AlertLevel {
   warning
   default
 }
+enum Match {
+  every
+  all
+}
 
 model Alert {
   id             Int          @id @default(autoincrement())
@@ -218,8 +222,8 @@ model Alert {
   actions        Json
   conditions     Json
   filters        Json
-  conditionMatch String
-  filterMatch    String
+  conditionMatch Match
+  filterMatch    Match
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   recentlyAt     DateTime?

@@ -1,13 +1,12 @@
 'use client'
 
 import { useCallback } from 'react'
-import { type FC } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { AlertConditionTopic, AlertFilterTopic } from 'common'
-import { useTranslations } from 'next-intl'
 import { type Action, type ConditionOption, type FilterMatch, type FilterOption, type Interval, type OmitAlert } from 'common'
+import { useTranslations } from 'next-intl'
 import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import {z} from "zod"
 import { Badge } from '~/components/ui/badge'
 import {
   Form,
@@ -18,11 +17,11 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form"
-import { Input, Input } from "~/components/ui/input"
-import { Select } from './ui/select'
-import { Button } from './ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import { Input } from "~/components/ui/input"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
+import { Button } from '~/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 
 export const ActionOptions = ['email', 'webhook']
 export const ConditionOptions: ConditionOption[] = [
@@ -67,8 +66,30 @@ export const AlertLevel = {
 }
 
 const formSchema = z.object({
+  level: z.enum(['serious', 'warning', 'default']),
+  interval: z.string(),
+  enabled:z.boolean(),
+  filterMatch: z.string(),
   conditionMatch: z.enum(['all', 'every']),
-
+  actions: z.array(z.object({
+    type: z.enum(['email', 'webhook']),
+    uri: z.string(),
+    at: z.string().optional(),
+    webhookType: z.enum(['dingtalk', 'wechatWork', 'others']).optional(),
+  })),
+  conditions: z.array(z.object({
+    topic: z.string(),
+    name: z.string(),
+    value: z.union([z.string(), z.number()]).optional(),
+    interval: z.string().optional(),
+  })),
+  filters: z.array(z.object({
+    topic: z.string(),
+    name: z.string(),
+    value: z.union([z.string(), z.number()]).optional(),
+    attribute: z.string().optional(),
+    match: z.enum(['contains', 'starts with', 'ends with', 'equals', 'does not contain', 'does not start with', 'does not end with', 'does not equal']).optional(),
+  }))
 })
 
 interface Props {
@@ -76,15 +97,15 @@ interface Props {
   onSubmit: (value: z.infer<typeof formSchema>) => void
 }
 
-const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
+export default function EditAlert({ alert, onSubmit }: Props) {
   const ct = useTranslations('Common')
   const t = useTranslations('Alerts')
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: alert
       ? {
-        name: alert.name,
-        releaseStage: alert.releaseStage,
+        // name: alert.name,
+        // releaseStage: alert.releaseStage,
         level: alert.level,
         interval: alert.interval,
         enabled: alert.enabled,
@@ -99,9 +120,9 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
         conditionMatch: 'all',
       },
   })
-  const { fields: actionsFields, append: actionsAppend, remove: actionsRemove } = useFieldArray({ control, name: 'actions' })
-  const { fields: conditionsFields, append: conditionsAppend, remove: conditionsRemove } = useFieldArray({ control, name: 'conditions' })
-  const { fields: filtersFields, append: filtersAppend, remove: filtersRemove } = useFieldArray({ control, name: 'filters' })
+  const { fields: actionsFields, append: actionsAppend, remove: actionsRemove } = useFieldArray({ control: form.control, name: 'actions' })
+  const { fields: conditionsFields, append: conditionsAppend, remove: conditionsRemove } = useFieldArray({ control: form.control, name: 'conditions' })
+  const { fields: filtersFields, append: filtersAppend, remove: filtersRemove } = useFieldArray({ control: form.control, name: 'filters' })
   const handleAddAction = useCallback((type: Action['type']) => {
     if (type) {
       actionsAppend({ type, uri: '' })
@@ -132,19 +153,28 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
             </Badge>
             <div className='space-x-2'>
               <span>an event is captured by Ohbug and</span>
-              <FormControl
-                isInvalid={!!errors.conditionMatch}
-                w="auto"
-              >
-                <Select
-                  size="xs"
-                  width="24"
-                  {...register('conditionMatch', { required: ct('thisIsRequired') })}
-                >
-                  <option value="all">all</option>
-                  <option value="every">every</option>
-                </Select>
-              </FormControl>
+              <FormField
+                control={form.control}
+                name="conditionMatch"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                    <Select {...field}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="all">all</SelectItem>
+                          <SelectItem value="every">every</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <span>of the following happens</span>
             </div>
           </div>
@@ -167,41 +197,52 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                       item.topic === AlertConditionTopic.EventFrequencyCondition && (
                         <>
                           <span>The issue is seen more than </span>
-                          <FormControl
-                            isInvalid={!!errors.conditions?.[index]?.value}
-                            w="auto"
-                          >
-                            <Input
-                            id="interval"
-                                {...register(`conditions.${index}.value`, {
-                                  required: ct('thisIsRequired'),
-                                  min: 1,
-                                  valueAsNumber: true,
-                                })}>
-                            </Input>
-                          </FormControl>
+                          <FormField
+                            control={form.control}
+                            name={`conditions.${index}.value`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                <Input
+                                  id="interval"
+                                  {...field}
+                                />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                           <span>times in</span>
-                          <FormControl
-                            isInvalid={!!errors.conditions?.[index]?.interval}
-                            w="auto"
-                          >
-                            <Select
-                              size="xs"
-                              width="24"
-                              {...register(`conditions.${index}.interval`, { required: ct('thisIsRequired') })}
-                            >
-                              {
-                                IntervalOptions.map(interval => (
-                                  <option
-                                    key={interval}
-                                    value={interval}
-                                  >
-                                    {interval}
-                                  </option>
-                                ))
-                              }
-                            </Select>
-                          </FormControl>
+                          <FormField
+                            control={form.control}
+                            name={`conditions.${index}.interval`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                <Select {...field}>
+                                  <SelectTrigger className="w-[180px]">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup>
+                                      {
+                                        IntervalOptions.map(interval => (
+                                          <SelectItem
+                                            key={interval}
+                                            value={interval}
+                                          >
+                                            {interval}
+                                          </SelectItem>
+                                        ))
+                                      }
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                         </>
                       )
                     }
@@ -209,41 +250,52 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                       item.topic === AlertConditionTopic.UserFrequencyCondition && (
                         <>
                           <span>The issue is seen by more than </span>
-                          <FormControl
-                            isInvalid={!!errors.conditions?.[index]?.value}
-                            w="auto"
-                          >
-                            <Input
-                              id="interval"
-                              {...register(`conditions.${index}.value`, {
-                                required: ct('thisIsRequired'),
-                                min: 1,
-                                valueAsNumber: true,
-                              })}
-                            />
-                          </FormControl>
+                          <FormField
+                            control={form.control}
+                            name={`conditions.${index}.value`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                <Input
+                                  id="interval"
+                                  {...field}
+                                />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                           <span>users in</span>
-                          <FormControl
-                            isInvalid={!!errors.conditions?.[index]?.interval}
-                            w="auto"
-                          >
-                            <Select
-                              size="xs"
-                              width="24"
-                              {...register(`conditions.${index}.interval`, { required: ct('thisIsRequired') })}
-                            >
-                              {
-                                IntervalOptions.map(interval => (
-                                  <option
-                                    key={interval}
-                                    value={interval}
-                                  >
-                                    {interval}
-                                  </option>
-                                ))
-                              }
-                            </Select>
-                          </FormControl>
+                          <FormField
+                            control={form.control}
+                            name={`conditions.${index}.interval`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                <Select {...field}>
+                                  <SelectTrigger className="w-[180px]">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup>
+                                      {
+                                        IntervalOptions.map(interval => (
+                                          <SelectItem
+                                            key={interval}
+                                            value={interval}
+                                          >
+                                            {interval}
+                                          </SelectItem>
+                                        ))
+                                      }
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                         </>
                       )
                     }
@@ -296,19 +348,28 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
               IF
             </Badge>
             <div className='space-x-2'>
-              <FormControl
-                isInvalid={!!errors.filters}
-                w="auto"
-              >
-                <Select
-                  size="xs"
-                  width="24"
-                  {...register('filterMatch', { required: ct('thisIsRequired') })}
-                >
-                  <option value="all">all</option>
-                  <option value="every">every</option>
-                </Select>
-              </FormControl>
+              <FormField
+                control={form.control}
+                name="filterMatch"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                    <Select {...field}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="all">all</SelectItem>
+                          <SelectItem value="every">every</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <span>of these filters match</span>
             </div>
           </div>
@@ -322,19 +383,21 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                       item.topic === AlertFilterTopic.IssueOccurrencesFilter && (
                         <>
                           <span>The issue has happened at least</span>
-                          <FormControl
-                            isInvalid={!!errors.filters?.[index]?.value}
-                            w="auto"
-                          >
-                            <Input
-                              id="interval"
-                              {...register(`filters.${index}.value`, {
-                                required: ct('thisIsRequired'),
-                                min: 1,
-                                valueAsNumber: true,
-                              })}
-                            />
-                          </FormControl>
+                          <FormField
+                            control={form.control}
+                            name={`filters.${index}.value`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                <Input
+                                  id="interval"
+                                  {...field}
+                                />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                           <span>times</span>
                         </>
                       )
@@ -343,60 +406,51 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
                       item.topic === AlertFilterTopic.EventAttributeFilter && (
                         <>
                           <span>The events </span>
-                          <FormControl
-                            isInvalid={!!errors.filters?.[index]?.attribute}
-                            w="auto"
-                          >
-                            <Select
-                              size="xs"
-                              width="24"
-                              {...register(`filters.${index}.attribute`, { required: ct('thisIsRequired') })}
-                            >
-                              {
-                                FilterAttributeOptions.map(attribute => (
-                                  <option
-                                    key={attribute}
-                                    value={attribute}
-                                  >
-                                    {attribute}
-                                  </option>
-                                ))
-                              }
-                            </Select>
-                          </FormControl>
+                          <FormField
+                            control={form.control}
+                            name={`filters.${index}.attribute`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                <Select {...field}>
+                                  <SelectTrigger className="w-[180px]">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup>
+                                      {
+                                        FilterAttributeOptions.map(attribute => (
+                                          <SelectItem
+                                            key={attribute}
+                                            value={attribute}
+                                          >
+                                            {attribute}
+                                          </SelectItem>
+                                        ))
+                                      }
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                           <span> value </span>
-                          <FormControl
-                            isInvalid={!!errors.filters?.[index]?.match}
-                            w="auto"
-                          >
-                            <Select
-                              size="xs"
-                              width="24"
-                              {...register(`filters.${index}.match`, { required: ct('thisIsRequired') })}
-                            >
-                              {
-                                FilterMatchOptions.map(match => (
-                                  <option
-                                    key={match}
-                                    value={match}
-                                  >
-                                    {match}
-                                  </option>
-                                ))
-                              }
-                            </Select>
-                          </FormControl>
-                          <FormControl
-                            isInvalid={!!errors.filters?.[index]?.value}
-                            w="auto"
-                          >
-                            <Input
-                              size="xs"
-                              variant="filled"
-                              width="24"
-                              {...register(`filters.${index}.value`, { required: ct('thisIsRequired') })}
-                            />
-                          </FormControl>
+                          <FormField
+                            control={form.control}
+                            name={`filters.${index}.value`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                <Input
+                                  {...field}
+                                />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                         </>
                       )
                     }
@@ -446,51 +500,101 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
         </DropdownMenu>
       </div>
 
-      <FormControl isInvalid={!!errors.interval}>
-        <FormLabel htmlFor="interval">{t('alertInterval')}</FormLabel>
-        <Select
-          id="interval"
-          variant="filled"
-          {...register('interval', { required: ct('thisIsRequired') })}
-        >
-          {
-            IntervalOptions.map(interval => (
-              <option
-                key={interval}
-                value={interval}
-              >
-                {interval}
-              </option>
-            ))
-          }
-        </Select>
-        <FormErrorMessage>
-          {errors.interval && errors.interval.message}
-        </FormErrorMessage>
-      </FormControl>
+      <FormField
+        control={form.control}
+        name="interval"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t('alertInterval')}</FormLabel>
+            <FormControl>
+              <Select {...field}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {
+                      IntervalOptions.map(interval => (
+                        <SelectItem
+                          key={interval}
+                          value={interval}
+                        >
+                          {interval}
+                        </SelectItem>
+                      ))
+                    }
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
-      <FormControl isInvalid={!!errors.level}>
-        <FormLabel htmlFor="level">{t('alertLevel')}</FormLabel>
-        <Select
-          id="level"
-          variant="filled"
-          {...register('level', { required: ct('thisIsRequired') })}
-        >
-          {
-            Object.values(AlertLevel).map(item => (
-              <option
-                key={item}
-                value={item}
-              >
-                {item}
-              </option>
-            ))
-          }
-        </Select>
-        <FormErrorMessage>
-          {errors.level && errors.level.message}
-        </FormErrorMessage>
-      </FormControl>
+      <FormField
+        control={form.control}
+        name="level"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t('alertLevel')}</FormLabel>
+            <FormControl>
+            <Select {...field}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {
+                    IntervalOptions.map(interval => (
+                      <SelectItem
+                        key={interval}
+                        value={interval}
+                      >
+                        {interval}
+                      </SelectItem>
+                    ))
+                  }
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="level"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t('alertLevel')}</FormLabel>
+            <FormControl>
+            <Select {...field}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {
+                    Object.values(AlertLevel).map(item => (
+                      <option
+                        key={item}
+                        value={item}
+                      >
+                        {item}
+                      </option>
+                    ))
+                  }
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
       <div>
         <FormControl isInvalid={!!errors.actions}>
@@ -615,5 +719,3 @@ const EditAlert: FC<Props> = ({ alert, onSubmit }) => {
     </form>
   )
 }
-
-export default EditAlert

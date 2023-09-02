@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { type OhbugEventLike } from 'common'
 import { type FC } from 'react'
-import CardSection from './card-section'
-import { Box } from '~/components/ui/box'
+import AccordionSection from './card-section'
+
 import Wrapper from './wrapper'
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
@@ -24,13 +24,13 @@ const IssueRelatedMetadata: FC<Props> = ({ event, tab }) => {
   }, [event])
 
   return (
-    <Box>
+    <div>
       <Wrapper>
-        <CardSection title="Custom Metadata">
+        <AccordionSection title="Custom Metadata">
           <DynamicReactJson src={metadata[tab]} />
-        </CardSection>
+        </AccordionSection>
       </Wrapper>
-    </Box>
+    </div>
   )
 }
 

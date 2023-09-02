@@ -28,6 +28,7 @@
     "projectName": "项目名称",
     "projectType": "项目类型",
     "createProject": "创建项目",
+    "createProjectDescription": "一键创建项目",
     "projectNamePlaceholder": "请输入项目名称"
   },
   "Bootstrap": {

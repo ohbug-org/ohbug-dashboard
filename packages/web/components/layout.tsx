@@ -9,7 +9,7 @@ import NavMenu from './nav-menu'
 import User from './user'
 import Logo from './logo'
 import Footer from './footer'
-import { Box } from '~/components/ui/box'
+
 import Wrapper from './wrapper'
 import { scrollWindowTo } from '~/libs/utils'
 
@@ -32,14 +32,14 @@ const Layout: FC<Props> = ({ children }) => {
     <>
       <div className="min-h-screen w-full">
         {/* nav */}
-        <Box
+        <div
           className="container mx-auto"
           style={{ height: HeadHeight }}
         >
           <Nav />
-        </Box>
+        </div>
         {/* navMenu */}
-        <Box
+        <div
           className={
             twMerge(
               'backdrop-blur shadow-sm w-full',
@@ -91,7 +91,7 @@ const Layout: FC<Props> = ({ children }) => {
               <User />
             </div>
           </nav>
-        </Box>
+        </div>
         {/* main */}
         <div
           className="w-full border-b border-stone"
@@ -102,11 +102,11 @@ const Layout: FC<Props> = ({ children }) => {
           <div>{children}</div>
         </div>
         {/* footer */}
-        <Box className="py-8">
+        <div className="py-8">
           <Wrapper>
             <Footer />
           </Wrapper>
-        </Box>
+        </div>
       </div>
     </>
   )

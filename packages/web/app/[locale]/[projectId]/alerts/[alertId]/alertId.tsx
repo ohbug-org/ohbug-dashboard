@@ -6,9 +6,8 @@ import { type Action, type ConditionOption, type FilterOption } from 'common'
 import dayjs from 'dayjs'
 import { type Alert, type AlertEvent, type Event, type Issue } from '@prisma/client'
 import { type AlertEventTrend } from '~/services/alerts'
-import { Box } from '~/components/ui/box'
 import Wrapper from '~/components/wrapper'
-import CardSection from '~/components/card-section'
+import AccordionSection from '~/components/accordion-section'
 import Title from '~/components/title'
 import useCurrentProject from '~/hooks/use-current-project'
 import EventsList from '~/components/events-list'
@@ -45,9 +44,9 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
         {alert.name}
       </Title>
 
-      <Box>
+      <div>
         <Wrapper className='flex flex-col gap-12'>
-          <CardSection title="Conditions" className='space-y-4'>
+          <AccordionSection title="Conditions" className='space-y-4'>
             {
               alert.recentlyAt && (
                 <Tooltip>
@@ -121,22 +120,22 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
               <Badge variant="outline">{alert.level}</Badge>
               <Badge variant="outline">interval: {alert.interval}</Badge>
             </div>
-          </CardSection>
+          </AccordionSection>
 
-          <CardSection title="Trends">
+          <AccordionSection title="Trends">
             <TrendChart
               data={alertEventTrends}
               name="Alerts"
               type="14d"
               variant="detail"
             />
-          </CardSection>
+          </AccordionSection>
 
-          <CardSection title="Events">
+          <AccordionSection title="Events">
             <EventsList events={events} />
-          </CardSection>
+          </AccordionSection>
         </Wrapper>
-      </Box>
+      </div>
     </div>
   )
 }

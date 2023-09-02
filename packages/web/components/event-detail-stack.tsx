@@ -3,9 +3,9 @@
 import { type FC } from 'react'
 import { type OhbugEventLike } from 'common'
 import StackInfo from './stack-info'
-import { Box } from '~/components/ui/box'
+
 import Wrapper from './wrapper'
-import CardSection from './card-section'
+import AccordionSection from './card-section'
 import { renderStringOrJson } from '~/libs/utils'
 
 interface Props {
@@ -14,16 +14,16 @@ interface Props {
 
 const EventDetailStack: FC<Props> = ({ event }) => {
   return (
-    <Box>
+    <div>
       <Wrapper>
-        <CardSection
+        <AccordionSection
           collapse={
             (event.detail.stack && event?.source) && (
-              <Box mb="4">
+              <div mb="4">
                 <StackInfo
                   source={event?.source}
                 />
-              </Box>
+              </div>
             )
           }
           collapseTitle="Code"
@@ -34,41 +34,41 @@ const EventDetailStack: FC<Props> = ({ event }) => {
         >
           {/* unhandledrejectionError */}
           {/* uncaughtError */}
-          <Box
+          <div
             as="pre"
             mt="4"
             wordBreak="break-word"
           >
             {typeof event.detail.stack === 'string' ? event.detail.stack : JSON.stringify(event.detail.stack)}
-          </Box>
+          </div>
           {/* resourceError */}
           {
             event?.detail.selector && (
-              <Box mb="4">
+              <div mb="4">
                 {renderStringOrJson(event.detail)}
-              </Box>
+              </div>
             )
           }
           {/* ajaxError */}
           {/* fetchError */}
           {
             event?.type === 'ajaxError' && (
-              <Box mb="4">
+              <div mb="4">
                 {renderStringOrJson(event.detail)}
-              </Box>
+              </div>
             )
           }
           {/* websocketError */}
           {
             event?.type === 'websocketError' && (
-              <Box mb="4">
+              <div mb="4">
                 {renderStringOrJson(event.detail)}
-              </Box>
+              </div>
             )
           }
-        </CardSection>
+        </AccordionSection>
       </Wrapper>
-    </Box>
+    </div>
   )
 }
 

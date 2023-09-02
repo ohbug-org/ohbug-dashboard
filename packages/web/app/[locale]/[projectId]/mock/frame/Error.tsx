@@ -1,6 +1,6 @@
 'use client'
 
-import Card from '~/components/card'
+import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 
 function randomString(length: number) {
@@ -28,17 +28,19 @@ function Error() {
   }
 
   return (
-    <Card
-      content={
-        (
-          <div className='flex'>
-            <Button onClick={() => handleError()}>undefined error</Button>
-            <Button onClick={() => handleError1()}>random error</Button>
-          </div>
-        )
-      }
-      title="Error"
-    />
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          Error
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className='flex'>
+          <Button onClick={() => handleError()}>undefined error</Button>
+          <Button onClick={() => handleError1()}>random error</Button>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

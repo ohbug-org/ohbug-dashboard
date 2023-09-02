@@ -10,7 +10,7 @@ import useCurrentProject from '~/hooks/use-current-project'
 import { useInfinite } from '~/hooks/use-infinite'
 import LoadingMoreButton from '~/components/load-more-button'
 import { serviceGetAlerts } from '~/services/alerts'
-import { Box } from '~/components/ui/box'
+
 import { Button } from '~/components/ui/button'
 
 const Alerts = () => {
@@ -28,7 +28,7 @@ const Alerts = () => {
   )
 
   return (
-    <Box>
+    <div>
       <Title
         rightNodes={
           (
@@ -56,7 +56,7 @@ const Alerts = () => {
           onClick={() => setSize(size + 1)}
         />
       </Wrapper>
-    </Box>
+    </div>
   )
 }
 

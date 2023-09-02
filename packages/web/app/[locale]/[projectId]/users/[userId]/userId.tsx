@@ -5,9 +5,9 @@ import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
 import { type Event, type EventUser, type Feedback } from '@prisma/client'
 import EventsList from '~/components/events-list'
-import { Box } from '~/components/ui/box'
+
 import Wrapper from '~/components/wrapper'
-import CardSection from '~/components/card-section'
+import AccordionSection from '~/components/ui/accordion-section'
 import useCurrentProject from '~/hooks/use-current-project'
 import Title from '~/components/title'
 import {
@@ -53,12 +53,12 @@ export default function UserId({ user }: Props) {
         </Title>
 
         <Wrapper>
-          <CardSection title="Related Events">
+          <AccordionSection title="Related Events">
             <EventsList events={user.events} />
-          </CardSection>
+          </AccordionSection>
         </Wrapper>
         <Wrapper>
-          <CardSection title="Related Feedbacks">
+          <AccordionSection title="Related Feedbacks">
             <Table className='rounded-md border'>
               <TableHeader>
                 <TableRow>
@@ -86,7 +86,7 @@ export default function UserId({ user }: Props) {
                 }
               </TableBody>
             </Table>
-          </CardSection>
+          </AccordionSection>
         </Wrapper>
       </div>
     </div>

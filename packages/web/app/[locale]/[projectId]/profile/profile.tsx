@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { type Event, type Project } from '@prisma/client'
 import { type ProjectTrend } from '~/services/projects'
-import { Box } from '~/components/ui/box'
+
 import TrendChart from '~/components/trend-chart'
 import Wrapper from '~/components/wrapper'
 import EventsList from '~/components/events-list'
@@ -210,7 +210,7 @@ const Events = ({ project }: Props) => {
   )
 
   return (
-    <Box>
+    <div>
       <Wrapper>
         <EventsList events={data} />
         <Button
@@ -228,7 +228,7 @@ const Events = ({ project }: Props) => {
           }
         </Button>
       </Wrapper>
-    </Box>
+    </div>
   )
 }
 

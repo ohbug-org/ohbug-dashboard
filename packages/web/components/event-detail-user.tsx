@@ -3,9 +3,9 @@
 import dynamic from 'next/dynamic'
 import { type FC } from 'react'
 import { type OhbugEventLike } from 'common'
-import { Box } from '~/components/ui/box'
+
 import Wrapper from './wrapper'
-import CardSection from './card-section'
+import AccordionSection from './card-section'
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false })
 
@@ -15,13 +15,13 @@ interface Props {
 
 const EventDetailUser: FC<Props> = ({ event }) => {
   return (
-    <Box>
+    <div>
       <Wrapper>
-        <CardSection title="Event User">
+        <AccordionSection title="Event User">
           <DynamicReactJson src={event.user} />
-        </CardSection>
+        </AccordionSection>
       </Wrapper>
-    </Box>
+    </div>
   )
 }
 

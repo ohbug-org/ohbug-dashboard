@@ -1,7 +1,6 @@
 'use client'
 
-import { Box, Flex } from '@chakra-ui/react'
-import type { FC, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 interface Props {
   title: string
@@ -12,35 +11,21 @@ interface Props {
   children: ReactNode
 }
 
-const IntroduceChart: FC<Props> = ({ title, value, unit, description, actions, children }) => {
+export default function IntroduceChart({ title, value, unit, description, actions, children }: Props) {
   return (
-    <Flex
-      align="center"
-      gap="2"
-      w="full"
-    >
-      <Flex
-        direction="column"
-        w="200px"
-      >
-        <Box
-          fontSize="xl"
-          fontWeight="bold"
-        >
+    <div className='flex items-center gap-2 w-full'>
+      <div className='flex flex-col w-[200px]'>
+        <div className='text-xl font-bold'>
           {title}
-        </Box>
-        <Box
-          fontSize="3xl"
-        >
+        </div>
+        <div className='text-3xl'>
           {value}
           {unit}
-        </Box>
-        <Box textColor="gray">{description}</Box>
-        <Box>{actions}</Box>
-      </Flex>
-      <Box flex="1">{children}</Box>
-    </Flex>
+        </div>
+        <div className='text-stone-500'>{description}</div>
+        <div>{actions}</div>
+      </div>
+      <div className='flex-1'>{children}</div>
+    </div>
   )
 }
-
-export default IntroduceChart

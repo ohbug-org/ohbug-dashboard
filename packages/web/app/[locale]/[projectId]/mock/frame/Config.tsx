@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import type { OhbugConfig } from '@ohbug/types'
 import { useLocalStorage } from 'react-use'
 import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'

@@ -28,6 +28,7 @@
     "projectName": "Project Name",
     "projectType": "Project Type",
     "createProject": "Create Project",
+    "createProjectDescription": "One-click project creation.",
     "projectNamePlaceholder": "Input Project Name"
   },
   "Bootstrap": {

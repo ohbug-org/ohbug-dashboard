@@ -1,6 +1,5 @@
 'use client'
 
-import type { Project } from '@prisma/client'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,8 +16,8 @@ import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
-
-type OmitProject = Omit<Project, 'id' | 'apiKey' | 'createdAt' | 'updatedAt'>
+import schema from './schema'
+import submit from './action'
 
 const projectTypes = [
   {
@@ -27,34 +26,26 @@ const projectTypes = [
   },
 ] as const
 
-const formSchema = z.object({
-  name: z.string().min(2).max(50),
-  type: z.enum(['javascript'] as const)
-})
-
 export default function CreateProject() {
-  const ct = useTranslations('Common')
   const t = useTranslations('CreateProject')
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
     defaultValues: {
       name: "",
       type: "javascript"
     },
   })
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof schema>) {
+    await submit(values)
   }
 
   return (
     <div className='flex items-center justify-center h-screen'>
       <Card className='w-80'>
         <CardHeader>
-          <CardTitle>Create project</CardTitle>
-          <CardDescription>Deploy your new project in one-click.</CardDescription>
+          <CardTitle>{t('createProject')}</CardTitle>
+          <CardDescription>{t('createProjectDescription')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

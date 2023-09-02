@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '~/components/ui/button'
 import { client } from './index'
-import Card from '~/components/card'
+import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card'
+import { Button } from '~/components/ui/button'
 
 function CustomReport() {
   const handleError = () => {
@@ -22,16 +22,18 @@ function CustomReport() {
     }
   }
   return (
-    <Card
-      content={
-        (
-          <div>
-            <Button onClick={() => handleError()}>custom report</Button>
-          </div>
-        )
-      }
-      title="CustomReport"
-    />
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          CustomReport
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className='flex'>
+          <Button onClick={() => handleError()}>custom report</Button>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

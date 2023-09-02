@@ -6,7 +6,7 @@ import { unpack } from 'rrweb'
 import { useMount } from 'react-use'
 import { type OhbugEventLike } from 'common'
 import { type FC } from 'react'
-import { Box } from '~/components/ui/box'
+
 import Wrapper from '~/components/wrapper'
 import 'rrweb-player/dist/style.css'
 
@@ -29,11 +29,11 @@ const IssueRelatedRrweb: FC<Props> = ({ event }) => {
     }
   })
   return (
-    <Box>
+    <div>
       <Wrapper>
-        <Box ref={rootRef} />
+        <div ref={rootRef} />
       </Wrapper>
-    </Box>
+    </div>
   )
 }
 

@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl'
 import { type EventUser, type Feedback } from '@prisma/client'
 import FeedbacksList from '~/components/feedbacks-list'
-import { Box } from '~/components/ui/box'
+
 import Title from '~/components/title'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
@@ -27,7 +27,7 @@ export default function FeedbacksPage() {
   )
 
   return (
-    <Box>
+    <div>
       <Title
         rightNodes={
           (
@@ -65,6 +65,6 @@ export default function FeedbacksPage() {
           }
         </Button>
       </Wrapper>
-    </Box>
+    </div>
   )
 }

@@ -1,19 +1,19 @@
 'use client'
 
-import type { FC } from 'react'
 import { useCallback, useMemo } from 'react'
 import { usePathname, useRouter } from 'next-intl/client'
 import { useSearchParams } from 'next/navigation'
-import { Link, Tab, TabList, Tabs } from '@chakra-ui/react'
 import type { OhbugEventLike } from 'common'
 import { useTranslations } from 'next-intl'
 import useCurrentProject from '~/hooks/use-current-project'
+import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs'
+import Link from 'next/link'
 
 interface Props {
   event: OhbugEventLike
 }
 
-const IssueDetailTabs: FC<Props> = ({ event }) => {
+export default function IssueDetailTabs({ event }: Props) {
   const t = useTranslations('Event')
   const router = useRouter()
   const pathname = usePathname()
@@ -50,11 +50,11 @@ const IssueDetailTabs: FC<Props> = ({ event }) => {
     return base
   }, [event, router, projectId])
   const active = useMemo(() => {
-    const index = list.findIndex(item => item.tab === tab)
-    return index > 0 ? index : 0
+    const value = list.find(item => item.tab === tab)?.value
+    return value
   }, [list, tab])
-  const handleTabChange = useCallback((index: number) => {
-    const item = list[index]
+  const handleTabChange = useCallback((value: string) => {
+    const item = list.find(v=>v.value===value)
     if (item) {
       router.push(`${pathname}?tab=${item.tab}`)
     }
@@ -62,23 +62,21 @@ const IssueDetailTabs: FC<Props> = ({ event }) => {
 
   return (
     <Tabs
-      index={active}
-      onChange={handleTabChange}
-      variant="enclosed-colored"
+      value={active}
+      onValueChange={handleTabChange}
     >
-      <TabList>
+      <TabsList>
         {
           list.map(v => (
-            <Tab
+            <TabsTrigger
               key={v.value}
+              value={v.value}
             >
-              <Link>{v.label}</Link>
-            </Tab>
+              <a>{v.label}</a>
+            </TabsTrigger>
           ))
         }
-      </TabList>
+      </TabsList>
     </Tabs>
   )
 }
-
-export default IssueDetailTabs

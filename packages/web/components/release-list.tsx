@@ -8,7 +8,7 @@ import type { Release } from '@prisma/client'
 import useCurrentProject from '~/hooks/use-current-project'
 import { serviceDeleteRelease } from '~/services/releases'
 import { useToast } from '~/components/ui/use-toast'
-import { Box } from '~/components/ui/box'
+
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu'
 import { Button } from '~/components/ui/button'
@@ -40,7 +40,7 @@ const ReleaseList: FC<Props> = ({ releases, mutate }) => {
   }, [mutate])
 
   return (
-    <Box className='h-full w-full overflow-x-hidden overflow-y-auto rounded-lg'>
+    <div className='h-full w-full overflow-x-hidden overflow-y-auto rounded-lg'>
       {
         releases.map(release => (
           <div key={release.id}>
@@ -93,7 +93,7 @@ const ReleaseList: FC<Props> = ({ releases, mutate }) => {
           </div>
         ))
       }
-    </Box>
+    </div>
   )
 }
 

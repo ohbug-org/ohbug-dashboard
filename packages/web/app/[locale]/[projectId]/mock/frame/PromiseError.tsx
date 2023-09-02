@@ -1,6 +1,6 @@
 'use client'
 
-import Card from '~/components/card'
+import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 
 function PromiseError() {
@@ -8,16 +8,18 @@ function PromiseError() {
     Promise?.reject(new Error('fail'))
   }
   return (
-    <Card
-      content={
-        (
-          <div>
-            <Button onClick={() => handlePromise()}>unhandledrejection error</Button>
-          </div>
-        )
-      }
-      title="Promise"
-    />
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          Promise
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className='flex'>
+          <Button onClick={() => handlePromise()}>unhandledrejection error</Button>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

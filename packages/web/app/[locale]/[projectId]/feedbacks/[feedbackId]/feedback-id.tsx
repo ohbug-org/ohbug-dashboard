@@ -4,8 +4,8 @@ import { useMemo } from 'react'
 import EventDetailActions from '~/components/event-detail-action'
 import EventDetailProfile from '~/components/event-detail-profile'
 import EventDetailUser from '~/components/event-detail-user'
-import CardSection from '~/components/card-section'
-import { Box } from '~/components/ui/box'
+import AccordionSection from '~/components/ui/accordion-section'
+
 import Wrapper from '~/components/wrapper'
 
 interface Props {
@@ -19,19 +19,19 @@ export default function FeedbackId({ feedback }: Props) {
     <div className='flex flex-col gap-6'>
       <EventDetailProfile event={feedback} />
 
-      <Box>
+      <div>
         <Wrapper>
-          <CardSection
+          <AccordionSection
             title="Event Detail"
           >
             <div className='flex flex-col'>
-              {detail.feedback && <div className='w-full'><Box className='w-24'>Feedback:</Box><code>{detail.feedback}</code></div>}
-              {detail.selector && <div className='w-full'><Box className='w-24'>Selector:</Box><code>{detail.selector}</code></div>}
-              {detail.outerHTML && <div className='w-full'><Box className='w-24'>outerHTML:</Box><code>{detail.outerHTML}</code></div>}
+              {detail.feedback && <div className='w-full'><div className='w-24'>Feedback:</div><code>{detail.feedback}</code></div>}
+              {detail.selector && <div className='w-full'><div className='w-24'>Selector:</div><code>{detail.selector}</code></div>}
+              {detail.outerHTML && <div className='w-full'><div className='w-24'>outerHTML:</div><code>{detail.outerHTML}</code></div>}
             </div>
-          </CardSection>
+          </AccordionSection>
         </Wrapper>
-      </Box>
+      </div>
 
       <EventDetailActions event={feedback} />
 

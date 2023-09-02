@@ -1,16 +1,16 @@
 'use client'
 
-import type { FC, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { memo, useEffect, useMemo, useRef } from 'react'
 import type { Options } from 'highcharts'
 import Highcharts from 'highcharts'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 import dayjs from 'dayjs'
-import { useColorMode } from '@chakra-ui/react'
 import Loading from './loading'
-import { theme } from '~/styles/chart.theme'
+import { theme as chartTheme } from '~/styles/chart.theme'
 import { colors } from '~/styles/colors'
+import { useTheme } from 'next-themes'
 
 if (typeof Highcharts === 'object') { HighchartsExporting(Highcharts) }
 
@@ -26,14 +26,14 @@ interface MiniChartProps {
   plotValue?: number[]
 }
 
-const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'mini', name = 'Events', timeField = 'time', valueField = 'count', unit = 'events', plotValue }) => {
+const TrendChart = memo<MiniChartProps>(({ type, data, title, variant = 'mini', name = 'Events', timeField = 'time', valueField = 'count', unit = 'events', plotValue }) => {
   if (!data) return <Loading />
 
   const ref = useRef<any>(null)
-  const { colorMode } = useColorMode()
+  const { theme } = useTheme()
 
   useEffect(() => {
-    if (typeof Highcharts === 'object') { Highcharts.setOptions(theme) }
+    if (typeof Highcharts === 'object') { Highcharts.setOptions(chartTheme) }
   }, [])
   useEffect(() => {
     ref.current.chart.showLoading()
@@ -45,7 +45,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
       if (variant === 'detail') {
         return {
           accessibility: { enabled: false },
-          colors: [colorMode === 'dark' ? 'white' : 'black'],
+          colors: [theme === 'dark' ? 'white' : 'black'],
           chart: { type: 'column' },
           xAxis: { categories: data?.map(v => v[timeField]), crosshair: true },
           yAxis: {
@@ -66,7 +66,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
       if (variant === 'row') {
         return {
           accessibility: { enabled: false },
-          colors: [colorMode === 'dark' ? 'white' : 'black'],
+          colors: [theme === 'dark' ? 'white' : 'black'],
           chart: { type: 'bar' },
           xAxis: { categories: data?.map(v => v[timeField]), crosshair: true },
           yAxis: {
@@ -88,7 +88,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
         return {
           chart: { spacingTop: 15 },
           accessibility: { enabled: false },
-          colors: [colorMode === 'dark' ? 'white' : 'black'],
+          colors: [theme === 'dark' ? 'white' : 'black'],
           xAxis: { categories: data?.map(v => v[timeField]) },
           yAxis: {
             labels: { enabled: true },
@@ -147,7 +147,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
       }
       return {
         accessibility: { enabled: false },
-        colors: [colorMode === 'dark' ? 'white' : 'black'],
+        colors: [theme === 'dark' ? 'white' : 'black'],
         chart: {
           height: 60,
           spacingTop: 5,
@@ -179,7 +179,7 @@ const TrendChart: FC<MiniChartProps> = memo(({ type, data, title, variant = 'min
         exporting: { enabled: false },
       }
     },
-    [data, type, variant, colorMode, name, timeField, valueField, unit],
+    [data, type, variant, theme, name, timeField, valueField, unit],
   )
 
   return (
