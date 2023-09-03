@@ -26,8 +26,7 @@ export default function ProjectCard({ project }: Props) {
   return (
     <Link href={`/${project.id}/profile`}>
       <Card>
-        <CardHeader />
-        <CardContent>
+        <CardHeader>
           <div className="flex gap-6">
             <Avatar>
               <AvatarImage
@@ -36,7 +35,7 @@ export default function ProjectCard({ project }: Props) {
               />
               <AvatarFallback>{project.name}</AvatarFallback>
             </Avatar>
-            <div className="space-x-6">
+            <div className="space-x-4">
               <span className="cursor-pointer font-semibold">
                 {project.name}
               </span>
@@ -46,19 +45,18 @@ export default function ProjectCard({ project }: Props) {
               </span>
             </div>
           </div>
-
-          <div className="mt-4">
-            {
-              isLoading
-                ? <Loading />
-                : (
-                  <TrendChart
-                    data={trends}
-                    type="14d"
-                  />
-                  )
-            }
-          </div>
+        </CardHeader>
+        <CardContent>
+          {
+            isLoading
+              ? <Loading />
+              : (
+                <TrendChart
+                  data={trends}
+                  type="14d"
+                />
+                )
+          }
         </CardContent>
       </Card>
     </Link>

@@ -18,6 +18,7 @@ import { Button } from '~/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 import { Switch } from '~/components/ui/switch'
 import { Label } from '~/components/ui/label'
+import LoadingMoreButton from '~/components/load-more-button'
 
 interface Props {
   project?: Project
@@ -212,42 +213,31 @@ const Events = ({ project }: Props) => {
   return (
     <Wrapper>
       <EventsList events={data} />
-      <Button
-        className="mt-6 w-full"
-        disabled={isLoading || isReachingEnd}
-        size="sm"
+      <LoadingMoreButton
+        isLoading={isLoading}
+        isReachingEnd={isReachingEnd}
         onClick={() => setSize(size + 1)}
-      >
-        {
-            isLoading
-              ? 'Loading...'
-              : isReachingEnd
-                ? 'No More Events'
-                : 'Load More'
-          }
-      </Button>
+      />
     </Wrapper>
   )
 }
 
 export default function Profile({ project, trends, views }: Props) {
   return (
-    <div>
+    <div className="space-y-8">
       <Title
-        rightNodes={
-          (
-            <Link href={`/${project?.id}/settings`}>
-              <Button>
-                <i className="i-ri-settings-2-line mr-2" /> Setting
-              </Button>
-            </Link>
-        )
-        }
+        rightNodes={(
+          <Link href={`/${project?.id}/settings`}>
+            <Button>
+              <i className="i-ri-settings-2-line mr-2" /> Setting
+            </Button>
+          </Link>
+        )}
       >
         {project?.name}
       </Title>
 
-      <div className="py-8">
+      <div>
         <View views={views} />
 
         <Trend trends={trends} />

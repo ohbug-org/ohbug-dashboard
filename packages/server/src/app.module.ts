@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common'
+import { SharedModule } from '~/shared.module'
 import { ApiModule } from '~/api/api.module'
 import { TasksModule } from '~/tasks/tasks.module'
-import { SharedModule } from '~/shared.module'
 
 @Module({
   imports: [
+    SharedModule,
     ApiModule,
     TasksModule,
-    SharedModule,
   ],
 })
 export class AppModule {}

@@ -11,16 +11,13 @@ interface Props {
   bottomNodes?: ReactNode
 }
 
-const PADDING = '12'
-
 export default function Title({ className, children, rightNodes, bottomNodes, ...props }: Props) {
   return (
     <Wrapper
-      className={cn('flex flex-col justify-between', className)}
-      style={{
-        paddingBottom: bottomNodes ? '0' : PADDING,
-        paddingTop: PADDING,
-      }}
+      className={cn('flex flex-col justify-between pt-10', className, {
+        'pb-0': !bottomNodes,
+        'pb-10': bottomNodes,
+      })}
       {...props}
     >
       <div className="flex items-center justify-between">
@@ -35,7 +32,14 @@ export default function Title({ className, children, rightNodes, bottomNodes, ..
           }
         <div>{rightNodes}</div>
       </div>
-      <div style={{ marginTop: bottomNodes ? 6 : 0 }}>{bottomNodes}</div>
+      <div
+        className={cn({
+          'mt-0': !bottomNodes,
+          'mt-6': bottomNodes,
+        })}
+      >
+        {bottomNodes}
+      </div>
     </Wrapper>
   )
 }
