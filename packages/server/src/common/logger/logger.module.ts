@@ -5,7 +5,7 @@ import pino from 'pino'
 @Module({
   imports: [
     LoggerModuleBase.forRoot({
-      pinoHttp: { stream: pino.destination('./logs.log') },
+      pinoHttp: { stream: pino.destination('./logs/logs.log') },
       useExisting: true,
     }),
   ],

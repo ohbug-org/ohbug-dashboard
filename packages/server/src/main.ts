@@ -25,7 +25,7 @@ async function bootstrap() {
       // 50mb
       bodyLimit: 624288000,
     }),
-    { bufferLogs: true },
+    { bufferLogs: true, snapshot: true, abortOnError: false },
   )
   app.useLogger(app.get(Logger))
   app.useGlobalInterceptors(new LoggerErrorInterceptor())
