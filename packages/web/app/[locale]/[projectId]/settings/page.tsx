@@ -17,6 +17,7 @@ import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '~/components/ui/dialog'
+import { Snippet } from '~/components/ui/snippet'
 
 interface CommonProps {
   project?: ProjectWithMembers
@@ -102,7 +103,7 @@ const SettingsProjectApiKey = ({ project }: CommonProps) => {
         <CardDescription>{t('apiKeyDescription')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <code>{project?.apiKey ?? ''}</code>
+        <Snippet>{project?.apiKey ?? ''}</Snippet>
       </CardContent>
     </Card>
   )
