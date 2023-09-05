@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Logo = forwardRef<HTMLAnchorElement, Props>((props, ref) => {
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
 
   return (
     <Link
@@ -27,7 +27,7 @@ const Logo = forwardRef<HTMLAnchorElement, Props>((props, ref) => {
         fill
         priority
         alt="logo"
-        src={theme === 'dark' ? '/logo-white.svg' : '/logo.svg'}
+        src={resolvedTheme === 'dark' ? '/logo-white.svg' : '/logo.svg'}
       />
     </Link>
   )
