@@ -11,6 +11,7 @@ import useCurrentProject from '~/hooks/use-current-project'
 import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetFeedbacks } from '~/services/feedbacks'
 import { Button } from '~/components/ui/button'
+import LoadingMoreButton from '~/components/load-more-button'
 
 export default function FeedbacksPage() {
   const ct = useTranslations('Common')
@@ -49,21 +50,11 @@ export default function FeedbacksPage() {
 
       <Wrapper>
         <FeedbacksList feedbacks={feedbacks} />
-        <Button
-          className="w-full mt-6"
-          disabled={isLoading || isReachingEnd}
-          size="sm"
-          variant="outline"
+        <LoadingMoreButton
+          isLoading={isLoading}
+          isReachingEnd={isReachingEnd}
           onClick={() => setSize(size + 1)}
-        >
-          {
-            isLoading
-              ? `${ct('loading')}...`
-              : isReachingEnd
-                ? ct('noMoreData')
-                : ct('loadMore')
-          }
-        </Button>
+        />
       </Wrapper>
     </div>
   )

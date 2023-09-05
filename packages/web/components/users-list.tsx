@@ -1,11 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useCallback } from 'react'
-import { type Key } from 'react'
+import { useMemo } from 'react'
 import { type EventUser } from '@prisma/client'
+import { ColumnDef } from '@tanstack/react-table'
 import useCurrentProject from '~/hooks/use-current-project'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
+import DataTable from '~/components/data-table'
 
 type User = EventUser & {
   _count: {
@@ -40,77 +40,48 @@ function getUserView(user: EventUser) {
   return result.join(' / ')
 }
 
-const columns = [
-  {
-    key: 'user',
-    label: 'user',
-  },
-  {
-    key: 'issues',
-    label: 'issues',
-  },
-  {
-    key: 'metrics',
-    label: 'metrics',
-  },
-  {
-    key: 'feedbacks',
-    label: 'feedbacks',
-  },
-  {
-    key: 'pageViews',
-    label: 'pageViews',
-  },
-  {
-    key: 'userViews',
-    label: 'userViews',
-  },
-]
-
 export default function UsersList({ users }: Props) {
   const { projectId } = useCurrentProject()
 
-  const renderCell = useCallback((item: User, columnKey: Key) => {
-    switch (columnKey) {
-      case 'user':
-        return (
-          <Link href={`/${projectId}/users/${item.id}`}>
-            {getUserView(item)}
+  const columns = useMemo<ColumnDef<User>[]>(
+    () => [
+      {
+        header: 'user',
+        cell: ({ row }) => (
+          <Link href={`/${projectId}/users/${row.getValue('id')}`}>
+            {getUserView(row.original)}
           </Link>
-        )
-      case 'issues':
-        return item._count.issues
-      case 'metrics':
-        return item._count.metrics
-      case 'feedbacks':
-        return item._count.feedbacks
-      case 'pageViews':
-        return item._count.pageViews
-      case 'userViews':
-        return item._count.userViews
-      default:
-        return null
-    }
-  }, [projectId])
+        ),
+      },
+      {
+        accessorKey: '_count',
+        header: 'issues',
+        cell: ({ row }) => (row.getValue('_count') as User['_count'])?.issues,
+      },
+      {
+        header: 'metrics',
+        cell: ({ row }) => (row.getValue('_count') as User['_count'])?.metrics,
+      },
+      {
+        header: 'feedbacks',
+        cell: ({ row }) => (row.getValue('_count') as User['_count'])?.feedbacks,
+      },
+      {
+        header: 'pageViews',
+        cell: ({ row }) => (row.getValue('_count') as User['_count'])?.pageViews,
+      },
+      {
+        header: 'userViews',
+        cell: ({ row }) => (row.getValue('_count') as User['_count'])?.userViews,
+      },
+    ],
+    [projectId],
+  )
 
   return (
-    <Table className="rounded-md border">
-      <TableHeader>
-        <TableRow>
-          {columns.map(column => <TableHead key={column.key}>{column.label}</TableHead>)}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {
-          users
-            ? users.map(user => (
-              <TableRow key={user.id}>
-                {columns.map(column => <TableCell>{renderCell(user, column.key)}</TableCell>)}
-              </TableRow>
-            ))
-            : []
-        }
-      </TableBody>
-    </Table>
+    <DataTable
+      columns={columns}
+      data={users}
+    />
   )
 }

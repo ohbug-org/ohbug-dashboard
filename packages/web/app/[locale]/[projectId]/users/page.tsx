@@ -11,7 +11,7 @@ import useCurrentProject from '~/hooks/use-current-project'
 import { useInfinite } from '~/hooks/use-infinite'
 import { serviceGetEventUsers } from '~/services/event-users'
 import { Input } from '~/components/ui/input'
-import { Button } from '~/components/ui/button'
+import LoadingMoreButton from '~/components/load-more-button'
 
 export default function UsersPage() {
   const ct = useTranslations('Common')
@@ -65,20 +65,11 @@ export default function UsersPage() {
 
       <Wrapper>
         <UsersList users={eventUsers} />
-        <Button
-          className="w-full mt-6"
-          disabled={isLoading || isReachingEnd}
-          variant="outline"
+        <LoadingMoreButton
+          isLoading={isLoading}
+          isReachingEnd={isReachingEnd}
           onClick={() => setSize(size + 1)}
-        >
-          {
-            isLoading
-              ? `${ct('loading')}...`
-              : isReachingEnd
-                ? ct('noMoreData')
-                : ct('loadMore')
-          }
-        </Button>
+        />
       </Wrapper>
     </div>
   )
