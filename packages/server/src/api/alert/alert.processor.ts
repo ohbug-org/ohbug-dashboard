@@ -1,14 +1,13 @@
 import { OnQueueError, Process, Processor } from '@nestjs/bull'
 import { getConfig } from 'config'
-import { type Job } from 'bull'
-import { type Action } from 'common'
-import { type HttpService } from '@nestjs/axios'
-import { type GetAlertStatusParams } from '../report/report.interface'
+import { Job } from 'bull'
+import { Action } from 'common'
+import { HttpService } from '@nestjs/axios'
+import { GetAlertStatusParams } from '../report/report.interface'
 import { getAlertContent, getAlertStatus } from './alert.core'
 import email from './email'
 import webhook from './webhook'
-import { type PrismaService } from '~/common'
-import { ForbiddenException } from '~/common'
+import { ForbiddenException, PrismaService } from '~/common'
 
 @Processor('alert')
 export class AlertProcessor {

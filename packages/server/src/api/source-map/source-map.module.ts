@@ -6,7 +6,7 @@ import { SourceMapProcessor } from './source-map.processor'
 import { PrismaService } from '~/common'
 
 @Module({
-  imports: [BullModule.registerQueue({ name: 'source-map' })],
+  imports: [BullModule.registerQueue({ name: 'sourceMap' })],
   controllers: [SourceMapController],
   providers: [SourceMapService, PrismaService, SourceMapProcessor],
 })

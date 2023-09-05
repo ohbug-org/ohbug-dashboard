@@ -1,9 +1,8 @@
 import { InjectQueue, OnQueueError, Process, Processor } from '@nestjs/bull'
-import { type Job, type Queue } from 'bull'
-import { type Prisma } from '@prisma/client'
-import { type CreateEventParams, type CreateFeedbackParams, type CreateMetricParams, type CreateViewParams, type GetAlertStatusParams } from './report.interface'
-import { type PrismaService } from '~/common'
-import { ForbiddenException } from '~/common'
+import { Job, Queue } from 'bull'
+import { Prisma } from '@prisma/client'
+import { CreateEventParams, CreateFeedbackParams, CreateMetricParams, CreateViewParams, GetAlertStatusParams } from './report.interface'
+import { ForbiddenException, PrismaService } from '~/common'
 
 @Processor('document')
 export class ReportProcessor {

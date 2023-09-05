@@ -1,10 +1,9 @@
-import { AlertConditionTopic, AlertFilterTopic } from 'common'
+import { AlertConditionTopic, AlertFilterTopic, ConditionOption, FilterOption, Interval } from 'common'
 import dayjs from 'dayjs'
 import markdownIt from 'markdown-it'
-import { type ConditionOption, type FilterOption, type Interval } from 'common'
-import { type Alert, type AlertLevel, type Event, type Issue } from '@prisma/client'
-import { type GetAlertStatusParams } from '../report/report.interface'
-import { type PrismaService } from '~/common'
+import { Alert, AlertLevel, Event, Issue } from '@prisma/client'
+import { GetAlertStatusParams } from '../report/report.interface'
+import { PrismaService } from '~/common'
 
 function getIntervalMs(interval: Interval) {
   switch ((interval)) {

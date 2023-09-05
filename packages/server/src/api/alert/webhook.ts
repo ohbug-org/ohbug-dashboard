@@ -1,6 +1,6 @@
 import { lastValueFrom } from 'rxjs'
-import { type HttpService } from '@nestjs/axios'
-import { type Action } from 'common'
+import { HttpService } from '@nestjs/axios'
+import { Action } from 'common'
 
 interface Content {
   title: string

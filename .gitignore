@@ -8,7 +8,7 @@ tsconfig.tsbuildinfo
 secrets
 
 # Logs
-logs
+logs/*
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -44,7 +44,6 @@ ohbug.config.development.yml
 
 # docker
 postgres-data
-logs
 
 # vercel
 .vercel

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bull'
-import { type OhbugEventLike } from 'common'
-import { type OhbugEvent } from '@ohbug/types'
-import { type Queue } from 'bull'
+import { OhbugEventLike } from 'common'
+import { OhbugEvent } from '@ohbug/types'
+import { Queue } from 'bull'
 import {
   getMd5FromAggregationData,
   switchErrorDetailAndGetAggregationDataAndMetaData,
 } from './report.core'
-import { type CreateEventParams, type CreateFeedbackParams, type CreateMetricParams, type CreateViewParams } from './report.interface'
+import { CreateEventParams, CreateFeedbackParams, CreateMetricParams, CreateViewParams } from './report.interface'
 import { ForbiddenException } from '~/common'
 
 @Injectable()

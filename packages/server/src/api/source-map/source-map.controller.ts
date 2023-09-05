@@ -6,10 +6,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@webundsoehne/nest-fastify-file-upload'
-import { type ReceiveSourceMapFile } from 'common'
+import { ReceiveSourceMapFile } from 'common'
 import { UPLOAD_DEST } from './source-map.constant'
-import { type SourceMapService } from './source-map.service'
-import { type ReceiveSourceMapDto } from './source-map.dto'
+import { SourceMapService } from './source-map.service'
+import { ReceiveSourceMapDto } from './source-map.dto'
 
 /**
  * 用于接受上报 SourceMap，经过处理后入库
@@ -27,7 +27,7 @@ export class SourceMapController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', { dest: UPLOAD_DEST }))
   async receiveSourceMap(
-  @UploadedFile() file: ReceiveSourceMapFile,
+    @UploadedFile() file: ReceiveSourceMapFile,
     @Body() body: ReceiveSourceMapDto,
   ) {
     return this.sourceMapService.handleSourceMap(file, body)

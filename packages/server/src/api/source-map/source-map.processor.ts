@@ -1,13 +1,12 @@
 import { unlink } from 'node:fs/promises'
 import { Process, Processor } from '@nestjs/bull'
 import { nanoid } from 'nanoid'
-import { type Job } from 'bull'
-import { type Prisma, type Project, type Release } from '@prisma/client'
-import { type ReceiveSourceMapFile, type SourceMapData } from 'common'
+import { Job } from 'bull'
+import { Prisma, Project, Release } from '@prisma/client'
+import { ReceiveSourceMapFile, SourceMapData } from 'common'
 import { maxSourceMap } from '../source-map/source-map.constant'
-import { type ReceiveSourceMapDto } from '../source-map/source-map.dto'
-import { type PrismaService } from '~/common'
-import { ForbiddenException } from '~/common'
+import { ReceiveSourceMapDto } from '../source-map/source-map.dto'
+import { ForbiddenException, PrismaService } from '~/common'
 
 @Processor('sourceMap')
 export class SourceMapProcessor {

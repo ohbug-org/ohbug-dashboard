@@ -6,6 +6,7 @@ export default [
     rules: {
       'import/no-default-export': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
+      '@typescript-eslint/consistent-type-imports': 'off',
     },
   },
 ]

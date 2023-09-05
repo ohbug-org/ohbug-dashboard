@@ -1,8 +1,8 @@
 import { EventTypes } from '@ohbug/core'
 import { md5 } from 'common'
 import {
-  type AggregationDataAndMetaData,
-  type OhbugEventDetail,
+  AggregationDataAndMetaData,
+  OhbugEventDetail,
 } from './report.interface'
 
 /**
