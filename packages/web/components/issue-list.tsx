@@ -8,9 +8,9 @@ import { useTranslations } from 'next-intl'
 import { useDebounce, useSet } from 'react-use'
 import { useAtom } from 'jotai'
 import { type ReactNode } from 'react'
-import TrendChart from './trend-chart'
 import Pagination from './pagination'
 import Spinning from './spinning'
+import LineChart from './charts/line-chart'
 import { type SearchIssuesOrderBy } from '~/services/issues'
 import {
   serviceDeleteIssues,
@@ -278,10 +278,12 @@ export default function IssueList({ empty }: Props) {
         )
       case 'trends':
         return (
-          <div>
-            <TrendChart
+          <div className="h-16">
+            <LineChart
               data={trends?.[issue.id]}
-              type={chartType}
+              nameKey="time"
+              tooltipType={chartType === '14d' ? 'a' : 'b'}
+              valueKey="count"
             />
           </div>
         )

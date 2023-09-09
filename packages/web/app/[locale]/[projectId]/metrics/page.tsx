@@ -2,22 +2,16 @@
 
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
+import { CLSThresholds, FCPThresholds, FIDThresholds, INPThresholds, LCPThresholds, TTFBThresholds } from 'web-vitals'
 import IntroduceChart from '~/components/introduce-chart'
 import Title from '~/components/title'
-import TrendChart from '~/components/trend-chart'
+import ReferenceLineChart from '~/components/charts/reference-line-chart'
 import Wrapper from '~/components/wrapper'
 import useCurrentProject from '~/hooks/use-current-project'
 import { average } from '~/libs/utils'
 import { serviceGetMetricsTrends } from '~/services/metrics'
 import { useQuery } from '~/hooks/use-query'
 import { Button } from '~/components/ui/button'
-
-const CLS_THRESHOLD = [0.1, 0.25]
-const FID_THRESHOLD = [100, 300]
-const LCP_THRESHOLD = [2500, 4000]
-const FCP_THRESHOLD = [1800, 3000]
-const INP_THRESHOLD = [200, 500]
-const TTFB_THRESHOLD = [800, 1800]
 
 export default function MetricsPage() {
   const ct = useTranslations('Common')
@@ -98,15 +92,13 @@ export default function MetricsPage() {
           unit="ms"
           value={average(CLSData?.map(v => v.value) ?? [])}
         >
-          <TrendChart
+          <ReferenceLineChart
             data={CLSData}
             name="CLS"
-            plotValue={CLS_THRESHOLD}
-            timeField="time"
-            type="14d"
+            nameKey="time"
+            plotValue={CLSThresholds}
             unit="ms"
-            valueField="value"
-            variant="line"
+            valueKey="value"
           />
         </IntroduceChart>
 
@@ -116,15 +108,13 @@ export default function MetricsPage() {
           unit="ms"
           value={average(FIDData?.map(v => v.value) ?? [])}
         >
-          <TrendChart
+          <ReferenceLineChart
             data={FIDData}
             name="FID"
-            plotValue={FID_THRESHOLD}
-            timeField="time"
-            type="14d"
+            nameKey="time"
+            plotValue={FIDThresholds}
             unit="ms"
-            valueField="value"
-            variant="line"
+            valueKey="value"
           />
         </IntroduceChart>
 
@@ -134,15 +124,13 @@ export default function MetricsPage() {
           unit="ms"
           value={average(LCPData?.map(v => v.value) ?? [])}
         >
-          <TrendChart
+          <ReferenceLineChart
             data={LCPData}
             name="LCP"
-            plotValue={LCP_THRESHOLD}
-            timeField="time"
-            type="14d"
+            nameKey="time"
+            plotValue={LCPThresholds}
             unit="ms"
-            valueField="value"
-            variant="line"
+            valueKey="value"
           />
         </IntroduceChart>
 
@@ -152,15 +140,13 @@ export default function MetricsPage() {
           unit="ms"
           value={average(INPData?.map(v => v.value) ?? [])}
         >
-          <TrendChart
+          <ReferenceLineChart
             data={INPData}
             name="INP"
-            plotValue={INP_THRESHOLD}
-            timeField="time"
-            type="14d"
+            nameKey="time"
+            plotValue={INPThresholds}
             unit="ms"
-            valueField="value"
-            variant="line"
+            valueKey="value"
           />
         </IntroduceChart>
 
@@ -170,15 +156,13 @@ export default function MetricsPage() {
           unit="ms"
           value={average(FCPData?.map(v => v.value) ?? [])}
         >
-          <TrendChart
+          <ReferenceLineChart
             data={FCPData}
             name="FCP"
-            plotValue={FCP_THRESHOLD}
-            timeField="time"
-            type="14d"
+            nameKey="time"
+            plotValue={FCPThresholds}
             unit="ms"
-            valueField="value"
-            variant="line"
+            valueKey="value"
           />
         </IntroduceChart>
 
@@ -188,15 +172,13 @@ export default function MetricsPage() {
           unit="ms"
           value={average(TTFBData?.map(v => v.value) ?? [])}
         >
-          <TrendChart
+          <ReferenceLineChart
             data={TTFBData}
             name="TTFB"
-            plotValue={TTFB_THRESHOLD}
-            timeField="time"
-            type="14d"
+            nameKey="time"
+            plotValue={TTFBThresholds}
             unit="ms"
-            valueField="value"
-            variant="line"
+            valueKey="value"
           />
         </IntroduceChart>
       </Wrapper>

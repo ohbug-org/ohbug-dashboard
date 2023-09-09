@@ -40,7 +40,7 @@ const Layout: FC<Props> = ({ children }) => {
         <div
           style={{ height: NavHeight }}
           className={cn(
-            'backdrop-blur shadow-sm w-full',
+            'bg-background text-foreground shadow-sm w-full',
             scrollNavVisible ? 'sticky' : 'relative',
             scrollNavVisible && 'top-0',
             scrollNavVisible && 'z-10',

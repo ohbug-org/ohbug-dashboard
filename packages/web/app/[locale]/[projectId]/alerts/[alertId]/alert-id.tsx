@@ -12,7 +12,7 @@ import AccordionSection from '~/components/accordion-section'
 import Title from '~/components/title'
 import useCurrentProject from '~/hooks/use-current-project'
 import EventsList from '~/components/events-list'
-import TrendChart from '~/components/trend-chart'
+import BarChart from '~/components/charts/bar-chart'
 import { Button } from '~/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 import { Badge } from '~/components/ui/badge'
@@ -137,11 +137,11 @@ export default function AlertId({ alert, alertEvents, alertEventTrends }: Props)
           </AccordionSection>
 
           <AccordionSection title="Trends">
-            <TrendChart
+            <BarChart
               data={alertEventTrends}
               name="Alerts"
-              type="14d"
-              variant="detail"
+              nameKey="time"
+              valueKey="count"
             />
           </AccordionSection>
 

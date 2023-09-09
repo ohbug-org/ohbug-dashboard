@@ -44,7 +44,7 @@ function Snippet({ className, variant, children, ...props }: BadgeProps) {
       {...props}
     >
       {children}
-      <Tooltip delayDuration={0}>
+      <Tooltip>
         <TooltipTrigger>
           <div className="flex items-center ml-2">
             {

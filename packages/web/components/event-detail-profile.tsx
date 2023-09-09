@@ -7,8 +7,9 @@ import { type FC } from 'react'
 import { type OhbugEventLike } from 'common'
 import Link from 'next/link'
 import Wrapper from './wrapper'
-import AccordionSection from './accordion-section'
+import { Separator } from './ui/separator'
 import { getDeviceInfo } from '~/libs/utils'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
 import { Badge } from '~/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 
@@ -111,78 +112,112 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
 
   return (
     <Wrapper>
-      <AccordionSection
-        title="Event Environment"
-        head={
-            event.category === 'error'
-              ? (
-                <Link
-                  href={`/api/events/${event.id}`}
-                >
-                  JSON Raw {event.id}
-                </Link>
-                )
-              : null
-          }
-      >
-        <div className="flex flex-wrap mt-6">
-          {/* 浏览器 */}
-          {
+      <Card>
+        <CardHeader>
+          <CardTitle>Event Environment</CardTitle>
+          <CardDescription>
+            {
+              event.category === 'error'
+                ? (
+                  <Link
+                    href={`/api/events/${event.id}`}
+                  >
+                    JSON Raw {event.id}
+                  </Link>
+                  )
+                : null
+            }
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-4">
+            {/* 浏览器 */}
+            {
               deviceInfo?.browser
                 ? (
-                  <div className="flex flex-col">
-                    <div>{deviceInfo?.browser?.name ?? ''}</div>
-                    <div>{deviceInfo?.browser?.version ?? ''}</div>
-                  </div>
+                  <>
+                    <div className="flex flex-col">
+                      <div>{deviceInfo?.browser?.name ?? ''}</div>
+                      <div>{deviceInfo?.browser?.version ?? ''}</div>
+                    </div>
+                    <Separator
+                      className="h-12"
+                      orientation="vertical"
+                    />
+                  </>
                   )
                 : null
             }
-          {/* 系统 */}
-          {
+            {/* 系统 */}
+            {
               deviceInfo?.os
                 ? (
-                  <div className="flex flex-col">
-                    <div>{deviceInfo?.os?.name ?? ''}</div>
-                    <div>{deviceInfo?.os?.version ?? ''}</div>
-                  </div>
+                  <>
+                    <div className="flex flex-col">
+                      <div>{deviceInfo?.os?.name ?? ''}</div>
+                      <div>{deviceInfo?.os?.version ?? ''}</div>
+                    </div>
+                    <Separator
+                      className="h-12"
+                      orientation="vertical"
+                    />
+                  </>
                   )
                 : null
-            }
-          {/* App */}
-          {
+              }
+            {/* App */}
+            {
               deviceInfo?.app
                 ? (
-                  <div className="flex flex-col">
-                    <div>{deviceInfo?.app ?? ''}</div>
-                    <div>{`${deviceInfo?.version} / ${deviceInfo?.SDKVersion}`}</div>
-                  </div>
+                  <>
+                    <div className="flex flex-col">
+                      <div>{deviceInfo?.app ?? ''}</div>
+                      <div>{`${deviceInfo?.version} / ${deviceInfo?.SDKVersion}`}</div>
+                    </div>
+                    <Separator
+                      className="h-12"
+                      orientation="vertical"
+                    />
+                  </>
                   )
                 : null
             }
-          {/* 品牌 */}
-          {
+            {/* 品牌 */}
+            {
               (deviceInfo?.device && deviceInfo?.device?.brand)
                 ? (
-                  <div>
-                    <div>{deviceInfo?.device?.brand ?? ''}</div>
-                    <div>{deviceInfo?.device?.model ?? ''}</div>
-                  </div>
+                  <>
+                    <div>
+                      <div>{deviceInfo?.device?.brand ?? ''}</div>
+                      <div>{deviceInfo?.device?.model ?? ''}</div>
+                    </div>
+                    <Separator
+                      className="h-12"
+                      orientation="vertical"
+                    />
+                  </>
                   )
                 : null
             }
-          {/* 平台 */}
-          {
+            {/* 平台 */}
+            {
               deviceInfo?.platform
                 ? (
-                  <div className="flex flex-col">
-                    <div>{deviceInfo?.platform ?? ''}</div>
-                    <div>{deviceInfo?.system ?? ''}</div>
-                  </div>
+                  <>
+                    <div className="flex flex-col">
+                      <div>{deviceInfo?.platform ?? ''}</div>
+                      <div>{deviceInfo?.system ?? ''}</div>
+                    </div>
+                    <Separator
+                      className="h-12"
+                      orientation="vertical"
+                    />
+                  </>
                   )
                 : null
             }
-          {/* SDK */}
-          {
+            {/* SDK */}
+            {
               deviceInfo?.sdk
                 ? (
                   <div className="flex flex-col">
@@ -192,10 +227,10 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
                   )
                 : null
             }
-        </div>
+          </div>
 
-        <div className="flex flex-wrap mt-6">
-          {
+          <div className="flex flex-wrap gap-2 mt-6">
+            {
               tagList.map(tag => (
                 <Tooltip key={tag.key}>
                   <TooltipTrigger>
@@ -210,8 +245,9 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
                 </Tooltip>
               ))
             }
-        </div>
-      </AccordionSection>
+          </div>
+        </CardContent>
+      </Card>
     </Wrapper>
   )
 }

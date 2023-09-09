@@ -1,7 +1,7 @@
 'use client'
 
 import { type ReactNode } from 'react'
-import { Card, CardHeader, CardTitle } from '~/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import {
   Accordion,
   AccordionContent,
@@ -57,7 +57,9 @@ export default function AccordionSection({ title, head, collapse, collapseTitle,
               )
             : null
         }
-        {children}
+        <CardContent>
+          {children}
+        </CardContent>
       </Card>
     </div>
   )

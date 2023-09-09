@@ -18,20 +18,20 @@ export default function IssueDetailTitle({ issue, event }: Props) {
   const metadata = useMemo(() => JSON.parse(issue.metadata) || {}, [issue])
   return (
     <Title
-      className="sticky top-12 z-50"
+      className="sticky top-12 z-50 !py-6 bg-background text-foreground shadow-sm"
       bottomNodes={
         <IssueDetailTabs event={event} />
       }
       rightNodes={
         (
-          <div className="flex">
+          <div className="flex gap-4">
             <div className="flex flex-col">
-              <div>{t('titleEvents')}</div>
-              <div>{issue._count?.events}</div>
+              <h3>{t('titleEvents')}</h3>
+              <div className="text-center font-bold">{issue._count?.events}</div>
             </div>
             <div className="flex flex-col">
-              <div>{t('titleUsers')}</div>
-              <div>{issue._count?.users}</div>
+              <h3>{t('titleUsers')}</h3>
+              <div className="text-center font-bold">{issue._count?.users}</div>
             </div>
           </div>
       )

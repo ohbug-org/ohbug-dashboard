@@ -2,13 +2,13 @@
 
 import Link from 'next/link'
 import { type ProjectWithEventCount } from 'common'
-import Loading from './loading'
-import TrendChart from './trend-chart'
 import { type ProjectTrend } from '~/services/projects'
 import { serviceGetProjectTrends } from '~/services/projects'
 import { useQuery } from '~/hooks/use-query'
+import Loading from '~/components/loading'
 import { Card, CardContent, CardHeader } from '~/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
+import LineChart from '~/components/charts/line-chart'
 
 interface Props {
   project: ProjectWithEventCount
@@ -47,16 +47,20 @@ export default function ProjectCard({ project }: Props) {
           </div>
         </CardHeader>
         <CardContent>
-          {
-            isLoading
-              ? <Loading />
-              : (
-                <TrendChart
-                  data={trends}
-                  type="14d"
-                />
-                )
-          }
+          <div className="h-16">
+            {
+              isLoading
+                ? <Loading />
+                : (
+                  <LineChart
+                    data={trends}
+                    name="Events"
+                    nameKey="time"
+                    valueKey="count"
+                  />
+                  )
+            }
+          </div>
         </CardContent>
       </Card>
     </Link>

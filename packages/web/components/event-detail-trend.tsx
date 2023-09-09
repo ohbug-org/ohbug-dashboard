@@ -3,9 +3,9 @@
 import dayjs from 'dayjs'
 import { useTranslations } from 'next-intl'
 import { type Issue } from 'common'
-import TrendChart from './trend-chart'
 import Wrapper from './wrapper'
 import AccordionSection from './accordion-section'
+import BarChart from './charts/bar-chart'
 import { type IssueTrend } from '~/services/issues'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 
@@ -57,32 +57,26 @@ export default function EventDetailTrend({ issue, trends }: Props) {
         }
       >
         <div className="mb-12">
-          {
-            trends['14d']
-              ? (
-                <TrendChart
-                  data={trends['14d']}
-                  title={ct('14d')}
-                  type="14d"
-                  variant="detail"
-                />
-                )
-              : null
-          }
+          <h3 className="mb-4">{ct('14d')}</h3>
+          <div className="h-32">
+            <BarChart
+              data={trends['14d']}
+              nameKey="time"
+              tooltipType="a"
+              valueKey="count"
+            />
+          </div>
         </div>
         <div>
-          {
-            trends['24h']
-              ? (
-                <TrendChart
-                  data={trends['24h']}
-                  title={ct('24h')}
-                  type="24h"
-                  variant="detail"
-                />
-                )
-              : null
-          }
+          <h3 className="mb-4">{ct('24h')}</h3>
+          <div className="h-32">
+            <BarChart
+              data={trends['24h']}
+              nameKey="time"
+              tooltipType="b"
+              valueKey="count"
+            />
+          </div>
         </div>
       </AccordionSection>
     </Wrapper>

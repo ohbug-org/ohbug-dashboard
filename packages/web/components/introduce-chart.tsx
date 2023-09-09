@@ -25,7 +25,7 @@ export default function IntroduceChart({ title, value, unit, description, action
         <div className="text-stone-500">{description}</div>
         <div>{actions}</div>
       </div>
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 h-80">{children}</div>
     </div>
   )
 }

@@ -6,7 +6,8 @@ import { useTranslations } from 'next-intl'
 import { type Event, type Project } from '@prisma/client'
 import { type ProjectTrend } from '~/services/projects'
 
-import TrendChart from '~/components/trend-chart'
+import VerticalBarChart from '~/components/charts/vertical-bar-chart'
+import BarChart from '~/components/charts/bar-chart'
 import Wrapper from '~/components/wrapper'
 import EventsList from '~/components/events-list'
 import Title from '~/components/title'
@@ -123,13 +124,14 @@ const View = ({ views }: Props) => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <TrendChart
-                    data={views?.pvPathGroupResult}
-                    name="number"
-                    timeField="value"
-                    type="14d"
-                    variant="row"
-                  />
+                  <div className="w-full h-60">
+                    <VerticalBarChart
+                      data={views?.pvPathGroupResult}
+                      name="number"
+                      nameKey="value"
+                      valueKey="count"
+                    />
+                  </div>
                 </CardContent>
               </Card>
             )
@@ -150,13 +152,14 @@ const View = ({ views }: Props) => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <TrendChart
-                    data={views?.pvReferrerGroupResult}
-                    name="number"
-                    timeField="value"
-                    type="14d"
-                    variant="row"
-                  />
+                  <div className="w-full h-60">
+                    <VerticalBarChart
+                      data={views?.pvReferrerGroupResult}
+                      name="number"
+                      nameKey="value"
+                      valueKey="count"
+                    />
+                  </div>
                 </CardContent>
               </Card>
             )
@@ -191,11 +194,13 @@ const Trend = ({ trends }: Props) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <TrendChart
-            data={trends?.[chartType]}
-            type="14d"
-            variant="detail"
-          />
+          <div className="h-60">
+            <BarChart
+              data={trends?.[chartType]}
+              nameKey="time"
+              valueKey="count"
+            />
+          </div>
         </CardContent>
       </Card>
     </Wrapper>

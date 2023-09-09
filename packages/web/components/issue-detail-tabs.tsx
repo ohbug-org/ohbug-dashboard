@@ -49,7 +49,7 @@ export default function IssueDetailTabs({ event }: Props) {
     return base
   }, [event, router, projectId])
   const active = useMemo(() => {
-    const value = list.find(item => item.tab === tab)?.value
+    const value = (list.find(item => item.tab === tab) || list[0]).value
     return value
   }, [list, tab])
   const handleTabChange = useCallback((value: string) => {

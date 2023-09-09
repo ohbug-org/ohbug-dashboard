@@ -21,11 +21,13 @@ export default function FeedbacksList({ feedbacks }: Props) {
       {
         accessorKey: 'detail',
         header: 'feedback',
-        cell: ({ row }) => (
-          <Link href={`/${projectId}/feedbacks/${row.getValue('id')}`}>
-            {(row.getValue('detail') as any)?.feedback}
-          </Link>
-        ),
+        cell: ({ row }) => {
+          return (
+            <Link href={`/${projectId}/feedbacks/${row.original.id}`}>
+              {(row.getValue('detail') as any)?.feedback}
+            </Link>
+          )
+        },
       },
       {
         accessorKey: 'createdAt',
