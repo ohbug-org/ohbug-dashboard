@@ -3,7 +3,6 @@
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
 import { type OhbugEventLike } from 'common'
-import { type FC } from 'react'
 import { type OhbugAction } from '@ohbug/types'
 import Wrapper from './wrapper'
 import AccordionSection from './accordion-section'
@@ -15,7 +14,7 @@ interface Props {
   event: OhbugEventLike
 }
 
-const EventDetailActions: FC<Props> = ({ event }) => {
+export default function EventDetailActions({ event }: Props) {
   const actions = useMemo<OhbugAction[]>(() => [
     ...event?.actions ?? [], {
       type: 'exception',
@@ -71,5 +70,3 @@ const EventDetailActions: FC<Props> = ({ event }) => {
     </Wrapper>
   )
 }
-
-export default EventDetailActions

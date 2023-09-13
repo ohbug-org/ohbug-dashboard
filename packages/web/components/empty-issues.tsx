@@ -2,11 +2,10 @@
 
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { type FC } from 'react'
 import useCurrentProject from '~/hooks/use-current-project'
 import { Button } from '~/components/ui/button'
 
-const EmptyIssues: FC = () => {
+export default function EmptyIssues() {
   const { projectId } = useCurrentProject()
   const t = useTranslations('Issues.Empty')
   return (
@@ -37,5 +36,3 @@ const EmptyIssues: FC = () => {
     </div>
   )
 }
-
-export default EmptyIssues

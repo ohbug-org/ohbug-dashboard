@@ -4,7 +4,6 @@ import { useCallback } from 'react'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import { type Release } from '@prisma/client'
-import { type FC } from 'react'
 import useCurrentProject from '~/hooks/use-current-project'
 import { serviceDeleteRelease } from '~/services/releases'
 import { useToast } from '~/components/ui/use-toast'
@@ -16,7 +15,7 @@ interface Props {
   releases: Release[]
   mutate: () => Promise<void>
 }
-const ReleaseList: FC<Props> = ({ releases, mutate }) => {
+export default function ReleaseList({ releases, mutate }: Props) {
   const { toast } = useToast()
   const { projectId } = useCurrentProject()
 
@@ -97,5 +96,3 @@ const ReleaseList: FC<Props> = ({ releases, mutate }) => {
     </div>
   )
 }
-
-export default ReleaseList

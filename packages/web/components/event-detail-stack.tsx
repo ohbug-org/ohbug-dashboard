@@ -1,9 +1,7 @@
 'use client'
 
-import { type FC } from 'react'
 import { type OhbugEventLike } from 'common'
 import StackInfo from './stack-info'
-
 import Wrapper from './wrapper'
 import AccordionSection from './accordion-section'
 import { renderStringOrJson } from '~/libs/utils'
@@ -12,7 +10,7 @@ interface Props {
   event: OhbugEventLike
 }
 
-const EventDetailStack: FC<Props> = ({ event }) => {
+export default function EventDetailStack({ event }: Props) {
   return (
     <Wrapper>
       <AccordionSection
@@ -69,5 +67,3 @@ const EventDetailStack: FC<Props> = ({ event }) => {
     </Wrapper>
   )
 }
-
-export default EventDetailStack

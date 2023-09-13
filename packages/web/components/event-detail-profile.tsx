@@ -3,7 +3,6 @@
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
 import { useTranslations } from 'next-intl'
-import { type FC } from 'react'
 import { type OhbugEventLike } from 'common'
 import Link from 'next/link'
 import Wrapper from './wrapper'
@@ -17,7 +16,7 @@ interface Props {
   event: OhbugEventLike | any
 }
 
-const EventDetailProfile: FC<Props> = ({ event }) => {
+export default function EventDetailProfile({ event }: Props) {
   const t = useTranslations('Event')
   const deviceInfo = useMemo(() => getDeviceInfo(event), [event])
   const tagList = useMemo(() => {
@@ -251,5 +250,3 @@ const EventDetailProfile: FC<Props> = ({ event }) => {
     </Wrapper>
   )
 }
-
-export default EventDetailProfile

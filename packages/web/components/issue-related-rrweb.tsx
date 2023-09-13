@@ -5,7 +5,6 @@ import RrwebPlayer from 'rrweb-player'
 import { unpack } from 'rrweb'
 import { useMount } from 'react-use'
 import { type OhbugEventLike } from 'common'
-import { type FC } from 'react'
 
 import Wrapper from '~/components/wrapper'
 import 'rrweb-player/dist/style.css'
@@ -14,7 +13,7 @@ interface Props {
   event: OhbugEventLike
 }
 
-const IssueRelatedRrweb: FC<Props> = ({ event }) => {
+export default function IssueRelatedRrweb({ event }: Props) {
   const rootRef = useRef<HTMLDivElement>(null)
   useMount(() => {
     if (rootRef.current && rootRef.current.children.length === 0) {
@@ -34,5 +33,3 @@ const IssueRelatedRrweb: FC<Props> = ({ event }) => {
     </Wrapper>
   )
 }
-
-export default IssueRelatedRrweb

@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { type User } from '@prisma/client'
 import { usePathname, useRouter } from 'next-intl/client'
 import { useSession } from 'next-auth/react'
-import { type FC } from 'react'
 import Loading from './loading'
 import { useStore } from '~/store'
 import { serviceGetProjectsWithEventCount } from '~/services/projects'
@@ -15,7 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '~/components/ui/command'
 import { cn } from '~/libs/utils'
 
-const ProjectComponent: FC = () => {
+export default function ProjectComponent() {
   const router = useRouter()
   const pathname = usePathname()
   const session = useSession()
@@ -122,5 +121,3 @@ const ProjectComponent: FC = () => {
     </Popover>
   )
 }
-
-export default ProjectComponent

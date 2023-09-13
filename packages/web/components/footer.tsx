@@ -1,12 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { type FC } from 'react'
 import Logo from './logo'
 import Intl from './intl'
 import Theme from './theme'
 
-const Footer: FC = () => {
+export default function Footer() {
   return (
     <footer className="flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -38,5 +37,3 @@ const Footer: FC = () => {
     </footer>
   )
 }
-
-export default Footer

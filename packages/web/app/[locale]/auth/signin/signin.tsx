@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { type SignInResponse } from 'next-auth/react'
 import { type Project, type User } from '@prisma/client'
-import { type Dispatch, type FC, type SetStateAction } from 'react'
+import { type Dispatch, type SetStateAction } from 'react'
 import { inviteAtom } from '~/atoms/invite'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
@@ -41,11 +41,11 @@ interface Props {
 interface EmailSignInData {
   email: string
 }
-
-const EmailSignIn: FC<{
+interface EmailSignInProps {
   setStep: Dispatch<SetStateAction<number>>
   onSignIn: (type: string, options: Record<string, any>) => void
-}> = ({ setStep, onSignIn }) => {
+}
+function EmailSignIn({ setStep, onSignIn }: EmailSignInProps) {
   const ct = useTranslations('Common')
   const formSchema = z.object({ email: z.string().email().min(2, { message: ct('mustBeTheCorrectEmailAddress') }) })
   const form = useForm<z.infer<typeof formSchema>>({ resolver: zodResolver(formSchema) })
@@ -92,9 +92,10 @@ const EmailSignIn: FC<{
   )
 }
 
-const GithubSignIn: FC<Props & {
+type GithubSignInProps = Props & {
   onSignIn: (type: string, options: Record<string, any>) => void
-}> = ({ providers, onSignIn }) => {
+}
+function GithubSignIn({ providers, onSignIn }: GithubSignInProps) {
   const handleSignInGithub = useCallback(() => {
     onSignIn(providers.github.id, { callbackUrl: '/' })
   }, [providers])
@@ -113,9 +114,10 @@ interface AccountSignInData {
   email: string
   password: string
 }
-const AccountSignIn: FC<{
+interface AccountSignInProps {
   onSignIn: (type: string, options: Record<string, any>) => Promise<SignInResponse | undefined>
-}> = ({ onSignIn }) => {
+}
+function AccountSignIn({ onSignIn }: AccountSignInProps) {
   const ct = useTranslations('Common')
   const router = useRouter()
   const formSchema = z.object({

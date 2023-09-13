@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useIsomorphicLayoutEffect, useWindowScroll } from 'react-use'
-import { type FC, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import Nav from './nav'
 import NavMenu from './nav-menu'
 import User from './user'
@@ -18,7 +18,7 @@ interface Props {
   children: ReactNode
 }
 
-const Layout: FC<Props> = ({ children }) => {
+export default function Layout({ children }: Props) {
   const { y } = useWindowScroll()
   const [scrollNavVisible, setScrollNavVisible] = useState(false)
 
@@ -103,5 +103,3 @@ const Layout: FC<Props> = ({ children }) => {
     </>
   )
 }
-
-export default Layout

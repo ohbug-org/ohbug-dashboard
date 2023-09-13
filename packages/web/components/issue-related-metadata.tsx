@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { type OhbugEventLike } from 'common'
-import { type FC } from 'react'
 import AccordionSection from './accordion-section'
 
 import Wrapper from './wrapper'
@@ -15,7 +14,7 @@ interface Props {
   tab: string
 }
 
-const IssueRelatedMetadata: FC<Props> = ({ event, tab }) => {
+export default function IssueRelatedMetadata({ event, tab }: Props) {
   const metadata = useMemo(() => {
     if (typeof event.metadata === 'string') {
       return JSON.parse(event.metadata)
@@ -31,5 +30,3 @@ const IssueRelatedMetadata: FC<Props> = ({ event, tab }) => {
     </Wrapper>
   )
 }
-
-export default IssueRelatedMetadata

@@ -1,10 +1,7 @@
 'use client'
 
-import { type FC } from 'react'
 import Spinning from './spinning'
 
-const Loading: FC = () => {
+export default function Loading() {
   return <div className="flex items-center justify-center"><Spinning /></div>
 }
-
-export default Loading

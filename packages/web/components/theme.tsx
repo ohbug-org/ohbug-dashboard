@@ -1,6 +1,5 @@
 'use client'
 
-import { type FC } from 'react'
 import { useTheme } from 'next-themes'
 import {
   DropdownMenu,
@@ -10,7 +9,7 @@ import {
 } from '~/components/ui/dropdown-menu'
 import { Button } from '~/components/ui/button'
 
-const Theme: FC = () => {
+export default function Theme() {
   const { setTheme } = useTheme()
 
   return (
@@ -39,5 +38,3 @@ const Theme: FC = () => {
     </DropdownMenu>
   )
 }
-
-export default Theme
