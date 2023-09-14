@@ -5,12 +5,10 @@ import Link from 'next/link'
 import { type Issue } from 'common'
 import dayjs from 'dayjs'
 import { useTranslations } from 'next-intl'
-import { useDebounce, useSet } from 'react-use'
+import { useDebounce } from 'react-use'
 import { useAtom } from 'jotai'
 import { type ReactNode } from 'react'
-import Pagination from './pagination'
-import Spinning from './spinning'
-import LineChart from './charts/line-chart'
+import { type ColumnDef, type PaginationState } from '@tanstack/react-table'
 import { type SearchIssuesOrderBy } from '~/services/issues'
 import {
   serviceDeleteIssues,
@@ -22,6 +20,8 @@ import useCurrentProject from '~/hooks/use-current-project'
 import { useQuery } from '~/hooks/use-query'
 import { useInfinite } from '~/hooks/use-infinite'
 import { issueSortAtom } from '~/atoms/issue'
+import LineChart from '~/components/charts/line-chart'
+import DataTable from '~/components/data-table'
 import { useToast } from '~/components/ui/use-toast'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu'
 import { Button } from '~/components/ui/button'
@@ -30,18 +30,9 @@ import { Label } from '~/components/ui/label'
 import { Badge } from '~/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 import { Input } from '~/components/ui/input'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '~/components/ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import { Checkbox } from '~/components/ui/checkbox'
-
-const columns = [
-  { name: 'SELECT', key: 'select' },
-  { name: 'TITLE', key: 'title' },
-  { name: 'TRENDS', key: 'trends' },
-  { name: 'EVENTSCOUNT', key: 'eventsCount' },
-  { name: 'USERSCOUNT', key: 'usersCount' },
-]
 
 interface Props {
   empty: ReactNode
@@ -64,7 +55,7 @@ export default function IssueList({ empty }: Props) {
     500,
     [query],
   )
-  const { data, size, setSize, isLoading, isReachingEnd, mutate }
+  const { data, setSize, mutate }
     = useInfinite<Issue>(
       index =>
         serviceGetIssues({
@@ -92,63 +83,55 @@ export default function IssueList({ empty }: Props) {
     },
   )
 
-  // handle selected data
-  const [checkedItems, checkedItemsActions] = useSet(new Set<string>())
-  const allChecked = useMemo(
-    () =>
-      checkedItems?.size > 0
-      && checkedItems?.size === data?.length
-      && Array.from(checkedItems ?? []).every(v => (data?.findIndex(issue => issue.id === v) ?? -1) > -1),
-    [checkedItems, data],
-  )
-  const handleDeleteIssue = useCallback(() => {
-    const issueIds = Array.from(checkedItems)
-    serviceDeleteIssues(issueIds)
-      .then(() => {
-        toast({
-          title: 'Issue Deleted!',
-          description: 'Your issues has been deleted!',
-        })
-        mutate()
-      })
-      .catch((error) => {
-        toast({
-          title: 'Alert Delete Error',
-          description: error.message,
-          variant: 'destructive',
-        })
-      })
-      .finally(() => setOpen(false))
-  }, [checkedItems])
-
-  const renderTitleCell = useCallback((columnKey: string) => {
-    switch (columnKey) {
-      case 'select':
-        return (
+  const columns = useMemo<ColumnDef<Issue>[]>(
+    () => ([
+      {
+        id: 'select',
+        header: ({ table }) => (
           <Checkbox
-            checked={allChecked}
-            className="translate-y-[2px]"
-            onCheckedChange={(value) => {
-              if (value) {
-                data?.forEach(issue => checkedItemsActions.add(issue.id))
-              }
-              else {
-                checkedItemsActions.reset()
-              }
-            }}
+            aria-label="Select all"
+            checked={table.getIsAllPageRowsSelected()}
+            onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
           />
-        )
-      case 'title':
-        return (
-          <div>
+        ),
+        cell: ({ row }) => (
+          <Checkbox
+            aria-label="Select row"
+            checked={row.getIsSelected()}
+            onCheckedChange={value => row.toggleSelected(!!value)}
+          />
+        ),
+      },
+      {
+        id: 'title',
+        header: ({ table }) => {
+          const handleDeleteIssue = () => {
+            const checkedIssues = table.getFilteredSelectedRowModel().rows
+            serviceDeleteIssues(checkedIssues.map(v => v.id))
+              .then(() => {
+                toast({
+                  title: 'Issue Deleted!',
+                  description: 'Your issues has been deleted!',
+                })
+                mutate()
+              })
+              .catch((error) => {
+                toast({
+                  title: 'Alert Delete Error',
+                  description: error.message,
+                  variant: 'destructive',
+                })
+              })
+              .finally(() => setOpen(false))
+          }
+
+          return (
             <div className="flex gap-2">
               <Select
                 value={orderBy}
-                onValueChange={
-                  e => setOrderBy(e as SearchIssuesOrderBy)
-                }
+                onValueChange={e => setOrderBy(e as SearchIssuesOrderBy)}
               >
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-60">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -162,7 +145,7 @@ export default function IssueList({ empty }: Props) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
-                    disabled={checkedItems.size <= 0}
+                    disabled={table.getFilteredSelectedRowModel().rows.length <= 0}
                     size="icon"
                     variant="outline"
                   >
@@ -178,11 +161,103 @@ export default function IssueList({ empty }: Props) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <Dialog
+                open={open}
+                onOpenChange={setOpen}
+              >
+                <DialogContent>
+                  <DialogHeader className="text-lg font-bold">
+                    <DialogTitle>
+                      Are you sure you want to delete this {table.getFilteredSelectedRowModel().rows.length} issue?
+                    </DialogTitle>
+                  </DialogHeader>
+                  <div>{t('deleteIssuesConfirm')}</div>
+                  <DialogFooter>
+                    <Button
+                      ref={cancelRef}
+                      variant="outline"
+                      onClick={() => setOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className="ml-3"
+                      variant="destructive"
+                      onClick={handleDeleteIssue}
+                    >
+                      Delete
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
-          </div>
-        )
-      case 'trends':
-        return (
+          )
+        },
+        cell: ({ row }) => {
+          const metadata = JSON.parse(row.original.metadata) || {}
+          return (
+            <div>
+              <Link
+                className="cursor-pointer flex items-center w-full line-clamp-2"
+                href={`/${projectId}/issues/${row.original.id}`}
+              >
+                {/* title */}
+                <span className="font-semibold mr-2">{row.original.type}</span>
+                {
+                  row.original.releaseStage === 'mock' && (
+                    <Badge
+                      className="mr-2"
+                      variant="outline"
+                    >
+                      Mock
+                    </Badge>
+                  )
+              }
+                {/* second description */}
+                <code className="text-stone-500">
+                  {renderStringOrJson(metadata.filename ?? metadata.others)}
+                </code>
+              </Link>
+              {/* message */}
+              <div className="text-stone-500 line-clamp-2">
+                {
+                metadata.message ? <code>{renderStringOrJson(metadata.message)}</code> : null
+              }
+              </div>
+              {/* other message (time/appType/...) */}
+              <div>
+                {/* appType */}
+                {/* time */}
+                <div className="flex items-center text-xs">
+                  <i className="i-ri-time-line mr-2" />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span>{dayjs(row.original.updatedAt).fromNow()}</span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <span>{ct('lastSeen')} {dayjs(row.original.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  <div className="mx-1">|</div>
+
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span>{dayjs(row.original.createdAt).fromNow()}</span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <span>{ct('firstSeen')} {dayjs(row.original.createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+          )
+        },
+      },
+      {
+        id: 'trends',
+        header: () => (
           <div className="flex items-center gap-2">
             <Switch
               checked={chartType === '24h'}
@@ -192,117 +267,43 @@ export default function IssueList({ empty }: Props) {
             />
             <Label htmlFor="trendsType">{chartType === '24h' ? ct('24h') : ct('14d')}</Label>
           </div>
-        )
-      case 'eventsCount':
-        return (
-          <div className="flex items-center justify-center">Events</div>
-        )
-      case 'usersCount':
-        return (
-          <div className="flex items-center justify-center">Users</div>
-        )
-      default:
-        return null
-    }
-  }, [data, allChecked, checkedItems, trends, data, chartType])
-  const renderCell = useCallback((issue: Issue, columnKey: string) => {
-    const metadata = JSON.parse(issue.metadata) || {}
-
-    switch (columnKey) {
-      case 'select':
-        return (
-          <Checkbox
-            checked={checkedItems.has(issue.id)}
-            className="translate-y-[2px]"
-            onCheckedChange={value => checkedItemsActions[value ? 'add' : 'remove'](issue.id)}
-          />
-        )
-      case 'title':
-        return (
-          <div>
-            <Link
-              className="cursor-pointer flex items-center w-full line-clamp-2"
-              href={`/${projectId}/issues/${issue.id}`}
-            >
-              {/* title */}
-              <span className="font-semibold mr-2">{issue.type}</span>
-              {
-                issue.releaseStage === 'mock' && (
-                  <Badge
-                    className="mr-2"
-                    variant="outline"
-                  >
-                    Mock
-                  </Badge>
-                )
-              }
-              {/* second description */}
-              <code className="text-stone-500">
-                {renderStringOrJson(metadata.filename ?? metadata.others)}
-              </code>
-            </Link>
-            {/* message */}
-            <div className="text-stone-500 line-clamp-2">
-              {
-                metadata.message ? <code>{renderStringOrJson(metadata.message)}</code> : null
-              }
-            </div>
-            {/* other message (time/appType/...) */}
-            <div>
-              {/* appType */}
-              {/* time */}
-              <div className="flex items-center text-xs">
-                <i className="i-ri-time-line mr-2" />
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span>{dayjs(issue.updatedAt).fromNow()}</span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <span>{ct('lastSeen')} {dayjs(issue.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                  </TooltipContent>
-                </Tooltip>
-
-                <div className="mx-1">|</div>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span>{dayjs(issue.createdAt).fromNow()}</span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <span>{ct('firstSeen')} {dayjs(issue.createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-            </div>
-          </div>
-        )
-      case 'trends':
-        return (
+        ),
+        cell: ({ row }) => (
           <div className="h-16">
             <LineChart
-              data={trends?.[issue.id]}
+              data={trends?.[row.original.id]}
               nameKey="time"
               tooltipType={chartType === '14d' ? 'a' : 'b'}
               valueKey="count"
             />
           </div>
-        )
-      case 'eventsCount':
-        return (
+        ),
+      },
+      {
+        id: 'eventsCount',
+        header: 'Events',
+        cell: ({ row }) => (
           <div className="flex items-center justify-center">
-            {issue._count?.events}
+            {row.original._count?.events}
           </div>
-        )
-      case 'usersCount':
-        return (
+        ),
+      },
+      {
+        id: 'usersCount',
+        header: 'Users',
+        cell: ({ row }) => (
           <div className="flex items-center justify-center">
-            {issue._count?.users}
+            {row.original._count?.users}
           </div>
-        )
-      default:
-        return null
-    }
-  }, [checkedItems, projectId, trends, chartType])
+        ),
+      },
+    ]),
+    [orderBy, chartType, data, trends, open],
+  )
+
+  const handlePaginationChange = useCallback(({ pageIndex }: PaginationState) => {
+    setSize(pageIndex)
+  }, [])
 
   return (
     <div className="h-full overflow-x-hidden overflow-y-auto space-y-4">
@@ -312,87 +313,12 @@ export default function IssueList({ empty }: Props) {
         onChange={e => setQuery(e.target.value)}
       />
 
-      <Table className="rounded-md border">
-        <TableCaption>
-          {
-            !!data?.length && (
-              <div className="flex items-center justify-between w-full">
-                <Link href={`/${projectId}/mock`}>Mock Data</Link>
-                <Pagination
-                  isReachingEnd={!!isReachingEnd}
-                  page={size + 1}
-                  onChange={page => setSize(page - 1)}
-                />
-              </div>
-            )
-          }
-        </TableCaption>
-        <TableHeader>
-          <TableRow>
-            {
-              columns.map(column => (
-                <TableHead
-                  key={column.key}
-                  className="text-left"
-                >
-                  {renderTitleCell(column.key)}
-                </TableHead>
-              ))
-            }
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {
-            data
-              ? data.map(issue => (
-                <TableRow key={issue.id}>
-                  {
-                    columns.map(column => (
-                      <TableCell>{renderCell(issue, column.key)}</TableCell>
-                    ))
-                  }
-                </TableRow>
-              ))
-              : (
-                <TableRow>
-                  <TableCell colSpan={columns.length}>
-                    {isLoading ? <Spinning /> : empty}
-                  </TableCell>
-                </TableRow>
-                )
-          }
-        </TableBody>
-      </Table>
-
-      <Dialog
-        open={open}
-        onOpenChange={setOpen}
-      >
-        <DialogContent>
-          <DialogHeader className="text-lg font-bold">
-            <DialogTitle>
-              Are you sure you want to delete this {checkedItems.size} issue?
-            </DialogTitle>
-          </DialogHeader>
-          <div>{t('deleteIssuesConfirm')}</div>
-          <DialogFooter>
-            <Button
-              ref={cancelRef}
-              variant="outline"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              className="ml-3"
-              variant="destructive"
-              onClick={handleDeleteIssue}
-            >
-              Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <DataTable
+        columns={columns}
+        data={data}
+        empty={empty}
+        onPaginationChange={handlePaginationChange}
+      />
     </div>
   )
 }
