@@ -17,7 +17,7 @@ import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '~/components/ui/dialog'
-import { Snippet } from '~/components/ui/snippet'
+import { Snippet } from '~/components/snippet'
 
 interface CommonProps {
   project?: ProjectWithMembers

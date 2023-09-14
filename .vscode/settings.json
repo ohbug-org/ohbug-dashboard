@@ -3,5 +3,8 @@
     "ohbug"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.experimental.useFlatConfig": true
+  "eslint.experimental.useFlatConfig": true,
+  "i18n-ally.localesPaths": [
+    "packages/web/messages"
+  ]
 }

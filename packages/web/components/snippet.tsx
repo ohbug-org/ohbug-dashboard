@@ -2,7 +2,7 @@ import * as React from 'react'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { useCopyToClipboard } from 'react-use'
 
-import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 import { cn } from '~/libs/utils'
 
 const snippetVariants = cva(
